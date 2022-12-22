@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <form action="/search" class="results-search-container" method="post" autocomplete="off">
+        <h1 class="logomobile"><a class="no-decoration" href="./">Tails<span class="X">X</span></a></h1>
+        <input type="text" name="q" value="{{ q }}" />
+        <input type="submit" class="hide" />
+        <div class="sub-search-button-wrapper">
+            <button name="t"><img src="{{ url_for('static', filename='searchicon.png') }}" alt="text result" />General</button>
+        </div>
+
+        </div>
+    </form>
+    <p class="fetched">{{ fetched }}</p>
+    {% if kno_rdesc == "" %}
+    {% else %}
+    <p class="snip">{{ kno_rdesc }} <a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a></p>
+    {% endif %}
+    {% if snip == "" %}
+    {% else %}
+    <p class="snipp">{{ snip }} <a target="_blank" href="{{ results[0][0] }}">{{ results[0][0] }}</a></p>
+    {% endif %}
+        {% if results %}
+    {% for result in results %}
+    <div class="results">
+        <a href="{{ result[0] }}">{{ result[0] }}<h3>{{ result[1] }}</h3></a>
+        <p>{{ result[2] }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+</body>
+
+</html>
