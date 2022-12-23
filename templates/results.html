@@ -36,6 +36,11 @@
             <p>{{ result[2] }}</p>
         </div>
         {% endfor %}
+    {% else %}
+        <div class="no-results-found">
+            Your search '{{ q }}' came back with no results.<br>
+            Try rephrasing your search term and/or recorrect any spelling mistakes.
+        </div>
     {% endif %}
 </body>
 
