@@ -10,9 +10,8 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 @app.route("/search", methods=["GET", "POST"])
 def search():
     if request.method == "GET":
-        return app.send_static_file("search.html")
-    else:
-        query = request.form["q"].strip()
+        # Get the `q` query parameter from the URL
+        query = request.args.get("q", "").strip()
         if query == "":
             return app.send_static_file("search.html")
 
