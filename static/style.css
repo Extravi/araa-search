@@ -219,6 +219,10 @@ p {
     text-decoration: underline;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 1320px) {
     .snip {
         position: relative;
