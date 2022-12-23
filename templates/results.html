@@ -23,19 +23,19 @@
     <p class="fetched">{{ fetched }}</p>
     {% if kno_rdesc == "" %}
     {% else %}
-    <p class="snip">{{ kno_rdesc }} <a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a></p>
+        <p class="snip">{{ kno_rdesc }} <a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a></p>
     {% endif %}
     {% if snip == "" %}
     {% else %}
-    <p class="snipp">{{ snip }} <a target="_blank" href="{{ results[0][0] }}">{{ results[0][0] }}</a></p>
+        <p class="snipp">{{ snip }} <a target="_blank" href="{{ results[0][0] }}">{{ results[0][0] }}</a></p>
     {% endif %}
-        {% if results %}
-    {% for result in results %}
-    <div class="results">
-        <a href="{{ result[0] }}">{{ result[0] }}<h3>{{ result[1] }}</h3></a>
-        <p>{{ result[2] }}</p>
-    </div>
-    {% endfor %}
+    {% if results %}
+        {% for result in results %}
+        <div class="results">
+            <a href="{{ result[0] }}">{{ result[0] }}<h3>{{ result[1] }}</h3></a>
+            <p>{{ result[2] }}</p>
+        </div>
+        {% endfor %}
     {% endif %}
 </body>
 

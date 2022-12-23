@@ -4,17 +4,17 @@ import random
 from bs4 import BeautifulSoup
 import time
 
-app = Flask(__name__, static_folder='static', static_url_path='')
+app = Flask(__name__, static_folder="static", static_url_path="")
 
 @app.route("/", methods=["GET", "POST"])
-@app.route('/search', methods=["GET", "POST"])
+@app.route("/search", methods=["GET", "POST"])
 def search():
     if request.method == "GET":
-        return app.send_static_file('search.html')
+        return app.send_static_file("search.html")
     else:
-        query = request.form['q'].strip()
+        query = request.form["q"].strip()
         if query == "":
-            return app.send_static_file('search.html')
+            return app.send_static_file("search.html")
 
         # random useragent
         user_agents = [
@@ -49,18 +49,18 @@ def search():
         # retrieve description
         result_desc = soup.findAll("div", {"class": "VwiC3b"})
         descriptions = [descs.text.strip() for descs in result_desc]
-        
+
         # retrieve kno-rdesc
         try:
             rdesc = soup.find("div", {"class": "kno-rdesc"})
-            span_element = rdesc.find('span')
+            span_element = rdesc.find("span")
             kno = span_element.text
             desc_link = rdesc.find("a")
             kno_link = desc_link.get("href")
         except:
             kno = ""
             kno_link = ""
-        
+
         # retrieve featured snippet
         try:
             featured_snip = soup.find("span", {"class": "hgKElc"})
@@ -72,13 +72,15 @@ def search():
         results = []
         for href, title, desc in zip(hrefs, titles, descriptions):
             results.append([href, title, desc])
-            
-            end_time = time.time()
-            elapsed_time = end_time - start_time
 
-        return render_template('results.html', results = results, title = f"{query} - TailsX", q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds", snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}")
+        end_time = time.time()
+        elapsed_time = end_time - start_time
 
-if __name__ == '__main__':
+        return render_template("results.html", results = results, title = f"{query} - TailsX",
+            q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
+            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}")
+
+if __name__ == "__main__":
     # WARN: run() is not intended to be used in a production setting!
     # see https://flask.palletsprojects.com/en/2.2.x/deploying/ for more info
     app.run(threaded=True, port=5000)
