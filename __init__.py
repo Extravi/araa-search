@@ -20,7 +20,7 @@ def api():
         query = request.args.get("q", "").strip()
         query = escape(query)
         try:
-            response = requests.get(f"http://localhost:5000/search?q={query}&api=true")
+            response = requests.get(f"http://localhost:8000/search?q={query}&api=true")
             return json.loads(response.text)
         except Exception as e:
             app.logger.error(e)
