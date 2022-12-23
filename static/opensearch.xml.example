@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>TailsX</ShortName>
+  <Url type="text/html" template="http://127.0.0.1:5000/search?q={searchTerms}"/>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Language>en-us</Language>
+</OpenSearchDescription>
