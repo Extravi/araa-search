@@ -2,6 +2,7 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
   <ShortName>TailsX</ShortName>
   <Url type="text/html" template="http://127.0.0.1:5000/search?q={searchTerms}"/>
+  <Url rel="suggestions" type="application/x-suggestions+json" method="get" template="http://127.0.0.1:5000/suggestions?q={searchTerms}" />
   <OutputEncoding>UTF-8</OutputEncoding>
   <InputEncoding>UTF-8</InputEncoding>
   <Language>en-us</Language>
