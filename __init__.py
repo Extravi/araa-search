@@ -109,4 +109,4 @@ def search():
 if __name__ == "__main__":
     # WARN: run() is not intended to be used in a production setting!
     # see https://flask.palletsprojects.com/en/2.2.x/deploying/ for more info
-    app.run(threaded=True, port=5000)
+    app.run(threaded=True, port=8000)
