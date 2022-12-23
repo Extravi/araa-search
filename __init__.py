@@ -3,8 +3,17 @@ import requests
 import random
 from bs4 import BeautifulSoup
 import time
+import json
 
 app = Flask(__name__, static_folder="static", static_url_path="")
+
+@app.route("/suggestions")
+def suggestions():
+        if request.method == "GET":
+            query = request.args.get("q", "").strip()
+            
+            response = requests.get(f"https://search.brave.com/api/suggest?q={query}")
+            return json.loads(response.text)
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
