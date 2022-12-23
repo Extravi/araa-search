@@ -1,7 +1,8 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import requests
 import random
 from bs4 import BeautifulSoup
+from html import escape
 import time
 import json
 
@@ -9,18 +10,31 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 
 @app.route("/suggestions")
 def suggestions():
-        if request.method == "GET":
             query = request.args.get("q", "").strip()
-            
+            query = escape(query)
             response = requests.get(f"https://search.brave.com/api/suggest?q={query}")
             return json.loads(response.text)
+        
+@app.route("/api")
+def api():
+        query = request.args.get("q", "").strip()
+        query = escape(query)
+        try:
+            response = requests.get(f"http://localhost:5000/search?q={query}&api=true")
+            return json.loads(response.text)
+        except Exception as e:
+            app.logger.error(e)
+            return jsonify({"error": "An error occurred while processing the request"}), 500
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
+    api = request.args.get("api", "false")
     if request.method == "GET":
-        # Get the `q` query parameter from the URL
+        # get the `q` query parameter from the URL
         query = request.args.get("q", "").strip()
+        # sanitize user input to prevent XSS
+        query = escape(query)
         if query == "":
             return app.send_static_file("search.html")
 
@@ -83,8 +97,12 @@ def search():
 
         end_time = time.time()
         elapsed_time = end_time - start_time
-
-        return render_template("results.html", results = results, title = f"{query} - TailsX",
+        
+        if api == "true":
+            # return the results list as a JSON response
+            return jsonify(results)
+        else:
+            return render_template("results.html", results = results, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
             snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}")
 
