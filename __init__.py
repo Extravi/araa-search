@@ -12,7 +12,7 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 def suggestions():
             query = request.args.get("q", "").strip()
             query = escape(query)
-            response = requests.get(f"https://search.brave.com/api/suggest?q={query}")
+            response = requests.get(f"https://ac.duckduckgo.com/ac?q={query}&type=list")
             return json.loads(response.text)
         
 @app.route("/api")
