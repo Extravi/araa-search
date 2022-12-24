@@ -13,13 +13,19 @@
 <body>
     <form action="/search" class="results-search-container" method="get" autocomplete="off">
         <h1 class="logomobile"><a class="no-decoration" href="./">Tails<span class="X">X</span></a></h1>
-        <input type="text" name="q" value="{{ q }}" />
+        <div class="wrapper-results">
+        <input type="text" name="q" value="{{ q }}" id="search-input" />
         <input type="submit" class="hide" />
+        <div class="autocomplete">
+            <ul>
+            </ul>
+        </div>
+    </div>
         <div class="sub-search-button-wrapper">
             <button name="t" class="clickable"><img src="{{ url_for('static', filename='searchicon.png') }}" alt="text result" />General</button>
         </div>
-
         </div>
+        <script src="./script.js"></script>
     </form>
     <p class="fetched">{{ fetched }}</p>
     {% if kno_rdesc == "" %}
