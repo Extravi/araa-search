@@ -4,7 +4,7 @@ const resultsWrapper = document.querySelector('.autocomplete');
 
 async function getSuggestions(query) {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/suggestions?q=${query}`);
+    const response = await fetch(`/suggestions?q=${query}`);
     const data = await response.json();
     return data[1]; // Return only the array of suggestion strings
   } catch (error) {
