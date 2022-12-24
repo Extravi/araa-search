@@ -13,12 +13,19 @@
 <body>
     <form action="/search" class="search-container" method="get" autocomplete="off">
         <h1>Tails<span class="X">X</span></h1>
-        <input type="text" name="q" autofocus />
-        <input type="submit" class="hide" />
+        <div class="wrapper">
+            <input type="text" name="q" autofocus id="search-input" />
+            <input type="submit" class="hide" />
+            <div class="autocomplete">
+                <ul>
+                </ul>
+            </div>
+        </div>
         <div class="search-button-wrapper">
             <button name="t" type="submit">Search with TailsX</button>
             <button name="t" type="submit">Search images with TailsX</button>
         </div>
+        <script src="./script.js"></script>
     </form>
 </body>
 
