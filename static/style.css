@@ -8,6 +8,65 @@ html {
     font-size: 16px;
 }
 
+.wrapper {
+    margin: 0 auto;
+    background: #333333;
+    border-radius: 25px;
+    position: absolute;
+    width: 520px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.wrapper-results {
+    margin: 0 auto;
+    background: #333333;
+    border-radius: 25px;
+    position: absolute;
+    width: 520px;
+    overflow: hidden;
+    margin-top: 0px;
+    top: 20px;
+    left: 170px;
+    z-index: 2;
+}
+
+.autocomplete {
+    padding: 0px;
+}
+
+.autocomplete ul {
+    margin: 0;
+    padding: 0;
+}
+
+.autocomplete ul li {
+    list-style: none;
+    border-radius: 3px;
+    opacity: 0;
+    display: none;
+    padding: 8px 12px;
+    transition: all .5s linear;
+}
+
+.show .autocomplete ul li {
+    opacity: 1;
+    display: block;
+    text-align: left;
+}
+
+.show .autocomplete {
+    padding: 10px;
+}
+
+.autocomplete ul li:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
 .hide {
     display: none;
 }
@@ -32,13 +91,14 @@ button {
 }
 
 .search-container input {
-    width: 500px;
+    width: 100%;
     color: #F1F3F4;
     background-color: #333333;
     padding: 10px;
+    margin-left: 12px;
     font-size: inherit;
     font-family: sans-serif;
-    border: 1px solid #3C4043;
+    border: none;
     border-radius: 25px;
 }
 
@@ -63,18 +123,15 @@ p {
 }
 
 .results-search-container input {
-    width: 580px;
-    color: #fff;
-    position: relative;
-    left: 170px;
+    width: 100%;
+    color: #F1F3F4;
     background-color: #333333;
     padding: 10px;
+    margin-left: 12px;
     font-size: inherit;
     font-family: sans-serif;
-    border: 1px solid #3C4043;
+    border: none;
     border-radius: 25px;
-    margin-top: 14px;
-    margin-bottom: 16px;
 }
 
 .results {
@@ -98,7 +155,7 @@ p {
     border: 1px solid #333333;
     border-radius: 4px;
     padding: 13px 10px 13px 10px;
-    margin: 30px 60px 0px 60px;
+    margin: 70px 60px 0px 60px;
 }
 
 .no-decoration {
@@ -123,6 +180,7 @@ p {
     font-size: 15px;
     margin-right: 14px;
     color: #8ab4f8;
+    margin-top: 74px;
 }
 
 .sub-search-button-wrapper img {
@@ -134,6 +192,7 @@ p {
 .sub-search-button-wrapper {
     margin-left: 175px;
     margin-bottom: 10px;
+    height: 98px;
 }
 
 :root {
@@ -235,7 +294,9 @@ p {
 }
 
 @media only screen and (max-width: 1320px) {
-    .snip, .no-results-found {
+
+    .snip,
+    .no-results-found {
         position: relative;
         float: none;
         margin-left: 170px;
@@ -243,7 +304,9 @@ p {
 }
 
 @media only screen and (max-width: 750px) {
-    .snip, .no-results-found {
+
+    .snip,
+    .no-results-found {
         position: relative;
         float: none;
         max-width: 90%;
