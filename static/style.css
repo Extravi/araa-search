@@ -11,7 +11,7 @@ html {
 .wrapper {
     margin: 0 auto;
     background: #333333;
-    border-radius: 25px;
+    border-radius: 20px;
     position: absolute;
     width: 520px;
     overflow: hidden;
@@ -25,9 +25,9 @@ html {
 .wrapper-results {
     margin: 0 auto;
     background: #333333;
-    border-radius: 25px;
+    border-radius: 20px;
     position: absolute;
-    width: 520px;
+    width: 580px;
     overflow: hidden;
     margin-top: 0px;
     top: 20px;
