@@ -51,7 +51,7 @@ searchInput.addEventListener('keydown', (event) => {
 });
 
 searchInput.addEventListener('keyup', async (event) => {
-  if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
+  if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
     let results = [];
     let input = searchInput.value;
     if (input.length && userUpdate) {
