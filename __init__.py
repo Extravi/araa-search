@@ -11,14 +11,12 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 @app.route("/suggestions")
 def suggestions():
             query = request.args.get("q", "").strip()
-            query = escape(query)
             response = requests.get(f"https://ac.duckduckgo.com/ac?q={query}&type=list")
             return json.loads(response.text)
         
 @app.route("/api")
 def api():
         query = request.args.get("q", "").strip()
-        query = escape(query)
         try:
             response = requests.get(f"http://localhost:8000/search?q={query}&api=true")
             return json.loads(response.text)
@@ -33,8 +31,6 @@ def search():
     if request.method == "GET":
         # get the `q` query parameter from the URL
         query = request.args.get("q", "").strip()
-        # sanitize user input to prevent XSS
-        query = escape(query)
         if query == "":
             return app.send_static_file("search.html")
 
