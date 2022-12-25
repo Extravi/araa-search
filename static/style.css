@@ -69,6 +69,10 @@ html {
     background: rgba(255, 255, 255, 0.04);
 }
 
+.selected {
+    background: rgba(255, 255, 255, 0.04);
+}
+
 .hide {
     display: none;
 }
