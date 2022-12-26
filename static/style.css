@@ -48,7 +48,6 @@ html {
 
 .autocomplete ul li {
     list-style: none;
-    border-radius: 3px;
     opacity: 0;
     display: none;
     padding: 8px 12px;
@@ -62,7 +61,8 @@ html {
 }
 
 .show .autocomplete {
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .autocomplete ul li:hover {
@@ -101,11 +101,9 @@ button {
     color: #F1F3F4;
     background-color: #333333;
     padding: 10px;
-    margin-left: 12px;
     font-size: inherit;
     font-family: sans-serif;
     border: none;
-    border-radius: 25px;
 }
 
 h3 {
@@ -132,12 +130,10 @@ p {
     width: 100%;
     color: #F1F3F4;
     background-color: #333333;
-    padding: 10px;
-    margin-left: 12px;
+    padding: 10px !important;
     font-size: inherit;
     font-family: sans-serif;
     border: none;
-    border-radius: 25px;
 }
 
 .results {
