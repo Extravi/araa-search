@@ -2,27 +2,28 @@ from flask import Flask, request, render_template, jsonify
 import requests
 import random
 from bs4 import BeautifulSoup
-from html import escape
 import time
 import json
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 
+PORT = 8000
+
 @app.route("/suggestions")
 def suggestions():
-            query = request.args.get("q", "").strip()
-            response = requests.get(f"https://ac.duckduckgo.com/ac?q={query}&type=list")
-            return json.loads(response.text)
-        
+    query = request.args.get("q", "").strip()
+    response = requests.get(f"https://ac.duckduckgo.com/ac?q={query}&type=list")
+    return json.loads(response.text)
+
 @app.route("/api")
 def api():
-        query = request.args.get("q", "").strip()
-        try:
-            response = requests.get(f"http://localhost:8000/search?q={query}&api=true")
-            return json.loads(response.text)
-        except Exception as e:
-            app.logger.error(e)
-            return jsonify({"error": "An error occurred while processing the request"}), 500
+    query = request.args.get("q", "").strip()
+    try:
+        response = requests.get(f"http://localhost:{PORT}/search?q={query}&api=true")
+        return json.loads(response.text)
+    except Exception as e:
+        app.logger.error(e)
+        return jsonify({"error": "An error occurred while processing the request"}), 500
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
@@ -105,4 +106,4 @@ def search():
 if __name__ == "__main__":
     # WARN: run() is not intended to be used in a production setting!
     # see https://flask.palletsprojects.com/en/2.2.x/deploying/ for more info
-    app.run(threaded=True, port=8000)
+    app.run(threaded=True, port=PORT)
