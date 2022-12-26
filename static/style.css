@@ -23,6 +23,10 @@ html {
     border: 1px solid #3C4043;
 }
 
+.wrapper input {
+    padding: 10px;
+}
+
 .wrapper-results {
     margin: 0 auto;
     background: #333333;
@@ -35,6 +39,10 @@ html {
     left: 170px;
     z-index: 2;
     border: 1px solid #3C4043;
+}
+
+.wrapper-results input {
+    padding: 10px;
 }
 
 .autocomplete {
@@ -100,7 +108,6 @@ button {
     width: 100%;
     color: #F1F3F4;
     background-color: #333333;
-    padding: 10px;
     font-size: inherit;
     font-family: sans-serif;
     border: none;
@@ -130,7 +137,6 @@ p {
     width: 100%;
     color: #F1F3F4;
     background-color: #333333;
-    padding: 10px !important;
     font-size: inherit;
     font-family: sans-serif;
     border: none;
