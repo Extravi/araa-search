@@ -13,10 +13,14 @@ async function getSuggestions(query) {
 }
 
 let currentIndex = -1; // Keep track of the currently selected suggestion
-let userUpdate = false; // Flag to track if the value of the search input was updated by the user
 
-searchInput.addEventListener('input', () => {
-  userUpdate = true; // Set the flag to true when the value of the search input is updated by the user
+searchInput.addEventListener('input', async () => {
+  let results = [];
+  let input = searchInput.value;
+  if (input.length) {
+    results = await getSuggestions(input);
+  }
+  renderResults(results);
 });
 
 searchInput.addEventListener('keydown', (event) => {
@@ -47,17 +51,6 @@ searchInput.addEventListener('keydown', (event) => {
     resultsWrapper.querySelectorAll('li')[currentIndex].classList.add('selected');
     // Update the value of the search input
     searchInput.value = resultsWrapper.querySelectorAll('li')[currentIndex].textContent;
-  }
-});
-
-searchInput.addEventListener('keyup', async (event) => {
-  if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
-    let results = [];
-    let input = searchInput.value;
-    if (input.length && userUpdate) {
-      results = await getSuggestions(input);
-    }
-    renderResults(results);
   }
 });
 
@@ -95,14 +88,8 @@ resultsWrapper.addEventListener('click', (event) => {
 document.addEventListener('click', (event) => {
   // Check if the target of the event is the search-input or any of its ancestors
   if (!searchInput.contains(event.target) && !searchWrapper.contains(event.target)) {
-    // Hide the autocomplete suggestions
+    // Remove the show class from the search wrapper
     searchWrapper.classList.remove('show');
   }
 });
 
-// Add event listener to show autocomplete suggestions when clicking on search-input with non-empty value
-searchInput.addEventListener('click', () => {
-  if (searchInput.value) {
-    searchWrapper.classList.add('show');
-  }
-});
