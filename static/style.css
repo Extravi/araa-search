@@ -105,7 +105,7 @@ button {
 }
 
 .search-container input {
-    width: 100%;
+    width: 95%;
     color: #F1F3F4;
     background-color: #333333;
     font-size: inherit;
@@ -134,7 +134,7 @@ p {
 }
 
 .results-search-container input {
-    width: 100%;
+    width: 95%;
     color: #F1F3F4;
     background-color: #333333;
     font-size: inherit;
