@@ -358,6 +358,14 @@ p {
         font-size: 16px;
     }
 
+    .footer {
+        padding-left: 10px;
+    }
+
+    .footer a {
+        margin-left: 0px;
+    }
+
     .wrapper {
         width: 86%;
         position: absolute;
