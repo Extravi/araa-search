@@ -29,7 +29,6 @@ def makeHTMLRequest(url: str) -> requests.Response:
     # Return the HTML in an easy to parse object
     return BeautifulSoup(html.text, "lxml")
 
-# NOTE: '/suggestions' does not randomize User-Agent.
 @app.route("/suggestions")
 def suggestions():
     query = request.args.get("q", "").strip()
@@ -46,19 +45,72 @@ def api():
         app.logger.error(e)
         return jsonify({"error": "An error occurred while processing the request"}), 500
 
-@app.route("/images")
-def images():
-    query = request.args.get("q", "").strip()
-    # Redirect to home page on empty query.
-    if query == "":
-        return app.redirect("/")
 
+
+def textResults(query) -> requests.Response:
+    # remember time we started
+    start_time = time.time()
+
+    # search query
+    soup = makeHTMLRequest(f"https://www.google.com/search?q={query}")
+
+    # retrieve links
+    result_divs = soup.findAll("div", {"class": "yuRUbf"})
+    links = [div.find("a") for div in result_divs]
+    hrefs = [link.get("href") for link in links]
+
+    # retrieve title
+    h3 = [div.find("h3") for div in result_divs]
+    titles = [titles.text.strip() for titles in h3]
+
+    # retrieve description
+    result_desc = soup.findAll("div", {"class": "VwiC3b"})
+    descriptions = [descs.text.strip() for descs in result_desc]
+
+    # retrieve kno-rdesc
+    try:
+        rdesc = soup.find("div", {"class": "kno-rdesc"})
+        span_element = rdesc.find("span")
+        kno = span_element.text
+        desc_link = rdesc.find("a")
+        kno_link = desc_link.get("href")
+    except:
+        kno = ""
+        kno_link = ""
+
+    # retrieve featured snippet
+    try:
+        featured_snip = soup.find("span", {"class": "hgKElc"})
+        snip = featured_snip.text.strip()
+    except:
+        snip = ""
+
+    # list
+    results = []
+    for href, title, desc in zip(hrefs, titles, descriptions):
+        results.append([href, title, desc])
+
+    # calc. time spent
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    if api == "true":
+        # return the results list as a JSON response
+        return jsonify(results)
+    else:
+        return render_template("results.html", results = results, title = f"{query} - TailsX",
+            q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
+            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}")
+
+def imageResults(query) -> requests.Response:
     # Grab & format webpage
     soup = makeHTMLRequest(f"https://www.google.com/search?q={query}&gbv=1&tbm=isch")
 
     ellements = soup.findAll("img", {"class": "yWs4tf"})
     image_sources = [ell["src"] for ell in ellements]
     print(image_sources)
+
+
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
@@ -70,58 +122,18 @@ def search():
         if query == "":
             return app.send_static_file("search.html")
 
-        # time
-        start_time = time.time()
+        # type of search (text, image, etc.)
+        type = request.args.get("t", "text")
 
-        # search query
-        soup = makeHTMLRequest(f"https://www.google.com/search?q={query}")
+        # render page based off of type
+        # NOTE: Python 3.10 needed for a match statement!
+        match type:
+            case "text":
+                return textResults(query)
+            case "image":
+                return imageResults(query)
 
-        # retrieve links
-        result_divs = soup.findAll("div", {"class": "yuRUbf"})
-        links = [div.find("a") for div in result_divs]
-        hrefs = [link.get("href") for link in links]
 
-        # retrieve title
-        h3 = [div.find("h3") for div in result_divs]
-        titles = [titles.text.strip() for titles in h3]
-
-        # retrieve description
-        result_desc = soup.findAll("div", {"class": "VwiC3b"})
-        descriptions = [descs.text.strip() for descs in result_desc]
-
-        # retrieve kno-rdesc
-        try:
-            rdesc = soup.find("div", {"class": "kno-rdesc"})
-            span_element = rdesc.find("span")
-            kno = span_element.text
-            desc_link = rdesc.find("a")
-            kno_link = desc_link.get("href")
-        except:
-            kno = ""
-            kno_link = ""
-
-        # retrieve featured snippet
-        try:
-            featured_snip = soup.find("span", {"class": "hgKElc"})
-            snip = featured_snip.text.strip()
-        except:
-            snip = ""
-
-        # list
-        results = []
-        for href, title, desc in zip(hrefs, titles, descriptions):
-            results.append([href, title, desc])
-
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-        
-        if api == "true":
-            # return the results list as a JSON response
-            return jsonify(results)
-        else:
-            return render_template("results.html", results = results, title = f"{query} - TailsX",
-                q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-                snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}")
 
 if __name__ == "__main__":
     # WARN: run() is not intended to be used in a production setting!
