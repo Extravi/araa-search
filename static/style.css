@@ -221,6 +221,11 @@ p {
 .results h3 {
     font-size: 20px;
     margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+.results p {
+    margin-top: 0px;
 }
 
 .results a,
