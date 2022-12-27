@@ -3,14 +3,14 @@ body {
 }
 
 html {
-    background-color: #1c1c1c;
+    background-color: #171b25;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
 }
 
 .wrapper {
     margin: 0 auto;
-    background: #333333;
+    background: #2e3443;
     border-radius: 22px;
     position: absolute;
     width: 520px;
@@ -20,7 +20,7 @@ html {
     left: 0;
     right: 0;
     z-index: 2;
-    border: 1px solid #3C4043;
+    border: 1px solid rgb(46, 52, 67);
 }
 
 .wrapper input {
@@ -29,7 +29,7 @@ html {
 
 .wrapper-results {
     margin: 0 auto;
-    background: #333333;
+    background: #2e3443;
     border-radius: 22px;
     position: absolute;
     width: 580px;
@@ -38,7 +38,7 @@ html {
     top: 18px;
     left: 170px;
     z-index: 2;
-    border: 1px solid #3C4043;
+    border: 1px solid rgb(46, 52, 67);
 }
 
 .wrapper-results input {
@@ -73,11 +73,12 @@ html {
 }
 
 .autocomplete ul li:hover {
-    background: rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    background: rgb(58, 68, 92);
 }
 
 .selected {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgb(58, 68, 92);
 }
 
 .hide {
@@ -96,7 +97,7 @@ button {
 
 .search-container h1 {
     font-size: 70px;
-    color: #F1F3F4;
+    color: #ebecf7;
 }
 
 .X {
@@ -105,15 +106,15 @@ button {
 
 .search-container input {
     width: 95%;
-    color: #F1F3F4;
-    background-color: #333333;
+    color: #ebecf7;
+    background-color: #2e3443;
     font-size: inherit;
     font-family: sans-serif;
     border: none;
 }
 
 h3 {
-    color: #8ab4f8;
+    color: #a7b1fc;
     text-decoration: none;
 }
 
@@ -122,13 +123,13 @@ h3:hover {
 }
 
 p {
-    color: #F1F3F4;
+    color: #ebecf7;
 }
 
 .results-search-container {
-    background-color: #161616;
+    background-color: #0c0d0f;
     width: 100%;
-    border-bottom: 1px solid #303134;
+    border-bottom: 1px solid rgb(46, 52, 67);
     position: fixed;
     z-index: 999;
     top: 0;
@@ -137,7 +138,7 @@ p {
 .footer {
     box-sizing: border-box;
     width: 100%;
-    background-color: #161616;
+    background-color: #0c0d0f;
     color: #999da2;
     position: relative;
     bottom: 0;
@@ -145,14 +146,14 @@ p {
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 40px;
-    border-top: 1px solid #303134;
+    border-top: 1px solid rgb(46, 52, 67);
 }
 
 .footer a,
 .footer a:hover,
 .footer a:visited {
     text-decoration: none;
-    color: #999da2;
+    color: #ebecf7;
     font-size: 15px;
     margin-left: 15px;
     margin-right: 15px;
@@ -164,8 +165,8 @@ p {
 
 .results-search-container input {
     width: 95%;
-    color: #F1F3F4;
-    background-color: #333333;
+    color: #ebecf7;
+    background-color: #2e3443;
     font-size: inherit;
     font-family: sans-serif;
     border: none;
@@ -186,10 +187,10 @@ p {
 }
 
 .search-button-wrapper button {
-    color: #F1F3F4;
-    background-color: #333333;
+    color: #ebecf7;
+    background-color: #0c0d0f;
     font-size: 14px;
-    border: 1px solid #333333;
+    border: 1px solid rgb(46, 52, 67);
     border-radius: 4px;
     padding: 13px 10px 13px 10px;
     margin: 70px 60px 0px 60px;
@@ -197,7 +198,7 @@ p {
 
 .no-decoration {
     text-decoration: none;
-    color: #F1F3F4;
+    color: #ebecf7;
 }
 
 .no-decoration:hover {
@@ -237,16 +238,16 @@ p {
 }
 
 .fetched {
-    color: #999da2;
+    color: #ebecf7;
     left: 175px;
     position: relative;
-    font-size: 17px;
+    font-size: 18px;
     max-width: 580px;
     margin-top: 126px;
 }
 
 .results a:visited h3 {
-    color: #bd93f9;
+    color: #ad71bc;
 }
 
 .results h3 {
@@ -263,17 +264,17 @@ p {
 .results a:hover,
 .results a:visited {
     text-decoration: none;
-    color: #999da2;
+    color: #ebecf7;
     font-size: 14px;
 }
 
 .snip {
     padding: 10px;
-    border: opacity 0;
+    border: 1px solid rgb(46, 52, 67);;
     width: 500px;
     border-radius: 8px;
-    background: #282828;
-    color: #F1F3F4;
+    background: #1e222d;
+    color: #ebecf7;
     margin-left: 840px;
     margin-top: 0px;
     position: absolute;
@@ -284,7 +285,7 @@ p {
     display: flex;
     margin-top: 10px;
     font-size: 14px;
-    color: #8ab4f8;
+    color: #a7b1fc;
     text-decoration: none;
 }
 
@@ -294,10 +295,10 @@ p {
 
 .snipp {
     padding: 10px;
-    border-bottom: 1px solid #3C4043;
+    border-bottom: 1px solid rgb(46, 52, 67);
     width: 500px;
     background: inherit;
-    color: #F1F3F4;
+    color: #ebecf7;
     margin-left: 170px;
     margin-top: 0px;
     position: relative;
@@ -309,7 +310,7 @@ p {
     display: flex;
     margin-top: 10px;
     font-size: 14px;
-    color: #8ab4f8;
+    color: #a7b1fc;
     text-decoration: none;
     white-space: nowrap;
     overflow: hidden;
