@@ -46,6 +46,20 @@ def api():
         app.logger.error(e)
         return jsonify({"error": "An error occurred while processing the request"}), 500
 
+@app.route("/images")
+def images():
+    query = request.args.get("q", "").strip()
+    # Redirect to home page on empty query.
+    if query == "":
+        return app.redirect("/")
+
+    # Grab & format webpage
+    soup = makeHTMLRequest(f"https://www.google.com/search?q={query}&gbv=1&tbm=isch")
+
+    ellements = soup.findAll("img", {"class": "yWs4tf"})
+    image_sources = [ell["src"] for ell in ellements]
+    print(image_sources)
+
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
