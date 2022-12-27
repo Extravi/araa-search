@@ -108,32 +108,28 @@ def img_proxy():
     # Get the URL of the image to proxy
     url = request.args.get("url", "").strip()
 
-    if url:
-        # Fetch the image data from the specified URL
-        response = requests.get(url)
+    # Fetch the image data from the specified URL
+    response = requests.get(url)
 
-        # Check that the request was successful
-        if response.status_code == 200:
-            # Create a Flask response with the image data and the appropriate Content-Type header
-            return Response(response.content, mimetype=response.headers["Content-Type"])
-        else:
-            # Return an error response if the request failed
-            return Response("Error fetching image", status=500)
+    # Check that the request was successful
+    if response.status_code == 200:
+        # Create a Flask response with the image data and the appropriate Content-Type header
+        return Response(response.content, mimetype=response.headers["Content-Type"])
     else:
-        # Redirect to the homepage if no URL was provided
-        return app.redirect("/")
+        # Return an error response if the request failed
+        return Response("Error fetching image", status=500)
 
 def imageResults(query) -> Response:
     # remember time we started
     start_time = time.time()
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://www.google.com/search?q={query}&gbv=1&tbm=isch")
+    soup = makeHTMLRequest(f"https://www.startpage.com/sp/search?query={query}&cat=images")
 
     # get 'img' ellements
-    ellements = soup.findAll("img", {"class": "yWs4tf"})
+    ellements = soup.findAll("img", {"class": "css-6a21sa"})
     # get source urls
-    image_sources = [ell["src"] for ell in ellements]
+    image_sources = [f"https://www.startpage.com/{ell['src']}" for ell in ellements]
     # generate results
     results = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
 
@@ -142,8 +138,8 @@ def imageResults(query) -> Response:
     elapsed_time = end_time - start_time
 
     # render
-    return render_template("images.html", results = results, q = query,
-        fetched = f"Fetched the results in {elapsed_time:.2f} seconds")
+    return render_template("images.html", results = results, title = f"{query} - TailsX images",
+        q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds")
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
@@ -160,10 +156,10 @@ def search():
         # render page based off of type
         # NOTE: Python 3.10 needed for a match statement!
         match type:
-            case "text":
-                return textResults(query)
             case "image":
                 return imageResults(query)
+            case _:
+                return textResults(query)
 
 if __name__ == "__main__":
     # WARN: run() is not intended to be used in a production setting!

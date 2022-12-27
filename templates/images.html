@@ -30,9 +30,7 @@
     <p class="fetched">{{ fetched }}</p>
     {% if results %}
         {% for result in results %}
-        <div class="results">
-            <img src="{{ result }}"/>
-        </div>
+        <img src="{{ result }}"/>
         {% endfor %}
     {% else %}
         <div class="no-results-found">
