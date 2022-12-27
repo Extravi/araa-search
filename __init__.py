@@ -135,7 +135,7 @@ def imageResults(query) -> Response:
     # get source urls
     image_sources = [ell["src"] for ell in ellements]
     # generate results
-    results = [f"http://localhost:{PORT}/img_proxy?url={quote(img_src)}" for img_src in image_sources]
+    results = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
 
     # calc. time spent
     end_time = time.time()
