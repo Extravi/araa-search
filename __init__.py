@@ -128,12 +128,12 @@ def imageResults(query) -> Response:
     start_time = time.time()
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://www.google.com/search?q={query}&gbv=1&tbm=isch")
+    soup = makeHTMLRequest(f"https://www.startpage.com/sp/search?query={query}&cat=images")
 
     # get 'img' ellements
-    ellements = soup.findAll("img", {"class": "yWs4tf"})
+    ellements = soup.findAll("img", {"class": "css-6a21sa"})
     # get source urls
-    image_sources = [ell["src"] for ell in ellements]
+    image_sources = [f"https://www.startpage.com/{ell['src']}" for ell in ellements]
     # generate results
     results = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
 
