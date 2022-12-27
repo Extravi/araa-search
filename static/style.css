@@ -134,6 +134,34 @@ p {
     top: 0;
 }
 
+.footer {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #161616;
+    color: #999da2;
+    position: relative;
+    bottom: 0;
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 40px;
+    border-top: 1px solid #303134;
+}
+
+.footer a,
+.footer a:hover,
+.footer a:visited {
+    text-decoration: none;
+    color: #999da2;
+    font-size: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
 .results-search-container input {
     width: 95%;
     color: #F1F3F4;
