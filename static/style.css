@@ -8,6 +8,23 @@ html {
     font-size: 16px;
 }
 
+.images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 1.5rem;
+    margin-left: 9%;
+    margin-right: 9%;
+    padding: 0px;
+    margin-bottom: 40px;
+}
+
+.images img {
+    margin: 0px;
+    object-fit: cover;
+}
+
 .wrapper {
     margin: 0 auto;
     background: #2e3443;
@@ -270,7 +287,8 @@ p {
 
 .snip {
     padding: 10px;
-    border: 1px solid rgb(46, 52, 67);;
+    border: 1px solid rgb(46, 52, 67);
+    ;
     width: 500px;
     border-radius: 8px;
     background: #1e222d;
