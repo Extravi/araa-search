@@ -165,8 +165,6 @@ def search():
             case "image":
                 return imageResults(query)
 
-
-
 if __name__ == "__main__":
     # WARN: run() is not intended to be used in a production setting!
     # see https://flask.palletsprojects.com/en/2.2.x/deploying/ for more info
