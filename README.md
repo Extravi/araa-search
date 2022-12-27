@@ -1,4 +1,4 @@
-# [`tailsx`](https://github.com/Extravi/tailsx), by Extravi and TEMtheLEM
+# [`tailsx`](https://github.com/Extravi/tailsx), developed by Extravi and TEMtheLEM
 
 ## Currently, API, suggestions, and search are supported.
 
