@@ -59,7 +59,6 @@ html {
     opacity: 0;
     display: none;
     padding: 8px 12px;
-    transition: all .5s linear;
 }
 
 .show .autocomplete ul li {
@@ -74,11 +73,11 @@ html {
 }
 
 .autocomplete ul li:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .selected {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .hide {
