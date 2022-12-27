@@ -108,20 +108,16 @@ def img_proxy():
     # Get the URL of the image to proxy
     url = request.args.get("url", "").strip()
 
-    if url:
-        # Fetch the image data from the specified URL
-        response = requests.get(url)
+    # Fetch the image data from the specified URL
+    response = requests.get(url)
 
-        # Check that the request was successful
-        if response.status_code == 200:
-            # Create a Flask response with the image data and the appropriate Content-Type header
-            return Response(response.content, mimetype=response.headers["Content-Type"])
-        else:
-            # Return an error response if the request failed
-            return Response("Error fetching image", status=500)
+    # Check that the request was successful
+    if response.status_code == 200:
+        # Create a Flask response with the image data and the appropriate Content-Type header
+        return Response(response.content, mimetype=response.headers["Content-Type"])
     else:
-        # Redirect to the homepage if no URL was provided
-        return app.redirect("/")
+        # Return an error response if the request failed
+        return Response("Error fetching image", status=500)
 
 def imageResults(query) -> Response:
     # remember time we started
@@ -142,8 +138,8 @@ def imageResults(query) -> Response:
     elapsed_time = end_time - start_time
 
     # render
-    return render_template("images.html", results = results, q = query,
-        fetched = f"Fetched the results in {elapsed_time:.2f} seconds")
+    return render_template("images.html", results = results, title = f"{query} - TailsX images",
+        q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds")
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
