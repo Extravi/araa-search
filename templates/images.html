@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="search" type="application/opensearchdescription+xml" href="url_for('static', filename='opensearch.xml') }}" title="TailsX">
+</head>
+
+<body>
+    <form action="/search" class="results-search-container" method="get" autocomplete="off">
+        <h1 class="logomobile"><a class="no-decoration" href="./">Tails<span class="X">X</span></a></h1>
+        <div class="wrapper-results">
+        <input type="text" name="q" value="{{ q }}" id="search-input" />
+        <input type="submit" class="hide" />
+        <div class="autocomplete">
+            <ul>
+            </ul>
+        </div>
+    </div>
+        <div class="sub-search-button-wrapper">
+            <button name="t" class="clickable"><img src="{{ url_for('static', filename='searchicon.png') }}" alt="text result" />General</button>
+        </div>
+        </div>
+        <script src="/script.js"></script>
+    </form>
+    <p class="fetched">{{ fetched }}</p>
+    {% if results %}
+        {% for result in results %}
+        <div class="results">
+            <img src="{{ result }}"/>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-results-found">
+            Your search '{{ q }}' came back with no results.<br>
+            Try rephrasing your search term and/or recorrect any spelling mistakes.
+        </div>
+    {% endif %}
+</body>
+
+</html>

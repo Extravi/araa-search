@@ -1,15 +1,16 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, Response
 import requests
 import random
 from bs4 import BeautifulSoup
 import time
 import json
+from urllib.parse import quote
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 
 PORT = 8000
 
-def makeHTMLRequest(url: str) -> requests.Response:
+def makeHTMLRequest(url: str) -> Response:
     # Useragents to use in the request.
     user_agents = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
@@ -45,11 +46,11 @@ def api():
         app.logger.error(e)
         return jsonify({"error": "An error occurred while processing the request"}), 500
 
-
-
-def textResults(query) -> requests.Response:
+def textResults(query) -> Response:
     # remember time we started
     start_time = time.time()
+
+    api = request.args.get("api", "false")
 
     # search query
     soup = makeHTMLRequest(f"https://www.google.com/search?q={query}")
@@ -102,20 +103,51 @@ def textResults(query) -> requests.Response:
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
             snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}")
 
-def imageResults(query) -> requests.Response:
-    # Grab & format webpage
+@app.route("/img_proxy")
+def img_proxy():
+    # Get the URL of the image to proxy
+    url = request.args.get("url", "").strip()
+
+    if url:
+        # Fetch the image data from the specified URL
+        response = requests.get(url)
+
+        # Check that the request was successful
+        if response.status_code == 200:
+            # Create a Flask response with the image data and the appropriate Content-Type header
+            return Response(response.content, mimetype=response.headers["Content-Type"])
+        else:
+            # Return an error response if the request failed
+            return Response("Error fetching image", status=500)
+    else:
+        # Redirect to the homepage if no URL was provided
+        return app.redirect("/")
+
+def imageResults(query) -> Response:
+    # remember time we started
+    start_time = time.time()
+
+    # grab & format webpage
     soup = makeHTMLRequest(f"https://www.google.com/search?q={query}&gbv=1&tbm=isch")
 
+    # get 'img' ellements
     ellements = soup.findAll("img", {"class": "yWs4tf"})
+    # get source urls
     image_sources = [ell["src"] for ell in ellements]
-    print(image_sources)
+    # generate results
+    results = [f"http://localhost:{PORT}/img_proxy?url={quote(img_src)}" for img_src in image_sources]
 
+    # calc. time spent
+    end_time = time.time()
+    elapsed_time = end_time - start_time
 
+    # render
+    return render_template("images.html", results = results, q = query,
+        fetched = f"Fetched the results in {elapsed_time:.2f} seconds")
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
-    api = request.args.get("api", "false")
     if request.method == "GET":
         # get the `q` query parameter from the URL
         query = request.args.get("q", "").strip()
