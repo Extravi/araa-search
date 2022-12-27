@@ -9,6 +9,27 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 
 PORT = 8000
 
+def makeHTMLRequest(url: str) -> requests.Response:
+    # Useragents to use in the request.
+    user_agents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15",
+    ]
+
+    # Choose one at random
+    user_agent = random.choice(user_agents)
+    headers = {"User-Agent": user_agent}
+    # Grab HTML content
+    html = requests.get(url, headers = headers)
+
+    # Return the HTML in an easy to parse object
+    return BeautifulSoup(html.text, "lxml")
+
+# NOTE: '/suggestions' does not randomize User-Agent.
 @app.route("/suggestions")
 def suggestions():
     query = request.args.get("q", "").strip()
@@ -35,26 +56,11 @@ def search():
         if query == "":
             return app.send_static_file("search.html")
 
-        # random useragent
-        user_agents = [
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15",
-        ]
-        user_agent = random.choice(user_agents)
-        headers = {"User-Agent": user_agent}
-
         # time
         start_time = time.time()
 
         # search query
-        html = requests.get(f"https://www.google.com/search?q={query}", headers = headers)
-
-        # object to parse html
-        soup = BeautifulSoup(html.text, "lxml")
+        soup = makeHTMLRequest(f"https://www.google.com/search?q={query}")
 
         # retrieve links
         result_divs = soup.findAll("div", {"class": "yuRUbf"})
@@ -100,8 +106,8 @@ def search():
             return jsonify(results)
         else:
             return render_template("results.html", results = results, title = f"{query} - TailsX",
-            q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}")
+                q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
+                snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}")
 
 if __name__ == "__main__":
     # WARN: run() is not intended to be used in a production setting!
