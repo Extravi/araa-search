@@ -160,10 +160,10 @@ def search():
         # render page based off of type
         # NOTE: Python 3.10 needed for a match statement!
         match type:
-            case "text":
-                return textResults(query)
             case "image":
                 return imageResults(query)
+            case _:
+                return textResults(query)
 
 if __name__ == "__main__":
     # WARN: run() is not intended to be used in a production setting!
