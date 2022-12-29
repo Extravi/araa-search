@@ -165,6 +165,10 @@ p {
     border-top: 1px solid rgb(46, 52, 67);
 }
 
+#search_footer {
+    position: fixed;
+}
+
 .footer a,
 .footer a:hover,
 .footer a:visited {
