@@ -11,3 +11,8 @@
 
 ### Suggestions API; for a list of commonly searched terms
 - https://tailsx.extravi.dev/suggestions?q=google+docs
+
+### User-Agent/origin
+- https://tailsx.extravi.dev/search?q=what+is+my+ip
+- https://tailsx.extravi.dev/search?q=what+is+my+user+agent
+- https://tailsx.extravi.dev/info
