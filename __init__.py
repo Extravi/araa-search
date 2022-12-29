@@ -30,6 +30,12 @@ def makeHTMLRequest(url: str) -> Response:
     # Return the HTML in an easy to parse object
     return BeautifulSoup(html.text, "lxml")
 
+@app.route("/info")
+def info():
+        user_agent = request.headers.get("User-Agent") or "unknown"
+        ip = request.remote_addr or "unknown"
+        return jsonify({"Info": {"User-Agent": user_agent, "origin": ip}})
+
 @app.route("/suggestions")
 def suggestions():
     query = request.args.get("q", "").strip()
@@ -85,6 +91,15 @@ def textResults(query) -> Response:
         snip = featured_snip.text.strip()
     except:
         snip = ""
+        
+    # gets users ip or user agent
+    info = ""
+    if "what is my ip" in query.lower() or "what is my ip address" in query.lower():
+        ip = request.remote_addr or "unknown"
+        info = ip
+    elif "what is my user agent" in query.lower() or "what is my useragent" in query.lower():
+        user_agent = request.headers.get("User-Agent") or "unknown"
+        info = user_agent
 
     # list
     results = []
@@ -101,7 +116,7 @@ def textResults(query) -> Response:
     else:
         return render_template("results.html", results = results, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}")
+            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info=f"{info}")
 
 @app.route("/img_proxy")
 def img_proxy():
