@@ -32,9 +32,14 @@ def makeHTMLRequest(url: str) -> Response:
 
 @app.route("/info")
 def info():
-        user_agent = request.headers.get("User-Agent") or "unknown"
+    xff = request.headers.get("X-Forwarded-For")
+    if xff:
+        ip = xff.split(",")[-1].strip()
+    else:
         ip = request.remote_addr or "unknown"
-        return jsonify({"Info": {"User-Agent": user_agent, "origin": ip}})
+    # returns client info/ip
+    user_agent = request.headers.get("User-Agent") or "unknown"
+    return jsonify({"Info": {"User-Agent": user_agent, "origin": ip}})
 
 @app.route("/suggestions")
 def suggestions():
@@ -95,7 +100,11 @@ def textResults(query) -> Response:
     # gets users ip or user agent
     info = ""
     if "what is my ip" in query.lower() or "what is my ip address" in query.lower():
-        ip = request.remote_addr or "unknown"
+        xff = request.headers.get("X-Forwarded-For")
+        if xff:
+            ip = xff.split(",")[-1].strip()
+        else:
+            ip = request.remote_addr or "unknown"
         info = ip
     elif "what is my user agent" in query.lower() or "what is my useragent" in query.lower():
         user_agent = request.headers.get("User-Agent") or "unknown"
