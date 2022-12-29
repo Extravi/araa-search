@@ -29,6 +29,10 @@
         <script src="/script.js"></script>
     </form>
     <p class="fetched">{{ fetched }}</p>
+    {% if user_info == "" %}
+    {% else %}
+        <p class="snip">{{ user_info }}</p>
+    {% endif %}
     {% if kno_rdesc == "" %}
     {% else %}
         <p class="snip">{{ kno_rdesc }} <a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a></p>
