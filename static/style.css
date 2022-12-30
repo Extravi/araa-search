@@ -48,7 +48,7 @@ html {
     background: #2e3443;
     border-radius: 22px;
     position: absolute;
-    width: 580px;
+    width: 628px;
     overflow: hidden;
     margin-top: 0px;
     top: 18px;
@@ -196,7 +196,7 @@ p {
     position: relative;
     left: 175px;
     margin-top: 18px;
-    max-width: 581px;
+    max-width: 600px;
     word-wrap: break-word;
     margin-bottom: 35px;
 }
@@ -283,6 +283,14 @@ p {
 .results a,
 .results a:hover,
 .results a:visited {
+    text-decoration: none;
+    color: #ebecf7;
+    font-size: 14px;
+}
+
+#link,
+#link:hover,
+#link:visited {
     display: block;
     text-decoration: none;
     color: #ebecf7;
