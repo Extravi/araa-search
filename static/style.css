@@ -39,7 +39,7 @@ body {
 }
 
 html {
-    background-color: #171b25;
+    background-color: #202124;
     font-family: 'Inter', Arial, Helvetica, sans-serif;
     font-size: 16px;
 }
@@ -62,7 +62,7 @@ html {
 
 .wrapper {
     margin: 0 auto;
-    background: #2e3443;
+    background: #303134;
     border-radius: 22px;
     position: absolute;
     width: 520px;
@@ -72,7 +72,7 @@ html {
     left: 0;
     right: 0;
     z-index: 2;
-    border: 1px solid rgb(46, 52, 67);
+    border: 1px solid #3C4043;
 }
 
 .wrapper input {
@@ -81,7 +81,7 @@ html {
 
 .wrapper-results {
     margin: 0 auto;
-    background: #2e3443;
+    background: #303134;
     border-radius: 22px;
     position: absolute;
     width: 628px;
@@ -90,7 +90,7 @@ html {
     top: 18px;
     left: 170px;
     z-index: 2;
-    border: 1px solid rgb(46, 52, 67);
+    border: 1px solid #3C4043;
 }
 
 .wrapper-results input {
@@ -126,11 +126,11 @@ html {
 
 .autocomplete ul li:hover {
     cursor: pointer;
-    background: rgb(58, 68, 92);
+    background: #3c4043;
 }
 
 .selected {
-    background: rgb(58, 68, 92);
+    background: #3c4043;
 }
 
 .hide {
@@ -149,7 +149,7 @@ button {
 
 .search-container h1 {
     font-size: 70px;
-    color: #ebecf7;
+    color: #F1F3F4;
 }
 
 .X {
@@ -158,15 +158,15 @@ button {
 
 .search-container input {
     width: 95%;
-    color: #ebecf7;
-    background-color: #2e3443;
+    color: #F1F3F4;
+    background-color: #303134;
     font-size: inherit;
     font-family: sans-serif;
     border: none;
 }
 
 h3 {
-    color: #a7b1fc;
+    color: #8ab4f8;
     text-decoration: none;
 }
 
@@ -175,13 +175,13 @@ h3:hover {
 }
 
 p {
-    color: #ebecf7;
+    color: #F1F3F4;
 }
 
 .results-search-container {
-    background-color: #0c0d0f;
+    background-color: #202124;
     width: 100%;
-    border-bottom: 1px solid rgb(46, 52, 67);
+    border-bottom: 1px solid #3c4043;
     position: fixed;
     z-index: 999;
     top: 0;
@@ -190,7 +190,7 @@ p {
 .footer {
     box-sizing: border-box;
     width: 100%;
-    background-color: #0c0d0f;
+    background-color: #171717;
     color: #999da2;
     position: relative;
     bottom: 0;
@@ -198,7 +198,7 @@ p {
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 40px;
-    border-top: 1px solid rgb(46, 52, 67);
+    border-top: 1px solid #3c4043;
 }
 
 #search_footer {
@@ -209,7 +209,7 @@ p {
 .footer a:hover,
 .footer a:visited {
     text-decoration: none;
-    color: #ebecf7;
+    color: #BABCBE;
     font-size: 15px;
     margin-left: 15px;
     margin-right: 15px;
@@ -221,8 +221,8 @@ p {
 
 .results-search-container input {
     width: 95%;
-    color: #ebecf7;
-    background-color: #2e3443;
+    color: #F1F3F4;
+    background-color: #303134;
     font-size: inherit;
     font-family: sans-serif;
     border: none;
@@ -243,10 +243,10 @@ p {
 }
 
 .search-button-wrapper button {
-    color: #ebecf7;
-    background-color: #0c0d0f;
+    color: #F1F3F4;
+    background-color: #303134;
     font-size: 14px;
-    border: 1px solid rgb(46, 52, 67);
+    border: 1px solid #303134;
     border-radius: 4px;
     padding: 13px 10px 13px 10px;
     margin: 70px 60px 0px 60px;
@@ -254,7 +254,7 @@ p {
 
 .no-decoration {
     text-decoration: none;
-    color: #ebecf7;
+    color: #F1F3F4;
 }
 
 .no-decoration:hover {
@@ -294,7 +294,7 @@ p {
 }
 
 .fetched {
-    color: #ebecf7;
+    color: #BABCBE;
     left: 175px;
     position: relative;
     font-size: 18px;
@@ -303,7 +303,7 @@ p {
 }
 
 .results a:visited h3 {
-    color: #ad71bc;
+    color: #c58af9;
 }
 
 .results h3 {
@@ -329,7 +329,7 @@ p {
 #link:visited {
     display: block;
     text-decoration: none;
-    color: #ebecf7;
+    color: #BABCBE;
     font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -338,12 +338,11 @@ p {
 
 .snip {
     padding: 10px;
-    border: 1px solid rgb(46, 52, 67);
-    ;
+    border: 1px solid #3c4043;
     width: 500px;
     border-radius: 8px;
-    background: #1e222d;
-    color: #ebecf7;
+    background: #202124;
+    color: #F1F3F4;
     margin-left: 840px;
     margin-top: 0px;
     position: absolute;
@@ -354,7 +353,7 @@ p {
     display: block;
     margin-top: 10px;
     text-decoration: none;
-    color: #a7b1fc;
+    color: #8ab4f8;
     font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -367,10 +366,10 @@ p {
 
 .snipp {
     padding: 10px;
-    border-bottom: 1px solid rgb(46, 52, 67);
+    border-bottom: 1px solid #3c4043;
     width: 500px;
     background: inherit;
-    color: #ebecf7;
+    color: #F1F3F4;
     margin-left: 170px;
     margin-top: 0px;
     position: relative;
@@ -382,7 +381,7 @@ p {
     display: block;
     margin-top: 10px;
     text-decoration: none;
-    color: #a7b1fc;
+    color: #8ab4f8;
     font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -400,7 +399,9 @@ p {
 .no-results-found {
     border-radius: 8px;
     position: relative;
+    border: 1px solid #3c4043;
     margin-left: 175px;
+    color: #F1F3F4;
     width: 530px;
     padding: 15px;
     font-size: 16px;
@@ -413,9 +414,6 @@ p {
         position: relative;
         float: none;
         margin-left: 170px;
-        border: 1px solid rgb(46, 52, 67);
-        background: #1e222d;
-        color: #ebecf7;
     }
 }
 
