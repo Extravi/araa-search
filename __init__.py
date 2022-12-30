@@ -164,6 +164,47 @@ def imageResults(query) -> Response:
     # render
     return render_template("images.html", results = results, title = f"{query} - TailsX",
         q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds")
+    
+def videoResults(query) -> Response:
+    # remember time we started
+    start_time = time.time()
+
+    # grab & format webpage
+    soup = makeHTMLRequest(f"https://search.brave.com/videos?q={query}&source=web")
+    
+    # retrieve links
+    card_divs = soup.findAll("div", {"class": "card"})
+    links = [div.find("a") for div in card_divs]
+    hrefs = [link.get("href") for link in links]
+    
+    # retrieve title
+    title = [div.find("div", {"class": "title"}).text.strip() for div in card_divs]
+    
+    # retrieve date
+    date_span = [div.find('span').text.strip() for div in card_divs]
+    
+    # retrieve views
+    views_divs = soup.findAll('div', class_='stat')
+    views = [div.get('title') for div in views_divs]
+    
+    # retrieve creator
+    creator = soup.findAll('div', class_='creator ellipsis')
+    creator_text = [div.text.strip() for div in creator]
+    
+    # retrieve publisher
+    publisher = soup.findAll('div', class_='ellipsis')
+    publisher_text = [div.text.strip() for div in publisher]
+    
+    # list
+    results = []
+    for href, title, date, view, creator, publisher in zip(hrefs, title, date_span, views, creator_text, publisher_text):
+        results.append([href, title, date, view, creator, publisher])
+        
+    return jsonify(results)
+
+    # calc. time spent
+    end_time = time.time()
+    elapsed_time = end_time - start_time
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
@@ -180,6 +221,8 @@ def search():
         # render page based off of type
         # NOTE: Python 3.10 needed for a match statement!
         match type:
+            case "video":
+                return videoResults(query)
             case "image":
                 return imageResults(query)
             case _:
