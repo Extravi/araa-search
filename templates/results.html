@@ -44,7 +44,7 @@
     {% if results %}
         {% for result in results %}
         <div class="results">
-            <a href="{{ result[0] }}">{{ result[0] }}</a>
+            <a id="link" href="{{ result[0] }}">{{ result[0] }}</a>
             <a href="{{ result[0] }}"><h3  href="{{ result[0] }}">{{ result[1] }}</h3></a>
             <p>{{ result[2] }}</p>
         </div>
