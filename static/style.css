@@ -283,9 +283,13 @@ p {
 .results a,
 .results a:hover,
 .results a:visited {
+    display: block;
     text-decoration: none;
     color: #ebecf7;
     font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .snip {
@@ -303,11 +307,14 @@ p {
 }
 
 .snip a {
-    display: flex;
+    display: block;
     margin-top: 10px;
-    font-size: 14px;
-    color: #a7b1fc;
     text-decoration: none;
+    color: #a7b1fc;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .snip a:hover {
@@ -328,15 +335,14 @@ p {
 }
 
 .snipp a {
-    display: flex;
+    display: block;
     margin-top: 10px;
-    font-size: 14px;
-    color: #a7b1fc;
     text-decoration: none;
-    white-space: nowrap;
+    color: #a7b1fc;
+    font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 500px;
+    white-space: nowrap;
 }
 
 .snipp a:hover {
@@ -349,8 +355,6 @@ p {
 
 .no-results-found {
     border-radius: 8px;
-    background: #282828;
-    color: #F1F3F4;
     position: relative;
     margin-left: 175px;
     width: 530px;
@@ -365,6 +369,9 @@ p {
         position: relative;
         float: none;
         margin-left: 170px;
+        border: 1px solid rgb(46, 52, 67);
+        background: #1e222d;
+        color: #ebecf7;
     }
 }
 
@@ -402,6 +409,11 @@ p {
         left: 4px;
     }
 
+    .wrapper input {
+        padding: 10px;
+        max-width: 92%;
+    }
+
     .wrapper-results {
         width: 90%;
         position: absolute;
@@ -414,6 +426,11 @@ p {
         margin-top: 0px;
         top: 56px;
         left: 18px;
+    }
+
+    .wrapper-results input {
+        padding: 10px;
+        max-width: 92%;
     }
 
     .snipp {
