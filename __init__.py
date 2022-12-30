@@ -162,7 +162,7 @@ def imageResults(query) -> Response:
     elapsed_time = end_time - start_time
 
     # render
-    return render_template("images.html", results = results, title = f"{query} - TailsX images",
+    return render_template("images.html", results = results, title = f"{query} - TailsX",
         q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds")
 
 @app.route("/", methods=["GET", "POST"])
