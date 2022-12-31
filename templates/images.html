@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
+    {% if request.cookies.theme %}
+    <link rel="stylesheet" href="./{{ request.cookies.theme }}.css">
+    {% else %}
+    <link rel="stylesheet" href="./{{ theme }}.css">
+    {% endif %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="search" type="application/opensearchdescription+xml" href="url_for('static', filename='opensearch.xml') }}" title="TailsX">
 </head>
@@ -41,7 +46,7 @@
             Try rephrasing your search term and/or recorrect any spelling mistakes.
         </div>
     {% endif %}
-    <div class="footer"><a href="/">TailsX</a><a target="_blank" href="https://github.com/Extravi/tailsx">Source code ❤️</a><a target="_blank" href="/api?q=firefox">API</a><a target="_blank" href="/suggestions?q=firefox">Suggestions API</a></div>
+    <div class="footer"><a href="/">TailsX</a><a href="/settings">Settings</a><a target="_blank" href="https://github.com/Extravi/tailsx">Source code ❤️</a><a target="_blank" href="/api?q=firefox">API</a><a target="_blank" href="/suggestions?q=firefox">Suggestions API</a></div>
 </body>
 
 </html>

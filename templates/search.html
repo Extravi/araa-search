@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TailsX</title>
+    {% if request.cookies.theme %}
+    <link rel="stylesheet" href="./{{ request.cookies.theme }}.css">
+    {% else %}
+    <link rel="stylesheet" href="./{{ theme }}.css">
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="TailsX">
+</head>
+
+<body>
+    <form action="/search" class="search-container" method="get" autocomplete="off">
+        <h1>Tails<span class="X">X</span></h1>
+        <div class="wrapper">
+            <input type="text" name="q" autofocus id="search-input" />
+            <input type="submit" class="hide" />
+            <div class="autocomplete">
+                <ul>
+                </ul>
+            </div>
+        </div>
+        <div class="search-button-wrapper">
+            <button name="q" type="submit">Search with TailsX</button>
+            <button name="t" value="image" type="submit">Search images with TailsX</button>
+        </div>
+        <script src="/script.js"></script>
+    </form>
+    <div id="search_footer" class="footer"><a href="/">TailsX</a><a href="/settings">Settings</a><a target="_blank" href="https://github.com/Extravi/tailsx">Source code ❤️</a><a target="_blank" href="/api?q=firefox">API</a><a target="_blank" href="/suggestions?q=firefox">Suggestions API</a></div>
+</body>
+
+</html>

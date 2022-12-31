@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify, Response
+from flask import Flask, request, render_template, jsonify, Response, make_response, redirect, url_for
 import requests
 import random
 from bs4 import BeautifulSoup
@@ -30,16 +30,25 @@ def makeHTMLRequest(url: str) -> Response:
     # Return the HTML in an easy to parse object
     return BeautifulSoup(html.text, "lxml")
 
-@app.route("/info")
-def info():
-    xff = request.headers.get("X-Forwarded-For")
-    if xff:
-        ip = xff.split(",")[-1].strip()
-    else:
-        ip = request.remote_addr or "unknown"
-    # returns client info/ip
-    user_agent = request.headers.get("User-Agent") or "unknown"
-    return jsonify({"Info": {"User-Agent": user_agent, "origin": ip}})
+# default theme
+DEFAULT_THEME = 'dark'
+
+@app.route('/settings')
+def settings():
+    # default theme if none is set
+    theme = request.cookies.get('theme', DEFAULT_THEME)
+    return render_template('settings.html', theme=theme)
+
+@app.route('/save-settings', methods=['POST'])
+def save_settings():
+    # get the selected theme from the form
+    theme = request.form.get('theme')
+
+    # set the theme cookie
+    response = make_response(redirect(url_for('settings')))
+    response.set_cookie('theme', theme, max_age=2147483647) # set the cookie to never expire
+
+    return response
 
 @app.route("/suggestions")
 def suggestions():
@@ -125,7 +134,7 @@ def textResults(query) -> Response:
     else:
         return render_template("results.html", results = results, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info=f"{info}")
+            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info=f"{info}", theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME)
 
 @app.route("/img_proxy")
 def img_proxy():
@@ -163,7 +172,7 @@ def imageResults(query) -> Response:
 
     # render
     return render_template("images.html", results = results, title = f"{query} - TailsX",
-        q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds")
+        q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds", theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME)
     
 def videoResults(query) -> Response:
     # remember time we started
@@ -213,7 +222,7 @@ def search():
         # get the `q` query parameter from the URL
         query = request.args.get("q", "").strip()
         if query == "":
-            return app.send_static_file("search.html")
+            return render_template("search.html", theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME)
 
         # type of search (text, image, etc.)
         type = request.args.get("t", "text")

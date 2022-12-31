@@ -39,7 +39,7 @@ body {
 }
 
 html {
-    background-color: #202124;
+    background-color: var(--html-bg);
     font-family: 'Inter', Arial, Helvetica, sans-serif;
     font-size: 16px;
 }
@@ -62,7 +62,7 @@ html {
 
 .wrapper {
     margin: 0 auto;
-    background: #303134;
+    background: var(--search-bg-input);
     border-radius: 22px;
     position: absolute;
     width: 520px;
@@ -72,7 +72,7 @@ html {
     left: 0;
     right: 0;
     z-index: 2;
-    border: 1px solid #3C4043;
+    border: 1px solid var(--search-bg-input-border);
 }
 
 .wrapper input {
@@ -81,7 +81,7 @@ html {
 
 .wrapper-results {
     margin: 0 auto;
-    background: #303134;
+    background: var(--search-bg-input);
     border-radius: 22px;
     position: absolute;
     width: 628px;
@@ -90,7 +90,7 @@ html {
     top: 18px;
     left: 170px;
     z-index: 2;
-    border: 1px solid #3C4043;
+    border: 1px solid var(--search-bg-input-border);
 }
 
 #theme {
@@ -165,11 +165,11 @@ html {
 
 .autocomplete ul li:hover {
     cursor: pointer;
-    background: #3c4043;
+    background: var(--search-select);
 }
 
 .selected {
-    background: #3c4043;
+    background: var(--search-select);
 }
 
 .hide {
@@ -197,15 +197,15 @@ button {
 
 .search-container input {
     width: 95%;
-    color: #F1F3F4;
-    background-color: #303134;
+    color: var(--font-fg);
+    background-color: var(--search-bg-input);
     font-size: inherit;
     font-family: sans-serif;
     border: none;
 }
 
 h3 {
-    color: #8ab4f8;
+    color: var(--link);
     text-decoration: none;
 }
 
@@ -214,13 +214,13 @@ h3:hover {
 }
 
 p {
-    color: #F1F3F4;
+    color: var(--font-fg);
 }
 
 .results-search-container {
-    background-color: #202124;
+    background-color: var(--search-bg);
     width: 100%;
-    border-bottom: 1px solid #3c4043;
+    border-bottom: 1px solid var(--border);
     position: fixed;
     z-index: 999;
     top: 0;
@@ -229,15 +229,15 @@ p {
 .footer {
     box-sizing: border-box;
     width: 100%;
-    background-color: #171717;
-    color: #999da2;
+    background-color: var(--footer-bg);
+    color: var(--footer-font);
     position: relative;
     bottom: 0;
     padding-left: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 40px;
-    border-top: 1px solid #3c4043;
+    border-top: 1px solid var(--border);
 }
 
 #search_footer {
@@ -248,7 +248,7 @@ p {
 .footer a:hover,
 .footer a:visited {
     text-decoration: none;
-    color: #BABCBE;
+    color: var(--footer-font);
     font-size: 15px;
     margin-left: 15px;
     margin-right: 15px;
@@ -260,8 +260,8 @@ p {
 
 .results-search-container input {
     width: 95%;
-    color: #F1F3F4;
-    background-color: #303134;
+    color: var(--font-fg);
+    background-color: var(--search-bg-input);
     font-size: inherit;
     font-family: sans-serif;
     border: none;
@@ -282,10 +282,10 @@ p {
 }
 
 .search-button-wrapper button {
-    color: #F1F3F4;
-    background-color: #303134;
+    color: var(--font-fg);
+    background-color: var(--button);
     font-size: 14px;
-    border: 1px solid #303134;
+    border: 1px solid var(--border);
     border-radius: 4px;
     padding: 13px 10px 13px 10px;
     margin: 70px 60px 0px 60px;
@@ -293,7 +293,7 @@ p {
 
 .no-decoration {
     text-decoration: none;
-    color: #F1F3F4;
+    color: var(--font-fg);
 }
 
 .no-decoration:hover {
@@ -333,7 +333,7 @@ p {
 }
 
 .fetched {
-    color: #BABCBE;
+    color: var(--fg);
     left: 175px;
     position: relative;
     font-size: 18px;
@@ -342,7 +342,7 @@ p {
 }
 
 .results a:visited h3 {
-    color: #c58af9;
+    color: var(--link-visited);
 }
 
 .results h3 {
@@ -368,7 +368,7 @@ p {
 #link:visited {
     display: block;
     text-decoration: none;
-    color: #BABCBE;
+    color: var(--fg);
     font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
