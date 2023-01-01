@@ -13,6 +13,11 @@
     --link: #8ab4f8;
     --link-visited: #c58af9;
 
+    --snip-border: opacity 0;
+    --snip-background: #282828;
+    --snip-text: #f1f3f4;
+
+    --settings-border: #5f6368;
     --button: #333333;
 
     --footer-bg: #161616;
