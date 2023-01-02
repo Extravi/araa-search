@@ -149,6 +149,10 @@ def img_proxy():
     # Get the URL of the image to proxy
     url = request.args.get("url", "").strip()
 
+    # Only allow proxying images from startpage.com
+    if not url.startswith("https://www.startpage.com/"):
+        return Response("Error: invalid URL", status=400)
+
     # Fetch the image data from the specified URL
     response = requests.get(url)
 
