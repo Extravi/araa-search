@@ -5,19 +5,11 @@ from bs4 import BeautifulSoup
 import time
 import json
 from urllib.parse import quote
-import threading
-from functools import lru_cache
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 
 PORT = 8000
 
-def clear_cache():
-    makeHTMLRequest.cache_clear()
-    timer = threading.Timer(86400, clear_cache) # run every 86400 seconds (24 hours)
-    timer.start()
-
-@lru_cache(maxsize=None)
 def makeHTMLRequest(url: str) -> Response:
     # Useragents to use in the request.
     user_agents = [
@@ -248,12 +240,8 @@ def search():
                 return imageResults(query)
             case _:
                 return textResults(query)
-            
-def start_cache_clear_timer():
-    clear_cache()
 
 if __name__ == "__main__":
     # WARN: run() is not intended to be used in a production setting!
     # see https://flask.palletsprojects.com/en/2.2.x/deploying/ for more info
-    start_cache_clear_timer()
     app.run(threaded=True, port=PORT)
