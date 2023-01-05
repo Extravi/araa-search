@@ -161,6 +161,7 @@ html {
 .show .autocomplete {
     padding-top: 10px;
     padding-bottom: 10px;
+    color: var(--font-fg);
 }
 
 .autocomplete ul li:hover {
