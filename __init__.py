@@ -13,7 +13,7 @@ PORT = 8000
 with open('./REPOSITORY') as f:
     REPO = f.readline()
     f.close()
-with open('./.git/ORIG_HEAD') as f:
+with open('./.git/refs/heads/main') as f:
     COMMIT = f.readline()
     f.close()
 
