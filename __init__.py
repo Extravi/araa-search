@@ -10,6 +10,13 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 
 PORT = 8000
 
+with open('./REPOSITORY') as f:
+    REPO = f.readline()
+    f.close()
+with open('./.git/refs/heads/main') as f:
+    COMMIT = f.readline()
+    f.close()
+
 def makeHTMLRequest(url: str) -> Response:
     # Useragents to use in the request.
     user_agents = [
@@ -37,7 +44,8 @@ DEFAULT_THEME = 'dark'
 def settings():
     # default theme if none is set
     theme = request.cookies.get('theme', DEFAULT_THEME)
-    return render_template('settings.html', theme=theme)
+    return render_template('settings.html', theme = theme, commit = COMMIT,
+        repo_url = REPO)
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
@@ -46,7 +54,7 @@ def save_settings():
 
     # set the theme cookie
     response = make_response(redirect(url_for('settings')))
-    response.set_cookie('theme', theme, max_age=2147483647) # set the cookie to never expire
+    response.set_cookie('theme', theme, max_age = 2147483647) # set the cookie to never expire
 
     return response
 
@@ -136,7 +144,7 @@ def textResults(query) -> Response:
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
             snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info = f"{info}",
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-            type = "text")
+            type = "text", repo_url = REPO, commit = COMMIT)
 
 @app.route("/img_proxy")
 def img_proxy():
@@ -180,7 +188,7 @@ def imageResults(query) -> Response:
     return render_template("images.html", results = results, title = f"{query} - TailsX",
         q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
         theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-        type = "image")
+        type = "image", repo_url = REPO, commit = COMMIT)
     
 def videoResults(query) -> Response:
     # remember time we started
@@ -230,7 +238,8 @@ def search():
         # get the `q` query parameter from the URL
         query = request.args.get("q", "").strip()
         if query == "":
-            return render_template("search.html", theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME)
+            return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME),
+                DEFAULT_THEME=DEFAULT_THEME, repo_url = REPO, commit = COMMIT)
 
         # type of search (text, image, etc.)
         type = request.args.get("t", "text")
