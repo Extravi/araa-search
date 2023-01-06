@@ -10,10 +10,10 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 
 PORT = 8000
 
-with open('/REPOSITORY') as f:
+with open('./REPOSITORY') as f:
     REPO = f.readline()
     f.close()
-with open('/.git/refs/heads/main') as f:
+with open('./.git/refs/heads/main') as f:
     COMMIT = f.readline()
     f.close()
 
