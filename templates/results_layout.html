@@ -13,6 +13,8 @@
     {% endif %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="search" type="application/opensearchdescription+xml" href="url_for('static', filename='opensearch.xml') }}" title="TailsX">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains">
 </head>
 
 <body>
@@ -43,3 +45,5 @@
         <a target="_blank" href="/suggestions?q=firefox">Suggestions API</a>
     </div>
 </body>
+
+</html>
