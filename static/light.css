@@ -11,7 +11,7 @@
     --border: #dadce0;
 
     --link: #1a0dab;
-    --link-visited: #c58af9;
+    --link-visited: #681da8;
 
     --snip-border: #dadce0;
     --snip-background: #ffffff;
@@ -22,6 +22,4 @@
 
     --footer-bg: #f6f6f6;
     --footer-font: #353535;
-    
-    color-scheme: dark;
 }
