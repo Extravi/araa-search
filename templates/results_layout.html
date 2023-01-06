@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    {% if request.cookies.theme %}
+    <link rel="stylesheet" href="./{{ request.cookies.theme }}.css">
+    {% else %}
+    <link rel="stylesheet" href="./{{ theme }}.css">
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="search" type="application/opensearchdescription+xml" href="url_for('static', filename='opensearch.xml') }}" title="TailsX">
+</head>
+
+<body>
+    <form action="/search" class="results-search-container" method="get" autocomplete="off">
+        <h1 class="logomobile"><a class="no-decoration" href="./">Tails<span class="X">X</span></a></h1>
+        <div class="wrapper-results">
+        <input type="text" name="q" value="{{ q }}" id="search-input" />
+        <input type="submit" class="hide" name="t" value="{{ type }}" />
+        <div class="autocomplete">
+            <ul>
+            </ul>
+        </div>
+    </div>
+        <div class="sub-search-button-wrapper">
+            <button name="q" class="clickable"><img src="{{ url_for('static', filename='searchicon.png') }}" alt="text result" />General</button>
+            <button name="t" value="image" class="clickable"><img src="{{ url_for('static', filename='imagesearch.png') }}" alt="images result" />Images</button>
+        </div>
+        </div>
+        <!-- 'defer' makes script execute only after the whole DOM is parsed. -->
+        <script defer src="/script.js"></script>
+    </form>
+    {% block body %}{% endblock %}
+    <div class="footer">
+        <a href="/">TailsX</a>
+        <a href="/settings">Settings</a>
+        <a target="_blank" href="https://github.com/Extravi/tailsx">Source code ❤️</a>
+        <a target="_blank" href="/api?q=firefox">API</a>
+        <a target="_blank" href="/suggestions?q=firefox">Suggestions API</a>
+    </div>
+</body>

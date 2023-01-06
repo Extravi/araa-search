@@ -134,7 +134,9 @@ def textResults(query) -> Response:
     else:
         return render_template("results.html", results = results, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info=f"{info}", theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME)
+            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info = f"{info}",
+            theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
+            type = "text")
 
 @app.route("/img_proxy")
 def img_proxy():
@@ -176,7 +178,9 @@ def imageResults(query) -> Response:
 
     # render
     return render_template("images.html", results = results, title = f"{query} - TailsX",
-        q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds", theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME)
+        q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
+        theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
+        type = "image")
     
 def videoResults(query) -> Response:
     # remember time we started
