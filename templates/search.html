@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TailsX</title>
     {% if request.cookies.theme %}
-    <link rel="stylesheet" href="./{{ request.cookies.theme }}.css">
+    <link rel="stylesheet" href="./css/{{ request.cookies.theme }}.css">
     {% else %}
-    <link rel="stylesheet" href="./{{ theme }}.css">
+    <link rel="stylesheet" href="./css/{{ theme }}.css">
     {% endif %}
-    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="TailsX">
 </head>
 
