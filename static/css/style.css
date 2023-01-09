@@ -99,9 +99,9 @@ html {
     font-size: 15px;
     border: 1px solid var(--settings-border);
     color: var(--font-fg);
-    width: 100px;
+    width: 140px;
     background: var(--button);
-    margin-right: 370px;
+    margin-right: 330px;
 }
 
 .save {
@@ -111,6 +111,7 @@ html {
     border: 1px solid var(--settings-border);
     color: var(--font-fg);
     background: var(--button);
+    cursor: pointer;
 }
 
 .settings-nav {
@@ -476,7 +477,7 @@ p {
     }
 
     #theme {
-        margin-right: 40px;
+        margin-right: 0px;
     }
 
     .footer {
