@@ -34,6 +34,16 @@
     /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
+::-moz-selection {
+    color: #f1f3f4;
+    background: #0078d7;
+}
+  
+  ::selection {
+    color: #f1f3f4;
+    background: #0078d7;
+}
+
 body {
     margin: 0;
 }
