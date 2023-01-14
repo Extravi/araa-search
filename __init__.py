@@ -95,6 +95,19 @@ def textResults(query) -> Response:
     # retrieve description
     result_desc = soup.findAll("div", {"class": "VwiC3b"})
     descriptions = [descs.text.strip() for descs in result_desc]
+    
+    # retrieve sublinks
+    try:
+        result_sublinks = soup.findAll("tr", {"class": lambda x: x and x.startswith("mslg")})
+        sublinks_divs = [sublink.find("div", {"class": "zz3gNc"}) for sublink in result_sublinks]
+        sublinks = [sublink.text.strip() for sublink in sublinks_divs]
+        sublinks_links = [sublink.find("a") for sublink in result_sublinks]
+        sublinks_hrefs = [link.get("href") for link in sublinks_links]
+        sublinks_titles = [title.text.strip() for title in sublinks_links]
+    except:
+        sublinks = ""
+        sublinks_hrefs = ""
+        sublinks_titles = ""
 
     # retrieve kno-rdesc
     try:
@@ -131,6 +144,9 @@ def textResults(query) -> Response:
     results = []
     for href, title, desc in zip(hrefs, titles, descriptions):
         results.append([href, title, desc])
+    sublink = []
+    for sublink_href, sublink_title, sublink_desc in zip(sublinks_hrefs, sublinks_titles, sublinks):
+        sublink.append([sublink_href, sublink_title, sublink_desc])
 
     # calc. time spent
     end_time = time.time()
@@ -140,7 +156,7 @@ def textResults(query) -> Response:
         # return the results list as a JSON response
         return jsonify(results)
     else:
-        return render_template("results.html", results = results, title = f"{query} - TailsX",
+        return render_template("results.html", results = results, sublink = sublink, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
             snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info = f"{info}",
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
