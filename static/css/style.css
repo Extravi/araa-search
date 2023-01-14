@@ -294,7 +294,7 @@ p {
 .result_sublink {
     position: relative;
     left: 175px;
-    margin-top: 18px;
+    margin-top: 10px;
     max-width: 600px;
     word-wrap: break-word;
 }
@@ -366,7 +366,8 @@ p {
     color: var(--fg);
     left: 175px;
     position: relative;
-    font-size: 18px;
+    font-size: 15px;
+    margin-bottom: 10px;
     max-width: 580px;
     margin-top: 126px;
 }
