@@ -232,6 +232,42 @@ p {
     font-size: 14px;
 }
 
+.check {
+    display: flex;
+    position: relative;
+    left: 175px;
+    width: 600px;
+    word-wrap: break-word;
+    font-size: 15px;
+    max-width: 48em;
+    line-height: 1.58;
+}
+
+.check p,
+.check h3 {
+    font-size: 16px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
+
+.check p {
+    color: #ff7769;
+}
+
+.check a {
+    color: var(--link);
+    text-decoration: none;
+}
+
+.check h3 {
+    margin-left: 4px;
+    font-style: italic;
+}
+
+.check a:hover {
+    text-decoration: underline;
+}
+
 .results-search-container {
     background-color: var(--search-bg);
     width: 100%;
@@ -564,6 +600,11 @@ p {
     .wrapper-results input {
         padding: 10px;
         max-width: 92%;
+    }
+
+    .check {
+        left: 20px;
+        max-width: 90%;
     }
 
     .snipp {

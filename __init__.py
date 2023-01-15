@@ -127,6 +127,13 @@ def textResults(query) -> Response:
     except:
         snip = ""
         
+    # retrieve spell check
+    try:
+        spell = soup.find("a", {"class": "gL9Hy"})
+        check = spell.text.strip()
+    except:
+        check = ""
+        
     # gets users ip or user agent
     info = ""
     if "what is my ip" in query.lower() or "what is my ip address" in query.lower():
@@ -158,7 +165,7 @@ def textResults(query) -> Response:
     else:
         return render_template("results.html", results = results, sublink = sublink, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info = f"{info}",
+            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info = f"{info}", check = check,
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
             type = "text", repo_url = REPO, commit = COMMIT)
 
