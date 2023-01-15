@@ -128,7 +128,6 @@ def textResults(query) -> Response:
         img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
         kno_image = [f"/img_proxy?url={img_src}"]
         kno_image = ''.join(kno_image)
-        print(kno_image)
     except:
         kno_image = ""
 
