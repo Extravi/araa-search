@@ -120,17 +120,6 @@ def textResults(query) -> Response:
         kno = ""
         kno_link = ""
         
-    # get image for kno
-    try:
-        kno_title = kno_link.split("/")[-1]
-        soup = makeHTMLRequest(f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
-        data = json.loads(soup.text)
-        img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
-        kno_image = [f"/img_proxy?url={img_src}"]
-        kno_image = ''.join(kno_image)
-    except:
-        kno_image = ""
-
     # retrieve featured snippet
     try:
         featured_snip = soup.find("span", {"class": "hgKElc"})
@@ -144,6 +133,17 @@ def textResults(query) -> Response:
         check = spell.text.strip()
     except:
         check = ""
+        
+    # get image for kno
+    try:
+        kno_title = kno_link.split("/")[-1]
+        soup = makeHTMLRequest(f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
+        data = json.loads(soup.text)
+        img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
+        kno_image = [f"/img_proxy?url={img_src}"]
+        kno_image = ''.join(kno_image)
+    except:
+        kno_image = ""
         
     # gets users ip or user agent
     info = ""
