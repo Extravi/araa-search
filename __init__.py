@@ -119,6 +119,18 @@ def textResults(query) -> Response:
     except:
         kno = ""
         kno_link = ""
+        
+    # get image for kno
+    try:
+        kno_title = kno_link.split("/")[-1]
+        soup = makeHTMLRequest(f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
+        data = json.loads(soup.text)
+        img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
+        kno_image = [f"/img_proxy?url={img_src}"]
+        kno_image = ''.join(kno_image)
+        print(kno_image)
+    except:
+        kno_image = ""
 
     # retrieve featured snippet
     try:
@@ -165,7 +177,7 @@ def textResults(query) -> Response:
     else:
         return render_template("results.html", results = results, sublink = sublink, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", user_info = f"{info}", check = check,
+            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", kno_wiki = f"{kno_image}", user_info = f"{info}", check = check,
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
             type = "text", repo_url = REPO, commit = COMMIT)
 
@@ -174,10 +186,10 @@ def img_proxy():
     # Get the URL of the image to proxy
     url = request.args.get("url", "").strip()
 
-    # Only allow proxying images from startpage.com
-    if not url.startswith("https://www.startpage.com/"):
+    # Only allow proxying image from startpage.com and upload.wikimedia.org
+    if not (url.startswith("https://www.startpage.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/")):
         return Response("Error: invalid URL", status=400)
-
+    
     # Fetch the image data from the specified URL
     response = requests.get(url)
 
