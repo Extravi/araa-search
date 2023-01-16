@@ -499,6 +499,7 @@ p {
     margin-left: 170px;
     margin-top: 0px;
     position: relative;
+    line-height: 1.25;
     font-size: 18px;
     float: none;
 }
