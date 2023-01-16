@@ -10,6 +10,16 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 
 PORT = 8000
 
+# Useragents to use in the request.
+user_agents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15",
+]
+
 with open('./REPOSITORY') as f:
     REPO = f.readline()
     f.close()
@@ -18,17 +28,7 @@ with open('./.git/refs/heads/main') as f:
     f.close()
 
 def makeHTMLRequest(url: str) -> Response:
-    # Useragents to use in the request.
-    user_agents = [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15",
-    ]
-
-    # Choose one at random
+    # Choose a user-agent at random
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
     # Grab HTML content
@@ -188,9 +188,13 @@ def img_proxy():
     # Only allow proxying image from startpage.com and upload.wikimedia.org
     if not (url.startswith("https://www.startpage.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/")):
         return Response("Error: invalid URL", status=400)
+
+    # Choose one user agent at random
+    user_agent = random.choice(user_agents)
+    headers = {"User-Agent": user_agent}
     
     # Fetch the image data from the specified URL
-    response = requests.get(url)
+    response = requests.get(url, headers=headers)
 
     # Check that the request was successful
     if response.status_code == 200:
