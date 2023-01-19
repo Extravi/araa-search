@@ -263,11 +263,14 @@ def videoResults(query) -> Response:
     for href, title, date, view, creator, publisher in zip(hrefs, title, date_span, views, creator_text, publisher_text):
         results.append([href, title, date, view, creator, publisher])
         
-    return jsonify(results)
-
     # calc. time spent
     end_time = time.time()
     elapsed_time = end_time - start_time
+    
+    return render_template("videos.html", results = results, title = f"{query} - TailsX",
+        q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
+        theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
+        type = "image", repo_url = REPO, commit = COMMIT)
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])

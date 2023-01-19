@@ -65,6 +65,25 @@ html {
     margin-bottom: 40px;
 }
 
+.stats {
+    color: #31b06e;
+    max-width: 48em;
+    line-height: 1.25rem;
+    margin-bottom: 1px;
+    font-size: 13px;
+}
+
+.publish__info {
+    color: #7f869e;
+    max-width: 48em;
+    line-height: 1.25rem;
+    font-size: 13px;
+}
+
+.results .video_title {
+    font-size: 16px;
+}
+
 .images img {
     margin: 0px;
     object-fit: cover;
