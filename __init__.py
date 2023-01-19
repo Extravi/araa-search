@@ -255,7 +255,7 @@ def videoResults(query) -> Response:
     creator_text = [div.text.strip() for div in creator]
     
     # retrieve publisher
-    publisher = soup.findAll('div', class_='ellipsis')
+    publisher = soup.findAll('div', class_='publisher center-horizontally')
     publisher_text = [div.text.strip() for div in publisher]
     
     # list
