@@ -84,9 +84,56 @@ html {
     font-size: 16px;
 }
 
+.video__img__results img {
+    width: 254px;
+    height: 143px;
+    object-fit: cover;
+}
+
+.video__img__results {
+    position: relative;
+    left: 175px;
+    max-width: 600px;
+}
+
+.video__results {
+    margin-bottom: 1.5em;
+    display: flex;
+    margin-top: 1px;
+    max-width: 600px;
+}
+
+.video__results .results h3 {
+    margin-left: 14px;
+}
+
+.video__results .results p {
+    margin-left: 14px;
+}
+
+.video__results .results {
+    margin-top: 0px;
+}
+
 .images img {
     margin: 0px;
     object-fit: cover;
+}
+
+.duration {
+    position: absolute;
+    color: #fff;
+    font-size: 11px;
+    padding: .5em;
+    background: rgba(0, 0, 0, .5);
+    right: 0;
+    bottom: 4px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+}
+
+.pipe {
+    font-size: 0.7em;
 }
 
 .wrapper {
@@ -397,8 +444,19 @@ p {
     background-color: inherit;
     font-size: 15px;
     margin-right: 14px;
-    color: #8ab4f8;
+    color: #BABCBE;
     margin-top: 72px;
+    padding-bottom: 10px;
+}
+
+.sub-search-button-wrapper button:hover {
+    border-bottom: 2px solid #8ab4f8;
+    color: #8ab4f8;
+}
+
+.search-active {
+    border-bottom: 2px solid #8ab4f8 !important;
+    color: #8ab4f8 !important;
 }
 
 .sub-search-button-wrapper img {

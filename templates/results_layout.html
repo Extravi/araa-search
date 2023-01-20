@@ -30,8 +30,21 @@
         </div>
     </div>
         <div class="sub-search-button-wrapper">
-            <button name="q" class="clickable"><img src="{{ url_for('static', filename='searchicon.png') }}" alt="text result" />General</button>
-            <button name="t" value="image" class="clickable"><img src="{{ url_for('static', filename='imagesearch.png') }}" alt="images result" />Images</button>
+            {% if type == "text" %}
+            <button name="q" class="clickable search-active">Web</button>
+            {% else %}
+            <button name="q" class="clickable">Web</button>
+            {% endif %}
+            {% if type == "image" %}
+            <button name="t" value="image" class="clickable search-active">Images</button>
+            {% else %}
+            <button name="t" value="image" class="clickable">Images</button>
+            {% endif %}
+            {% if type == "video" %}
+            <button name="t" value="video" class="clickable search-active">Videos</button>
+            {% else %}
+            <button name="t" value="video" class="clickable">Videos</button>
+            {% endif %}
         </div>
         </div>
         <!-- 'defer' makes script execute only after the whole DOM is parsed. -->

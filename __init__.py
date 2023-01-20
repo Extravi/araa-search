@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import time
 import json
 from urllib.parse import quote
+import re
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 
@@ -185,8 +186,8 @@ def img_proxy():
     # Get the URL of the image to proxy
     url = request.args.get("url", "").strip()
 
-    # Only allow proxying image from startpage.com and upload.wikimedia.org
-    if not (url.startswith("https://www.startpage.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/")):
+    # Only allow proxying image from startpage.com, upload.wikimedia.org and imgs.search.brave.com
+    if not (url.startswith("https://www.startpage.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://imgs.search.brave.com")):
         return Response("Error: invalid URL", status=400)
 
     # Choose one user agent at random
@@ -258,10 +259,26 @@ def videoResults(query) -> Response:
     publisher = soup.findAll('div', class_='publisher center-horizontally')
     publisher_text = [div.text.strip() for div in publisher]
     
+    # retrieve images
+    image_divs = soup.findAll("div", {"class": "img-bg"})
+    image_urls = [div.get("style") for div in image_divs]
+
+    # extract URLs from the "style" attribute
+    urls = re.findall(r"https?://[^\s]+", " ".join(image_urls))
+
+    # filter out URLs that match a specific pattern
+    filtered_urls = [url for url in urls if not "cdn.search.brave.com" in url]
+    filtered_urls = [url.replace("'),", "") for url in filtered_urls]
+    filtered_urls = [f"/img_proxy?url={quote(img_src)}" for img_src in filtered_urls]
+    
+    # retrieve time
+    duration = soup.findAll("div", {"class": "duration"})
+    duration = [div.text.strip() for div in duration]
+    
     # list
     results = []
-    for href, title, date, view, creator, publisher in zip(hrefs, title, date_span, views, creator_text, publisher_text):
-        results.append([href, title, date, view, creator, publisher])
+    for href, title, date, view, creator, publisher, image, duration in zip(hrefs, title, date_span, views, creator_text, publisher_text, filtered_urls, duration):
+        results.append([href, title, date, view, creator, publisher, image, duration])
         
     # calc. time spent
     end_time = time.time()
@@ -270,7 +287,7 @@ def videoResults(query) -> Response:
     return render_template("videos.html", results = results, title = f"{query} - TailsX",
         q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
         theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-        type = "image", repo_url = REPO, commit = COMMIT)
+        type = "video", repo_url = REPO, commit = COMMIT)
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
