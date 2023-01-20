@@ -773,6 +773,20 @@ p {
         max-width: 90%;
     }
 
+    .video__img__results img {
+        width: 127px;
+        height: 71.5px;
+    }
+
+    .video__img__results {
+        left: 20px;
+        max-width: 90%;
+    }
+
+    .video__results {
+        max-width: 90%;
+    }
+
     .result_sublink {
         left: 20px;
         max-width: 90%;
