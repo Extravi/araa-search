@@ -248,8 +248,7 @@ def videoResults(query) -> Response:
     date_span = [div.find('span').text.strip() for div in card_divs]
     
     # retrieve views
-    views_divs = soup.findAll('div', class_='stat')
-    views = [div.get('title') for div in views_divs]
+    views = [div.find("div", class_='stat').get("title") if div.find("div", class_='stat') else "Not found" for div in soup.findAll('div', class_='card-footer')]
     
     # retrieve creator
     creator = soup.findAll('div', class_='creator ellipsis')
