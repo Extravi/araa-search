@@ -45,6 +45,11 @@
             {% else %}
             <button name="t" value="video" class="clickable">Videos</button>
             {% endif %}
+            {% if type == "reddit" %}
+            <button name="t" value="reddit" class="clickable search-active">Reddit</button>
+            {% else %}
+            <button name="t" value="reddit" class="clickable">Reddit</button>
+            {% endif %}
         </div>
         </div>
         <!-- 'defer' makes script execute only after the whole DOM is parsed. -->

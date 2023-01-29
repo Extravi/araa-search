@@ -80,9 +80,17 @@ def textResults(query) -> Response:
     start_time = time.time()
 
     api = request.args.get("api", "false")
+    search_type = request.args.get("t", "text")
 
     # search query
-    soup = makeHTMLRequest(f"https://www.google.com/search?q={query}")
+    if search_type == "reddit":
+        site_restriction = "site:reddit.com"
+        query_for_request = f"{query} {site_restriction}"
+        soup = makeHTMLRequest(f"https://www.google.com/search?q={query_for_request}")
+    elif search_type == "text":
+        soup = makeHTMLRequest(f"https://www.google.com/search?q={query}")
+    else:
+        return "Invalid search type"
 
     # retrieve links
     result_divs = soup.findAll("div", {"class": "yuRUbf"})
@@ -134,6 +142,8 @@ def textResults(query) -> Response:
         check = spell.text.strip()
     except:
         check = ""
+    if search_type == "reddit":
+        check = check.replace("site:reddit.com", "").strip()
         
     # get image for kno
     try:
@@ -175,11 +185,15 @@ def textResults(query) -> Response:
         # return the results list as a JSON response
         return jsonify(results)
     else:
+        if search_type == "reddit":
+            type = "reddit"
+        else:
+            type = "text"
         return render_template("results.html", results = results, sublink = sublink, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
             snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", kno_wiki = f"{kno_image}", user_info = f"{info}", check = check,
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-            type = "text", repo_url = REPO, commit = COMMIT)
+            type = type, search_type = search_type, repo_url = REPO, commit = COMMIT)
 
 @app.route("/img_proxy")
 def img_proxy():

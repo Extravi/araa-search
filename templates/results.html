@@ -4,7 +4,7 @@
     <p class="fetched">{{ fetched }}</p>
     {% if check == "" %}
     {% else %}
-        <div class="check"><p>Did you mean: <a href="/search?q={{ check }}&t=text"><h3>{{ check }}</h3></a></p></div>
+        <div class="check"><p>Did you mean: <a href="/search?q={{ check }}&t={{ search_type }}"><h3>{{ check }}</h3></a></p></div>
     {% endif %}
     {% if user_info == "" %}
     {% else %}
