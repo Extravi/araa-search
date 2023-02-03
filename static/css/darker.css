@@ -1,0 +1,27 @@
+:root {
+    --html-bg: #0f0f0f;
+    --font-fg: #f1f3f4;
+    --fg: #BABCBE;
+
+    --search-bg: #0f0f0f;
+    --search-bg-input: #121212;
+    --search-bg-input-border: #303030;
+    --search-select: #272727;
+
+    --border: #303030;
+
+    --link: #8ab4f8;
+    --link-visited: #c58af9;
+
+    --snip-border: #303030;
+    --snip-background: #0f0f0f;
+    --snip-text: #f1f3f4;
+
+    --settings-border: #303030;
+    --button: #272727;
+
+    --footer-bg: #0f0f0f;
+    --footer-font: #BABCBE;
+    
+    color-scheme: dark;
+}
