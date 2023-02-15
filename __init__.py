@@ -201,8 +201,8 @@ def img_proxy():
     url = request.args.get("url", "").strip()
 
     # Only allow proxying image from startpage.com, upload.wikimedia.org and imgs.search.brave.com
-   # if not (url.startswith("https://www.startpage.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://imgs.search.brave.com")):
-    #    return Response("Error: invalid URL", status=400)
+    if not (url.startswith("https://s1.qwant.com/") or url.startswith("https://s2.qwant.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://imgs.search.brave.com")):
+        return Response("Error: invalid URL", status=400)
 
     # Choose one user agent at random
     user_agent = random.choice(user_agents)
