@@ -201,8 +201,8 @@ def img_proxy():
     url = request.args.get("url", "").strip()
 
     # Only allow proxying image from startpage.com, upload.wikimedia.org and imgs.search.brave.com
-    if not (url.startswith("https://www.startpage.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://imgs.search.brave.com")):
-        return Response("Error: invalid URL", status=400)
+   # if not (url.startswith("https://www.startpage.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://imgs.search.brave.com")):
+    #    return Response("Error: invalid URL", status=400)
 
     # Choose one user agent at random
     user_agent = random.choice(user_agents)
@@ -224,12 +224,14 @@ def imageResults(query) -> Response:
     start_time = time.time()
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://www.startpage.com/sp/search?query={query}&cat=images")
+    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={query}&t=images")
 
     # get 'img' ellements
-    ellements = soup.findAll("img", {"class": "css-6a21sa"})
+    ellements = soup.findAll("div", {"class": "images-container"})
     # get source urls
-    image_sources = [f"https://www.startpage.com/{ell['src']}" for ell in ellements]
+    image_sources = [a.find('img')['src'] for a in ellements[0].findAll('a') if a.find('img')]
+    print(image_sources)
+    
     # generate results
     results = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
 
@@ -241,7 +243,7 @@ def imageResults(query) -> Response:
     return render_template("images.html", results = results, title = f"{query} - TailsX",
         q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
         theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-        type = "image", repo_url = REPO, commit = COMMIT)
+        type = "image", repo_url = REPO, commit = COMMIT) 
     
 def videoResults(query) -> Response:
     # remember time we started

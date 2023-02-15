@@ -117,7 +117,9 @@ html {
 
 .images img {
     margin: 0px;
+    height: 12rem;
     object-fit: cover;
+    vertical-align: bottom;
 }
 
 .duration {
