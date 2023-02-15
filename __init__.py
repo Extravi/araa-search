@@ -230,7 +230,6 @@ def imageResults(query) -> Response:
     ellements = soup.findAll("div", {"class": "images-container"})
     # get source urls
     image_sources = [a.find('img')['src'] for a in ellements[0].findAll('a') if a.find('img')]
-    print(image_sources)
     
     # generate results
     results = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
