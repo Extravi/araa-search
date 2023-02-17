@@ -39,7 +39,7 @@ def makeHTMLRequest(url: str) -> Response:
     return BeautifulSoup(html.text, "lxml")
 
 # default theme
-DEFAULT_THEME = 'dark'
+DEFAULT_THEME = 'darker'
 
 @app.route('/settings')
 def settings():
@@ -68,8 +68,9 @@ def suggestions():
 @app.route("/api")
 def api():
     query = request.args.get("q", "").strip()
+    t = request.args.get("t", "text").strip()
     try:
-        response = requests.get(f"http://localhost:{PORT}/search?q={query}&api=true")
+        response = requests.get(f"http://localhost:{PORT}/search?q={query}&t={t}&api=true")
         return json.loads(response.text)
     except Exception as e:
         app.logger.error(e)
@@ -146,15 +147,18 @@ def textResults(query) -> Response:
         check = check.replace("site:reddit.com", "").strip()
         
     # get image for kno
-    try:
-        kno_title = kno_link.split("/")[-1]
-        soup = makeHTMLRequest(f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
-        data = json.loads(soup.text)
-        img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
-        kno_image = [f"/img_proxy?url={img_src}"]
-        kno_image = ''.join(kno_image)
-    except:
+    if kno_link == "":
         kno_image = ""
+    else:
+        try:
+            kno_title = kno_link.split("/")[-1]
+            soup = makeHTMLRequest(f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
+            data = json.loads(soup.text)
+            img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
+            kno_image = [f"/img_proxy?url={img_src}"]
+            kno_image = ''.join(kno_image)
+        except:
+            kno_image = ""
         
     # gets users ip or user agent
     info = ""
@@ -222,6 +226,8 @@ def img_proxy():
 def imageResults(query) -> Response:
     # remember time we started
     start_time = time.time()
+    
+    api = request.args.get("api", "false")
 
     # grab & format webpage
     soup = makeHTMLRequest(f"https://lite.qwant.com/?q={query}&t=images")
@@ -239,14 +245,20 @@ def imageResults(query) -> Response:
     elapsed_time = end_time - start_time
 
     # render
-    return render_template("images.html", results = results, title = f"{query} - TailsX",
-        q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-        theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-        type = "image", repo_url = REPO, commit = COMMIT) 
+    if api == "true":
+        # return the results list as a JSON response
+        return jsonify(results)
+    else:
+        return render_template("images.html", results = results, title = f"{query} - TailsX",
+            q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
+            theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
+            type = "image", repo_url = REPO, commit = COMMIT) 
     
 def videoResults(query) -> Response:
     # remember time we started
     start_time = time.time()
+    
+    api = request.args.get("api", "false")
 
     # grab & format webpage
     soup = makeHTMLRequest(f"https://search.brave.com/videos?q={query}&source=web")
@@ -297,11 +309,15 @@ def videoResults(query) -> Response:
     # calc. time spent
     end_time = time.time()
     elapsed_time = end_time - start_time
-    
-    return render_template("videos.html", results = results, title = f"{query} - TailsX",
-        q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-        theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-        type = "video", repo_url = REPO, commit = COMMIT)
+     
+    if api == "true":
+        # return the results list as a JSON response
+        return jsonify(results)
+    else:
+        return render_template("videos.html", results = results, title = f"{query} - TailsX",
+            q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
+            theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
+            type = "video", repo_url = REPO, commit = COMMIT)
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
