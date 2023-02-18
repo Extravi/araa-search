@@ -7,7 +7,24 @@ import json
 from urllib.parse import quote
 import re
 
+# search highlights
+def highlight_query_words(string, query):
+    query_words = query.lower().split()
+    words = string.split()
+    highlighted = []
+    query_regex = re.compile('|'.join(query_words))
+    highlighted_words = []
+    for word in words:
+        cleaned_word = word.strip(",.'\"").lower()
+        if query_regex.search(cleaned_word) and cleaned_word not in highlighted:
+            highlighted_words.append(f'<span class="highlight">{word}</span>')
+            highlighted.append(cleaned_word)
+        else:
+            highlighted_words.append(word)
+    return ' '.join(highlighted_words)
+
 app = Flask(__name__, static_folder="static", static_url_path="")
+app.jinja_env.filters['highlight_query_words'] = highlight_query_words
 
 PORT = 8000
 
@@ -180,7 +197,7 @@ def textResults(query) -> Response:
     sublink = []
     for sublink_href, sublink_title, sublink_desc in zip(sublinks_hrefs, sublinks_titles, sublinks):
         sublink.append([sublink_href, sublink_title, sublink_desc])
-
+             
     # calc. time spent
     end_time = time.time()
     elapsed_time = end_time - start_time

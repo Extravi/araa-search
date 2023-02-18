@@ -44,6 +44,12 @@
     background: #0078d7;
 }
 
+.highlight {
+    color: #bcc0c3;
+    font-weight: bold;
+    font-style: normal;
+}
+
 body {
     margin: 0;
 }
@@ -294,7 +300,7 @@ h3:hover {
 }
 
 p {
-    color: var(--font-fg);
+    color: var(--fg);
     max-width: 48em;
     line-height: 1.58;
     font-size: 14px;
@@ -574,13 +580,14 @@ p {
     border-bottom: 1px solid var(--border);
     width: 500px;
     background: inherit;
-    color: var(--snip-text);
+    color: var(--fg);
     margin-left: 170px;
     margin-top: 0px;
     position: relative;
-    line-height: 1.25;
-    font-size: 18px;
+    line-height: 1.58;
+    font-size: 16px;
     float: none;
+    max-width: 48em;
 }
 
 .snipp a {

@@ -21,13 +21,13 @@
     {% endif %}
     {% if snip == "" %}
     {% else %}
-        <p class="snipp">{{ snip }} <a target="_blank" href="{{ results[0][0] }}">{{ results[0][0] }}</a></p>
+        <p class="snipp">{{ snip|highlight_query_words(q)|safe }} <a target="_blank" href="{{ results[0][0] }}">{{ results[0][0] }}</a></p>
     {% endif %}
     {% if results %}
     <div class="result_sublink">
         <a id="link" href="{{ results[0][0] }}">{{ results[0][0] }}</a>
         <a href="{{ results[0][0] }}"><h3  href="{{ results[0][0] }}">{{ results[0][1] }}</h3></a>
-        <p>{{ results[0][2] }}</p>
+        <p>{{ results[0][2]|highlight_query_words(q)|safe }}</p>
     </div>
     {% endif %}
     {% if sublink == "" %}
@@ -46,7 +46,7 @@
         <div class="results">
             <a id="link" href="{{ result[0] }}">{{ result[0] }}</a>
             <a href="{{ result[0] }}"><h3  href="{{ result[0] }}">{{ result[1] }}</h3></a>
-            <p>{{ result[2] }}</p>
+            <p>{{ result[2]|highlight_query_words(q)|safe }}</p>
         </div>
         {% endfor %}
     {% else %}
