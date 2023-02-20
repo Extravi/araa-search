@@ -15,7 +15,7 @@ def highlight_query_words(string, query):
     query_regex = re.compile('|'.join(query_words))
     highlighted_words = []
     for word in words:
-        cleaned_word = word.strip(",.'\"").lower()
+        cleaned_word = word.strip().lower()
         if query_regex.search(cleaned_word) and cleaned_word not in highlighted:
             highlighted_words.append(f'<span class="highlight">{word}</span>')
             highlighted.append(cleaned_word)
