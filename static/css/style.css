@@ -50,6 +50,31 @@
     font-style: normal;
 }
 
+.clean {
+    max-width: 775px;
+}
+
+.prev-next {
+    left: 175px;
+    position: relative;
+    max-width: 600px;
+}
+
+.prev-next button:hover {
+    border: 1px solid #5f6368;
+    cursor: pointer;
+}
+
+.prev-next button {
+    color: var(--font-fg);
+    background-color: var(--button);
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 7px 10px 7px 10px;
+    margin: 0px 10px 18px 0px;
+}
+
 body {
     margin: 0;
 }
@@ -658,6 +683,7 @@ p {
 
     .footer a {
         margin-left: 0px;
+        font-size: 14px;
     }
 
     .wrapper {
@@ -778,6 +804,11 @@ p {
     }
 
     .results {
+        left: 20px;
+        max-width: 90%;
+    }
+
+    .prev-next {
         left: 20px;
         max-width: 90%;
     }

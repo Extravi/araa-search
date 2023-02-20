@@ -25,6 +25,7 @@ def highlight_query_words(string, query):
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 app.jinja_env.filters['highlight_query_words'] = highlight_query_words
+app.jinja_env.globals.update(int=int)
 
 PORT = 8000
 
@@ -99,14 +100,15 @@ def textResults(query) -> Response:
 
     api = request.args.get("api", "false")
     search_type = request.args.get("t", "text")
+    p = request.args.get("p", 0)
 
     # search query
     if search_type == "reddit":
         site_restriction = "site:reddit.com"
         query_for_request = f"{query} {site_restriction}"
-        soup = makeHTMLRequest(f"https://www.google.com/search?q={query_for_request}")
+        soup = makeHTMLRequest(f"https://www.google.com/search?q={query_for_request}&start={p}")
     elif search_type == "text":
-        soup = makeHTMLRequest(f"https://www.google.com/search?q={query}")
+        soup = makeHTMLRequest(f"https://www.google.com/search?q={query}&start={p}")
     else:
         return "Invalid search type"
 
@@ -210,7 +212,7 @@ def textResults(query) -> Response:
             type = "reddit"
         else:
             type = "text"
-        return render_template("results.html", results = results, sublink = sublink, title = f"{query} - TailsX",
+        return render_template("results.html", results = results, sublink = sublink, p = p, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
             snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", kno_wiki = f"{kno_image}", user_info = f"{info}", check = check,
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,

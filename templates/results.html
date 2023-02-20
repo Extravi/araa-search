@@ -42,6 +42,7 @@
     </div>
     {% endif %}
     {% if results %}
+    <div class="clean">
         {% for result in results[1:] %}
         <div class="results">
             <a id="link" href="{{ result[0] }}">{{ result[0] }}</a>
@@ -49,6 +50,14 @@
             <p>{{ result[2]|highlight_query_words(q)|safe }}</p>
         </div>
         {% endfor %}
+    </div>
+    <div class="prev-next">
+        {% set p = request.args.get('p', 0)|int %}
+        {% if p >= 10 %}
+            <button form="prev-next-form" name="p" value="{{ p - 10 }}">Previous</button>
+        {% endif %}
+        <button form="prev-next-form" name="p" value="{{ p + 10 }}">Next</button>
+    </div>    
     {% else %}
         <div class="no-results-found">
             Your search '{{ q }}' came back with no results.<br>
