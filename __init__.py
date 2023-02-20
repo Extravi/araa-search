@@ -63,17 +63,20 @@ DEFAULT_THEME = 'darker'
 def settings():
     # default theme if none is set
     theme = request.cookies.get('theme', DEFAULT_THEME)
-    return render_template('settings.html', theme = theme, commit = COMMIT,
+    lang = request.cookies.get('lang')
+    return render_template('settings.html', theme = theme, lang = lang, commit = COMMIT,
         repo_url = REPO)
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
     # get the selected theme from the form
     theme = request.form.get('theme')
+    lang = request.form.get('lang')
 
     # set the theme cookie
     response = make_response(redirect(url_for('settings')))
     response.set_cookie('theme', theme, max_age = 2147483647) # set the cookie to never expire
+    response.set_cookie('lang', lang, max_age=2147483647)
 
     return response
 
@@ -101,14 +104,15 @@ def textResults(query) -> Response:
     api = request.args.get("api", "false")
     search_type = request.args.get("t", "text")
     p = request.args.get("p", 0)
+    lang = request.cookies.get('lang', 'lang_en')
 
     # search query
     if search_type == "reddit":
         site_restriction = "site:reddit.com"
         query_for_request = f"{query} {site_restriction}"
-        soup = makeHTMLRequest(f"https://www.google.com/search?q={query_for_request}&start={p}")
+        soup = makeHTMLRequest(f"https://www.google.com/search?q={query_for_request}&start={p}&lr={lang}")
     elif search_type == "text":
-        soup = makeHTMLRequest(f"https://www.google.com/search?q={query}&start={p}")
+        soup = makeHTMLRequest(f"https://www.google.com/search?q={query}&start={p}&lr={lang}")
     else:
         return "Invalid search type"
 

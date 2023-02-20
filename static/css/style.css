@@ -202,7 +202,8 @@ html {
     border: 1px solid var(--search-bg-input-border);
 }
 
-#theme {
+#theme,
+#lang {
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
@@ -236,7 +237,7 @@ html {
     border: 1px solid var(--border);
     border-radius: 8px;
     max-width: 620px;
-    height: 100px;
+    height: 200px;
     padding: 10px;
     margin-left: 100px;
     margin-top: 40px;
