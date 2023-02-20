@@ -104,7 +104,7 @@ def textResults(query) -> Response:
     api = request.args.get("api", "false")
     search_type = request.args.get("t", "text")
     p = request.args.get("p", 0)
-    lang = request.cookies.get('lang', 'lang_en')
+    lang = request.cookies.get('lang', '')
 
     # search query
     if search_type == "reddit":
