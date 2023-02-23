@@ -75,8 +75,8 @@ def save_settings():
 
     # set the theme cookie
     response = make_response(redirect(url_for('settings')))
-    response.set_cookie('theme', theme, max_age = 2147483647) # set the cookie to never expire
-    response.set_cookie('lang', lang, max_age=2147483647)
+    response.set_cookie('theme', theme, max_age = 2147483647, secure=app.config.get("HTTPS")) # set the cookie to never expire
+    response.set_cookie('lang', lang, max_age=2147483647, secure=app.config.get("HTTPS"))
 
     return response
 
