@@ -20,7 +20,7 @@
 | [tailsx.extravi.dev](https://tailsx.extravi.dev/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| Canada 🇨🇦 |
 
 ## Features
-Here are some of the features that the privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security provides:
+Here are some of the features that TailsX a privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security provides:
 
 * Full API support for easy integration into third-party apps and services
 * Utilizes Qwant for image search, which is known for its strong privacy protections
