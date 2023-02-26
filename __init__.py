@@ -57,7 +57,7 @@ def makeHTMLRequest(url: str) -> Response:
     return BeautifulSoup(html.text, "lxml")
 
 # default theme
-DEFAULT_THEME = 'darker'
+DEFAULT_THEME = 'dark'
 
 @app.route('/settings')
 def settings():
