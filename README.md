@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/Extravi/tailsx/main/static/favicon.png" width="48"/> TailsX
+  <img src="https://raw.githubusercontent.com/Extravi/tailsx/main/static/favicon.png" width="48"/> TailsX 
 </h1>
 
 <p align="center">
@@ -10,6 +10,8 @@
 <p align="center">A privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security that offers full API support and utilizes Qwant for images, Brave Search for videos, and DuckDuckGo for auto-complete.</p>
 
 <br>
+
+[![Counter](https://visitor-badge.laobi.icu/badge?page_id=Extravi.tailsx)](https://github.com/Extravi/tailsx)
 
 ### Instances
 
