@@ -22,7 +22,7 @@
 ### Contributors
 ![Contributors](https://contrib.rocks/image?repo=Extravi/tailsx)
 
-### Features
+## Features
 Here are some of the features that TailsX a privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security provides:
 
 * Full API support for easy integration into third-party apps and services
@@ -33,7 +33,10 @@ Here are some of the features that TailsX a privacy-respecting, ad-free, self-ho
 * Strong security measures implemented, including SSL encryption and firewalls
 * Ad-free search results, with no tracking or data collection for advertising purposes
 
-### Screenshots
+## Screenshots
 <img src="https://user-images.githubusercontent.com/98912029/221388549-83f0a8bd-5a21-45d3-8fd4-6ea6adc16f5a.png" width="600">
 <img src="https://user-images.githubusercontent.com/98912029/221388596-85db703a-b736-4f87-9247-005aeacfb972.png" width="600">
 <img src="https://user-images.githubusercontent.com/98912029/221388608-da1a58fd-38c6-4fd0-a46b-b8284488fa27.png" width="600">
+
+## Contact
+Email: extravi@duck.com
