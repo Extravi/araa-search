@@ -342,6 +342,22 @@ def videoResults(query) -> Response:
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
             type = "video", repo_url = REPO, commit = COMMIT)
 
+# Search engine bangs for ppl who want to use another engine through TailsX's
+# search bar.
+# NOTE: Bangs are case insensitive!
+# NOTE: The first brackets, "{}", is where the query will be put in the final URL.
+# TODO: Bangs will ONLY redirect to TEXT results (type is dropped); maybe change this?
+SEARCH_BANGS = [
+    {'bang': 'g',     'url': 'https://www.google.com/search?q={}'},
+    {'bang': 'ddg',   'url': 'https://duckduckgo.com/?q={}'},
+    {'bang': 'brave', 'url': 'https://search.brave.com/search?q={}'},
+    {'bang': 'bing',  'url': 'https://www.bing.com/search?q={}'},
+]
+
+# The char used to denote bangs (see above constant).
+# EG BANG='!': "!ddg cats" will search "cats" on DuckDuckGo.
+BANG = '!'
+
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
@@ -351,6 +367,15 @@ def search():
         if query == "":
             return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME),
                 DEFAULT_THEME=DEFAULT_THEME, repo_url = REPO, commit = COMMIT)
+
+        # Check if the query has a bang.
+        if query.startswith(BANG):
+            for SEARCH_BANG in SEARCH_BANGS:
+                # Check for a match.
+                if query[len(BANG):].lower().startswith(SEARCH_BANG['bang']):
+                    # Match found, redirect (removing bang from query).
+                    query = query.lower().removeprefix(BANG + SEARCH_BANG['bang']).lstrip()
+                    return app.redirect(SEARCH_BANG['url'].format(query))
 
         # type of search (text, image, etc.)
         type = request.args.get("t", "text")
