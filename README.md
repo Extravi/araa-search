@@ -19,6 +19,9 @@
 |-|-|-|
 | [tailsx.extravi.dev](https://tailsx.extravi.dev/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| Canada 🇨🇦 |
 
+### Contributors
+![Contributors](https://contrib.rocks/image?repo=Extravi/tailsx)
+
 ## Features
 Here are some of the features that TailsX a privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security provides:
 
