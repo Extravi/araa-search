@@ -12,6 +12,8 @@
 <br>
 
 [![Counter](https://visitor-badge.laobi.icu/badge?page_id=Extravi.tailsx)](https://github.com/Extravi/tailsx)
+[![License](https://img.shields.io/github/license/Extravi/tailsx)](https://github.com/Extravi/tailsx/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/Extravi/tailsx?style=social)](https://github.com/Extravi/tailsx/stargazers)
 
 ### Instances
 
