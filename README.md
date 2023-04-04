@@ -17,6 +17,7 @@
 
 | Clearnet | SSL | Country |
 |-|-|-|
+| [tailsx.com](https://tailsx.com/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 |
 | [tailsx.extravi.dev](https://tailsx.extravi.dev/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| Canada 🇨🇦 |
 
 ### Contributors
