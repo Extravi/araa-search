@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify, Response, make_response, redirect, url_for
+from flask import Flask, request, render_template, jsonify, Response, make_response, redirect, url_for, Markup, escape
 import requests
 import random
 from bs4 import BeautifulSoup
@@ -17,11 +17,11 @@ def highlight_query_words(string, query):
     for word in words:
         cleaned_word = word.strip().lower()
         if query_regex.search(cleaned_word) and cleaned_word not in highlighted:
-            highlighted_words.append(f'<span class="highlight">{word}</span>')
+            highlighted_words.append(Markup(f'<span class="highlight">{escape(word)}</span>'))
             highlighted.append(cleaned_word)
         else:
-            highlighted_words.append(word)
-    return ' '.join(highlighted_words)
+            highlighted_words.append(escape(word))
+    return Markup(' '.join(highlighted_words))
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 app.jinja_env.filters['highlight_query_words'] = highlight_query_words
