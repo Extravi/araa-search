@@ -15,10 +15,10 @@
 
 ### Instances
 
-| Clearnet | SSL | Country |
-|-|-|-|
-| [tailsx.com](https://tailsx.com/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 |
-| [tailsx.extravi.dev](https://tailsx.extravi.dev/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| Canada 🇨🇦 |
+| Clearnet | Tor | SSL | Country |
+|-|-|-|-|
+| [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 |
+| [tailsx.extravi.dev](https://tailsx.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| Canada 🇨🇦 |
 
 ### Contributors
 ![Contributors](https://contrib.rocks/image?repo=Extravi/tailsx)
