@@ -301,16 +301,17 @@ def videoResults(query) -> Response:
     views = [div.find("div", class_='stat').get("title") if div.find("div", class_='stat') else "Not found" for div in soup.findAll('div', class_='card-footer')]
     
     # retrieve creator
-    creator = soup.findAll('div', class_='creator ellipsis')
+    creator = soup.findAll('div', class_='creator ellipsis svelte-gzavkh')
     creator_text = [div.text.strip() for div in creator]
     
     # retrieve publisher
-    publisher = soup.findAll('div', class_='publisher center-horizontally')
+    publisher = soup.findAll('div', class_='publisher center-horizontally svelte-gzavkh')
     publisher_text = [div.text.strip() for div in publisher]
     
     # retrieve images
-    image_divs = soup.findAll("div", {"class": "img-bg"})
-    image_urls = [div.get("style") for div in image_divs]
+    image_divs = soup.findAll("div", {"class": "card-image svelte-gzavkh"})
+    image_urls = [div.find("img", {"class": "svelte-gzavkh"}) for div in image_divs]
+    image_urls = [div.get("src") for div in image_urls]
 
     # extract URLs from the "style" attribute
     urls = re.findall(r"https?://[^\s]+", " ".join(image_urls))
