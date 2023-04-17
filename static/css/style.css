@@ -484,11 +484,12 @@ p {
 .sub-search-button-wrapper button {
     border: none;
     background-color: inherit;
-    font-size: 15px;
+    font-size: 14px;
     margin-right: 14px;
     color: #BABCBE;
     margin-top: 72px;
     padding-bottom: 11px;
+    max-width: 48em;
 }
 
 .sub-search-button-wrapper button:hover {
@@ -571,27 +572,38 @@ p {
 }
 
 .snip {
-    padding: 10px;
+    padding: 17px;
     border: 1px solid var(--snip-border);
     width: 440px;
     border-radius: 8px;
     background: var(--snip-background);
-    color: var(--snip-text);
+    color: var(--fg);
     margin-left: 840px;
     margin-top: 0px;
     position: absolute;
-    font-size: 17px;
-    line-height: 1.25;
+    max-width: 48em;
+    line-height: 1.58;
+    font-size: 14px;
     letter-spacing: normal;
 }
 
+.snip_title {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #bcc0c3;
+    font-weight: bold;
+    font-style: normal;
+    max-width: 48em;
+    line-height: 1.58;
+    font-size: 22px;
+}
+
 .snip img {
-    display: flex;
-    max-width: 60%;
-    max-height: 200px;
+    float: right;
+    max-width: 30%;
+    max-height: 150px;
     padding-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 10px;
 }
 
 .snip a {
@@ -659,6 +671,14 @@ p {
 
     .snip,
     .no-results-found {
+        margin-left: 780px;
+    }
+}
+
+@media only screen and (max-width: 1220px) {
+
+    .snip,
+    .no-results-found {
         position: relative;
         float: none;
         margin-left: 170px;
@@ -671,9 +691,32 @@ p {
     .no-results-found {
         position: relative;
         float: none;
-        max-width: 90%;
+        max-width: 86%;
         margin-left: 10px;
         width: auto;
+        font-size: 13px;
+    }
+
+    .results h3,
+    .result_sublink h3 {
+        font-size: 16px;
+    }
+
+    #link,
+    #link:hover,
+    #link:visited {
+        font-size: 13px;
+    }
+
+    .sub-search-button-wrapper {
+        height: 77px;
+    }
+
+    .snip a {
+        font-size: 13px;
+    }
+
+    .snip_title {
         font-size: 16px;
     }
 
@@ -724,12 +767,12 @@ p {
         margin-right: auto;
         display: block;
         margin-top: 0px;
-        top: 56px;
+        top: 50px;
         left: 18px;
     }
 
     .wrapper-results input {
-        padding: 10px;
+        padding: 9px;
         max-width: 92%;
     }
 
@@ -748,7 +791,7 @@ p {
     }
 
     p {
-        font-size: 14px;
+        font-size: 13px;
         line-height: normal;
     }
 
@@ -782,7 +825,7 @@ p {
         margin-left: auto;
         margin-right: auto;
         padding: 10px;
-        font-size: 28px;
+        font-size: 26px;
         display: block;
         margin-top: 0px;
         top: 0px;
@@ -808,7 +851,8 @@ p {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 60px;
+        font-size: 14px;
+        margin-top: 46px;
         padding-bottom: 5px;
     }
 
@@ -844,8 +888,8 @@ p {
     .fetched {
         left: 20px;
         max-width: 90%;
-        font-size: 16px;
-        margin-top: 180px;
+        font-size: 13px;
+        margin-top: 140px;
     }
 
     .search-container h1 {

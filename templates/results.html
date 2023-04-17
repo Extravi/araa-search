@@ -12,12 +12,14 @@
     {% endif %}
     {% if kno_rdesc == "" %}
     {% else %}
-        <p class="snip">
-            {% if kno_wiki == "" %}
-            {% else %}
-            <img src="{{ kno_wiki }}"/>
-            {% endif %}
-            {{ kno_rdesc }}<a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a></p>
+    <div class="snip">
+        <h1 class="snip_title">{{ rkno_title }}</h1>
+        {% if kno_wiki == "" %}
+        {% else %}
+        <img src="{{ kno_wiki }}"/>
+        {% endif %}
+        {{ kno_rdesc }}<a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a>
+    </div>    
     {% endif %}
     {% if snip == "" %}
     {% else %}
