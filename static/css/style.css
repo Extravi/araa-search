@@ -210,7 +210,8 @@ html {
 }
 
 #theme,
-#lang {
+#lang,
+#safe {
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
@@ -244,7 +245,7 @@ html {
     border: 1px solid var(--border);
     border-radius: 8px;
     max-width: 620px;
-    height: 200px;
+    height: 300px;
     padding: 10px;
     margin-left: 100px;
     margin-top: 40px;

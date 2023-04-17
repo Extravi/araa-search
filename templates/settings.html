@@ -63,6 +63,11 @@
             <option value="lang_uk" {% if lang == 'lang_uk' %}selected{% endif %}>українська (Ukrainian)</option>
             <option value="lang_vi" {% if lang == 'lang_vi' %}selected{% endif %}>Tiếng Việt (Vietnamese)</option>
         </select>
+        <p>SafeSearch</p>
+        <select id="safe" name="safe">
+            <option value="active" {% if safe == 'active' %}selected{% endif %}>SafeSearch on</option>
+            <option value="" {% if safe == '' %}selected{% endif %}>SafeSearch off</option>
+        </select>
     </form>
     </div>
 {% endblock %}
