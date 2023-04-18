@@ -85,6 +85,10 @@ html {
     font-size: 16px;
 }
 
+#info_font {
+    font-size: 15px;
+}
+
 .images {
     display: flex;
     flex-wrap: wrap;

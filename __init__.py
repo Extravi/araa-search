@@ -218,14 +218,16 @@ def textResults(query) -> Response:
         
     # gets users ip or user agent
     info = ""
-    if "what is my ip" in query.lower() or "what is my ip address" in query.lower():
+    if "what is my ip" in query.lower() or "what is my ip address" in query.lower() or "what's my ip" in query.lower() or "whats my ip" in query.lower():
         xff = request.headers.get("X-Forwarded-For")
         if xff:
             ip = xff.split(",")[-1].strip()
         else:
             ip = request.remote_addr or "unknown"
+        if ip == "127.0.0.1":
+            ip = f"Your IP address is unavailable."
         info = ip
-    elif "what is my user agent" in query.lower() or "what is my useragent" in query.lower():
+    elif "what is my user agent" in query.lower() or "what is my useragent" in query.lower() or "what's my useragent" in query.lower() or "what's my user agent" in query.lower():
         user_agent = request.headers.get("User-Agent") or "unknown"
         info = user_agent
 
