@@ -153,13 +153,38 @@ def textResults(query) -> Response:
         kno = span_element.text
         desc_link = rdesc.find("a")
         kno_link = desc_link.get("href")
+    except:
+        kno = ""
+        kno_link = ""
+
+    # retrieve kno-title
+    try:
         rtitle = soup.find("div", {"class": "SPZz6b"})
         rtitle_span = rtitle.find("span")
         rkno_title = rtitle_span.text.strip()
     except:
-        kno = ""
-        kno_link = ""
         rkno_title = ""
+
+    if rkno_title == "" or rkno_title == "See results about":
+        try:
+            rtitle = soup.find("div", {"class": "DoxwDb"})
+            rkno_title = rtitle.text.strip() 
+        except:
+            rkno_title = ""
+
+    if rkno_title == "" or rkno_title == "See results about":
+        try:
+            rtitle = soup.find("span", {"class": "yKMVIe"})
+            rkno_title = rtitle.text.strip() 
+        except:
+            rkno_title = ""
+
+    if rkno_title == "" or rkno_title == "See results about":
+        try:
+            rtitle = soup.find("div", {"class": "DoxwDb"})
+            rkno_title = rtitle.text.strip() 
+        except:
+            rkno_title = ""
         
     # retrieve featured snippet
     try:
