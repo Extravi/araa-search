@@ -153,14 +153,29 @@ def textResults(query) -> Response:
         kno = span_element.text
         desc_link = rdesc.find("a")
         kno_link = desc_link.get("href")
-        rtitle = soup.find("div", {"class": "SPZz6b"})
-        rtitle_span = rtitle.find("span")
-        rkno_title = rtitle_span.text.strip()
     except:
         kno = ""
         kno_link = ""
-        rkno_title = ""
         
+    # retrieve kno-title
+    try: # look for the title inside of a span in div.SPZz6b
+        rtitle = soup.find("div", {"class": "SPZz6b"})
+        rt_span = rtitle.find("span")
+        rkno_title = rt_span.text.strip()
+        # if we didn't find anyhing useful, move to next tests
+        if rkno_title in ["", "See results about"]:
+            raise
+    except:
+        for ellement, class_name in zip(["div", "span", "div"], ["DoxwDb", "yKMVIe", "DoxwDb"]):
+            try:
+                rtitle = soup.find(ellement, {"class": class_name})
+                rkno_title = rtitle.text.strip()
+            except: continue # couldn't scrape anything. continue if we can.
+            else:
+                if rkno_title not in ["", "See results about"]: break # we got one
+        else:
+            rkno_title = ""
+
     # retrieve featured snippet
     try:
         featured_snip = soup.find("span", {"class": "hgKElc"})
