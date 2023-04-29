@@ -6,6 +6,7 @@ import time
 import json
 from urllib.parse import quote
 import re
+from _config import *
 
 # search highlights
 def highlight_query_words(string, query):
@@ -27,21 +28,6 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 app.jinja_env.filters['highlight_query_words'] = highlight_query_words
 app.jinja_env.globals.update(int=int)
 
-PORT = 8000
-
-# Useragents to use in the request.
-user_agents = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15",
-]
-
-with open('./REPOSITORY') as f:
-    REPO = f.readline()
-    f.close()
 with open('./.git/refs/heads/main') as f:
     COMMIT = f.readline()
     f.close()
@@ -55,9 +41,6 @@ def makeHTMLRequest(url: str) -> Response:
 
     # Return the HTML in an easy to parse object
     return BeautifulSoup(html.text, "lxml")
-
-# default theme
-DEFAULT_THEME = 'dark'
 
 @app.route('/settings')
 def settings():
@@ -366,22 +349,6 @@ def videoResults(query) -> Response:
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
             type = "video", repo_url = REPO, commit = COMMIT)
 
-# Search engine bangs for ppl who want to use another engine through TailsX's
-# search bar.
-# NOTE: Bangs are case insensitive!
-# NOTE: The first brackets, "{}", is where the query will be put in the final URL.
-# TODO: Bangs will ONLY redirect to TEXT results (type is dropped); maybe change this?
-SEARCH_BANGS = [
-    {'bang': 'g',     'url': 'https://www.google.com/search?q={}'},
-    {'bang': 'ddg',   'url': 'https://duckduckgo.com/?q={}'},
-    {'bang': 'brave', 'url': 'https://search.brave.com/search?q={}'},
-    {'bang': 'bing',  'url': 'https://www.bing.com/search?q={}'},
-]
-
-# The char used to denote bangs (see above constant).
-# EG BANG='!': "!ddg cats" will search "cats" on DuckDuckGo.
-BANG = '!'
-
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
@@ -415,6 +382,4 @@ def search():
                 return textResults(query)
 
 if __name__ == "__main__":
-    # WARN: run() is not intended to be used in a production setting!
-    # see https://flask.palletsprojects.com/en/2.2.x/deploying/ for more info
     app.run(threaded=True, port=PORT)
