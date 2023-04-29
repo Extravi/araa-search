@@ -156,36 +156,26 @@ def textResults(query) -> Response:
     except:
         kno = ""
         kno_link = ""
-
-    # retrieve kno-title
-    try:
-        rtitle = soup.find("div", {"class": "SPZz6b"})
-        rtitle_span = rtitle.find("span")
-        rkno_title = rtitle_span.text.strip()
-    except:
-        rkno_title = ""
-
-    if rkno_title == "" or rkno_title == "See results about":
-        try:
-            rtitle = soup.find("div", {"class": "DoxwDb"})
-            rkno_title = rtitle.text.strip() 
-        except:
-            rkno_title = ""
-
-    if rkno_title == "" or rkno_title == "See results about":
-        try:
-            rtitle = soup.find("span", {"class": "yKMVIe"})
-            rkno_title = rtitle.text.strip() 
-        except:
-            rkno_title = ""
-
-    if rkno_title == "" or rkno_title == "See results about":
-        try:
-            rtitle = soup.find("div", {"class": "DoxwDb"})
-            rkno_title = rtitle.text.strip() 
-        except:
-            rkno_title = ""
         
+    # retrieve kno-title
+    try: # look for the title inside of a span in div.SPZz6b
+        rtitle = soup.find("div", {"class": "SPZz6b"})
+        rt_span = rtitle.find("span")
+        rkno_title = rt_span.text.strip()
+        # if we didn't find anyhing useful, move to next tests
+        if rkno_title in ["", "See results about"]:
+            raise
+    except:
+        for ellement, class_name in zip(["div", "span", "div"], ["DoxwDb", "yKMVIe", "DoxwDb"]):
+            try:
+                rtitle = soup.find(ellement, {"class": class_name})
+                rkno_title = rtitle.text.strip()
+            except: continue # couldn't scrape anything. continue if we can.
+            else:
+                if rkno_title not in ["", "See results about"]: break # we got one
+        else:
+            rkno_title = ""
+
     # retrieve featured snippet
     try:
         featured_snip = soup.find("span", {"class": "hgKElc"})
@@ -218,16 +208,14 @@ def textResults(query) -> Response:
         
     # gets users ip or user agent
     info = ""
-    if "what is my ip" in query.lower() or "what is my ip address" in query.lower() or "what's my ip" in query.lower() or "whats my ip" in query.lower():
+    if query.lower() in ["what is my ip", "what is my ip address", "what's my ip", "whats my ip"]:
         xff = request.headers.get("X-Forwarded-For")
         if xff:
             ip = xff.split(",")[-1].strip()
         else:
             ip = request.remote_addr or "unknown"
-        if ip == "127.0.0.1":
-            ip = f"Your IP address is unavailable."
         info = ip
-    elif "what is my user agent" in query.lower() or "what is my useragent" in query.lower() or "what's my useragent" in query.lower() or "what's my user agent" in query.lower():
+    elif query.lower() in ["what is my user agent", "what is my useragent", "what's my useragent", "what's my user agent"]:
         user_agent = request.headers.get("User-Agent") or "unknown"
         info = user_agent
 
