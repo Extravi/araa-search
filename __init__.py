@@ -191,14 +191,14 @@ def textResults(query) -> Response:
         
     # gets users ip or user agent
     info = ""
-    if query.lower() in ["what is my ip", "what is my ip address", "what's my ip", "whats my ip"]:
+    if any(query.lower().find(valid_ip_prompt) != -1 for valid_ip_prompt in VALID_IP_PROMPTS):
         xff = request.headers.get("X-Forwarded-For")
         if xff:
             ip = xff.split(",")[-1].strip()
         else:
             ip = request.remote_addr or "unknown"
         info = ip
-    elif query.lower() in ["what is my user agent", "what is my useragent", "what's my useragent", "what's my user agent"]:
+    elif any(query.lower().find(valid_ua_prompt) != -1 for valid_ua_prompt in VALID_UA_PROMPTS):
         user_agent = request.headers.get("User-Agent") or "unknown"
         info = user_agent
 
