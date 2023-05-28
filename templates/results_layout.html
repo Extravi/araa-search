@@ -7,6 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
+    <meta name="description" content="A privacy-respecting, ad-free, self-hosted metasearch engine.">
+    <meta content="{{ title }}" property="og:title">
+    <meta content="A privacy-respecting, ad-free, self-hosted metasearch engine." property="og:description">
+    <meta content="/" property="og:url">
+    <meta content="#5885F4" data-react-helmet="true" name="theme-color">
     {% if request.cookies.theme %}
         <link rel="stylesheet" href="./css/{{ request.cookies.theme }}.css">
     {% else %}
