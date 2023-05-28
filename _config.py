@@ -18,7 +18,7 @@ SEARCH_BANGS = [
 REPO='https://github.com/Extravi/tailsx'
 
 # Default theme
-DEFAULT_THEME = 'dark'
+DEFAULT_THEME = 'dark_blur'
 
 # The port for this server to listen on
 PORT = 8000
