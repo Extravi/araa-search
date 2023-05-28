@@ -356,8 +356,12 @@ def search():
         # get the `q` query parameter from the URL
         query = request.args.get("q", "").strip()
         if query == "":
+            if request.cookies.get('theme', DEFAULT_THEME) == 'dark_blur':
+                css_style = "dark_blur_beta.css"
+            else:
+                css_style = None
             return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME),
-                DEFAULT_THEME=DEFAULT_THEME, repo_url = REPO, commit = COMMIT)
+                DEFAULT_THEME=DEFAULT_THEME, css_style=css_style, repo_url = REPO, commit = COMMIT)
 
         # Check if the query has a bang.
         if query.startswith(BANG):
