@@ -125,9 +125,11 @@ document.addEventListener('click', (event) => {
 // skip them and put a warning in the console.
 const font = new FontFace('Material Icons Round', 'url("/fonts/material-icons-round-v108-latin-regular.woff2") format("woff2")');
 font.load().then(() => {
-  document.querySelectorAll('#search-wrapper-ico, #sub-search-wrapper-ico').forEach((el) => {
-    // Show the icon if the font is successfully loaded
+  document.querySelector("#search-wrapper-ico").style.visibility = 'visible';
+  document.querySelectorAll('#sub-search-wrapper-ico').forEach((el) => {
+    // Show the icon if the font successfully loaded.
     el.style.visibility = 'visible';
+    el.style.fontSize = '17px';
   });
 }).catch(() => {
   console.warn('Failed to load Material Icons Round. Hiding any icons using said pack.');
