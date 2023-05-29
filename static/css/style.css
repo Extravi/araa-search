@@ -34,10 +34,56 @@
     /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
+/* material-icons-round-regular - latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Material Icons Round';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/material-icons-round-v108-latin-regular.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 .highlight {
     color: #bcc0c3;
     font-weight: bold;
     font-style: normal;
+}
+
+.material-icons-round {
+    font-family: 'Material Icons Round';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -moz-font-feature-settings: 'liga';
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#search-wrapper-ico {
+    background: none;
+    border: none;
+    color: #8ab4f8;
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#sub-search-wrapper-ico {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
+    padding-right: 0px;
+    margin-right: 0px;
 }
 
 .clean {
@@ -310,12 +356,14 @@ button {
 }
 
 .search-container input {
-    width: 95%;
+    width: 90%;
     color: var(--font-fg);
     background-color: var(--search-bg-input);
     font-size: inherit;
     font-family: sans-serif;
     border: none;
+    margin-right: 100%;
+    margin-left: 3px;
 }
 
 h3 {
@@ -412,12 +460,14 @@ p {
 }
 
 .results-search-container input {
-    width: 95%;
+    width: 90%;
     color: var(--font-fg);
     background-color: var(--search-bg-input);
     font-size: inherit;
     font-family: sans-serif;
     border: none;
+    margin-right: 100%;
+    margin-left: 3px;
 }
 
 .results {
@@ -487,13 +537,20 @@ p {
 }
 
 .sub-search-button-wrapper button:hover {
-    border-bottom: 2px solid #8ab4f8;
     color: #8ab4f8;
 }
 
 .search-active {
-    border-bottom: 2px solid #8ab4f8 !important;
     color: #8ab4f8 !important;
+}
+
+.search-container-results-btn {
+    display: flex;
+    color: #8ab4f8;
+}
+
+.search-container-results-btn:hover button {
+    color: #8ab4f8;
 }
 
 .sub-search-button-wrapper img {
@@ -506,6 +563,7 @@ p {
     margin-left: 175px;
     margin-bottom: 6px;
     height: 98px;
+    display: flex;
 }
 
 :root {
@@ -728,8 +786,9 @@ p {
     }
 
     .footer a {
-        margin-left: 0px;
+        margin-left: -13px;
         font-size: 14px;
+        padding-right: 0px;
     }
 
     .wrapper {
@@ -808,7 +867,9 @@ p {
     }
 
     .results-search-container input {
-        width: 100%;
+        width: 84%;
+        margin-right: 100%;
+        margin-left: 3px;
     }
 
     .logomobile {
@@ -826,8 +887,15 @@ p {
         left: 0px;
     }
 
+    .mobile-none {
+        display: none;
+    }
+
     .sub-search-button-wrapper {
-        margin: 0;
+        margin-right: 0;
+        margin-left: 24px;
+        margin-top: 0;
+        margin-bottom: 0;
         padding: 0;
         display: flex;
         align-items: baseline;
@@ -839,8 +907,7 @@ p {
     }
 
     .sub-search-button-wrapper button {
-        margin-left: 30px;
-        margin-right: 4px;
+        margin-right: 14px;
         padding: 0;
         display: flex;
         flex-direction: column;
@@ -897,7 +964,9 @@ p {
     }
 
     .search-container input {
-        width: 100%;
+        width: 84%;
+        margin-right: 100%;
+        margin-left: 3px;
     }
 
     .search-button-wrapper button {
