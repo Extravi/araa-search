@@ -1,4 +1,4 @@
-# The char used to denote bangs (see above constant).
+# The char used to denote bangs (see below constant).
 # EG BANG='!': "!ddg cats" will search "cats" on DuckDuckGo.
 BANG = '!'
 
