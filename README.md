@@ -20,7 +20,6 @@ If you're looking to [install](https://github.com/Extravi/tailsx-docs) TailsX, h
 | Clearnet | Tor | SSL | Country |
 |-|-|-|-|
 | [nl.extravi.dev](https://nl.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=nl.extravi.dev)✅| Netherlands 🇳🇱 |
-| [sg.extravi.dev](https://sg.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=sg.extravi.dev)✅| Singapore 🇸🇬 |
 | [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 |
 
 ### Contributors
