@@ -13,6 +13,8 @@
 [![License](https://img.shields.io/github/license/Extravi/tailsx)](https://github.com/Extravi/tailsx/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/Extravi/tailsx?style=social)](https://github.com/Extravi/tailsx/stargazers)
 
+If you're looking to [install](https://github.com/Extravi/tailsx-docs) TailsX, here is a how-to guide for it.
+
 ### Instances
 
 | Clearnet | Tor | SSL | Country |
