@@ -75,15 +75,17 @@
     top: 6px;
     right: 10px;
     cursor: pointer;
+    visibility: hidden; /* will be set to visible if icon pack can be loaded. */
 }
 
 #sub-search-wrapper-ico {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 17px;
+    font-size: 0px;
     padding-right: 0px;
     margin-right: 0px;
+    visibility: hidden; /* will be set to visible if icon pack can be loaded. */
 }
 
 .clean {
