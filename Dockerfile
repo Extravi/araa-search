@@ -27,4 +27,4 @@ EXPOSE ${PORT}
 
 # Read the gunicorn docs on how exactly to use it,
 # or change the server if need be.
-CMD [ "gunicorn", "-w", "4", "-t", "1", "__init__:app" ]
+CMD [ "gunicorn", "--workers", "4", "--threads", "1", "__init__:app" ]
