@@ -10,7 +10,7 @@ if [ $DOMAIN ]; then
   <InputEncoding>UTF-8</InputEncoding>
   <Language>en-us</Language>
 </OpenSearchDescription>" > ./static/opensearch.xml;
-    rm static/opensearch.xml.example
+    rm static/opensearch.xml.example;
 else
     echo "Make a DOMAIN env. variable & set it to your domain!
     (Ex; DOMAIN=https://www.yourdomain.com)";
