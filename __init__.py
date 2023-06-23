@@ -59,10 +59,12 @@ def save_settings():
     safe = request.form.get('safe')
 
     # set the theme cookie
-    response = make_response(redirect(url_for('settings')))
-    response.set_cookie('theme', theme, max_age = 2147483647, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
-    response.set_cookie('lang', lang, max_age=2147483647, httponly=True, secure=app.config.get("HTTPS"))
-    response.set_cookie('safe', safe, max_age=2147483647, httponly=True, secure=app.config.get("HTTPS"))
+    response = make_response(redirect(request.referrer))
+    response.set_cookie('safe', safe, max_age=2147483647, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
+    if theme is not None:
+        response.set_cookie('theme', theme, max_age=2147483647, httponly=True, secure=app.config.get("HTTPS"))
+    if lang is not None:
+        response.set_cookie('lang', lang, max_age=2147483647, httponly=True, secure=app.config.get("HTTPS"))
 
     return response
 
@@ -226,7 +228,7 @@ def textResults(query) -> Response:
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
             snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", kno_wiki = f"{kno_image}", rkno_title = f"{rkno_title}", user_info = f"{info}", check = check,
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-            type = type, search_type = search_type, repo_url = REPO, commit = COMMIT)
+            type = type, search_type = search_type, repo_url = REPO, lang = lang, safe = safe, commit = COMMIT)
 
 @app.route("/img_proxy")
 def img_proxy():

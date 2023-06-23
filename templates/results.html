@@ -1,6 +1,61 @@
 {% extends "results_layout.html" %}
 
 {% block body %}
+    <form class="results_settings" action="/save-settings" method="post">
+        <select class="results-settings" name="safe">
+            <option value="active" {% if safe == 'active' %}selected{% endif %}>SafeSearch on</option>
+            <option value="" {% if safe == '' %}selected{% endif %}>SafeSearch off</option>
+        </select>
+        <select class="results-settings" name="lang">
+            <option value="lang_en" {% if lang == 'lang_en' %}selected{% endif %}>English</option>
+            <option value="lang_af" {% if lang == 'lang_af' %}selected{% endif %}>Afrikaans</option>
+            <option value="lang_ar" {% if lang == 'lang_ar' %}selected{% endif %}>العربية (Arabic)</option>
+            <option value="lang_hy" {% if lang == 'lang_hy' %}selected{% endif %}>Հայերեն (Armenian)</option>
+            <option value="lang_be" {% if lang == 'lang_be' %}selected{% endif %}>Беларуская (Belarusian)</option>
+            <option value="lang_bg" {% if lang == 'lang_bg' %}selected{% endif %}>български (Bulgarian)</option>
+            <option value="lang_ca" {% if lang == 'lang_ca' %}selected{% endif %}>Català (Catalan)</option>
+            <option value="lang_zh-CN" {% if lang == 'lang_zh-CN' %}selected{% endif %}>中文 (简体) (Chinese Simplified)</option>
+            <option value="lang_zh-TW" {% if lang == 'lang_zh-TW' %}selected{% endif %}>中文 (繁體) (Chinese Traditional)</option>
+            <option value="lang_hr" {% if lang == 'lang_hr' %}selected{% endif %}>Hrvatski (Croatian)</option>
+            <option value="lang_cs" {% if lang == 'lang_cs' %}selected{% endif %}>Čeština (Czech)</option>
+            <option value="lang_da" {% if lang == 'lang_da' %}selected{% endif %}>Dansk (Danish)</option>
+            <option value="lang_nl" {% if lang == 'lang_nl' %}selected{% endif %}>Nederlands (Dutch)</option>
+            <option value="lang_eo" {% if lang == 'lang_eo' %}selected{% endif %}>Esperanto</option>
+            <option value="lang_et" {% if lang == 'lang_et' %}selected{% endif %}>Eesti (Estonian)</option>
+            <option value="lang_tl" {% if lang == 'lang_tl' %}selected{% endif %}>Filipino (Tagalog)</option>
+            <option value="lang_fi" {% if lang == 'lang_fi' %}selected{% endif %}>Suomi (Finnish)</option>
+            <option value="lang_fr" {% if lang == 'lang_fr' %}selected{% endif %}>Français (French)</option>
+            <option value="lang_de" {% if lang == 'lang_de' %}selected{% endif %}>Deutsch (German)</option>
+            <option value="lang_el" {% if lang == 'lang_el' %}selected{% endif %}>Ελληνικά (Greek)</option>
+            <option value="lang_iw" {% if lang == 'lang_iw' %}selected{% endif %}>עברית (Hebrew)</option>
+            <option value="lang_hi" {% if lang == 'lang_hi' %}selected{% endif %}>हिन्दी (Hindi)</option>
+            <option value="lang_hu" {% if lang == 'lang_hu' %}selected{% endif %}>magyar (Hungarian)</option>
+            <option value="lang_is" {% if lang == 'lang_is' %}selected{% endif %}>íslenska (Icelandic)</option>
+            <option value="lang_id" {% if lang == 'lang_id' %}selected{% endif %}>Bahasa Indonesia (Indonesian)</option>
+            <option value="lang_it" {% if lang == 'lang_it' %}selected{% endif %}>italiano (Italian)</option>
+            <option value="lang_ja" {% if lang == 'lang_ja' %}selected{% endif %}>日本語 (Japanese)</option>
+            <option value="lang_ko" {% if lang == 'lang_ko' %}selected{% endif %}>한국어 (Korean)</option>
+            <option value="lang_lv" {% if lang == 'lang_lv' %}selected{% endif %}>latviešu (Latvian)</option>
+            <option value="lang_lt" {% if lang == 'lang_lt' %}selected{% endif %}>lietuvių (Lithuanian)</option>
+            <option value="lang_no" {% if lang == 'lang_no' %}selected{% endif %}>norsk (Norwegian)</option>
+            <option value="lang_fa" {% if lang == 'lang_fa' %}selected{% endif %}>فارسی (Persian)</option>
+            <option value="lang_pl" {% if lang == 'lang_pl' %}selected{% endif %}>polski (Polish)</option>
+            <option value="lang_pt" {% if lang == 'lang_pt' %}selected{% endif %}>português (Portuguese)</option>
+            <option value="lang_ro" {% if lang == 'lang_ro' %}selected{% endif %}>română (Romanian)</option>
+            <option value="lang_ru" {% if lang == 'lang_ru' %}selected{% endif %}>русский (Russian)</option>
+            <option value="lang_sr" {% if lang == 'lang_sr' %}selected{% endif %}>српски (Serbian)</option>
+            <option value="lang_sk" {% if lang == 'lang_sk' %}selected{% endif %}>slovenčina (Slovak)</option>
+            <option value="lang_sl" {% if lang == 'lang_sl' %}selected{% endif %}>slovenščina (Slovenian)</option>
+            <option value="lang_es" {% if lang == 'lang_es' %}selected{% endif %}>español (Spanish)</option>
+            <option value="lang_sw" {% if lang == 'lang_sw' %}selected{% endif %}>Kiswahili (Swahili)</option>
+            <option value="lang_sv" {% if lang == 'lang_sv' %}selected{% endif %}>svenska (Swedish)</option>
+            <option value="lang_th" {% if lang == 'lang_th' %}selected{% endif %}>ไทย (Thai)</option>
+            <option value="lang_tr" {% if lang == 'lang_tr' %}selected{% endif %}>Türkçe (Turkish)</option>
+            <option value="lang_uk" {% if lang == 'lang_uk' %}selected{% endif %}>українська (Ukrainian)</option>
+            <option value="lang_vi" {% if lang == 'lang_vi' %}selected{% endif %}>Tiếng Việt (Vietnamese)</option>
+        </select>
+        <button class="save results-save" type="submit">Apply settings</button>
+    </form>
     <p class="fetched">{{ fetched }}</p>
     {% if check == "" %}
     {% else %}

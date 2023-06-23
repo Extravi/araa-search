@@ -75,7 +75,8 @@
     top: 6px;
     right: 10px;
     cursor: pointer;
-    visibility: hidden; /* will be set to visible if icon pack can be loaded. */
+    visibility: hidden;
+    /* will be set to visible if icon pack can be loaded. */
 }
 
 #sub-search-wrapper-ico {
@@ -85,7 +86,12 @@
     font-size: 0px;
     padding-right: 0px;
     margin-right: 0px;
-    visibility: hidden; /* will be set to visible if icon pack can be loaded. */
+    visibility: hidden;
+    /* will be set to visible if icon pack can be loaded. */
+}
+
+.fetched_dif {
+    margin-top: 110px !important;
 }
 
 .clean {
@@ -291,6 +297,74 @@ html {
     padding: 10px;
     margin-left: 100px;
     margin-top: 40px;
+}
+
+.results_settings {
+    color: var(--fg);
+    left: 175px;
+    position: relative;
+    font-size: 15px;
+    margin-bottom: 10px;
+    max-width: 580px;
+    margin-top: 110px;
+    display: flex;
+}
+
+.results-settings {
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid var(--snip-border);
+    color: var(--font-fg);
+    background: var(--html-bg);
+    cursor: pointer;
+}
+
+.results-save {
+    font-size: 14px;
+    background: var(--html-bg);
+    border: 1px solid var(--snip-border);
+}
+
+select.results-settings {
+    width: 120px;
+    margin-right: 10px;
+}
+
+.settings-results-link {
+    position: absolute;
+    color: var(--fg);
+    text-decoration: none;
+}
+
+.settings-search-div {
+    position: absolute;
+    right: 90px;
+    top: 30px;
+    font-size: 14px;
+    display: flex;
+}
+
+.settings-icon-link {
+    font-size: 20px;
+}
+
+.settings-search-div:hover p {
+    color: #8ab4f8;
+}
+
+.settings-search-div:hover a {
+    color: #8ab4f8;
+}
+
+.settings-results-link,
+.settings-icon-link {
+    color: var(--fg);
+    text-decoration: none;
+}
+
+.settings-results-link {
+    margin-left: 24px;
 }
 
 .wrapper-results input {
@@ -576,10 +650,10 @@ p {
     color: var(--fg);
     left: 175px;
     position: relative;
-    font-size: 15px;
+    font-size: 14px;
     margin-bottom: 10px;
     max-width: 580px;
-    margin-top: 126px;
+    margin-top: -2px;
 }
 
 .results a:visited h3,
@@ -952,7 +1026,26 @@ p {
         left: 20px;
         max-width: 90%;
         font-size: 13px;
+        margin-top: -2px;
+    }
+
+    .results_settings {
+        left: 20px;
+        font-size: 13px;
         margin-top: 140px;
+        max-width: 340px;
+    }
+
+    select.results-settings {
+        width: 110px;
+    }
+
+    #search-wrapper-ico {
+        top: 5px;
+    }
+
+    .settings-search-div {
+        display: none;
     }
 
     .search-container h1 {

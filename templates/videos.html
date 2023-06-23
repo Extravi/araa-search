@@ -1,7 +1,7 @@
 {% extends "results_layout.html" %}
 
 {% block body %}
-    <p class="fetched">{{ fetched }}</p>
+    <p class="fetched fetched_dif">{{ fetched }}</p>
     {% if results %}
         {% for result in results %}
         <a href="{{ result[0] }}"><div class="video__results">
