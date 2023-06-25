@@ -2,6 +2,7 @@
 
 {% block body %}
     <form class="results_settings" action="/save-settings" method="post">
+        <input type="hidden" name="past" value="{{ current_url }}"></input>
         <select class="results-settings" name="safe">
             <option value="active" {% if safe == 'active' %}selected{% endif %}>SafeSearch on</option>
             <option value="" {% if safe == '' %}selected{% endif %}>SafeSearch off</option>

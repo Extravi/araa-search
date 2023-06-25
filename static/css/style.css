@@ -310,6 +310,10 @@ html {
     display: flex;
 }
 
+.results_settings button[type="hidden"] {
+  display: none;
+}
+
 .results-settings {
     border-radius: 4px;
     padding: 6px;
@@ -327,7 +331,7 @@ html {
 }
 
 select.results-settings {
-    width: 120px;
+    width: fit-content;
     margin-right: 10px;
 }
 
