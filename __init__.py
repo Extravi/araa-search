@@ -4,7 +4,7 @@ import random
 from bs4 import BeautifulSoup
 import time
 import json
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 import re
 from _config import *
 
@@ -60,11 +60,11 @@ def save_settings():
 
     # set the theme cookie
     response = make_response(redirect(request.referrer))
-    response.set_cookie('safe', safe, max_age=2147483647, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
+    response.set_cookie('safe', safe, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
     if theme is not None:
-        response.set_cookie('theme', theme, max_age=2147483647, httponly=True, secure=app.config.get("HTTPS"))
+        response.set_cookie('theme', theme, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if lang is not None:
-        response.set_cookie('lang', lang, max_age=2147483647, httponly=True, secure=app.config.get("HTTPS"))
+        response.set_cookie('lang', lang, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
 
     return response
 
@@ -141,9 +141,9 @@ def textResults(query) -> Response:
     except:
         kno = ""
         kno_link = ""
-        
+
     # retrieve kno-title
-    try: # look for the title inside of a span in div.SPZz6b
+    try:  # look for the title inside of a span in div.SPZz6b
         rtitle = soup.find("div", {"class": "SPZz6b"})
         rt_span = rtitle.find("span")
         rkno_title = rt_span.text.strip()
@@ -155,9 +155,11 @@ def textResults(query) -> Response:
             try:
                 rtitle = soup.find(ellement, {"class": class_name})
                 rkno_title = rtitle.text.strip()
-            except: continue # couldn't scrape anything. continue if we can.
+            except: 
+                continue  # couldn't scrape anything. continue if we can.
             else:
-                if rkno_title not in ["", "See results about"]: break # we got one
+                if rkno_title not in ["", "See results about"]: 
+                    break  # we got one
         else:
             rkno_title = ""
 
@@ -207,7 +209,7 @@ def textResults(query) -> Response:
     # list
     results = []
     for href, title, desc in zip(hrefs, titles, descriptions):
-        results.append([href, title, desc])
+        results.append([unquote(href), title, desc])
     sublink = []
     for sublink_href, sublink_title, sublink_desc in zip(sublinks_hrefs, sublinks_titles, sublinks):
         sublink.append([sublink_href, sublink_title, sublink_desc])
@@ -226,7 +228,7 @@ def textResults(query) -> Response:
             type = "text"
         return render_template("results.html", results = results, sublink = sublink, p = p, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{kno_link}", kno_wiki = f"{kno_image}", rkno_title = f"{rkno_title}", user_info = f"{info}", check = check,
+            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{unquote(kno_link)}", kno_wiki = f"{kno_image}", rkno_title = f"{rkno_title}", user_info = f"{info}", check = check,
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
             type = type, search_type = search_type, repo_url = REPO, lang = lang, safe = safe, commit = COMMIT)
 
