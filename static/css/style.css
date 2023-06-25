@@ -310,10 +310,6 @@ html {
     display: flex;
 }
 
-.results_settings button[type="hidden"] {
-  display: none;
-}
-
 .results-settings {
     border-radius: 4px;
     padding: 6px;
