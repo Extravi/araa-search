@@ -47,40 +47,40 @@
             </div>                  
             {% else %}
             <div class="search-container-results-btn">
-                <a id="sub-search-wrapper-ico" class="material-icons-round clickable">search</a>
+                <a id="sub-search-wrapper-ico" href="/search?q={{ q }}&t=text" class="material-icons-round clickable">search</a>
                 <a href="/search?q={{ q }}&t=text" class="clickable">Web</a>
             </div>      
             {% endif %}
             {% if type == "image" %}
             <div class="search-container-results-btn">
-                <a id="sub-search-wrapper-ico" class="material-icons-round clickable search-active">image</a>
+                <a id="sub-search-wrapper-ico" href="/search?q={{ q }}&t=image" class="material-icons-round clickable search-active">image</a>
                 <a href="/search?q={{ q }}&t=image" class="clickable search-active">Image</a>
             </div>
             {% else %}
             <div class="search-container-results-btn">
-                <a id="sub-search-wrapper-ico" class="material-icons-round clickable">image</a>
+                <a id="sub-search-wrapper-ico" href="/search?q={{ q }}&t=image" class="material-icons-round clickable">image</a>
                 <a href="/search?q={{ q }}&t=image" class="clickable">Image</a>
             </div>
             {% endif %}
             {% if type == "video" %}
             <div class="search-container-results-btn">
-                <a id="sub-search-wrapper-ico" class="material-icons-round clickable search-active">movie</a>
+                <a id="sub-search-wrapper-ico" href="/search?q={{ q }}&t=video" class="material-icons-round clickable search-active">movie</a>
                 <a href="/search?q={{ q }}&t=video" class="clickable search-active">Video</a>
             </div>
             {% else %}
             <div class="search-container-results-btn">
-                <a id="sub-search-wrapper-ico" class="material-icons-round clickable">movie</a>
+                <a id="sub-search-wrapper-ico" href="/search?q={{ q }}&t=video" class="material-icons-round clickable">movie</a>
                 <a href="/search?q={{ q }}&t=video" class="clickable">Video</a>
             </div>
             {% endif %}
             {% if type == "reddit" %}
             <div class="search-container-results-btn">
-                <a id="sub-search-wrapper-ico" class="material-icons-round clickable search-active">reddit</a>
+                <a id="sub-search-wrapper-ico" href="/search?q={{ q }}&t=reddit" class="material-icons-round clickable search-active">reddit</a>
                 <a href="/search?q={{ q }}&t=reddit" class="clickable search-active">Reddit</a>
             </div>
             {% else %}
             <div class="search-container-results-btn">
-                <a id="sub-search-wrapper-ico" class="material-icons-round clickable">reddit</a>
+                <a id="sub-search-wrapper-ico" href="/search?q={{ q }}&t=reddit" class="material-icons-round clickable">reddit</a>
                 <a href="/search?q={{ q }}&t=reddit" class="clickable">Reddit</a>
             </div>
             {% endif %}
