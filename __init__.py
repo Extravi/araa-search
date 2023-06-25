@@ -49,7 +49,7 @@ def settings():
     lang = request.cookies.get('lang')
     safe = request.cookies.get('safe')
     return render_template('settings.html', theme = theme, lang = lang, safe = safe, commit = COMMIT,
-        repo_url = REPO)
+        repo_url = REPO, current_url = request.url)
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
