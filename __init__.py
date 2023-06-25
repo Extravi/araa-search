@@ -28,9 +28,8 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 app.jinja_env.filters['highlight_query_words'] = highlight_query_words
 app.jinja_env.globals.update(int=int)
 
-with open('./.git/refs/heads/main') as f:
+with open(f'./.git/refs/heads/{ BRANCH_NAME }') as f:
     COMMIT = f.readline()
-    f.close()
 
 def makeHTMLRequest(url: str) -> Response:
     # Choose a user-agent at random
