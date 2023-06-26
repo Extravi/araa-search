@@ -49,7 +49,7 @@ def settings():
     lang = request.cookies.get('lang')
     safe = request.cookies.get('safe')
     return render_template('settings.html', theme = theme, lang = lang, safe = safe, commit = COMMIT,
-        repo_url = REPO)
+        repo_url = REPO, current_url = request.url)
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
@@ -57,6 +57,7 @@ def save_settings():
     theme = request.form.get('theme')
     lang = request.form.get('lang')
     safe = request.form.get('safe')
+    past_location = request.form.get('past')
 
     # set the theme cookie
     response = make_response(redirect(request.referrer))
@@ -65,6 +66,7 @@ def save_settings():
         response.set_cookie('theme', theme, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if lang is not None:
         response.set_cookie('lang', lang, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
+    response.headers["Location"] = past_location
 
     return response
 
@@ -218,6 +220,8 @@ def textResults(query) -> Response:
     end_time = time.time()
     elapsed_time = end_time - start_time
 
+    current_url = request.url
+
     if api == "true":
         # return the results list as a JSON response
         return jsonify(results)
@@ -228,7 +232,7 @@ def textResults(query) -> Response:
             type = "text"
         return render_template("results.html", results = results, sublink = sublink, p = p, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{unquote(kno_link)}", kno_wiki = f"{kno_image}", rkno_title = f"{rkno_title}", user_info = f"{info}", check = check,
+            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{unquote(kno_link)}", kno_wiki = f"{kno_image}", rkno_title = f"{rkno_title}", user_info = f"{info}", check = check, current_url = current_url,
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
             type = type, search_type = search_type, repo_url = REPO, lang = lang, safe = safe, commit = COMMIT)
 
