@@ -570,12 +570,12 @@ p {
     word-wrap: break-word;
 }
 
-.search-button-wrapper a:hover {
+.search-button-wrapper a:hover, .search-button-wrapper button:hover{
     border: 1px solid #5f6368;
     cursor: pointer;
 }
 
-.search-button-wrapper a {
+.search-button-wrapper a, .search-button-wrapper button {
     color: var(--font-fg);
     background-color: var(--button);
     font-size: 14px;
@@ -601,7 +601,7 @@ p {
     left: 38px;
 }
 
-.sub-search-button-wrapper a {
+.sub-search-button-wrapper a, .sub-search-button-wrapper button {
     text-decoration: none;
     font-size: 14px;
     margin-right: 14px;
@@ -611,7 +611,7 @@ p {
     max-width: 48em;
 }
 
-.sub-search-button-wrapper a:hover {
+.sub-search-button-wrapper a:hover, .sub-search-button-wrapper button {
     color: var(--link);
 }
 
