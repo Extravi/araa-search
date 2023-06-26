@@ -612,7 +612,7 @@ p {
 }
 
 .sub-search-button-wrapper a:not(.material-icons-round) {
-    font-family: "DejaVu Sans";
+    font-family: sans-serif;
 }
 
 .sub-search-button-wrapper a:hover, .sub-search-button-wrapper button {
