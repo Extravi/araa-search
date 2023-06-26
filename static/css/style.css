@@ -607,8 +607,12 @@ p {
     margin-right: 14px;
     color: var(--fg);
     margin-top: 72px;
-    padding-bottom: 11px;
+    padding: 1px 4px 11px 4px;
     max-width: 48em;
+}
+
+.sub-search-button-wrapper a:not(.material-icons-round) {
+    font-family: "DejaVu Sans";
 }
 
 .sub-search-button-wrapper a:hover, .sub-search-button-wrapper button {
