@@ -327,7 +327,7 @@ html {
 }
 
 select.results-settings {
-    width: fit-content;
+    width: 120px;
     margin-right: 10px;
 }
 
