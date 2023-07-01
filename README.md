@@ -3,8 +3,8 @@
 </h1>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/98912029/221388504-82ade77c-5a53-44f8-8d80-d437cdd27b9a.png" width="400">
-  <img src="https://user-images.githubusercontent.com/98912029/221388519-2adfb7e3-48e0-4a48-b113-3d1cbceeb914.png" width="400">
+  <img src="https://user-images.githubusercontent.com/98912029/248430859-5ccec485-41d9-4513-969d-c87c29dc9b62.png" width="400">
+  <img src="https://user-images.githubusercontent.com/98912029/248430894-3c636692-4826-438a-8bf0-5b12978cb9a3.png" width="400">
 </p>
 
 <p align="center">A privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security that offers full API support and utilizes Qwant for images, Brave Search for videos, and DuckDuckGo for auto-complete.</p>

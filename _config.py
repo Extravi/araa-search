@@ -48,3 +48,5 @@ VALID_UA_PROMPTS = [
     "what's my useragent",
     "what's my user agent",
 ]
+
+COOKIE_AGE = 2147483647
