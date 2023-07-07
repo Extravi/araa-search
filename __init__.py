@@ -371,10 +371,12 @@ def videoResults(query) -> Response:
         # return the results list as a JSON response
         return jsonify(results)
     else:
-        return render_template("videos.html", results = results, title = f"{query} - TailsX",
-            q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-            type = "video", repo_url = REPO, commit = COMMIT)
+        return render_template("videos.html",
+                               results=results, title=f"{query} - TailsX",
+                               q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
+                               theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
+                               new_tab=request.cookies.get("new_tab"), type="video", repo_url=REPO, commit=COMMIT
+                               )
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
