@@ -69,6 +69,11 @@
             <option value="active" {% if safe == 'active' %}selected{% endif %}>SafeSearch on</option>
             <option value="" {% if safe == '' %}selected{% endif %}>SafeSearch off</option>
         </select>
+        <p>Open links in a new tab</p>
+        <select id="open-new-tab" name="new_tab">
+            <option value="active" {% if new_tab == 'active' %}selected{% endif %}>New Tab On</option>
+            <option value="" {% if new_tab == '' %}selected{% endif %}>New Tab Off</option>
+        </select>
         <button class="save save-settings-page" type="submit">Save your settings</button>
     </form>
     </div>

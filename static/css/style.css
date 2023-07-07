@@ -259,7 +259,8 @@ html {
 
 #theme,
 #lang,
-#safe {
+#safe,
+#open-new-tab{
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
@@ -297,10 +298,14 @@ html {
     border: 1px solid var(--border);
     border-radius: 8px;
     max-width: 620px;
-    height: 300px;
+    height: fit-content;
     padding: 10px;
     margin-left: 100px;
     margin-top: 40px;
+}
+
+.open-in-new-tab * {
+    display: inline-block;;
 }
 
 .results_settings {
