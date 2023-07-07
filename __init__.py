@@ -6,6 +6,7 @@ import time
 import json
 from urllib.parse import quote, unquote
 import re
+from os.path import exists
 from _config import *
 
 # search highlights
@@ -28,9 +29,12 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 app.jinja_env.filters['highlight_query_words'] = highlight_query_words
 app.jinja_env.globals.update(int=int)
 
-with open('./.git/refs/heads/main') as f:
-    COMMIT = f.readline()
-    f.close()
+if exists("./.git/refs/heads/main"):
+    with open('./.git/refs/heads/main') as f:
+        COMMIT = f.readline()
+        f.close()
+else:
+    COMMIT = "Not in main branch"
 
 def makeHTMLRequest(url: str) -> Response:
     # Choose a user-agent at random

@@ -15,7 +15,6 @@
             <option value="night" {% if theme == 'night' %}selected{% endif %}>Night</option>
             <option value="classic" {% if theme == 'classic' %}selected{% endif %}>Classic</option>
         </select>
-        <button class="save" type="submit">Save your settings</button>
         <p>Preferred language for your search results</p>
         <select id="lang" name="lang">
             <option value="lang_en" {% if lang == 'lang_en' %}selected{% endif %}>English</option>
@@ -70,6 +69,7 @@
             <option value="active" {% if safe == 'active' %}selected{% endif %}>SafeSearch on</option>
             <option value="" {% if safe == '' %}selected{% endif %}>SafeSearch off</option>
         </select>
+        <button class="save save-settings-page" type="submit">Save your settings</button>
     </form>
     </div>
 {% endblock %}

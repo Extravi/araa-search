@@ -280,6 +280,10 @@ html {
     cursor: pointer;
 }
 
+.save-settings-page {
+    margin-top: 15px;
+}
+
 .settings-nav {
     max-width: 100%;
     height: 90px;
