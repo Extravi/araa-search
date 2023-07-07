@@ -83,8 +83,8 @@
     {% endif %}
     {% if results %}
     <div class="result_sublink">
-        <a id="link" href="{{ results[0][0] }}">{{ results[0][0] }}</a>
-        <a href="{{ results[0][0] }}"><h3  href="{{ results[0][0] }}">{{ results[0][1] }}</h3></a>
+      <a id="link" {% if new_tab == "active" %} target="_blank" {% endif %} href="{{ results[0][0] }}">{{ results[0][0] }}</a>
+        <a {% if new_tab == "active"  %} target="_blank" {% endif %} href="{{ results[0][0] }}"><h3>{{ results[0][1] }}</h3></a>
         <p>{{ results[0][2]|highlight_query_words(q) }}</p>
     </div>
     {% endif %}
@@ -93,7 +93,7 @@
     <div class="results">
     {% for result in sublink %}
     <div class="sublinks">
-        <a href="{{ result[0] }}"><h3  href="{{ result[0] }}">{{ result[1] }}</h3></a>
+        <a href="{{ result[0] }}" {% if new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result[1] }}</h3></a>
         <p>{{ result[2] }}</p>
     </div>
     {% endfor %}
@@ -103,8 +103,8 @@
     <div class="clean">
         {% for result in results[1:] %}
         <div class="results">
-            <a id="link" href="{{ result[0] }}">{{ result[0] }}</a>
-            <a href="{{ result[0] }}"><h3  href="{{ result[0] }}">{{ result[1] }}</h3></a>
+            <a id="link" href="{{ result[0] }}" {% if new_tab == "active"  %} target="_blank" {% endif %}>{{ result[0] }}</a>
+            <a href="{{ result[0] }}" {% if new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result[1] }}</h3></a>
             <p>{{ result[2]|highlight_query_words(q) }}</p>
         </div>
         {% endfor %}

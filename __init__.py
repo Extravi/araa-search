@@ -6,6 +6,7 @@ import time
 import json
 from urllib.parse import quote, unquote
 import re
+from os.path import exists
 from _config import *
 
 # search highlights
@@ -28,9 +29,12 @@ app = Flask(__name__, static_folder="static", static_url_path="")
 app.jinja_env.filters['highlight_query_words'] = highlight_query_words
 app.jinja_env.globals.update(int=int)
 
-with open('./.git/refs/heads/main') as f:
-    COMMIT = f.readline()
-    f.close()
+if exists("./.git/refs/heads/main"):
+    with open('./.git/refs/heads/main') as f:
+        COMMIT = f.readline()
+        f.close()
+else:
+    COMMIT = "Not in main branch"
 
 def makeHTMLRequest(url: str) -> Response:
     # Choose a user-agent at random
@@ -48,8 +52,16 @@ def settings():
     theme = request.cookies.get('theme', DEFAULT_THEME)
     lang = request.cookies.get('lang')
     safe = request.cookies.get('safe')
-    return render_template('settings.html', theme = theme, lang = lang, safe = safe, commit = COMMIT,
-        repo_url = REPO, current_url = request.url)
+    new_tab = request.cookies.get('new_tab')
+    return render_template('settings.html',
+                           theme=theme,
+                           lang=lang,
+                           safe=safe,
+                           new_tab=new_tab,
+                           commit=COMMIT,
+                           repo_url=REPO,
+                           current_url=request.url
+                           )
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
@@ -57,6 +69,7 @@ def save_settings():
     theme = request.form.get('theme')
     lang = request.form.get('lang')
     safe = request.form.get('safe')
+    new_tab = request.form.get('new_tab')
     past_location = request.form.get('past')
 
     # set the theme cookie
@@ -66,6 +79,8 @@ def save_settings():
         response.set_cookie('theme', theme, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if lang is not None:
         response.set_cookie('lang', lang, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
+    if new_tab is not None:
+        response.set_cookie('new_tab', new_tab, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     response.headers["Location"] = past_location
 
     return response
@@ -180,7 +195,7 @@ def textResults(query) -> Response:
         check = ""
     if search_type == "reddit":
         check = check.replace("site:reddit.com", "").strip()
-        
+
     # get image for kno
     if kno_link == "":
         kno_image = ""
@@ -194,7 +209,7 @@ def textResults(query) -> Response:
             kno_image = ''.join(kno_image)
         except:
             kno_image = ""
-        
+
     # gets users ip or user agent
     info = ""
     if any(query.lower().find(valid_ip_prompt) != -1 for valid_ip_prompt in VALID_IP_PROMPTS):
@@ -215,7 +230,7 @@ def textResults(query) -> Response:
     sublink = []
     for sublink_href, sublink_title, sublink_desc in zip(sublinks_hrefs, sublinks_titles, sublinks):
         sublink.append([sublink_href, sublink_title, sublink_desc])
-             
+
     # calc. time spent
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -230,11 +245,15 @@ def textResults(query) -> Response:
             type = "reddit"
         else:
             type = "text"
-        return render_template("results.html", results = results, sublink = sublink, p = p, title = f"{query} - TailsX",
-            q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            snip = f"{snip}", kno_rdesc = f"{kno}", rdesc_link = f"{unquote(kno_link)}", kno_wiki = f"{kno_image}", rkno_title = f"{rkno_title}", user_info = f"{info}", check = check, current_url = current_url,
-            theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-            type = type, search_type = search_type, repo_url = REPO, lang = lang, safe = safe, commit = COMMIT)
+        return render_template("results.html",
+                               results=results, sublink=sublink, p=p, title=f"{query} - TailsX",
+                               q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
+                               snip=f"{snip}", kno_rdesc=f"{kno}", rdesc_link = f"{unquote(kno_link)}",
+                               kno_wiki=f"{kno_image}", rkno_title=f"{rkno_title}", user_info=f"{info}",
+                               check=check, current_url=current_url, theme=request.cookies.get('theme', DEFAULT_THEME),
+                               new_tab=request.cookies.get("new_tab"), DEFAULT_THEME=DEFAULT_THEME, type=type,
+                               search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=COMMIT
+                               )
 
 @app.route("/img_proxy")
 def img_proxy():
@@ -352,10 +371,12 @@ def videoResults(query) -> Response:
         # return the results list as a JSON response
         return jsonify(results)
     else:
-        return render_template("videos.html", results = results, title = f"{query} - TailsX",
-            q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
-            theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-            type = "video", repo_url = REPO, commit = COMMIT)
+        return render_template("videos.html",
+                               results=results, title=f"{query} - TailsX",
+                               q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
+                               theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
+                               new_tab=request.cookies.get("new_tab"), type="video", repo_url=REPO, commit=COMMIT
+                               )
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
