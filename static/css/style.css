@@ -260,7 +260,7 @@ html {
 #theme,
 #lang,
 #safe,
-#open-new-tab{
+#open-new-tab {
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
@@ -281,10 +281,6 @@ html {
     cursor: pointer;
 }
 
-.save-settings-page {
-    margin-top: 15px;
-}
-
 .settings-nav {
     max-width: 100%;
     height: 90px;
@@ -298,14 +294,14 @@ html {
     border: 1px solid var(--border);
     border-radius: 8px;
     max-width: 620px;
-    height: fit-content;
+    height: 370px;
     padding: 10px;
     margin-left: 100px;
     margin-top: 40px;
 }
 
 .open-in-new-tab * {
-    display: inline-block;;
+    display: inline-block;
 }
 
 .results_settings {
