@@ -261,7 +261,7 @@ def img_proxy():
     url = request.args.get("url", "").strip()
 
     # Only allow proxying image from startpage.com, upload.wikimedia.org and imgs.search.brave.com
-    if not (url.startswith("https://s1.qwant.com/") or url.startswith("https://s2.qwant.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://imgs.search.brave.com")):
+    if not (url.startswith("https://s1.qwant.com/") or url.startswith("https://s2.qwant.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://yt.revvy.de")):
         return Response("Error: invalid URL", status=400)
 
     # Choose one user agent at random
@@ -317,50 +317,43 @@ def videoResults(query) -> Response:
     api = request.args.get("api", "false")
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://search.brave.com/videos?q={query}&source=web")
+    soup = makeHTMLRequest(f"https://yt.revvy.de/api/v1/search?q={query}")
+    data = json.loads(soup.text)
+
+    # sort by videos only
+    videos = [item for item in data if item.get("type") == "video"]
     
     # retrieve links
-    card_divs = soup.findAll("div", {"class": "card"})
-    links = [div.find("a") for div in card_divs]
-    hrefs = [link.get("href") for link in links]
+    ytIds = [video["videoId"] for video in videos]
+    hrefs = [f"https://yt.revvy.de/watch?v={ytId}" for ytId in ytIds]
     
     # retrieve title
-    title = [div.find("div", {"class": "title"}).text.strip() for div in card_divs]
+    title = [title["title"] for title in videos]
     
     # retrieve date
-    date_span = [div.find('span').text.strip() for div in card_divs]
+    date_span = [date["publishedText"] for date in videos]
     
     # retrieve views
-    views = [div.find("div", class_='stat').get("title") if div.find("div", class_='stat') else "Not found" for div in soup.findAll('div', class_='card-footer')]
+    views = [views["viewCountText"] for views in videos]
     
     # retrieve creator
-    creator = soup.findAll('div', class_='creator ellipsis svelte-gzavkh')
-    creator_text = [div.text.strip() for div in creator]
+    creator_text = [creator_text["author"] for creator_text in videos]
     
     # retrieve publisher
-    publisher = soup.findAll('div', class_='publisher center-horizontally svelte-gzavkh')
-    publisher_text = [div.text.strip() for div in publisher]
+    publisher_text = [f"YouTube" for creator in videos]
     
     # retrieve images
-    image_divs = soup.findAll("div", {"class": "card-image svelte-gzavkh"})
-    image_urls = [div.find("img", {"class": "svelte-gzavkh"}) for div in image_divs]
-    image_urls = [div.get("src") for div in image_urls]
-
-    # extract URLs from the "style" attribute
-    urls = re.findall(r"https?://[^\s]+", " ".join(image_urls))
-
-    # filter out URLs that match a specific pattern
-    filtered_urls = [url for url in urls if not "cdn.search.brave.com" in url]
-    filtered_urls = [url.replace("'),", "") for url in filtered_urls]
-    filtered_urls = [f"/img_proxy?url={quote(img_src)}" for img_src in filtered_urls]
+    video_thumbnails = [item['videoThumbnails'] for item in data if item.get('type') == 'video']
+    maxres_thumbnails = [thumbnail for thumbnails in video_thumbnails for thumbnail in thumbnails if thumbnail['quality'] == 'maxresdefault']
+    filtered_urls = ['/img_proxy?url=' + thumbnail['url'].replace(":3000", "").replace("http://", "https://") for thumbnail in maxres_thumbnails]
     
     # retrieve time
-    duration = soup.findAll("div", {"class": "duration"})
-    duration = [div.text.strip() for div in duration]
+    duration = [duration["lengthSeconds"] for duration in videos]
+    formatted_durations = [f"{duration // 60:02d}:{duration % 60:02d}" for duration in duration]
     
     # list
     results = []
-    for href, title, date, view, creator, publisher, image, duration in zip(hrefs, title, date_span, views, creator_text, publisher_text, filtered_urls, duration):
+    for href, title, date, view, creator, publisher, image, duration in zip(hrefs, title, date_span, views, creator_text, publisher_text, filtered_urls, formatted_durations):
         results.append([href, title, date, view, creator, publisher, image, duration])
         
     # calc. time spent
