@@ -18,6 +18,7 @@
         <button class="save save-settings-page" type="submit">Save your settings</button>
         <p>Preferred language for your search results</p>
         <select id="lang" name="lang">
+            <option value="" {% if lang == '' %}selected{% endif %}>Any Language</option>
             <option value="lang_en" {% if lang == 'lang_en' %}selected{% endif %}>English</option>
             <option value="lang_af" {% if lang == 'lang_af' %}selected{% endif %}>Afrikaans</option>
             <option value="lang_ar" {% if lang == 'lang_ar' %}selected{% endif %}>العربية (Arabic)</option>
@@ -65,6 +66,19 @@
             <option value="lang_uk" {% if lang == 'lang_uk' %}selected{% endif %}>українська (Ukrainian)</option>
             <option value="lang_vi" {% if lang == 'lang_vi' %}selected{% endif %}>Tiếng Việt (Vietnamese)</option>
         </select>
+        <p>Google domain</p>
+        <select id="domain" name="domain">
+            <option value="google.com/search?gl=us" {% if domain == 'google.com/search?gl=us' %}selected{% endif %}>google.com</option>
+            <option value="google.fr/search?gl=fr" {% if domain == 'google.fr/search?gl=fr' %}selected{% endif %}>google.fr</option>
+            <option value="google.ca/search?gl=ca" {% if domain == 'google.ca/search?gl=ca' %}selected{% endif %}>google.ca</option>
+            <option value="google.co.uk/search?gl=uk" {% if domain == 'google.co.uk/search?gl=uk' %}selected{% endif %}>google.co.uk</option>
+            <option value="google.de/search?gl=de" {% if domain == 'google.de/search?gl=de' %}selected{% endif %}>google.de</option>
+            <option value="google.com.au/search?gl=au" {% if domain == 'google.com.au/search?gl=au' %}selected{% endif %}>google.com.au</option>
+            <option value="google.co.in/search?gl=in" {% if domain == 'google.co.in/search?gl=in' %}selected{% endif %}>google.co.in</option>
+            <option value="google.co.jp/search?gl=jp" {% if domain == 'google.co.jp/search?gl=jp' %}selected{% endif %}>google.co.jp</option>
+            <option value="google.co.kr/search?gl=kr" {% if domain == 'google.co.kr/search?gl=kr' %}selected{% endif %}>google.co.kr</option>
+            <option value="google.com.br/search?gl=br" {% if domain == 'google.com.br/search?gl=br' %}selected{% endif %}>google.com.br</option>
+        </select>        
         <p>SafeSearch</p>
         <select id="safe" name="safe">
             <option value="active" {% if safe == 'active' %}selected{% endif %}>SafeSearch on</option>

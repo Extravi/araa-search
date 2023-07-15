@@ -260,7 +260,8 @@ html {
 #theme,
 #lang,
 #safe,
-#open-new-tab {
+#open-new-tab,
+#domain {
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
@@ -294,7 +295,7 @@ html {
     border: 1px solid var(--border);
     border-radius: 8px;
     max-width: 620px;
-    height: 370px;
+    height: 440px;
     padding: 10px;
     margin-left: 100px;
     margin-top: 40px;

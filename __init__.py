@@ -36,14 +36,19 @@ if exists("./.git/refs/heads/main"):
 else:
     COMMIT = "Not in main branch"
 
-def makeHTMLRequest(url: str) -> Response:
+def makeHTMLRequest(url: str):
+    # block unwanted request from an edited cookie
+    domain = unquote(url).split('/')[2]
+    if domain not in WHITELISTED_DOMAINS:
+        raise Exception(f"The domain '{domain}' is not whitelisted.")
+
     # Choose a user-agent at random
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
     # Grab HTML content
-    html = requests.get(url, headers = headers)
+    html = requests.get(url, headers=headers)
 
-    # Return the HTML in an easy to parse object
+    # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
 
 @app.route('/settings')
@@ -53,11 +58,13 @@ def settings():
     lang = request.cookies.get('lang')
     safe = request.cookies.get('safe')
     new_tab = request.cookies.get('new_tab')
+    domain = request.cookies.get('domain')
     return render_template('settings.html',
                            theme=theme,
                            lang=lang,
                            safe=safe,
                            new_tab=new_tab,
+                           domain=domain,
                            commit=COMMIT,
                            repo_url=REPO,
                            current_url=request.url
@@ -70,11 +77,14 @@ def save_settings():
     lang = request.form.get('lang')
     safe = request.form.get('safe')
     new_tab = request.form.get('new_tab')
+    domain = request.form.get('domain')
     past_location = request.form.get('past')
 
     # set the theme cookie
     response = make_response(redirect(request.referrer))
     response.set_cookie('safe', safe, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
+    if domain is not None:
+        response.set_cookie('domain', domain, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if theme is not None:
         response.set_cookie('theme', theme, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if lang is not None:
@@ -111,16 +121,21 @@ def textResults(query) -> Response:
     p = request.args.get("p", 0)
     lang = request.cookies.get('lang', '')
     safe = request.cookies.get('safe', 'active')
+    domain = request.cookies.get('domain', 'google.com/search?gl=us')
 
-    # search query
-    if search_type == "reddit":
-        site_restriction = "site:reddit.com"
-        query_for_request = f"{query} {site_restriction}"
-        soup = makeHTMLRequest(f"https://www.google.com/search?q={query_for_request}&start={p}&lr={lang}")
-    elif search_type == "text":
-        soup = makeHTMLRequest(f"https://www.google.com/search?q={query}&start={p}&lr={lang}&safe={safe}")
-    else:
-        return "Invalid search type"
+    try:
+        # search query
+        if search_type == "reddit":
+            site_restriction = "site:reddit.com"
+            query_for_request = f"{query} {site_restriction}"
+            soup = makeHTMLRequest(f"https://www.{domain}&q={query_for_request}&start={p}&lr={lang}")
+        elif search_type == "text":
+            soup = makeHTMLRequest(f"https://www.{domain}&q={query}&start={p}&lr={lang}&safe={safe}")
+        else:
+            return "Invalid search type"
+    except Exception as e:
+        error_message = str(e)
+        return jsonify({"error": error_message}), 500
 
     # retrieve links
     result_divs = soup.findAll("div", {"class": "yuRUbf"})
@@ -202,7 +217,7 @@ def textResults(query) -> Response:
     else:
         try:
             kno_title = kno_link.split("/")[-1]
-            soup = makeHTMLRequest(f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
+            soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
             data = json.loads(soup.text)
             img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
             kno_image = [f"/img_proxy?url={img_src}"]
@@ -317,7 +332,7 @@ def videoResults(query) -> Response:
     api = request.args.get("api", "false")
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://yt.revvy.de/api/v1/search?q={query}")
+    soup = makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={query}")
     data = json.loads(soup.text)
 
     # sort by videos only
@@ -325,7 +340,7 @@ def videoResults(query) -> Response:
     
     # retrieve links
     ytIds = [video["videoId"] for video in videos]
-    hrefs = [f"https://yt.revvy.de/watch?v={ytId}" for ytId in ytIds]
+    hrefs = [f"https://{INVIDIOUS_INSTANCE}/watch?v={ytId}" for ytId in ytIds]
     
     # retrieve title
     title = [title["title"] for title in videos]
