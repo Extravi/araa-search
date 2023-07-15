@@ -410,16 +410,16 @@ def search():
 
         # Check if the query has a bang.
         if query.startswith(BANG):
-            # for SEARCH_BANG in SEARCH_BANGS:
-            #     # Check for a match.
-            #     if query[len(BANG):].lower().startswith(SEARCH_BANG['bang']):
-            #         # Match found, redirect (removing bang from query).
-            #         query = query.lower().removeprefix(BANG + SEARCH_BANG['bang']).lstrip()
-            #         return app.redirect(SEARCH_BANG['url'].format(query))
+            query += " " # Simple fix to avoid a possible error 500
+                         # when parsing the query for the bangkey.
             bangkey = query[len(BANG):query.index(" ")].lower()
             if SEARCH_BANGS.get(bangkey) != None:
                 query = query.lower().removeprefix(BANG + bangkey).lstrip()
                 return app.redirect(SEARCH_BANGS[bangkey].format(query))
+            # Remove the space at the end of the query.
+            # The space was added to fix a possible error 500 when
+            # parsing the query for the bangkey.
+            query = query[:len(query)-1]
 
         # type of search (text, image, etc.)
         type = request.args.get("t", "text")
