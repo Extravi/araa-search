@@ -5,7 +5,9 @@
     {% if results %}
     <div class="images">
         {% for result in results %}
-        <img src="{{ result }}"/>
+        <div class="image">
+            <img src="{{ result }}"/>
+        </div>
         {% endfor %}
     </div>
     {% else %}
