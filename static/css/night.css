@@ -22,6 +22,12 @@
 
     --footer-bg: #0c0d0f;
     --footer-font: #ebecf7;
+
+    --highlight: #ebecf7;
+
+    --blue: #8ab4f8;
+
+    --search-button: #BABCBE;
     
     color-scheme: dark;
 }

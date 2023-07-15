@@ -46,7 +46,7 @@
 }
 
 .highlight {
-    color: #bcc0c3;
+    color: var(--highlight);
     font-weight: bold;
     font-style: normal;
 }
@@ -70,7 +70,7 @@
 #search-wrapper-ico {
     background: none;
     border: none;
-    color: #8ab4f8;
+    color: var(--blue);
     position: absolute;
     top: 6px;
     right: 10px;
@@ -360,7 +360,7 @@ select.results-settings {
 }
 
 .settings-search-div:hover a {
-    color: #8ab4f8;
+    color: var(--blue);
 }
 
 .settings-results-link,
@@ -434,7 +434,7 @@ button {
 }
 
 .X {
-    color: #8ab4f8;
+    color: var(--blue);
 }
 
 .search-container input {
@@ -612,7 +612,7 @@ p {
     background-color: inherit;
     font-size: 14px;
     margin-right: 14px;
-    color: #BABCBE;
+    color: var(--search-button);
     margin-top: 72px;
     padding-bottom: 11px;
     max-width: 48em;
@@ -623,16 +623,16 @@ p {
 }
 
 .search-active {
-    color: #8ab4f8 !important;
+    color: var(--blue) !important;
 }
 
 .search-container-results-btn {
     display: flex;
-    color: #8ab4f8;
+    color: var(--blue);
 }
 
 .search-container-results-btn:hover button {
-    color: #8ab4f8;
+    color: var(--blue);
 }
 
 .sub-search-button-wrapper img {
@@ -724,7 +724,7 @@ p {
 .snip_title {
     margin-top: 0;
     margin-bottom: 0;
-    color: #bcc0c3;
+    color: var(--highlight);
     font-weight: bold;
     font-style: normal;
     max-width: 48em;
