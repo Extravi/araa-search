@@ -136,12 +136,36 @@ html {
 .images {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     grid-gap: 1.5rem;
+    justify-content: center;
     margin-left: 9%;
     margin-right: 9%;
-    padding: 0px;
-    margin-bottom: 40px;
+    padding: 0;
+    margin-bottom: 50px;
+}
+
+.image {
+    flex-grow: 1;
+    height: 8rem;
+    margin: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.image:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.image img {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    vertical-align: bottom;
 }
 
 .stats {
@@ -192,13 +216,6 @@ html {
 
 .video__results .results {
     margin-top: 0px;
-}
-
-.images img {
-    margin: 0px;
-    height: 12rem;
-    object-fit: cover;
-    vertical-align: bottom;
 }
 
 .duration {
