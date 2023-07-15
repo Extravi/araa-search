@@ -9,6 +9,14 @@ import re
 from os.path import exists
 from _config import *
 
+bfp = open("./bangs.json", "r")
+bjson = json.load(bfp)
+bfp.close()
+
+SEARCH_BANGS = {}
+for bang, url in bjson.items():
+    SEARCH_BANGS[bang] = url
+
 # search highlights
 def highlight_query_words(string, query):
     query_words = [re.escape(word) for word in query.lower().split()]
@@ -402,12 +410,16 @@ def search():
 
         # Check if the query has a bang.
         if query.startswith(BANG):
-            for SEARCH_BANG in SEARCH_BANGS:
-                # Check for a match.
-                if query[len(BANG):].lower().startswith(SEARCH_BANG['bang']):
-                    # Match found, redirect (removing bang from query).
-                    query = query.lower().removeprefix(BANG + SEARCH_BANG['bang']).lstrip()
-                    return app.redirect(SEARCH_BANG['url'].format(query))
+            # for SEARCH_BANG in SEARCH_BANGS:
+            #     # Check for a match.
+            #     if query[len(BANG):].lower().startswith(SEARCH_BANG['bang']):
+            #         # Match found, redirect (removing bang from query).
+            #         query = query.lower().removeprefix(BANG + SEARCH_BANG['bang']).lstrip()
+            #         return app.redirect(SEARCH_BANG['url'].format(query))
+            bangkey = query[len(BANG):query.index(" ")].lower()
+            if SEARCH_BANGS.get(bangkey) != None:
+                query = query.lower().removeprefix(BANG + bangkey).lstrip()
+                return app.redirect(SEARCH_BANGS[bangkey].format(query))
 
         # type of search (text, image, etc.)
         type = request.args.get("t", "text")

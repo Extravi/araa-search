@@ -1,18 +1,10 @@
-# The char used to denote bangs (see below constant).
+# The char used to denote bangs (see below).
 # EG BANG='!': "!ddg cats" will search "cats" on DuckDuckGo.
 BANG = '!'
 
-# Search engine bangs for ppl who want to use another engine through TailsX's
-# search bar.
-# NOTE: Bangs are case insensitive!
-# NOTE: The first brackets, "{}", is where the query will be put in the final URL.
-# TODO: Bangs will ONLY redirect to TEXT results (type is dropped); maybe change this?
-SEARCH_BANGS = [
-    {'bang': 'g',     'url': 'https://www.google.com/search?q={}'},
-    {'bang': 'ddg',   'url': 'https://duckduckgo.com/?q={}'},
-    {'bang': 'brave', 'url': 'https://search.brave.com/search?q={}'},
-    {'bang': 'bing',  'url': 'https://www.bing.com/search?q={}'},
-]
+# Search engine bangs for ppl who want to use another engine through
+# TailsX's search bar.
+# Bangs with their assosiated URLs can be found in /bangs.json.
 
 # The repository this instance is based off on.
 REPO='https://github.com/Extravi/tailsx'
