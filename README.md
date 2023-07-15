@@ -3,11 +3,11 @@
 </h1>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/98912029/248430859-5ccec485-41d9-4513-969d-c87c29dc9b62.png" width="400">
-  <img src="https://user-images.githubusercontent.com/98912029/248430894-3c636692-4826-438a-8bf0-5b12978cb9a3.png" width="400">
+  <img src="https://user-images.githubusercontent.com/98912029/253724194-ca166197-315b-4aea-8b9e-bbd7c7db8731.png" width="400">
+  <img src="https://user-images.githubusercontent.com/98912029/253724259-274b6169-f4ec-49e8-b6e4-105d5c35d2f5.png" width="400">
 </p>
 
-<p align="center">A privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security that offers full API support and utilizes Qwant for images, Brave Search for videos, and DuckDuckGo for auto-complete.</p>
+<p align="center">A privacy-respecting, ad-free, self-hosted metasearch engine.</p>
 
 [![Counter](https://visitor-badge.laobi.icu/badge?page_id=Extravi.tailsx)](https://github.com/Extravi/tailsx)
 [![License](https://img.shields.io/github/license/Extravi/tailsx)](https://github.com/Extravi/tailsx/blob/main/LICENSE)
@@ -30,16 +30,14 @@ Here are some of the features that TailsX a privacy-respecting, ad-free, self-ho
 
 * Full API support for easy integration into third-party apps and services
 * Utilizes Qwant for image search, which is known for its strong privacy protections
-* Brave Search is used for video search, which is a privacy-focused search engine developed by Brave Software
 * DuckDuckGo is used for auto-complete, offering privacy-enhanced search suggestions
 * Hosted on your own server, providing complete control over your data and ensuring privacy
 * Strong security measures implemented, including SSL encryption and firewalls
 * Ad-free search results, with no tracking or data collection for advertising purposes
 
 ## Screenshots
-<img src="https://user-images.githubusercontent.com/98912029/221388549-83f0a8bd-5a21-45d3-8fd4-6ea6adc16f5a.png" width="600">
-<img src="https://user-images.githubusercontent.com/98912029/221388596-85db703a-b736-4f87-9247-005aeacfb972.png" width="600">
-<img src="https://user-images.githubusercontent.com/98912029/221388608-da1a58fd-38c6-4fd0-a46b-b8284488fa27.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/253724326-64db8ec7-1560-4f4e-94dd-914ae4b020f3.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/253724288-a5e41502-524b-4084-a815-73769d0a2a2c.png" width="600">
 
 ## Contact
 Email: extravi@duck.com
