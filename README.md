@@ -4,7 +4,7 @@
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/98912029/253724194-ca166197-315b-4aea-8b9e-bbd7c7db8731.png" width="400">
-  <img src="https://user-images.githubusercontent.com/98912029/253724259-274b6169-f4ec-49e8-b6e4-105d5c35d2f5.png" width="400">
+  <img src="https://user-images.githubusercontent.com/98912029/253782033-9b035893-42a2-4bd8-bfb3-12db600f5114.png" width="400">
 </p>
 
 <p align="center">A privacy-respecting, ad-free, self-hosted metasearch engine.</p>
