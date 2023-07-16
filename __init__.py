@@ -405,6 +405,45 @@ def videoResults(query) -> Response:
                                new_tab=request.cookies.get("new_tab"), type="video", repo_url=REPO, commit=COMMIT
                                )
 
+def torrentResults(query) -> Response:
+    # remember time we started
+    start_time = time.time()
+    
+    api = request.args.get("api", "false")
+
+    # grab & format webpage
+    soup = makeHTMLRequest(f"https://torrentgalaxy.to/torrents.php?search={query}#results")
+
+    result_divs = soup.findAll("div", {"class": "tgxtablerow"})
+    title = [div.find("div", {"id": "click"}) for div in result_divs]
+    title = [title.text.strip() for title in title]
+    hrefs = [f"torrentgalaxy.to" for title in title]
+    magnet_links = [div.find("a", href=lambda href: href and href.startswith("magnet")).get("href") for div in result_divs]
+    file_sizes = [div.find("span", {"class": "badge-secondary"}).text.strip() for div in result_divs]
+    view_counts = [div.find("font", {"color": "orange"}).text.strip() for div in result_divs]
+    seeders = [div.find("font", {"color": "green"}).text.strip() for div in result_divs]
+    leechers = [div.find("font", {"color": "#ff0000"}).text.strip() for div in result_divs]
+
+    # list
+    results = []
+    for href, title, magnet_link, file_size, view_count, seeder, leecher in zip(hrefs, title, magnet_links, file_sizes, view_counts, seeders, leechers):
+        results.append([href, title, magnet_link, file_size, view_count, seeder, leecher])
+        
+    # calc. time spent
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+     
+    if api == "true":
+        # return the results list as a JSON response
+        return jsonify(results)
+    else:
+        return render_template("torrents.html",
+                               results=results, title=f"{query} - TailsX",
+                               q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
+                               theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
+                               type="torrent", repo_url=REPO, commit=COMMIT
+                               )
+
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
@@ -438,6 +477,8 @@ def search():
         # render page based off of type
         # NOTE: Python 3.10 needed for a match statement!
         match type:
+            case "torrent":
+                return torrentResults(query)
             case "video":
                 return videoResults(query)
             case "image":

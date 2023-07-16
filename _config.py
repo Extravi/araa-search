@@ -55,7 +55,8 @@ WHITELISTED_DOMAINS = [
     "www.google.com.br",
     "wikipedia.org",
     "yt.revvy.de",
-    "lite.qwant.com"
+    "lite.qwant.com",
+    "torrentgalaxy.to"
 ]
 
 COOKIE_AGE = 2147483647

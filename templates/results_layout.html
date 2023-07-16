@@ -84,6 +84,17 @@
                 <button name="t" value="reddit" class="clickable">Reddit</button>
             </div>
             {% endif %}
+            {% if type == "torrent" %}
+            <div class="search-container-results-btn">
+                <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="torrent">share</button>
+                <button name="t" value="torrent" class="clickable search-active">Torrents</button>
+            </div>
+            {% else %}
+            <div class="search-container-results-btn">
+                <button id="sub-search-wrapper-ico" class="material-icons-round clickable" name="t" value="torrent">share</button>
+                <button name="t" value="torrent" class="clickable">Torrents</button>
+            </div>
+            {% endif %}
         </div>
         </div>
         <!-- 'defer' makes script execute only after the whole DOM is parsed. -->

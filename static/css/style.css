@@ -523,6 +523,18 @@ p {
     text-decoration: underline;
 }
 
+.torrent h3 {
+    font-size: 16px !important;
+}
+
+.seeders {
+    color: #31b06e;
+}
+
+.leechers {
+    color: #b0316e;
+}
+
 .results-search-container {
     background-color: var(--search-bg);
     width: 100%;
@@ -998,12 +1010,16 @@ p {
 
     .sub-search-button-wrapper {
         margin-right: 0;
-        margin-left: 24px;
+        margin-left: 12px;
         margin-top: 0;
         margin-bottom: 0;
         padding: 0;
         display: flex;
         align-items: baseline;
+    }
+
+    .fetched_tor {
+        margin-top: 135px !important;
     }
 
     .sub-search-button-wrapper img {
