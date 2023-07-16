@@ -1058,6 +1058,16 @@ p {
         margin-top: -2px;
     }
 
+    .fetched_img {
+        margin-top: 135px !important;
+        margin-left: 1.2% !important;
+        left: 0px !important;
+    }
+
+    .fetched_vid {
+        margin-top: 135px !important;
+    }
+
     .results_settings {
         left: 20px;
         font-size: 13px;

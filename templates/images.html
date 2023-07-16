@@ -6,7 +6,9 @@
     <div class="images">
         {% for result in results %}
         <div class="image">
-            <img src="{{ result }}"/>
+        <a class="clickable" {% if new_tab == "active" %} target="_blank" {% endif %} href="{{ result[1] }}">
+            <img src="{{ result[0] }}"/>
+        </a>
         </div>
         {% endfor %}
     </div>

@@ -1,7 +1,7 @@
 {% extends "results_layout.html" %}
 
 {% block body %}
-    <p class="fetched fetched_dif">{{ fetched }}</p>
+    <p class="fetched fetched_dif fetched_vid">{{ fetched }}</p>
     {% if results %}
         {% for result in results %}
         <a {% if new_tab == "active" %} target="_blank" {% endif %} href="{{ result[0] }}"><div class="video__results">

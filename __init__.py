@@ -8,6 +8,7 @@ from urllib.parse import quote, unquote
 import re
 from os.path import exists
 from _config import *
+import base64
 
 bfp = open("./bangs.json", "r")
 bjson = json.load(bfp)
@@ -317,7 +318,17 @@ def imageResults(query) -> Response:
     image_sources = [a.find('img')['src'] for a in ellements[0].findAll('a') if a.find('img')]
     
     # generate results
-    results = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
+    images = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
+
+    # decode urls 
+    links = [a['href'] for a in ellements[0].findAll('a') if a.has_attr('href')]
+    links = [url.split("?position")[0].split("==/")[-1] for url in links]
+    links = [unquote(base64.b64decode(link).decode('utf-8')) for link in links]
+
+    # list
+    results = []
+    for image, link in zip(images, links):
+        results.append((image, link))
 
     # calc. time spent
     end_time = time.time()
@@ -331,7 +342,7 @@ def imageResults(query) -> Response:
         return render_template("images.html", results = results, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-            type = "image", repo_url = REPO, commit = COMMIT) 
+            type = "image", new_tab=request.cookies.get("new_tab"), repo_url = REPO, commit = COMMIT) 
     
 def videoResults(query) -> Response:
     # remember time we started
