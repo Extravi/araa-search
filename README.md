@@ -17,10 +17,10 @@ If you're looking to [install](https://github.com/Extravi/tailsx-docs) TailsX, h
 
 ### Instances
 
-| Clearnet | Tor | SSL | Country |
-|-|-|-|-|
-| [tailsx.extravi.dev](https://tailsx.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| N/A down will be back |
-| [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 |
+| Clearnet | Tor | SSL | Country | Status |
+|-|-|-|-|-|
+| [tailsx.extravi.dev](https://tailsx.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| N/A | Official instance: temporarily down and will be back soon. |
+| [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 | Unofficial instance: outdated. |
 
 ### Contributors
 ![Contributors](https://contrib.rocks/image?repo=Extravi/tailsx)
