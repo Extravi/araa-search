@@ -68,12 +68,14 @@ def settings():
     safe = request.cookies.get('safe')
     new_tab = request.cookies.get('new_tab')
     domain = request.cookies.get('domain')
+    javascript = request.cookies.get('javascript')
     return render_template('settings.html',
                            theme=theme,
                            lang=lang,
                            safe=safe,
                            new_tab=new_tab,
                            domain=domain,
+                           javascript=javascript,
                            commit=COMMIT,
                            repo_url=REPO,
                            current_url=request.url
@@ -87,11 +89,14 @@ def save_settings():
     safe = request.form.get('safe')
     new_tab = request.form.get('new_tab')
     domain = request.form.get('domain')
+    javascript = request.form.get('javascript')
     past_location = request.form.get('past')
 
     # set the theme cookie
     response = make_response(redirect(request.referrer))
     response.set_cookie('safe', safe, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
+    if domain is not None:
+        response.set_cookie('javascript', javascript, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if domain is not None:
         response.set_cookie('domain', domain, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if theme is not None:
@@ -108,6 +113,13 @@ def save_settings():
 def suggestions():
     query = request.args.get("q", "").strip()
     response = requests.get(f"https://ac.duckduckgo.com/ac?q={query}&type=list")
+    return json.loads(response.text)
+
+
+@app.route("/wikipedia")
+def wikipedia():
+    query = request.args.get("q", "").strip()
+    response = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={query}&pithumbsize=500")
     return json.loads(response.text)
 
 @app.route("/api")
@@ -131,6 +143,7 @@ def textResults(query) -> Response:
     lang = request.cookies.get('lang', '')
     safe = request.cookies.get('safe', 'active')
     domain = request.cookies.get('domain', 'google.com/search?gl=us')
+    javascript = request.cookies.get('javascript', 'enabled')
 
     try:
         # search query
@@ -220,19 +233,29 @@ def textResults(query) -> Response:
     if search_type == "reddit":
         check = check.replace("site:reddit.com", "").strip()
 
-    # get image for kno
-    if kno_link == "":
-        kno_image = ""
-    else:
-        try:
-            kno_title = kno_link.split("/")[-1]
-            soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
-            data = json.loads(soup.text)
-            img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
-            kno_image = [f"/img_proxy?url={img_src}"]
-            kno_image = ''.join(kno_image)
-        except:
+    # get image for kno try javascript version first
+    if javascript == "enabled":
+        if kno_link == "":
             kno_image = ""
+            kno_title = ""
+        else:
+            kno_title = kno_link.split("/")[-1]
+            kno_title = f"/wikipedia?q={kno_title}"
+            kno_image = ""
+    else:
+        if kno_link == "":
+            kno_image = ""
+            kno_title = ""
+        else:
+            try:
+                kno_title = kno_link.split("/")[-1]
+                soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
+                data = json.loads(soup.text)
+                img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
+                kno_image = [f"/img_proxy?url={img_src}"]
+                kno_image = ''.join(kno_image)
+            except:
+                kno_image = ""
 
     # gets users ip or user agent
     info = ""
@@ -273,10 +296,11 @@ def textResults(query) -> Response:
                                results=results, sublink=sublink, p=p, title=f"{query} - TailsX",
                                q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
                                snip=f"{snip}", kno_rdesc=f"{kno}", rdesc_link = f"{unquote(kno_link)}",
-                               kno_wiki=f"{kno_image}", rkno_title=f"{rkno_title}", user_info=f"{info}",
-                               check=check, current_url=current_url, theme=request.cookies.get('theme', DEFAULT_THEME),
-                               new_tab=request.cookies.get("new_tab"), DEFAULT_THEME=DEFAULT_THEME, type=type,
-                               search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=COMMIT
+                               kno_wiki=f"{kno_image}", rkno_title=f"{rkno_title}", kno_title=f"{kno_title}",
+                               user_info=f"{info}", check=check, current_url=current_url, 
+                               theme=request.cookies.get('theme', DEFAULT_THEME), new_tab=request.cookies.get("new_tab"),
+                               javascript = request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
+                               type=type, search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=COMMIT
                                )
 
 @app.route("/img_proxy")
@@ -342,7 +366,8 @@ def imageResults(query) -> Response:
         return render_template("images.html", results = results, title = f"{query} - TailsX",
             q = f"{query}", fetched = f"Fetched the results in {elapsed_time:.2f} seconds",
             theme = request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-            type = "image", new_tab=request.cookies.get("new_tab"), repo_url = REPO, commit = COMMIT) 
+            javascript = request.cookies.get('javascript', 'enabled'), type = "image",
+            new_tab=request.cookies.get("new_tab"), repo_url = REPO, commit = COMMIT) 
     
 def videoResults(query) -> Response:
     # remember time we started
@@ -402,7 +427,8 @@ def videoResults(query) -> Response:
                                results=results, title=f"{query} - TailsX",
                                q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
                                theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-                               new_tab=request.cookies.get("new_tab"), type="video", repo_url=REPO, commit=COMMIT
+                               javascript = request.cookies.get('javascript', 'enabled'), new_tab=request.cookies.get("new_tab"),
+                               type="video", repo_url=REPO, commit=COMMIT
                                )
 
 def torrentResults(query) -> Response:
@@ -441,7 +467,8 @@ def torrentResults(query) -> Response:
                                results=results, title=f"{query} - TailsX",
                                q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
                                theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME = DEFAULT_THEME,
-                               type="torrent", repo_url=REPO, commit=COMMIT
+                               javascript = request.cookies.get('javascript', 'enabled'), type="torrent", 
+                               repo_url=REPO, commit=COMMIT
                                )
 
 @app.route("/", methods=["GET", "POST"])
@@ -455,8 +482,9 @@ def search():
                 css_style = "dark_blur_beta.css"
             else:
                 css_style = None
-            return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME),
-                DEFAULT_THEME=DEFAULT_THEME, css_style=css_style, repo_url = REPO, commit = COMMIT)
+            return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME), 
+                javascript = request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME, 
+                css_style=css_style, repo_url = REPO, commit = COMMIT)
 
         # Check if the query has a bang.
         if query.startswith(BANG):

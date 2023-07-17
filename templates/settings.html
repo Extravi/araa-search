@@ -89,6 +89,11 @@
             <option value="" {% if new_tab == '' %}selected{% endif %}>New Tab Off</option>
             <option value="active" {% if new_tab == 'active' %}selected{% endif %}>New Tab On</option>
         </select>
+        <p>Disabling JavaScript (not recommended) affects webpage features, disables autocomplete, and slows certain functions. Keeping JavaScript enabled won't compromise your privacy, as requests are processed through server-side endpoints.</p>
+        <select id="javascript-setting" name="javascript">
+            <option value="enabled" {% if javascript == 'enabled' %}selected{% endif %}>JavaScript Enabled</option>
+            <option value="" {% if javascript == '' %}selected{% endif %}>JavaScript Disabled</option>
+        </select>
     </form>
     </div>
 {% endblock %}

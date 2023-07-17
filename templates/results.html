@@ -75,6 +75,9 @@
         {% else %}
         <img src="{{ kno_wiki }}"/>
         {% endif %}
+        {% if javascript == "enabled" %}
+        <img class="kno_wiki" src=""/>
+        {% endif %}
         {{ kno_rdesc }}<a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a>
     </div>    
     {% endif %}

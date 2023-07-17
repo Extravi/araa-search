@@ -98,7 +98,10 @@
         </div>
         </div>
         <!-- 'defer' makes script execute only after the whole DOM is parsed. -->
+        {% if javascript == "enabled" %}
+        <div id="kno_title" data-kno-title="{{ kno_title }}"></div>
         <script defer src="/script.js"></script>
+        {% endif %}
     </form>
     {% block body %}{% endblock %}
     <div class="footer">

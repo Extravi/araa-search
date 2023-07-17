@@ -134,3 +134,26 @@ font.load().then(() => {
 }).catch(() => {
   console.warn('Failed to load Material Icons Round. Hiding any icons using said pack.');
 });
+
+// load image after server side processing
+window.addEventListener('DOMContentLoaded', function() {
+  var knoTitleElement = document.getElementById('kno_title');
+  var kno_title = knoTitleElement.dataset.knoTitle;
+  fetch(kno_title)
+  .then(response => response.json())
+  .then(data => {
+    const pageId = Object.keys(data.query.pages)[0];
+    const thumbnailSource = data.query.pages[pageId].thumbnail.source;
+    const url = "/img_proxy?url=" + thumbnailSource;
+    
+    // update the img tag with url and add kno_wiki_show
+    var imgElement = document.querySelector('.kno_wiki');
+    imgElement.src = url;
+    imgElement.classList.add('kno_wiki_show');
+    
+    console.log(url);
+  })
+  .catch(error => {
+    console.log('Error fetching data:', error);
+  });
+});

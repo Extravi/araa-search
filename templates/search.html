@@ -19,6 +19,8 @@
             <button name="t" value="text" type="submit">Search with TailsX</button>
             <button name="t" value="image" type="submit">Search images with TailsX</button>
         </div>
+        {% if javascript == "enabled" %}
         <script defer src="/script.js"></script>
+        {% endif %}
     </form>
 {% endblock %}

@@ -284,13 +284,14 @@ html {
 #lang,
 #safe,
 #open-new-tab,
-#domain {
+#domain,
+#javascript-setting {
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
     border: 1px solid var(--settings-border);
     color: var(--font-fg);
-    width: 140px;
+    width: 160px;
     background: var(--button);
     margin-right: 330px;
 }
@@ -299,10 +300,12 @@ html {
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
+    margin-left: -17px;
     border: 1px solid var(--settings-border);
     color: var(--font-fg);
     background: var(--button);
     cursor: pointer;
+    position: absolute;
 }
 
 .settings-nav {
@@ -318,10 +321,18 @@ html {
     border: 1px solid var(--border);
     border-radius: 8px;
     max-width: 620px;
-    height: 440px;
+    height: 570px;
     padding: 10px;
     margin-left: 100px;
     margin-top: 40px;
+}
+
+.kno_wiki {
+    display: none;
+}
+
+.kno_wiki_show {
+    display: initial !important;
 }
 
 .open-in-new-tab * {
@@ -353,6 +364,8 @@ html {
     font-size: 14px;
     background: var(--html-bg);
     border: 1px solid var(--snip-border);
+    margin: 0 !important;
+    position: relative !important;
 }
 
 select.results-settings {
@@ -1036,6 +1049,10 @@ p {
         font-size: 14px;
         margin-top: 46px;
         padding-bottom: 5px;
+    }
+
+    .save {
+        margin-left: 7px;
     }
 
     .results {
