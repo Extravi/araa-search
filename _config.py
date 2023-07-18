@@ -7,13 +7,16 @@ BANG = '!'
 # Bangs with their assosiated URLs can be found in /bangs.json.
 
 # The repository this instance is based off on.
-REPO='https://github.com/Extravi/tailsx'
+REPO = 'https://github.com/Extravi/tailsx'
 
 # Default theme
 DEFAULT_THEME = 'dark_blur'
 
 # The port for this server to listen on
 PORT = 8000
+
+# Torrent domains
+TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
 
 # Useragents to use in the request.
 user_agents = [
@@ -56,7 +59,7 @@ WHITELISTED_DOMAINS = [
     "wikipedia.org",
     "yt.revvy.de",
     "lite.qwant.com",
-    "torrentgalaxy.to"
+    TORRENTGALAXY_DOMAIN
 ]
 
 COOKIE_AGE = 2147483647
