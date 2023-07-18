@@ -59,6 +59,7 @@
     line-height: 1;
     letter-spacing: normal;
     text-transform: none;
+    visibility: hidden; /* will be set to visible if icon pack can be loaded. */
     display: inline-block;
     white-space: nowrap;
     word-wrap: normal;
@@ -75,19 +76,15 @@
     top: 6px;
     right: 10px;
     cursor: pointer;
-    visibility: hidden;
-    /* will be set to visible if icon pack can be loaded. */
 }
 
 #sub-search-wrapper-ico {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 0px;
+    font-size: 0px; /* will be set to 17px if icon pack can be loaded. */
     padding-right: 0px;
     margin-right: 0px;
-    visibility: hidden;
-    /* will be set to visible if icon pack can be loaded. */
 }
 
 .fetched_dif {

@@ -125,10 +125,15 @@ document.addEventListener('click', (event) => {
 // skip them and put a warning in the console.
 const font = new FontFace('Material Icons Round', 'url("/fonts/material-icons-round-v108-latin-regular.woff2") format("woff2")');
 font.load().then(() => {
-  document.querySelector("#search-wrapper-ico").style.visibility = 'visible';
+  const icons = document.getElementsByClassName('material-icons-round');
+
+  // Display all icons.
+  for (let icon of icons) {
+    icon.style.visibility = 'visible';
+  }
+
+  // Ensure icons for the different types of searches are sized correctly.
   document.querySelectorAll('#sub-search-wrapper-ico').forEach((el) => {
-    // Show the icon if the font successfully loaded.
-    el.style.visibility = 'visible';
     el.style.fontSize = '17px';
   });
 }).catch(() => {
@@ -145,12 +150,12 @@ window.addEventListener('DOMContentLoaded', function() {
     const pageId = Object.keys(data.query.pages)[0];
     const thumbnailSource = data.query.pages[pageId].thumbnail.source;
     const url = "/img_proxy?url=" + thumbnailSource;
-    
+
     // update the img tag with url and add kno_wiki_show
     var imgElement = document.querySelector('.kno_wiki');
     imgElement.src = url;
     imgElement.classList.add('kno_wiki_show');
-    
+
     console.log(url);
   })
   .catch(error => {
