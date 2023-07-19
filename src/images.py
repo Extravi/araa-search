@@ -21,6 +21,9 @@ def imageResults(query) -> Response:
     # get source urls
     image_sources = [a.find('img')['src'] for a in ellements[0].findAll('a') if a.find('img')]
 
+    # get alt tags
+    image_alts = [img['alt'] for img in ellements[0].findAll('img', alt=True)]
+
     # generate results
     images = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
 
@@ -31,8 +34,8 @@ def imageResults(query) -> Response:
 
     # list
     results = []
-    for image, link in zip(images, links):
-        results.append((image, link))
+    for image, link, image_alt in zip(images, links, image_alts):
+        results.append((image, link, image_alt))
 
     # calc. time spent
     end_time = time.time()
