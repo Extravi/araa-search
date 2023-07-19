@@ -29,6 +29,10 @@
 
     --search-button: #BABCBE;
 
+    --image-view: #101010;
+    --image-view-titlebar: #101010;
+    --view-image-color: #000000;
+
     color-scheme: dark;
 }
 

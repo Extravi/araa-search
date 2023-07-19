@@ -29,5 +29,9 @@
 
     --search-button: #BABCBE;
     
+    --image-view: #171717;
+    --image-view-titlebar: #171717;
+    --view-image-color: #000000;
+    
     color-scheme: dark;
 }

@@ -59,7 +59,8 @@
     line-height: 1;
     letter-spacing: normal;
     text-transform: none;
-    visibility: hidden; /* will be set to visible if icon pack can be loaded. */
+    visibility: hidden;
+    /* will be set to visible if icon pack can be loaded. */
     display: inline-block;
     white-space: nowrap;
     word-wrap: normal;
@@ -82,7 +83,8 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 0px; /* will be set to 17px if icon pack can be loaded. */
+    font-size: 0px;
+    /* will be set to 17px if icon pack can be loaded. */
     padding-right: 0px;
     margin-right: 0px;
 }
@@ -141,7 +143,7 @@ html {
     grid-gap: 1.2rem;
     justify-content: center;
     margin-left: 1.2%;
-    margin-right: 1.2%;
+    margin-right: 35.4%;
     padding: 0;
     margin-bottom: 50px;
 }
@@ -168,6 +170,114 @@ html {
     object-fit: cover;
     object-position: center;
     vertical-align: bottom;
+}
+
+.image_view {
+    position: fixed;
+    width: 33%;
+    height: 82%;
+    z-index: 70;
+    background-color: var(--image-view);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    margin-right: 1.2%;
+    right: 0px;
+}
+
+.image-view-close {
+    background-color: var(--image-view-titlebar);
+    height: 7%;
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.image-close,
+.image-next,
+.image-before {
+    margin-left: -1px;
+    border-radius: 50%;
+    padding: 5px;
+    color: var(--search-button);
+    font-weight: normal;
+}
+
+.image-close {
+    margin-right: 10px;
+}
+
+.image-close:hover,
+.image-next:hover,
+.image-before:hover {
+    background-color: #303030;
+}
+
+.view-image {
+    background-color: var(--view-image-color);
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.view-image img {
+    max-width: 100%;
+    max-height: 427px;
+}
+
+.image_view a {
+    text-decoration: none;
+    color: var(--link);
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.image_view a:hover {
+    text-decoration: underline;
+}
+
+.image_view p {
+    margin-left: 20px;
+    margin-right: 20px;
+    display: block;
+}
+
+.image_view a {
+    display: block;
+}
+
+hr {
+    color: var(--border);
+}
+
+.image_hide {
+    display: none !important;
+}
+
+.image_show {
+    display: initial !important;
+}
+
+.icon_visibility {
+    visibility: visible;
+}
+
+.images_viewer_hidden {
+    margin-right: 1.2% !important;
+}
+
+.image_selected {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .stats {
@@ -997,6 +1107,20 @@ p {
         width: 84%;
         margin-right: 100%;
         margin-left: 3px;
+    }
+
+    .image_view {
+        width: 97%;
+        height: 77%;
+        margin-top: -30px;
+    }
+
+    .view-image img {
+        max-height: 250px;
+    }
+
+    .images {
+        margin-right: 1.2% !important;
     }
 
     .logomobile {

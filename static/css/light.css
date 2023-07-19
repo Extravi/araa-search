@@ -26,6 +26,10 @@
     --highlight: #202124;
 
     --blue: #4285f4;
+    
+    --image-view: #ffffff;
+    --image-view-titlebar: #ffffff;
+    --view-image-color: #f1f3f4;
 
     --search-button: #202124;
 }

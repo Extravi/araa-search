@@ -3,11 +3,29 @@
 {% block body %}
     <p class="fetched fetched_dif fetched_img">{{ fetched }}</p>
     {% if results %}
-    <div class="images">
+    <div class="images images_viewer_hidden">
+        <div class="image_view image_hide">
+            <div class="image-view-close">
+                <div class="material-icons-round icon_visibility clickable image-before">navigate_before</div>
+                <div class="material-icons-round icon_visibility clickable image-next">navigate_next</div>
+                <div class="material-icons-round icon_visibility clickable image-close">close</div>
+            </div>
+            <a class="image-viewer-link clickable" href="">
+            <div class="view-image">
+                <img class="view-image-img" src=""/>
+            </div>
+            </a>
+            <p class="image-alt"></p>
+            <p>View source: <a class="image-source" href=""></a></p>
+            <p>View image with <a class="proxy-link-uwu" href="">proxy</a></p>
+            <p>Engine: qwant image search</p>
+            <hr>
+            <p>Image proxy size: <span class="image-size"></span></p>
+        </div>
         {% for result in results %}
         <div class="image">
         <a class="clickable" {% if new_tab == "active" %} target="_blank" {% endif %} href="{{ result[1] }}">
-            <img src="{{ result[0] }}"/>
+            <img class="open-image-viewer" src="{{ result[0] }}" alt="{{ result[2] }}"/>
         </a>
         </div>
         {% endfor %}
