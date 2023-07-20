@@ -1110,9 +1110,12 @@ p {
     }
 
     .image_view {
-        width: 97%;
+        width: 100%;
         height: 77%;
-        margin-top: -30px;
+        margin-top: -33px;
+        margin-right: 0%;
+        border-top-right-radius: 0px;
+        border-top-left-radius: 0px;
     }
 
     .view-image img {
