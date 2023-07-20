@@ -197,9 +197,23 @@ imageBefore.addEventListener('click', function() {
   showImage();
 });
 
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'ArrowLeft') {
+    currentImageIndex = (currentImageIndex - 1 + openImageViewer.length) % openImageViewer.length;
+    showImage();
+  }
+});
+
 imageNext.addEventListener('click', function() {
   currentImageIndex = (currentImageIndex + 1) % openImageViewer.length;
   showImage();
+});
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'ArrowRight') {
+    currentImageIndex = (currentImageIndex + 1) % openImageViewer.length;
+    showImage();
+  }
 });
 
 function showImage() {
