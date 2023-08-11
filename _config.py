@@ -10,7 +10,7 @@ BANG = '!'
 REPO = 'https://github.com/Extravi/tailsx'
 
 # Default theme
-DEFAULT_THEME = 'dark_blur'
+DEFAULT_THEME = 'dark_default'
 
 # The port for this server to listen on
 PORT = 8000

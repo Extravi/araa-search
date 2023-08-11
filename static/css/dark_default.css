@@ -1,0 +1,41 @@
+:root {
+    --html-bg: #171717;
+    --font-fg: #f1f3f4;
+    --fg: #BABCBE;
+
+    --search-bg: #101010;
+    --search-bg-input: #202020;
+    --search-bg-input-border: #2a2a2a;
+    --search-select: #303030;
+
+    --border: #2a2a2a;
+
+    --link: #8ab4f8;
+    --link-visited: #c58af9;
+
+    --snip-border: #282828;
+    --snip-background: #202020;
+    --snip-text: #f1f3f4;
+
+    --settings-border: #5f6368;
+    --button: #202020;
+
+    --footer-bg: #101010;
+    --footer-font: #999da2;
+    
+    --highlight: #bcc0c3;
+
+    --blue: #8ab4f8;
+
+    --search-button: #BABCBE;
+
+    --image-view: #101010;
+    --image-view-titlebar: #101010;
+    --view-image-color: #000000;
+
+    color-scheme: dark;
+}
+
+.snip {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
