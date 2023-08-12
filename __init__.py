@@ -7,7 +7,11 @@ from src import textResults, torrents, helpers, images, video
 
 
 with open("./bangs.json", "r") as bfp:
-    bjson = json.loads(bfp)
+    bjson = json.loads(bfp.read())
+
+bfp = open("./bangs.json", "r")
+bjson = json.load(bfp)
+bfp.close()
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 app.jinja_env.filters['highlight_query_words'] = helpers.highlight_query_words
