@@ -1,0 +1,10 @@
+{% extends "preresults_layout.html" %}
+
+{% block body %}
+
+  {% for instance in instances %}
+    {{ instance["clear"] }}
+  {% endfor %}
+
+{% endblock %}
+

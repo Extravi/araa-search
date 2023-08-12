@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import unquote
 import random
 from _config import *
-from flask import escape, Markup
+from flask import escape, Markup, request
 import requests
 import re
 from os.path import exists

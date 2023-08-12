@@ -3,7 +3,8 @@ import requests
 import random
 import json
 from _config import *
-from src import textResults, torrents, helpers, images, video
+from src import textResults, torrents, helpers, images, video, switch_instances
+from server import app
 
 bfp = open("./bangs.json", "r")
 bjson = json.load(bfp)
