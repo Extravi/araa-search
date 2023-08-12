@@ -67,3 +67,5 @@ COOKIE_AGE = 2147483647
 
 # if you are using a custom Invidious you have to add it to the whitelist above
 INVIDIOUS_INSTANCE = "yt.revvy.de"
+
+INSTANCE_SOURCE = "https://raw.githubusercontent.com/amogusussy/tailsx/switch-instances/instances.json"

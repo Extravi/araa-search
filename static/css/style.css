@@ -959,6 +959,74 @@ p {
     font-size: 16px;
 }
 
+.instances {
+  background-color: var(--snip-background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-width: 40%;
+  max-width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  margin-left: 100px;
+  margin-top: 40px;
+  overflow: scroll;
+}
+
+@media only screen and (max-width: 750px) {
+  .instances {
+    margin-left: 10px;
+    margin-right: 8px;
+    margin-bottom: 25%;
+  }
+}
+
+.instances h1 {
+  margin-bottom: 5px;
+}
+
+.instance {
+  margin-top: 10px;
+}
+
+.instances a, .instances a:visited {
+  text-decoration: none;
+  color: var(--link);
+}
+
+.instance p {
+  margin: 0px;
+  color: var(--font-fg);
+  font-size: 16px;
+}
+
+.instance-type {
+  display: inline-block;
+  width: 69px;
+}
+
+.no-results-switch-instance p {
+  margin: 0px;
+  color: var(--font-fg);
+  font-size: 16px;
+}
+
+.no-results-switch-instance button {
+  margin-top: 10px;
+  padding: 10px;
+  background: var(--html-bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.no-results-switch-instance button a {
+  color: var(--main-fg) !important;
+  text-decoration: none;
+}
+
+.no-results-switch-instance button:hover {
+  border-color: #5f6368;
+}
+
 @media only screen and (max-width: 1320px) {
 
     .snip,

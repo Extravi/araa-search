@@ -23,6 +23,10 @@
         <div class="no-results-found">
             Your search '{{ q }}' came back with no results.<br>
             Try rephrasing your search term and/or recorrect any spelling mistakes.
+            <div class="no-results-switch-instance">
+              <p>You may want to switch instances.<p>
+              <button class="btn"><a href="/switch_instance?q={{ q }}&t={{ type }}">Switch instance</a></button>
+            </div>
         </div>
     {% endif %}
 {% endblock %}

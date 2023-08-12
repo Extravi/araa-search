@@ -3,7 +3,7 @@ import requests
 import random
 import json
 from _config import *
-from src import textResults, torrents, helpers, images, video, switch_instances
+from src import textResults, torrents, helpers, images, video
 from server import app
 
 bfp = open("./bangs.json", "r")
@@ -14,12 +14,24 @@ SEARCH_BANGS = {}
 for bang, url in bjson.items():
     SEARCH_BANGS[bang] = url
 
-app = Flask(__name__, static_folder="static", static_url_path="")
-app.jinja_env.filters['highlight_query_words'] = helpers.highlight_query_words
-app.jinja_env.globals.update(int=int)
-
 COMMIT = helpers.latest_commit()
 
+@app.route("/switch_instance")
+def switch_instance_page():
+    instances = json.loads(requests.get(
+        INSTANCE_SOURCE
+    ).content)
+
+    theme = request.cookies.get("theme", DEFAULT_THEME)
+    q = helpers.arg_exists("q")
+    t = helpers.arg_exists("t", fallback="text")
+    p = helpers.arg_exists("p", fallback="0")
+    ending_url = f"search?q={q}&t={t}&p={p}"
+
+    return render_template("switch_instances.html", 
+                           instances=instances["instances"], q=q, t=t, p=p, theme=theme,
+                           ending_url=ending_url, source=INSTANCE_SOURCE
+                           )
 
 @app.route('/settings')
 def settings():

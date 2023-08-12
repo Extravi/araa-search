@@ -46,3 +46,10 @@ def latest_commit():
         with open('./.git/refs/heads/main') as f:
             return f.readline()
     return "Not in main branch"
+
+
+def arg_exists(arg: str, fallback=""):
+    a = request.args.get(arg)
+    if a is None:
+        return fallback
+    return a

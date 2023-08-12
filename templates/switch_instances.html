@@ -2,9 +2,36 @@
 
 {% block body %}
 
-  {% for instance in instances %}
-    {{ instance["clear"] }}
-  {% endfor %}
+  <div class="instances">
+    <h1>Choose an instance: </h1>
+    <a href="{{ source }}">Source of instances</a>
+    {% for instance in instances %}
+      <div class="instance">
+        <div class="country">
+          Country: {{ instance["country"] }}
+        </div>
+
+        <div class="clear">
+          <div class="instance-type">Clearnet: </div>
+          {% if instance["clearnet"] != "no" %}
+            <a href="{{ instance["clearnet"] }}{{ ending_url }}">{{ instance["clearnet"] }}</a>
+          {% else %}
+            <b>Clearnet is not available on this instance</b>
+          {% endif %}
+        </div>
+
+        <div class="tor">
+            <div class="instance-type">Tor: </div>
+          {% if instance["tor"] != "no" %}
+            <a href="{{ instance["tor"] }}{{ ending_url }}">{{ instance["tor"] }}</a>
+          {% else %}
+            <b>Tor is not available on this instance</b>
+          {% endif %}
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
 
 {% endblock %}
 

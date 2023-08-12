@@ -1,4 +1,4 @@
-from src.helpers import makeHTMLRequest
+from src import helpers
 from _config import *
 from flask import request, render_template, jsonify, Response
 import time
@@ -13,7 +13,7 @@ def videoResults(query) -> Response:
     api = request.args.get("api", "false")
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={query}")
+    soup = helpers.makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={query}")
     data = json.loads(soup.text)
 
     # sort by videos only
