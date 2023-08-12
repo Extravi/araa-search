@@ -1,0 +1,14 @@
+{
+  "instances": [
+    {
+      "clearnet": "https://tailsx.extravi.dev/",
+      "country": "US",
+      "tor": "no"
+    },
+    {
+      "clearnet": "https://tailsx.com/",
+      "country": "CA",
+      "tor": "http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/"
+    }
+  ]
+}
