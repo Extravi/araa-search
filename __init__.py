@@ -30,7 +30,8 @@ def switch_instance_page():
 
     return render_template("switch_instances.html", 
                            instances=instances["instances"], q=q, t=t, p=p, theme=theme,
-                           ending_url=ending_url, source=INSTANCE_SOURCE
+                           ending_url=ending_url, source=INSTANCE_SOURCE,
+                           repo_url=REPO
                            )
 
 @app.route('/settings')
