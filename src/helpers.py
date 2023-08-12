@@ -50,6 +50,6 @@ def latest_commit():
 
 def arg_exists(arg: str, fallback=""):
     a = request.args.get(arg)
-    if a is None:
+    if a is None or a.strip() == "":
         return fallback
     return a
