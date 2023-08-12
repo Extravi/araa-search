@@ -4,11 +4,14 @@ import random
 import json
 from _config import *
 from src import textResults, torrents, helpers, images, video
-from server import app
 
-bfp = open("./bangs.json", "r")
-bjson = json.load(bfp)
-bfp.close()
+
+with open("./bangs.json", "r") as bfp:
+    bjson = json.loads(bfp)
+
+app = Flask(__name__, static_folder="static", static_url_path="")
+app.jinja_env.filters['highlight_query_words'] = helpers.highlight_query_words
+app.jinja_env.globals.update(int=int)
 
 SEARCH_BANGS = {}
 for bang, url in bjson.items():
