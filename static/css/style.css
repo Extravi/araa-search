@@ -489,9 +489,22 @@ select.results-settings {
     text-decoration: none;
 }
 
+.switch-instance-search-div {
+    position: absolute;
+    right: 30px;
+    top: 50px;
+    font-size: 14px;
+    display: flex;
+}
+
+.switch-instance-results-link {
+  color: var(--fg);
+  text-decoration: none;
+}
+
 .settings-search-div {
     position: absolute;
-    right: 90px;
+    right: 115px;
     top: 30px;
     font-size: 14px;
     display: flex;
