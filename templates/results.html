@@ -114,12 +114,16 @@
         {% endfor %}
     </div>
     <div class="prev-next">
-        {% set p = request.args.get('p', 0)|int %}
-        {% if p >= 10 %}
-            <button form="prev-next-form" name="p" value="{{ p - 10 }}">Previous</button>
-        {% endif %}
-        <button form="prev-next-form" name="p" value="{{ p + 10 }}">Next</button>
-    </div>    
+        <form action="">
+          <input type="hidden" name="q" value="{{ q }}">
+          <input type="hidden" name="t" value="{{ type }}">
+          {% set p = request.args.get('p', 0)|int %}
+          {% if p >= 10 %}
+              <button name="p" value="{{ p - 10 }}">Previous</button>
+          {% endif %}
+          <button name="p" value="{{ p + 10 }}">Next</button>
+        </form>
+    </div>
     {% else %}
         <div class="no-results-found">
             Your search '{{ q }}' came back with no results.<br>
