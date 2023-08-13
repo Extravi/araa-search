@@ -9,13 +9,13 @@ from src import textResults, torrents, helpers, images, video
 with open("./bangs.json", "r") as bfp:
     bjson = json.loads(bfp.read())
 
-app = Flask(__name__, static_folder="static", static_url_path="")
-app.jinja_env.filters['highlight_query_words'] = helpers.highlight_query_words
-app.jinja_env.globals.update(int=int)
-
 SEARCH_BANGS = {}
 for bang, url in bjson.items():
     SEARCH_BANGS[bang] = url
+
+app = Flask(__name__, static_folder="static", static_url_path="")
+app.jinja_env.filters['highlight_query_words'] = helpers.highlight_query_words
+app.jinja_env.globals.update(int=int)
 
 COMMIT = helpers.latest_commit()
 
