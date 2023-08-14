@@ -216,7 +216,12 @@ html {
 .image-close:hover,
 .image-next:hover,
 .image-before:hover {
-    background-color: #303030;
+    background-color: var(--image-select);
+}
+
+.btn-nostyle {
+    background-color: inherit;
+    border: none;
 }
 
 .view-image {
