@@ -4,6 +4,7 @@ from _config import *
 from flask import request, render_template, jsonify, Response
 import time
 import json
+import re
 
 
 def textResults(query) -> Response:
@@ -132,6 +133,7 @@ def textResults(query) -> Response:
 
     # gets users ip or user agent
     info = ""
+    calc = ""
     if any(query.lower().find(valid_ip_prompt) != -1 for valid_ip_prompt in VALID_IP_PROMPTS):
         xff = request.headers.get("X-Forwarded-For")
         if xff:
@@ -142,6 +144,35 @@ def textResults(query) -> Response:
     elif any(query.lower().find(valid_ua_prompt) != -1 for valid_ua_prompt in VALID_UA_PROMPTS):
         user_agent = request.headers.get("User-Agent") or "unknown"
         info = user_agent
+    # calculator
+    else:
+        math_expression = re.search(r'(\d+(\.\d+)?)\s*([\+\-\*/x])\s*(\d+(\.\d+)?)', query)
+        if math_expression:
+            num1 = float(math_expression.group(1))
+            operator = math_expression.group(3)
+            num2 = float(math_expression.group(4))
+
+            if operator == '+':
+                result = num1 + num2
+            elif operator == '-':
+                result = num1 - num2
+            elif operator == '*':
+                result = num1 * num2
+            elif operator == 'x':
+                result = num1 * num2
+            elif operator == '/':
+                result = num1 / num2
+
+            if result.is_integer():
+                calc = str(int(result))
+            else:
+                calc = str(result)
+        else:
+            calc = ""
+        if "calculator" in query.lower() and calc == "":
+            calc = "0"
+        else:
+            pass
 
     # list
     results = []
@@ -170,7 +201,7 @@ def textResults(query) -> Response:
                                q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
                                snip=f"{snip}", kno_rdesc=f"{kno}", rdesc_link=f"{unquote(kno_link)}",
                                kno_wiki=f"{kno_image}", rkno_title=f"{rkno_title}", kno_title=f"{kno_title}",
-                               user_info=f"{info}", check=check, current_url=current_url,
+                               user_info=f"{info}", calc=f"{calc}", check=check, current_url=current_url,
                                theme=request.cookies.get('theme', DEFAULT_THEME), new_tab=request.cookies.get("new_tab"),
                                javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
                                type=type, search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=latest_commit()

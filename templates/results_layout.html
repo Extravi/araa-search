@@ -102,6 +102,12 @@
         <div id="kno_title" data-kno-title="{{ kno_title }}"></div>
         <script defer src="/script.js"></script>
         {% endif %}
+        {% if calc == "" %}
+        {% else %}
+        {% if javascript == "enabled" %}
+        <script defer src="/calculator.js"></script>
+        {% endif %}
+        {% endif %}
     </form>
     {% block body %}{% endblock %}
     <div class="footer">
