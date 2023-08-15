@@ -83,7 +83,7 @@ function evaluateExpression(expression) {
   const numbers = [];
   const operators = [];
   for (const part of parts) {
-    if (parseFloat(part)) {
+    if (!isNaN(parseFloat(part))) {
       numbers.push(parseFloat(part));
     } else if (part.trim() !== '') {
       operators.push(part);
