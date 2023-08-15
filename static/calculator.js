@@ -38,6 +38,11 @@ const backspaceBtn = document.getElementById('backspace');
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
+    // remove any 0 output.
+    if (calcInput.textContent === "0") {
+      calcInput.textContent = "";
+    }
+
     calcInput.textContent += button.textContent;
   });
 });
