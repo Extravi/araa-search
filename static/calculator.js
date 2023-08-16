@@ -37,69 +37,105 @@ const clearBtn = document.getElementById('ce');
 const backspaceBtn = document.getElementById('backspace');
 
 numberButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        calcInput.textContent += button.textContent;
-    });
+  button.addEventListener('click', () => {
+    // remove any 0 output.
+    if (calcInput.textContent === "0") {
+      calcInput.textContent = "";
+    }
+
+    calcInput.textContent += button.textContent;
+  });
 });
 
 addBtn.addEventListener('click', () => {
-    calcInput.textContent += ' + ';
+  calcInput.textContent += ' + ';
 });
 
 subtractBtn.addEventListener('click', () => {
-    calcInput.textContent += ' - ';
+  calcInput.textContent += ' - ';
 });
 
 multiplyBtn.addEventListener('click', () => {
-    calcInput.textContent += ' * ';
+  calcInput.textContent += ' * ';
 });
 
 divideBtn.addEventListener('click', () => {
-    calcInput.textContent += ' / ';
+  calcInput.textContent += ' / ';
 });
 
 clearBtn.addEventListener('click', () => {
-    calcInput.textContent = '';
+  calcInput.textContent = '';
 });
 
 backspaceBtn.addEventListener('click', () => {
-    calcInput.textContent = calcInput.textContent.slice(0, -1);
+  calcInput.textContent = calcInput.textContent.slice(0, -1);
 });
 
 equalsBtn.addEventListener('click', () => {
-    const expression = calcInput.textContent;
-    const result = evaluateExpression(expression);
-    calcInput.textContent = result;
+  const expression = calcInput.textContent;
+  const result = evaluateExpression(expression);
+  calcInput.textContent = result;
 });
 
 function evaluateExpression(expression) {
-    const parts = expression.split(' ');
+  const parts = expression.split(' ');
 
-    const numbers = [];
-    const operators = [];
-    for (const part of parts) {
-        if (parseFloat(part)) {
-            numbers.push(parseFloat(part));
-        } else if (part.trim() !== '') {
-            operators.push(part);
-        }
+  const numbers = [];
+  const operators = [];
+  for (const part of parts) {
+    if (!isNaN(parseFloat(part))) {
+      numbers.push(parseFloat(part));
+    } else if (part.trim() !== '') {
+      operators.push(part);
+    }
+  }
+
+  // assert(numbers.length === operators.length + 1)
+  // TODO: This _may_ change with the addition of parenthesis.
+  if (numbers.length !== operators.length + 1) {
+    return "Err; not a valid expression!";
+  }
+
+  // DM in PEDMAS
+  for (let i = 0; i < operators.length; i++) {
+    const operator = operators[i];
+
+    // pass if not dividing or multiplying.
+    if (operator !== '*' && operator !== '/') {
+      continue;
     }
 
-    let total = numbers[0];
-    for (let i = 0; i < operators.length; i++) {
-        const operator = operators[i];
-        const nextNumber = numbers[i + 1];
+    const nextNumber = numbers[i + 1];
+    switch (operator) {
+      case '*':
+        numbers[i] *= nextNumber;
+        break;
+      case '/':
+        numbers[i] /= nextNumber;
+        break;
+    }
+  }
 
-        if (operator === '+') {
-            total += nextNumber;
-        } else if (operator === '-') {
-            total -= nextNumber;
-        } else if (operator === '*') {
-            total *= nextNumber;
-        } else if (operator === '/') {
-            total /= nextNumber;
-        }
+  // Add and subtract to calculate the final number.
+  let total = numbers[0];
+  for (let i = 0; i < operators.length; i++) {
+    const operator = operators[i];
+
+    // pass if not adding or subtracting.
+    if (operator !== '+' && operator !== '-') {
+      continue;
     }
 
-    return total;
+    const nextNumber = numbers[i + 1];
+    switch (operator) {
+      case '+':
+        total += nextNumber;
+        break;
+      case '-':
+        total -= nextNumber;
+        break;
+    }
+  }
+
+  return total;
 }
