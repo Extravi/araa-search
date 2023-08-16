@@ -39,7 +39,7 @@ const backspaceBtn = document.getElementById('backspace');
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
     // remove any 0 output.
-    if (calcInput.textContent === "0") {
+    if (calcInput.textContent === "0" && button.textContent !== ".") {
       calcInput.textContent = "";
     }
 
@@ -64,7 +64,7 @@ divideBtn.addEventListener('click', () => {
 });
 
 clearBtn.addEventListener('click', () => {
-  calcInput.textContent = '';
+  calcInput.textContent = '0';
 });
 
 backspaceBtn.addEventListener('click', () => {
