@@ -35,3 +35,25 @@
 
     --search-button: #202124;
 }
+
+.wrapper-results:hover,
+.wrapper-results:focus-within,
+.wrapper:hover,
+.wrapper:focus-within {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+.check p {
+    color: var(--highlight) !important;
+}
+
+.image:hover {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+.image_view {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
