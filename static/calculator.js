@@ -39,7 +39,7 @@ const backspaceBtn = document.getElementById('backspace');
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
     // remove any 0 output.
-    if (calcInput.textContent === "0") {
+    if (calcInput.textContent === "0" && button.textContent !== ".") {
       calcInput.textContent = "";
     }
 
@@ -64,7 +64,7 @@ divideBtn.addEventListener('click', () => {
 });
 
 clearBtn.addEventListener('click', () => {
-  calcInput.textContent = '';
+  calcInput.textContent = '0';
 });
 
 backspaceBtn.addEventListener('click', () => {
@@ -96,12 +96,16 @@ function evaluateExpression(expression) {
     return "Err; not a valid expression!";
   }
 
+  // TODO: Exponents
+  // \__ TODO later: Parenthesis
+
   // DM in PEDMAS
-  for (let i = 0; i < operators.length; i++) {
+  for (let i = 0; i < operators.length;) {
     const operator = operators[i];
 
     // pass if not dividing or multiplying.
     if (operator !== '*' && operator !== '/') {
+      i++;
       continue;
     }
 
@@ -113,20 +117,21 @@ function evaluateExpression(expression) {
       case '/':
         numbers[i] /= nextNumber;
         break;
+      default:
+        return `Err; unknown operator "${operator}"`;
     }
+
+    // remove operation and numbers[i + 1] as they're no longer needed
+    operators.splice(i, 1);
+    numbers.splice(i + 1, 1);
   }
 
   // Add and subtract to calculate the final number.
   let total = numbers[0];
   for (let i = 0; i < operators.length; i++) {
     const operator = operators[i];
-
-    // pass if not adding or subtracting.
-    if (operator !== '+' && operator !== '-') {
-      continue;
-    }
-
     const nextNumber = numbers[i + 1];
+
     switch (operator) {
       case '+':
         total += nextNumber;
@@ -134,6 +139,8 @@ function evaluateExpression(expression) {
       case '-':
         total -= nextNumber;
         break;
+      default:
+        return `Err; unknown operator "${operator}"`;
     }
   }
 
