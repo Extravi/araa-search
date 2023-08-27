@@ -40,4 +40,4 @@ Here are some of the features that TailsX a privacy-respecting, ad-free, self-ho
 <img src="https://user-images.githubusercontent.com/98912029/253724288-a5e41502-524b-4084-a815-73769d0a2a2c.png" width="600">
 
 ## Contact
-Email: extravi@duck.com
+Email: extravi@extravi.dev
