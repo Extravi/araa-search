@@ -57,7 +57,7 @@ WHITELISTED_DOMAINS = [
     "www.google.co.kr",
     "www.google.com.br",
     "wikipedia.org",
-    "yt.revvy.de",
+    "yt.artemislena.eu",
     "lite.qwant.com",
     TORRENTGALAXY_DOMAIN
 ]
@@ -66,4 +66,4 @@ COOKIE_AGE = 2147483647
 
 
 # if you are using a custom Invidious you have to add it to the whitelist above
-INVIDIOUS_INSTANCE = "yt.revvy.de"
+INVIDIOUS_INSTANCE = "yt.artemislena.eu"

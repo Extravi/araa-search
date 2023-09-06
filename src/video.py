@@ -40,7 +40,7 @@ def videoResults(query) -> Response:
 
     # retrieve images
     video_thumbnails = [item['videoThumbnails'] for item in data if item.get('type') == 'video']
-    maxres_thumbnails = [thumbnail for thumbnails in video_thumbnails for thumbnail in thumbnails if thumbnail['quality'] == 'maxresdefault']
+    maxres_thumbnails = [thumbnail for thumbnails in video_thumbnails for thumbnail in thumbnails if thumbnail['quality'] == 'medium']
     filtered_urls = ['/img_proxy?url=' + thumbnail['url'].replace(":3000", "").replace("http://", "https://") for thumbnail in maxres_thumbnails]
 
     # retrieve time
