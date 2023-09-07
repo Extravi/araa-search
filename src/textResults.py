@@ -5,6 +5,7 @@ from flask import request, render_template, jsonify, Response
 import time
 import json
 import re
+from math import isclose # For float comparisons
 
 
 def textResults(query) -> Response:
@@ -83,10 +84,10 @@ def textResults(query) -> Response:
             try:
                 rtitle = soup.find(ellement, {"class": class_name})
                 rkno_title = rtitle.text.strip()
-            except: 
+            except:
                 continue  # couldn't scrape anything. continue if we can.
             else:
-                if rkno_title not in ["", "See results about"]: 
+                if rkno_title not in ["", "See results about"]:
                     break  # we got one
         else:
             rkno_title = ""
@@ -161,18 +162,20 @@ def textResults(query) -> Response:
             elif operator == 'x':
                 result = num1 * num2
             elif operator == '/':
-                result = num1 / num2
+                result = num1 / num2 if not isclose(num2, 0) else "Err; cannot divide by 0."
 
-            if result.is_integer():
-                calc = str(int(result))
-            else:
-                calc = str(result)
-        else:
-            calc = ""
-        if "calculator" in query.lower() and calc == "":
+            try:
+                result = float(result)
+                if result.is_integer():
+                    result = int(result)
+            except:
+                pass
+
+            calc = result
+        elif "calculator" in query.lower():
             calc = "0"
         else:
-            pass
+            calc = ""
 
     # list
     results = []

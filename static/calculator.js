@@ -115,10 +115,10 @@ function evaluateExpression(expression) {
         numbers[i] *= nextNumber;
         break;
       case '/':
+        if (nextNumber === 0)
+          return "Err; cannot divide by 0.";
         numbers[i] /= nextNumber;
         break;
-      default:
-        return `Err; unknown operator "${operator}"`;
     }
 
     // remove operation and numbers[i + 1] as they're no longer needed
