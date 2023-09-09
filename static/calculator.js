@@ -82,7 +82,7 @@ equalsBtn.addEventListener('click', () => {
 // Implementation from https://github.com/TommyPang/SimpleCalculator
 
 function evaluateExpression(expression) {
-    expression = expression.replace(/\s/g, '');
+  expression = expression.replace(/\s/g, '');
   return helper(Array.from(expression), 0);
 }
 
