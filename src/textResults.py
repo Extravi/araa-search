@@ -149,6 +149,7 @@ def textResults(query) -> Response:
     else:
         math_expression = re.search(r'(\d+(\.\d+)?)\s*([\+\-\*/x])\s*(\d+(\.\d+)?)', query)
         if math_expression:
+            exported_math_expression = math_expression.group(0)
             num1 = float(math_expression.group(1))
             operator = math_expression.group(3)
             num2 = float(math_expression.group(4))
@@ -191,6 +192,9 @@ def textResults(query) -> Response:
 
     current_url = request.url
 
+    if "exported_math_expression" not in locals():
+        exported_math_expression = ""
+
     if api == "true":
         # return the results list as a JSON response
         return jsonify(results)
@@ -207,5 +211,6 @@ def textResults(query) -> Response:
                                user_info=f"{info}", calc=f"{calc}", check=check, current_url=current_url,
                                theme=request.cookies.get('theme', DEFAULT_THEME), new_tab=request.cookies.get("new_tab"),
                                javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
-                               type=type, search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=latest_commit()
+                               type=type, search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=latest_commit(),
+                               exported_math_expression=exported_math_expression
                                )
