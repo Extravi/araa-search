@@ -26,7 +26,6 @@
  *  for the JavaScript code in this page.
  */
 
-const calculator = document.querySelector(".calc");
 const calcInput = document.getElementById('current_calc');
 const numberButtons = document.querySelectorAll('.calc-btn-style:not(#ce):not(#backspace)');
 const addBtn = document.getElementById('add');
