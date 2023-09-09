@@ -138,8 +138,8 @@ html {
 }
 
 .calc {
-    height: 380px;
-    width: 320px;
+    height: fit-content;
+    width: fit-content;
     position: relative;
     left: 175px;
     border: 1px solid var(--snip-border);
@@ -156,7 +156,7 @@ html {
 }
 
 .calc-input {
-    width: 280px;
+    width: 90%;
     height: 10%;
     background-color: var(--search-bg);
     border: 1px solid var(--snip-border);
@@ -172,10 +172,6 @@ html {
     overflow: hidden;
 }
 
-.calc-btn-3 {
-    width: 230px !important;
-}
-
 .calc-btn {
     max-width: 48em;
     line-height: 50px;
@@ -188,7 +184,7 @@ html {
     height: 50px;
     margin: auto;
     margin: 4px;
-    width: 70px;
+    width: 80px;
     text-align: center;
 }
 
@@ -203,13 +199,16 @@ html {
     height: 50px;
     margin: auto;
     margin: 4px;
-    width: 70px;
+    width: 80px;
     text-align: center;
 }
 
 .calc-btns {
-    display: flex;
-    margin-top: 2px;
+  display: grid;
+  grid-template-columns: repeat(4, 90px);
+  width: 100%;
+  justify-content: center;
+  padding: 4px;
 }
 
 .calc-pos-absolute {
@@ -218,6 +217,11 @@ html {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+.prev_calculation {
+  opacity: 0.5;
+  font-size: 14px;
 }
 
 .images {
@@ -304,6 +308,7 @@ html {
     background-color: inherit;
     border: none;
     padding: 0px;
+    width: fit-content;
 }
 
 .view-image {

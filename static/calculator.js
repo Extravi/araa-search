@@ -26,7 +26,7 @@
  *  for the JavaScript code in this page.
  */
 
-const calcInput = document.getElementById('calc-input');
+const calcInput = document.getElementById('current_calc');
 const numberButtons = document.querySelectorAll('.calc-btn-style:not(#ce):not(#backspace)');
 const addBtn = document.getElementById('add');
 const subtractBtn = document.getElementById('subtract');
@@ -36,10 +36,11 @@ const equalsBtn = document.getElementById('equals');
 const clearBtn = document.getElementById('ce');
 const backspaceBtn = document.getElementById('backspace');
 
+
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
     // remove any 0 output.
-    if (calcInput.textContent === "0" && button.textContent !== ".") {
+    if (parseInt(calcInput.textContent) === 0 && button.textContent !== ".") {
       calcInput.textContent = "";
     }
 
@@ -74,75 +75,87 @@ backspaceBtn.addEventListener('click', () => {
 equalsBtn.addEventListener('click', () => {
   const expression = calcInput.textContent;
   const result = evaluateExpression(expression);
+  document.querySelector(".prev_calculation").textContent = expression;
   calcInput.textContent = result;
 });
 
+// Implementation from https://github.com/TommyPang/SimpleCalculator
+
 function evaluateExpression(expression) {
-  const parts = expression.split(' ');
+  expression = expression.replace(/\s/g, '');
+  return helper(Array.from(expression), 0);
+}
 
-  const numbers = [];
-  const operators = [];
-  for (const part of parts) {
-    if (!isNaN(parseFloat(part))) {
-      numbers.push(parseFloat(part));
-    } else if (part.trim() !== '') {
-      operators.push(part);
+function helper(s, idx) {
+  var stk = [];
+  let sign = '+';
+  let num = 0;
+  let decimalFlag = false;
+  let decimalDivider = 1;
+
+  for (let i = idx; i < s.length; i++) {
+    let c = s[i];
+
+    if (c >= '0' && c <= '9') {
+      if (decimalFlag) {
+        // Handle numbers after decimal point
+        decimalDivider *= 10;
+        num = num + (parseInt(c) / decimalDivider);
+      } else {
+        // Handle whole numbers
+        num = num * 10 + (c - '0');
+      }
+    } else if (c === '.') {
+      decimalFlag = true;
+    }
+
+    if ((!(c >= '0' && c <= '9') && c !== '.') || i === s.length - 1) {
+      if (c === '(') {
+        num = helper(s, i + 1);
+        let l = 1,
+          r = 0;
+        for (let j = i + 1; j < s.length; j++) {
+          if (s[j] === ')') {
+            r++;
+            if (r === l) {
+              i = j;
+              break;
+            }
+          } else if (s[j] === '(') l++;
+        }
+      }
+
+      let pre = -1;
+      switch (sign) {
+        case '+':
+          stk.push(num);
+          break;
+        case '-':
+          stk.push(num * -1);
+          break;
+        case '*':
+          pre = stk.pop();
+          stk.push(pre * num);
+          break;
+        case '/':
+          pre = stk.pop();
+          stk.push(pre / num);
+          break;
+      }
+      sign = c;
+      num = 0;
+      decimalFlag = false;
+      decimalDivider = 1;
+
+      if (c === ')') {
+        break;
+      }
     }
   }
 
-  // assert(numbers.length === operators.length + 1)
-  // TODO: This _may_ change with the addition of parenthesis.
-  if (numbers.length !== operators.length + 1) {
-    return "Err; not a valid expression!";
+  let ans = 0;
+  while (stk.length > 0) {
+    ans += stk.pop();
   }
-
-  // TODO: Exponents
-  // \__ TODO later: Parenthesis
-
-  // DM in PEDMAS
-  for (let i = 0; i < operators.length;) {
-    const operator = operators[i];
-
-    // pass if not dividing or multiplying.
-    if (operator !== '*' && operator !== '/') {
-      i++;
-      continue;
-    }
-
-    const nextNumber = numbers[i + 1];
-    switch (operator) {
-      case '*':
-        numbers[i] *= nextNumber;
-        break;
-      case '/':
-        if (nextNumber === 0)
-          return "Err; cannot divide by 0.";
-        numbers[i] /= nextNumber;
-        break;
-    }
-
-    // remove operation and numbers[i + 1] as they're no longer needed
-    operators.splice(i, 1);
-    numbers.splice(i + 1, 1);
-  }
-
-  // Add and subtract to calculate the final number.
-  let total = numbers[0];
-  for (let i = 0; i < operators.length; i++) {
-    const operator = operators[i];
-    const nextNumber = numbers[i + 1];
-
-    switch (operator) {
-      case '+':
-        total += nextNumber;
-        break;
-      case '-':
-        total -= nextNumber;
-        break;
-      default:
-        return `Err; unknown operator "${operator}"`;
-    }
-  }
-
-  return total;
+  return ans;
 }
