@@ -37,6 +37,10 @@ const clearBtn = document.getElementById('ce');
 const backspaceBtn = document.getElementById('backspace');
 
 document.body.addEventListener('keydown', (key) => {
+  if (key.target.tagName.toLowerCase() == "input") {
+    return;
+  }
+
   if ('0123456789()+-*/.'.includes(key.key)) {
     if (parseInt(calcInput.textContent) === 0 && key.key !== ".") {
       calcInput.textContent = "";
