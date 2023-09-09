@@ -26,6 +26,7 @@
  *  for the JavaScript code in this page.
  */
 
+const calculator = document.querySelector(".calc");
 const calcInput = document.getElementById('current_calc');
 const numberButtons = document.querySelectorAll('.calc-btn-style:not(#ce):not(#backspace)');
 const addBtn = document.getElementById('add');
@@ -36,6 +37,21 @@ const equalsBtn = document.getElementById('equals');
 const clearBtn = document.getElementById('ce');
 const backspaceBtn = document.getElementById('backspace');
 
+document.body.addEventListener('keydown', (key) => {
+  if ('0123456789()+-*/.'.includes(key.key)) {
+    if (parseInt(calcInput.textContent) === 0 && key.key !== ".") {
+      calcInput.textContent = "";
+    }
+    calcInput.textContent += key.key;
+  }
+  if (key.key === "Backspace") {
+    if (calcInput.textContent.length === 1) {
+      calcInput.textContent = "0";
+    } else {
+      calcInput.textContent = calcInput.textContent.slice(0, -1);
+    }
+  }
+})
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
