@@ -163,89 +163,94 @@ window.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// image viewer for image search
-const closeButton = document.querySelector('.image-close');
-const imageView = document.querySelector('.image_view');
-const images = document.querySelector('.images');
-const viewImageImg = document.querySelector('.view-image-img');
-const proxyLinkUwu = document.querySelector('.proxy-link-uwu');
-const imageSource = document.querySelector('.image-source');
-const imageViewerLink = document.querySelector('.image-viewer-link');
-const imageSize = document.querySelector('.image-size');
-const imageAlt = document.querySelector('.image-alt');
-const openImageViewer = document.querySelectorAll('.open-image-viewer');
-const imageBefore = document.querySelector('.image-before');
-const imageNext = document.querySelector('.image-next');
-let currentImageIndex = 0;
+const urlParams = new URLSearchParams(window.location.search);
 
-closeButton.addEventListener('click', function() {
-  imageView.classList.remove('image_show');
-  imageView.classList.add('image_hide');
-  images.classList.add('images_viewer_hidden');
-});
+if (urlParams.get("t") === "image") {
 
-openImageViewer.forEach((image, index) => {
-  image.addEventListener('click', function(event) {
-    event.preventDefault();
-    currentImageIndex = index;
-    showImage();
+  // image viewer for image search
+  const closeButton = document.querySelector('.image-close');
+  const imageView = document.querySelector('.image_view');
+  const images = document.querySelector('.images');
+  const viewImageImg = document.querySelector('.view-image-img');
+  const proxyLinkUwu = document.querySelector('.proxy-link-uwu');
+  const imageSource = document.querySelector('.image-source');
+  const imageViewerLink = document.querySelector('.image-viewer-link');
+  const imageSize = document.querySelector('.image-size');
+  const imageAlt = document.querySelector('.image-alt');
+  const openImageViewer = document.querySelectorAll('.open-image-viewer');
+  const imageBefore = document.querySelector('.image-before');
+  const imageNext = document.querySelector('.image-next');
+  let currentImageIndex = 0;
+
+  closeButton.addEventListener('click', function() {
+    imageView.classList.remove('image_show');
+    imageView.classList.add('image_hide');
+    images.classList.add('images_viewer_hidden');
   });
-});
 
-imageBefore.addEventListener('click', function() {
-  currentImageIndex = (currentImageIndex - 1 + openImageViewer.length) % openImageViewer.length;
-  showImage();
-});
+  openImageViewer.forEach((image, index) => {
+    image.addEventListener('click', function(event) {
+      event.preventDefault();
+      currentImageIndex = index;
+      showImage();
+    });
+  });
 
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'ArrowLeft') {
+  imageBefore.addEventListener('click', function() {
     currentImageIndex = (currentImageIndex - 1 + openImageViewer.length) % openImageViewer.length;
     showImage();
-  }
-});
+  });
 
-imageNext.addEventListener('click', function() {
-  currentImageIndex = (currentImageIndex + 1) % openImageViewer.length;
-  showImage();
-});
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowLeft') {
+      currentImageIndex = (currentImageIndex - 1 + openImageViewer.length) % openImageViewer.length;
+      showImage();
+    }
+  });
 
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'ArrowRight') {
+  imageNext.addEventListener('click', function() {
     currentImageIndex = (currentImageIndex + 1) % openImageViewer.length;
     showImage();
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowRight') {
+      currentImageIndex = (currentImageIndex + 1) % openImageViewer.length;
+      showImage();
+    }
+  });
+
+  function showImage() {
+    const src = openImageViewer[currentImageIndex].getAttribute('src');
+    const alt = openImageViewer[currentImageIndex].getAttribute('alt');
+    const clickableLink = openImageViewer[currentImageIndex].closest('.clickable');
+    const href = clickableLink.getAttribute('href');
+    viewImageImg.src = src;
+    proxyLinkUwu.href = src;
+    imageSource.href = href;
+    imageViewerLink.href = href;
+    imageSource.textContent = href;
+    images.classList.remove('images_viewer_hidden');
+    imageView.classList.remove('image_hide');
+    imageView.classList.add('image_show');
+    imageAlt.textContent = alt;
+
+    getImageSize(src).then(size => {
+      imageSize.textContent = size;
+    });
   }
-});
 
-function showImage() {
-  const src = openImageViewer[currentImageIndex].getAttribute('src');
-  const alt = openImageViewer[currentImageIndex].getAttribute('alt');
-  const clickableLink = openImageViewer[currentImageIndex].closest('.clickable');
-  const href = clickableLink.getAttribute('href');
-  viewImageImg.src = src;
-  proxyLinkUwu.href = src;
-  imageSource.href = href;
-  imageViewerLink.href = href;
-  imageSource.textContent = href;
-  images.classList.remove('images_viewer_hidden');
-  imageView.classList.remove('image_hide');
-  imageView.classList.add('image_show');
-  imageAlt.textContent = alt;
-
-  getImageSize(src).then(size => {
-    imageSize.textContent = size;
-  });
-}
-
-function getImageSize(url) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = function() {
-      const size = `${this.width} x ${this.height}`;
-      resolve(size);
-    };
-    img.onerror = function() {
-      reject('Error loading image');
-    };
-    img.src = url;
-  });
+  function getImageSize(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = function() {
+        const size = `${this.width} x ${this.height}`;
+        resolve(size);
+      };
+      img.onerror = function() {
+        reject('Error loading image');
+      };
+      img.src = url;
+    });
+  }
 }
