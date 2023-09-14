@@ -1,4 +1,5 @@
 from src.helpers import makeJSONRequest, latest_commit
+from _config import *
 from flask import request, render_template, jsonify, Response
 import time
 import json
@@ -31,3 +32,12 @@ def codeResults(query) -> Response:
 
     end_time = time.time()
     elapsed_time = end_time - start_time
+
+    if api == "true":
+        return jsonify(results)
+    else:
+        return render_template("codes.html", results=results, title=f"{query} - TailsX",
+            q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
+            theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
+            javascript=request.cookies.get('javascript', 'enabled'), type="code",
+            new_tab=request.cookies.get("new_tab"), repo_url=REPO, commit=latest_commit())
