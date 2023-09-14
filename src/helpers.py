@@ -6,6 +6,7 @@ from flask import escape, Markup
 import requests
 import re
 from os.path import exists
+import json
 
 
 def makeHTMLRequest(url: str):
@@ -22,6 +23,21 @@ def makeHTMLRequest(url: str):
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
+
+def makeJSONRequest(url: str):
+    # block unwanted request from an edited cookie
+    domain = unquote(url).split('/')[2]
+    if domain not in WHITELISTED_DOMAINS:
+        raise Exception(f"The domain '{domain}' is not whitelisted.")
+
+    # Choose a user-agent at random
+    user_agent = random.choice(user_agents)
+    headers = {"User-Agent": user_agent}
+    # Grab HTML content
+    response = requests.get(url, headers=headers)
+
+    # Return the BeautifulSoup object
+    return json.loads(response.text)
 
 
 # search highlights
