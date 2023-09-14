@@ -59,6 +59,7 @@ WHITELISTED_DOMAINS = [
     "wikipedia.org",
     "yt.artemislena.eu",
     "lite.qwant.com",
+    "api.stackexchange.com",
     TORRENTGALAXY_DOMAIN
 ]
 
