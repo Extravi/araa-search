@@ -3,7 +3,7 @@ import requests
 import random
 import json
 from _config import *
-from src import textResults, torrents, helpers, images, video
+from src import textResults, torrents, helpers, images, video, codes
 
 bfp = open("./bangs.json", "r")
 bjson = json.load(bfp)
@@ -162,6 +162,8 @@ def search():
                 return video.videoResults(query)
             case "image":
                 return images.imageResults(query)
+            case "code":
+                return codes.codeResults(query)
             case _:
                 return textResults.textResults(query)
 
