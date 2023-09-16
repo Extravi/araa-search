@@ -84,6 +84,18 @@
                 <button name="t" value="reddit" class="clickable">Reddit</button>
             </div>
             {% endif %}
+            {% if type == "code" %}
+            <div class="search-container-results-btn">
+                <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="code">code</button>
+                <button name="t" value="code" class="clickable search-active">Code</button>
+            </div>
+            {% else %}
+            <div class="search-container-results-btn">
+                <button id="sub-search-wrapper-ico" class="material-icons-round clickable" name="t" value="code">code</button>
+                <button name="t" value="code" class="clickable">Code</button>
+            </div>
+            {% endif %}
+
             {% if type == "torrent" %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="torrent">share</button>
