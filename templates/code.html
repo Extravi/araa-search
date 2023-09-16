@@ -5,12 +5,12 @@
     {% if results %}
 
         {% for result in results %}
-            <div class="results">
+            <div class="results codes_results">
                 <a id="link" href="{{result[1]}}">{{result[1]}}</a>
                 <a href="{{result[1]}}">
                     <h3>{{result[0]}}</h3>
                 </a>
-                <div class="code_preview">
+                <div class="answer_preview">
                     {{result[2] | safe}}
                 </div>
             </div>
