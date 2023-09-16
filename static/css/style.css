@@ -1054,15 +1054,22 @@ p {
 .answer_preview{
     max-height: 500px;
     overflow-y: scroll;
+    white-space: pre-wrap;
+    border-style: solid;
+    border-color: var(--fg);
+    border-width: 2px;
+    border-radius: 10px;
+    padding-left: 20px;
 }
 
-.answer_preview p{
-    font-size: 20px;
-}
-
-.answer_preview code {
-    font-size: 15px;
+.answer_preview pre {
+    white-space: pre-wrap;
+    padding: 10px;
+    padding-left: 40px;
+    border-radius: 10px;
     background-color: var(--code-preview-background);
+    background-clip: padding-box;
+    width: 80%;
 }
 
 @media only screen and (max-width: 1320px) {
