@@ -7,7 +7,7 @@ import json
 def codeResults(query) -> Response:
     start_time = time.time()
     api = request.args.get("api", "false")
-    data = makeJSONRequest(f"https://api.stackexchange.com/2.3/search?order=desc&sort=activity&intitle={query}&site=stackoverflow&filter=!*MQI_nAyQ(DMBtaFC*6Ry5W_Dfka&pagesize=20")
+    data = makeJSONRequest(f"https://api.stackexchange.com/2.3/similar?order=desc&sort=relevance&title={query}&site=stackoverflow&filter=!6VClQr9fY7zRFkKQKUYlw_mne&pagesize=20")
 
 
     items = data["items"]
