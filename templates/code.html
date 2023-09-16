@@ -1,0 +1,25 @@
+{% extends "results_layout.html" %}
+
+{% block body %}
+    <p class="fetched fetched_dif fetched_img">{{ fetched }}</p>
+    {% if results %}
+
+        {% for result in results %}
+            <div class="results">
+                <a id="link" href="{{result[1]}}">{{result[1]}}</a>
+                <a href="{{result[1]}}">
+                    <h3>{{result[0]}}</h3>
+                </a>
+                <div class="code_preview">
+                    {{result[2] | safe}}
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="no-results-found">
+            Your search '{{ q }}' came back with no results.<br>
+            Try rephrasing your search term and/or recorrect any spelling mistakes.
+        </div>
+    {% endif %}
+{% endblock %}
