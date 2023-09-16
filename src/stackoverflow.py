@@ -7,7 +7,7 @@ import json
 def codeResults(query) -> Response:
     start_time = time.time()
     api = request.args.get("api", "false")
-    data = makeJSONRequest(f"https://api.stackexchange.com/2.3/similar?order=desc&sort=relevance&title={query}&site=stackoverflow&filter=!6VClQr9fY7zRFkKQKUYlw_mne&pagesize=20")
+    data = makeJSONRequest(f"https://api.stackexchange.com/2.3/similar?order=desc&sort=relevance&title={query}&site=stackoverflow&filter=!6VClQr9fY7zRFkKQKUYlw_mne&pagesize=10")
 
 
     items = data["items"]
@@ -36,8 +36,8 @@ def codeResults(query) -> Response:
     if api == "true":
         return jsonify(results)
     else:
-        return render_template("code.html", results=results, title=f"{query} - TailsX",
+        return render_template("stackoverflow.html", results=results, title=f"{query} - TailsX",
             q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
             theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
-            javascript=request.cookies.get('javascript', 'enabled'), type="code",
+            javascript=request.cookies.get('javascript', 'enabled'), type="stackoverflow",
             new_tab=request.cookies.get("new_tab"), repo_url=REPO, commit=latest_commit())
