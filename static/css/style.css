@@ -1054,7 +1054,6 @@ p {
 .answer_preview{
     max-height: 500px;
     overflow-y: scroll;
-    white-space: pre-wrap;
     border-style: solid;
     border-color: var(--fg);
     border-width: 2px;
