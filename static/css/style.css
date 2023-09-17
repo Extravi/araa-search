@@ -1071,6 +1071,12 @@ p {
     width: 80%;
 }
 
+code:not(pre code) {
+    background: var(--code-preview-background);
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
 @media only screen and (max-width: 1320px) {
 
     .snip,
