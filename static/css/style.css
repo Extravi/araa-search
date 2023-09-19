@@ -558,13 +558,14 @@ hr {
     font-size: 14px;
     border: 1px solid var(--snip-border);
     color: var(--font-fg);
-    background: var(--html-bg);
+    background-color: var(--button);
     cursor: pointer;
 }
 
 .results-save {
     font-size: 14px;
-    background: var(--html-bg);
+        color: var(--font-fg);
+    background-color: var(--button);
     border: 1px solid var(--snip-border);
     margin: 0 !important;
     position: relative !important;
@@ -1365,3 +1366,4 @@ p {
         width: 80%;
     }
 }
+

@@ -1,40 +1,39 @@
 :root {
-    --html-bg: #a6061a;
-    --font-fg: #ffffff;
-    --fg: #ffffff;
+    --html-bg: #1e1e2e;
+    --font-fg: #cdd6f4;
+    --fg: #cdd6f4;
 
-    --search-bg: #0f0f0f;
-    --search-bg-input: #121212;
+    --search-bg: #11111b;
+    --search-bg-input: #1e1e2e;
     --search-bg-input-border: #303030;
-    --search-select: #111111;
+    --search-select: #11111b;
 
     --border: #303030;
 
-    --link: #8ab4f8;
-    --link-visited: #c58af9;
+    --link: #89b4fa;
+    --link-visited: #cba6f7;
 
     --snip-border: #303030;
-    --snip-background: #0f0f0f;
-    --snip-text: #ffffff;
+    --snip-background: #11111b;
+    --snip-text: #cdd6f4;
 
     --settings-border: #303030;
-    --button: #111111;
+    --button: #11111b;
 
-    --footer-bg: #0f0f0f;
-    --footer-font: #ffffff;
+    --footer-bg: #11111b;
+    --footer-font: #cdd6f4;
 
-    --highlight: #bcc0c3;
-    --link: #fef100;
+    --highlight: #ofofof;
 
-    --blue: #007032;
+    --blue: #89b4fa;
     
-    --image-view: #0f0f0f;
-    --image-view-titlebar: #0f0f0f;
+    --image-view: #11111b;
+    --image-view-titlebar: #11111b;
     --view-image-color: #000000;
     --image-select: #303030;
     --fff: #fff;
 
-    --search-button: #ffffff;
+    --search-button: #cdd6f4;
     
     color-scheme: dark;
 }

@@ -1,0 +1,99 @@
+:root {
+    --html-bg: #306763;
+    --font-fg: #000000;
+    --fg: #000000;
+
+    --search-bg: #c0c0c0;
+    --search-bg-input: #c0c0c0;
+    --search-bg-input-border: #303030;
+    --search-select: #c0c0c0;
+
+    --border: #303030;
+
+    --link: #8ab4f8;
+    --link-visited: #c58af9;
+
+    --snip-border: #303030;
+    --snip-background: #c0c0c0;
+    --snip-text: #ffffff;
+
+    --settings-border: #303030;
+    --button: #c0c0c0;
+
+    --footer-bg: #c0c0c0;
+    --footer-font: #000000;
+
+    --highlight: #000000;
+    --link: #1a0dab;
+    --link-visited: #681da8;
+
+    --blue: #306763;
+    
+    --image-view: #c0c0c0;
+    --image-view-titlebar: #c0c0c0;
+    --view-image-color: #000000;
+    --image-select: #303030;
+    --fff: #fff;
+
+    --search-button: #000000;
+    
+    color-scheme: light;
+}
+
+.results-settings{
+    background: #c0c0c0;
+    border: 8px solid #c0c0c0;
+    box-shadow: 2px 2px #808080;
+    color: #000000;
+}
+
+button {
+    background: #c0c0c0;
+    border: 8px solid #c0c0c0;
+    box-shadow: 2px 2px #808080;
+    color: #000000;
+}
+    
+.results{
+      background: #c0c0c0;
+    border: 8px solid #c0c0c0;
+    box-shadow: 2px 2px #808080;
+    color: #000000;
+}
+
+
+.result_sublink{
+      background: #c0c0c0;
+    border: 8px solid #c0c0c0;
+    box-shadow: 2px 2px #808080;
+    color: #000000;
+}
+
+.calc-btn:hover {
+     background: #c0c0c0;
+    border: 1px solid #c0c0c0;
+    box-shadow: 2px 2px #808080;
+    color: #000000;);
+}
+
+.calc-btn-2:hover {
+    background: #c0c0c0;
+}
+
+
+.calc-btn {
+     background: #c0c0c0;
+}
+
+.calc {
+     background: #c0c0c0;
+    box-shadow: -2px -2px #c0c0c0;
+    color: #000000;
+}
+
+.image {
+     background: #c0c0c0;
+    border: 8px solid #c0c0c0;
+    box-shadow: 2px 2px #808080;
+    color: #000000;
+}
