@@ -64,6 +64,11 @@ WHITELISTED_DOMAINS = [
 
 COOKIE_AGE = 2147483647
 
+# set to true to enable api support
+API_ENABLED = False
+
+# set to false to disable torrent search
+TORRENTSEARCH_ENABLED = True
 
 # if you are using a custom Invidious you have to add it to the whitelist above
 INVIDIOUS_INSTANCE = "yt.artemislena.eu"

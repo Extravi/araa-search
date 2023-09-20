@@ -84,6 +84,7 @@
                 <button name="t" value="reddit" class="clickable">Reddit</button>
             </div>
             {% endif %}
+            {% if TORRENTSEARCH_ENABLED == True %}
             {% if type == "torrent" %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="torrent">share</button>
@@ -94,6 +95,8 @@
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable" name="t" value="torrent">share</button>
                 <button name="t" value="torrent" class="clickable">Torrents</button>
             </div>
+            {% endif %}
+            {% else %}
             {% endif %}
         </div>
         </div>
@@ -111,8 +114,11 @@
         <a href="/">TailsX</a>
         <a href="/settings">Settings</a>
         <a target="_blank" href="{{ repo_url }}">Source code <span class="emoji-code">❤️</span></a>
+        {% if API_ENABLED == True %}
         <a target="_blank" class="mobile-none" href="/api?q=firefox&t=text&api=true">API</a>
         <a target="_blank" class="mobile-none" href="/suggestions?q=firefox">Suggestions API</a>
+        {% else %}
+        {% endif %}
         <a target="_blank" class="mobile-none" href="{{ repo_url }}/commit/{{ commit }}">Commit: {{ commit }}</a>
     </div>
 </body>

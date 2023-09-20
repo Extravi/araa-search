@@ -27,8 +27,11 @@
     <a href="/">TailsX</a>
     <a href="/settings">Settings</a>
     <a target="_blank" href="{{ repo_url }}">Source code <span class="emoji-code">❤️</span></a>
+    {% if API_ENABLED == True %}
     <a target="_blank" class="mobile-none" href="/api?q=firefox&t=text&api=true">API</a>
     <a target="_blank" class="mobile-none" href="/suggestions?q=firefox">Suggestions API</a>
+    {% else %}
+    {% endif %}
     <a target="_blank" class="mobile-none" href="{{ repo_url }}/commit/{{ commit }}">Commit: {{ commit }}</a>
 </div>
 </body>

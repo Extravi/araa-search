@@ -1125,6 +1125,8 @@ p {
         margin-top: 10px;
         border-radius: 0px;
         margin-bottom: 70px;
+        border-left: none;
+        border-right: none;
     }
 
     #theme {
@@ -1151,7 +1153,7 @@ p {
         margin-right: auto;
         display: block;
         margin-top: 0px;
-        top: 170px;
+        top: 110px;
         left: 4px;
     }
 
@@ -1360,7 +1362,7 @@ p {
     .search-container h1 {
         font-size: 55px;
         margin-bottom: 70px;
-        margin-top: 75px;
+        margin-top: 15px;
     }
 
     .search-container {

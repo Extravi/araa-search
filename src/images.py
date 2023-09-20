@@ -42,7 +42,7 @@ def imageResults(query) -> Response:
     elapsed_time = end_time - start_time
 
     # render
-    if api == "true":
+    if api == "true" and API_ENABLED == True:
         # return the results list as a JSON response
         return jsonify(results)
     else:
@@ -50,4 +50,5 @@ def imageResults(query) -> Response:
             q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
             theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
             javascript=request.cookies.get('javascript', 'enabled'), type="image",
-            new_tab=request.cookies.get("new_tab"), repo_url=REPO, commit=latest_commit())
+            new_tab=request.cookies.get("new_tab"), repo_url=REPO, API_ENABLED=API_ENABLED,
+            TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, commit=latest_commit())

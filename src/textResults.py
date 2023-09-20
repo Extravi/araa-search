@@ -195,7 +195,7 @@ def textResults(query) -> Response:
     if "exported_math_expression" not in locals():
         exported_math_expression = ""
 
-    if api == "true":
+    if api == "true" and API_ENABLED == True:
         # return the results list as a JSON response
         return jsonify(results)
     else:
@@ -212,5 +212,6 @@ def textResults(query) -> Response:
                                theme=request.cookies.get('theme', DEFAULT_THEME), new_tab=request.cookies.get("new_tab"),
                                javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
                                type=type, search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=latest_commit(),
-                               exported_math_expression=exported_math_expression
+                               exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
+                               TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED
                                )
