@@ -22,8 +22,7 @@ def makeHTMLRequest(url: str):
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
-
-
+    
 # search highlights
 def highlight_query_words(string, query):
     query_words = [re.escape(word) for word in query.lower().split()]
