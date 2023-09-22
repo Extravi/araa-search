@@ -12,7 +12,7 @@ def nyaa(query):
             "title": list_of_anchors[1].get_text().strip(),
             "magnet": list_of_anchors[1]["href"],
             "size": text_center[1].get_text().strip(),
-            "views": int(text_center[5].get_text().strip()),
+            "views": None,
             "seeders": int(text_center[3].get_text().strip()),
             "leechers": int(text_center[4].get_text().strip())
         })

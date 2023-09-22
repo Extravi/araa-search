@@ -8,7 +8,7 @@
         <div class="results">
             <a id="link" href="{{ result["magnet"] }}">{{ result["href"] }}</a>
             <a class="torrent" href="{{ result["magnet"] }}"><h3>{{ result["title"] }}</h3></a>
-            <p class="stats">{{ result["views"] }} views • {{ result["size"] }}</p>
+            <p class="stats">{% if result["views"] is not None %}{{ result["views"] }} views • {% endif %}{{ result["size"] }}</p>
             <p class="publish__info"> Seeders: <span class="seeders">{{ result["seeders"] }}</span> <span class="pipe">|</span> Leechers: <span class="leechers">{{ result["leechers"] }}</span></p>
         </div>
         {% endfor %}
