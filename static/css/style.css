@@ -1266,13 +1266,11 @@ p {
     }
 
     .sub-search-button-wrapper {
-        margin-right: 0;
-        margin-left: 12px;
-        margin-top: 0;
-        margin-bottom: 0;
+        margin: 0;
         padding: 0;
         display: flex;
         align-items: baseline;
+        justify-content: center;
     }
 
     .fetched_tor {
@@ -1285,7 +1283,8 @@ p {
     }
 
     .sub-search-button-wrapper button {
-        margin-right: 14px;
+        margin-right: 4px;
+        margin-left: 4px;
         padding: 0;
         display: flex;
         flex-direction: column;
