@@ -52,7 +52,7 @@
 }
 
 .material-icons-round {
-    font-family: 'Material Icons Round';
+    font-family: 'Material Icons Round' !important;
     font-weight: normal;
     font-style: normal;
     font-size: 24px;
@@ -137,6 +137,97 @@ html {
     font-size: 15px;
 }
 
+.calc {
+    height: fit-content;
+    width: fit-content;
+    position: relative;
+    left: 175px;
+    border: 1px solid var(--snip-border);
+    background-color: var(--snip-background);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.calc-btn-style {
+    background-color: var(--html-bg) !important;
+}
+
+.calc-input {
+    width: 90%;
+    height: 10%;
+    background-color: var(--search-bg);
+    border: 1px solid var(--snip-border);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 8px;
+    text-align: right;
+    max-width: 48em;
+    line-height: 1.58;
+    font-size: 22px;
+    color: var(--fg);
+    letter-spacing: normal;
+    overflow: hidden;
+}
+
+.calc-btn {
+    max-width: 48em;
+    line-height: 50px;
+    font-size: 22px;
+    color: var(--fg);
+    letter-spacing: normal;
+    border-radius: 8px;
+    background-color: var(--search-bg);
+    border: 1px solid var(--snip-border);
+    height: 50px;
+    margin: auto;
+    margin: 4px;
+    width: 80px;
+    text-align: center;
+}
+
+.calc-btn-2 {
+    max-width: 48em;
+    line-height: 50px;
+    font-size: 22px;
+    color: var(--fff);
+    letter-spacing: normal;
+    border-radius: 8px;
+    background-color: var(--blue);
+    height: 50px;
+    margin: auto;
+    margin: 4px;
+    width: 80px;
+    text-align: center;
+}
+
+.calc-btns {
+    display: grid;
+    grid-template-columns: repeat(4, 90px);
+    width: 100%;
+    justify-content: center;
+    padding: 4px;
+}
+
+.calc-pos-absolute {
+    position: absolute;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.prev_calculation {
+    opacity: 0.5;
+    font-size: 14px;
+}
+
+.emoji-code {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .images {
     display: flex;
     flex-wrap: wrap;
@@ -152,8 +243,6 @@ html {
     flex-grow: 1;
     height: 10rem;
     margin: 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     overflow: hidden;
     border-radius: 10px;
     border: 1px solid var(--border);
@@ -216,7 +305,14 @@ html {
 .image-close:hover,
 .image-next:hover,
 .image-before:hover {
-    background-color: #303030;
+    background-color: var(--image-select);
+}
+
+.btn-nostyle {
+    background-color: inherit;
+    border: none;
+    padding: 0px;
+    width: fit-content;
 }
 
 .view-image {
@@ -530,6 +626,8 @@ select.results-settings {
 
 .settings-results-link {
     margin-left: 24px;
+    display: block;
+    margin-top: 1px;
 }
 
 .wrapper-results input {
@@ -590,6 +688,7 @@ button {
 .search-container h1 {
     font-size: 70px;
     color: var(--font-fg);
+    font-family: 'Inter';
 }
 
 .X {
@@ -703,6 +802,11 @@ p {
 .footer a:visited {
     text-decoration: none;
     color: var(--footer-font);
+}
+
+.footer a {
+    text-decoration: none;
+    color: var(--footer-font);
     font-size: 15px;
     padding-left: 15px;
     padding-right: 15px;
@@ -765,6 +869,7 @@ p {
 .no-decoration {
     text-decoration: none;
     color: var(--font-fg);
+    font-family: 'Inter';
 }
 
 .no-decoration:hover {
@@ -782,6 +887,7 @@ p {
     border: none;
     background-color: inherit;
     font-size: 14px;
+    font-family: 'Inter';
     margin-right: 14px;
     color: var(--search-button);
     margin-top: 72px;
@@ -1070,6 +1176,10 @@ p {
         font-size: 13px;
     }
 
+    .calc {
+        left: 20px;
+    }
+
     .results h3,
     .result_sublink h3 {
         font-size: 16px;
@@ -1094,8 +1204,15 @@ p {
     }
 
     .settings {
-        max-width: 300px;
-        margin-left: 10px;
+        max-width: 100%;
+        margin-left: 0px;
+        overflow-x: hidden;
+        background: inherit;
+        margin-top: 10px;
+        border-radius: 0px;
+        margin-bottom: 70px;
+        border-left: none;
+        border-right: none;
     }
 
     #theme {
@@ -1109,7 +1226,7 @@ p {
     .footer a {
         margin-left: -13px;
         font-size: 14px;
-        padding-right: 0px;
+        padding-right: 10px;
     }
 
     .wrapper {
@@ -1122,7 +1239,7 @@ p {
         margin-right: auto;
         display: block;
         margin-top: 0px;
-        top: 130px;
+        top: 110px;
         left: 4px;
     }
 
@@ -1230,13 +1347,11 @@ p {
     }
 
     .sub-search-button-wrapper {
-        margin-right: 0;
-        margin-left: 12px;
-        margin-top: 0;
-        margin-bottom: 0;
+        margin: 0;
         padding: 0;
         display: flex;
         align-items: baseline;
+        justify-content: center;
     }
 
     .fetched_tor {
@@ -1249,7 +1364,8 @@ p {
     }
 
     .sub-search-button-wrapper button {
-        margin-right: 14px;
+        margin-right: 4px;
+        margin-left: 4px;
         padding: 0;
         display: flex;
         flex-direction: column;
@@ -1260,7 +1376,7 @@ p {
     }
 
     .save {
-        margin-left: 7px;
+        margin-left: 28px;
     }
 
     .results {
@@ -1331,10 +1447,12 @@ p {
     .search-container h1 {
         font-size: 55px;
         margin-bottom: 70px;
+        margin-top: 15px;
     }
 
     .search-container {
-        margin-top: 10%;
+        position: absolute;
+        width: 100%;
         text-align: center;
     }
 

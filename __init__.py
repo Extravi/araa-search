@@ -55,7 +55,8 @@ def settings():
                            javascript=javascript,
                            commit=COMMIT,
                            repo_url=REPO,
-                           current_url=request.url
+                           current_url=request.url,
+                           API_ENABLED=API_ENABLED
                            )
 
 
@@ -104,14 +105,17 @@ def wikipedia():
 
 @app.route("/api")
 def api():
-    query = request.args.get("q", "").strip()
-    t = request.args.get("t", "text").strip()
-    try:
-        response = requests.get(f"http://localhost:{PORT}/search?q={query}&t={t}&api=true")
-        return json.loads(response.text)
-    except Exception as e:
-        app.logger.error(e)
-        return jsonify({"error": "An error occurred while processing the request"}), 500
+    if API_ENABLED == True:
+        query = request.args.get("q", "").strip()
+        t = request.args.get("t", "text").strip()
+        try:
+            response = requests.get(f"http://localhost:{PORT}/search?q={query}&t={t}&api=true")
+            return json.loads(response.text)
+        except Exception as e:
+            app.logger.error(e)
+            return jsonify({"error": "An error occurred while processing the request"}), 500
+    else:
+        return jsonify({"error": "API disabled by instance operator"}), 503
 
 
 @app.route("/img_proxy")
@@ -120,7 +124,7 @@ def img_proxy():
     url = request.args.get("url", "").strip()
 
     # Only allow proxying image from startpage.com, upload.wikimedia.org and imgs.search.brave.com
-    if not (url.startswith("https://s1.qwant.com/") or url.startswith("https://s2.qwant.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://yt.revvy.de")):
+    if not (url.startswith("https://s1.qwant.com/") or url.startswith("https://s2.qwant.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://yt.artemislena.eu")):
         return Response("Error: invalid URL", status=400)
 
     # Choose one user agent at random
@@ -152,7 +156,7 @@ def search():
                 css_style = None
             return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME), 
                 javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME, 
-                css_style=css_style, repo_url=REPO, commit=COMMIT)
+                css_style=css_style, repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED)
 
         # Check if the query has a bang.
         if query.startswith(BANG):

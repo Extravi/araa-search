@@ -1,5 +1,5 @@
 services:
   tailsx:
-    build: .
+    image: tailsx:latest
     ports:
       - "8000:8000"

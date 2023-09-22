@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="./css/{{ theme }}.css">
     {% endif %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="search" type="application/opensearchdescription+xml" href="url_for('static', filename='opensearch.xml') }}" title="TailsX">
+    <link rel="search" type="application/opensearchdescription+xml" href="{{ url_for('static', filename='opensearch.xml') }}" title="TailsX">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self';">
     <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains">
 </head>
@@ -87,6 +87,7 @@
                 <button name="t" value="reddit" class="clickable">Reddit</button>
             </div>
             {% endif %}
+            {% if TORRENTSEARCH_ENABLED == True %}
             {% if type == "torrent" %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="torrent">share</button>
@@ -98,21 +99,29 @@
                 <button name="t" value="torrent" class="clickable">Torrents</button>
             </div>
             {% endif %}
+            {% else %}
+            {% endif %}
         </div>
         </div>
         <!-- 'defer' makes script execute only after the whole DOM is parsed. -->
         {% if javascript == "enabled" %}
         <div id="kno_title" data-kno-title="{{ kno_title }}"></div>
         <script defer src="/script.js"></script>
+          {% if not calc == "" and type == "text" %}
+          <script defer src="/calculator.js"></script>
+          {% endif %}
         {% endif %}
     </form>
     {% block body %}{% endblock %}
     <div class="footer">
         <a href="/">TailsX</a>
         <a href="/settings">Settings</a>
-        <a target="_blank" href="{{ repo_url }}">Source code ❤️</a>
-        <a target="_blank" href="/api?q=firefox&t=text&api=true">API</a>
-        <a target="_blank" href="/suggestions?q=firefox">Suggestions API</a>
+        <a target="_blank" href="{{ repo_url }}">Source code <span class="emoji-code">❤️</span></a>
+        {% if API_ENABLED == True %}
+        <a target="_blank" class="mobile-none" href="/api?q=firefox&t=text&api=true">API</a>
+        <a target="_blank" class="mobile-none" href="/suggestions?q=firefox">Suggestions API</a>
+        {% else %}
+        {% endif %}
         <a target="_blank" class="mobile-none" href="{{ repo_url }}/commit/{{ commit }}">Commit: {{ commit }}</a>
     </div>
 </body>

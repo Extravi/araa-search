@@ -10,7 +10,7 @@ BANG = '!'
 REPO = 'https://github.com/Extravi/tailsx'
 
 # Default theme
-DEFAULT_THEME = 'dark_default'
+DEFAULT_THEME = 'dark_blur'
 
 # The port for this server to listen on
 PORT = 8000
@@ -57,15 +57,21 @@ WHITELISTED_DOMAINS = [
     "www.google.co.kr",
     "www.google.com.br",
     "wikipedia.org",
-    "yt.revvy.de",
+    "yt.artemislena.eu",
     "lite.qwant.com",
     TORRENTGALAXY_DOMAIN
 ]
 
 COOKIE_AGE = 2147483647
 
+# set to true to enable api support
+API_ENABLED = False
+
+# set to false to disable torrent search
+TORRENTSEARCH_ENABLED = True
 
 # if you are using a custom Invidious you have to add it to the whitelist above
-INVIDIOUS_INSTANCE = "yt.revvy.de"
+INVIDIOUS_INSTANCE = "yt.artemislena.eu"
 
+# Place where the list of instances is fetched from
 INSTANCE_SOURCE = "https://raw.githubusercontent.com/amogusussy/tailsx/switch-instances/instances.json"

@@ -1,5 +1,11 @@
 html {
     overflow: hidden;
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    overflow-x: hidden;
 }
 
 html::before {

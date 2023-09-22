@@ -4,7 +4,7 @@
     <p class="fetched fetched_dif fetched_vid">{{ fetched }}</p>
     {% if results %}
         {% for result in results %}
-        <a {% if new_tab == "active" %} target="_blank" {% endif %} href="{{ result[0] }}"><div class="video__results">
+        <div><div class="video__results">
         <div class="video__img__results">
             <img src="{{ result[6] }}">
                 <div class="duration">{{ result[7] }}</div>
@@ -16,7 +16,7 @@
             <p class="publish__info">{{ result[5] }} <span class="pipe">|</span> {{ result[4] }}</p>
         </div>
     </div>
-</a>
+</div>
         {% endfor %}
     </div>
     {% else %}

@@ -13,13 +13,17 @@
 [![License](https://img.shields.io/github/license/Extravi/tailsx)](https://github.com/Extravi/tailsx/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/Extravi/tailsx?style=social)](https://github.com/Extravi/tailsx/stargazers)
 
-If you're looking to [install](https://github.com/Extravi/tailsx-docs) TailsX, here is a how-to guide for it.
+If you're looking to [install](https://extravi.dev/tailsx) TailsX, here is a how-to guide for it.
 
 ### Instances
 
 | Clearnet | Tor | SSL | Country | Status |
 |-|-|-|-|-|
-| [tailsx.extravi.dev](https://tailsx.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| New York 🇺🇸 | Official instance |
+| [tailsx.extravi.dev](https://tailsx.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| North America, Europe | Official instance |
+| [nyc.extravi.dev](https://nyc.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=nyc.extravi.dev)✅| New York 🇺🇸 | Official instance |
+| [sfo.extravi.dev](https://sfo.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=sfo.extravi.dev)✅| San Francisco 🇺🇸 | Official instance |
+| [ams.extravi.dev](https://ams.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=ams.extravi.dev)✅| Amsterdam 🇳🇱 | Official instance |
+| [fra.extravi.dev](https://fra.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=fra.extravi.dev)✅| Frankfurt 🇩🇪 | Official instance |
 | [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 | Unofficial instance |
 
 ### Contributors
@@ -40,4 +44,4 @@ Here are some of the features that TailsX a privacy-respecting, ad-free, self-ho
 <img src="https://user-images.githubusercontent.com/98912029/253724288-a5e41502-524b-4084-a815-73769d0a2a2c.png" width="600">
 
 ## Contact
-Email: extravi@duck.com
+Email: extravi@extravi.dev

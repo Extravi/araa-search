@@ -40,7 +40,7 @@ def videoResults(query) -> Response:
 
     # retrieve images
     video_thumbnails = [item['videoThumbnails'] for item in data if item.get('type') == 'video']
-    maxres_thumbnails = [thumbnail for thumbnails in video_thumbnails for thumbnail in thumbnails if thumbnail['quality'] == 'maxresdefault']
+    maxres_thumbnails = [thumbnail for thumbnails in video_thumbnails for thumbnail in thumbnails if thumbnail['quality'] == 'medium']
     filtered_urls = ['/img_proxy?url=' + thumbnail['url'].replace(":3000", "").replace("http://", "https://") for thumbnail in maxres_thumbnails]
 
     # retrieve time
@@ -56,7 +56,7 @@ def videoResults(query) -> Response:
     end_time = time.time()
     elapsed_time = end_time - start_time
 
-    if api == "true":
+    if api == "true" and API_ENABLED == True:
         # return the results list as a JSON response
         return jsonify(results)
     else:
@@ -65,5 +65,6 @@ def videoResults(query) -> Response:
                                q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
                                theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
                                javascript=request.cookies.get('javascript', 'enabled'), new_tab=request.cookies.get("new_tab"),
-                               type="video", repo_url=REPO, commit=latest_commit()
+                               type="video", repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
+                               commit=latest_commit()
                                )
