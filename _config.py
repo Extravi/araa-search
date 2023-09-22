@@ -17,6 +17,7 @@ PORT = 8000
 
 # Torrent domains
 TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
+NYAA_DOMAIN = "nyaa.si"
 
 # Useragents to use in the request.
 user_agents = [
@@ -59,7 +60,8 @@ WHITELISTED_DOMAINS = [
     "wikipedia.org",
     "yt.artemislena.eu",
     "lite.qwant.com",
-    TORRENTGALAXY_DOMAIN
+    TORRENTGALAXY_DOMAIN,
+    NYAA_DOMAIN,
 ]
 
 COOKIE_AGE = 2147483647
