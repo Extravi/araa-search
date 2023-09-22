@@ -11,10 +11,10 @@ body {
 html::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: -10px;
+    left: -10px;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
     background: url("/daniel-koponyas-rbiLY6ZwvXQ-unsplash.webp") no-repeat center;
     background-size: cover;
     filter: blur(5px) brightness(67%);
