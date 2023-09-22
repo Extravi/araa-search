@@ -38,7 +38,8 @@ def settings():
                            javascript=javascript,
                            commit=COMMIT,
                            repo_url=REPO,
-                           current_url=request.url
+                           current_url=request.url,
+                           API_ENABLED=API_ENABLED
                            )
 
 
