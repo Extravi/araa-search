@@ -52,7 +52,7 @@
 }
 
 .material-icons-round {
-    font-family: 'Material Icons Round';
+    font-family: 'Material Icons Round' !important;
     font-weight: normal;
     font-style: normal;
     font-size: 24px;
@@ -613,6 +613,8 @@ select.results-settings {
 
 .settings-results-link {
     margin-left: 24px;
+    display: block;
+    margin-top: 1px;
 }
 
 .wrapper-results input {
@@ -673,6 +675,7 @@ button {
 .search-container h1 {
     font-size: 70px;
     color: var(--font-fg);
+    font-family: 'Inter';
 }
 
 .X {
@@ -853,6 +856,7 @@ p {
 .no-decoration {
     text-decoration: none;
     color: var(--font-fg);
+    font-family: 'Inter';
 }
 
 .no-decoration:hover {
@@ -870,6 +874,7 @@ p {
     border: none;
     background-color: inherit;
     font-size: 14px;
+    font-family: 'Inter';
     margin-right: 14px;
     color: var(--search-button);
     margin-top: 72px;
