@@ -16,7 +16,7 @@ def torrentResults(query) -> Response:
     query = request.args.get("q", " ").strip()
 
     sites = [
-        # torrentgalaxy.torrentgalaxy,
+        torrentgalaxy.torrentgalaxy,
         nyaa.nyaa
     ]
 
