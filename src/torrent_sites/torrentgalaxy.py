@@ -16,9 +16,9 @@ def torrentgalaxy():
         div.find("span", {"class": "badge-secondary"}).text.strip()
         for div in result_divs
     ]
-    view_counts = [div.find("font", {"color": "orange"}).text.strip() for div in result_divs]
-    seeders = [div.find("font", {"color": "green"}).text.strip() for div in result_divs]
-    leechers = [div.find("font", {"color": "#ff0000"}).text.strip() for div in result_divs]
+    view_counts = [int(div.find("font", {"color": "orange"}).text) for div in result_divs]
+    seeders = [int(div.find("font", {"color": "green"}).text) for div in result_divs]
+    leechers = [int(div.find("font", {"color": "#ff0000"}).text) for div in result_divs]
 
     # list
     results = []
