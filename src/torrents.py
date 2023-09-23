@@ -16,13 +16,15 @@ def torrentResults(query) -> Response:
     query = request.args.get("q", " ").strip()
 
     sites = [
-        torrentgalaxy.torrentgalaxy,
-        nyaa.nyaa
+        torrentgalaxy,
+        nyaa
     ]
 
     results = []
     for site in sites:
-        results += site(query)
+        if site.name() in ENABLED_TORRENT_SITES:
+            results += site.search(query)
+        # results += site(query)
 
     # Sorts based on how many seeders there are on a torrent.
     results = sorted(results, key=lambda x: x["seeders"])[::-1]

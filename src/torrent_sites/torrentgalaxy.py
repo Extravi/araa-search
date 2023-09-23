@@ -1,7 +1,10 @@
 from _config import *
 from src import helpers
 
-def torrentgalaxy():
+def name():
+    return "torrentgalaxy"
+
+def search():
     soup = helpers.makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={query}#results")
 
     result_divs = soup.findAll("div", {"class": "tgxtablerow"})

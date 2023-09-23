@@ -1,7 +1,11 @@
 from _config import *
 from src import helpers
 
-def nyaa(query):
+
+def name():
+    return "nyaa"
+
+def search(query):
     soup = helpers.makeHTMLRequest(f"https://{NYAA_DOMAIN}/?f=0&c=0_0&q={query}")
     results = []
     for torrent in soup.select(".default, .success, .danger"):

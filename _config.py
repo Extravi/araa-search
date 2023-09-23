@@ -72,5 +72,10 @@ API_ENABLED = False
 # set to false to disable torrent search
 TORRENTSEARCH_ENABLED = True
 
+ENABLED_TORRENT_SITES = [
+    "nyaa",
+    "torrentgalaxy"
+]
+
 # if you are using a custom Invidious you have to add it to the whitelist above
 INVIDIOUS_INSTANCE = "yt.artemislena.eu"
