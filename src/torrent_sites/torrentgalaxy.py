@@ -4,7 +4,7 @@ from src import helpers
 def name():
     return "torrentgalaxy"
 
-def search():
+def search(query):
     soup = helpers.makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={query}#results")
 
     result_divs = soup.findAll("div", {"class": "tgxtablerow"})
