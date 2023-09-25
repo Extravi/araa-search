@@ -4,6 +4,7 @@ from flask import request, render_template, jsonify, Response
 import time
 import json
 from src.helpers import latest_commit
+from urllib.parse import quote
 
 
 def videoResults(query) -> Response:

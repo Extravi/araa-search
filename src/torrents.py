@@ -1,5 +1,6 @@
 from src.helpers import makeHTMLRequest, latest_commit
 from _config import *
+from urllib.parse import quote
 from flask import request, render_template, jsonify, Response
 import time
 
