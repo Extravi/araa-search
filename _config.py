@@ -17,7 +17,6 @@ PORT = 8000
 
 # Torrent domains
 TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
-NYAA_DOMAIN = "nyaa.si"
 
 # Useragents to use in the request.
 user_agents = [
@@ -60,8 +59,7 @@ WHITELISTED_DOMAINS = [
     "wikipedia.org",
     "yt.artemislena.eu",
     "lite.qwant.com",
-    TORRENTGALAXY_DOMAIN,
-    NYAA_DOMAIN,
+    TORRENTGALAXY_DOMAIN
 ]
 
 COOKIE_AGE = 2147483647
@@ -71,11 +69,6 @@ API_ENABLED = False
 
 # set to false to disable torrent search
 TORRENTSEARCH_ENABLED = True
-
-ENABLED_TORRENT_SITES = [
-    "nyaa",
-    "torrentgalaxy"
-]
 
 # if you are using a custom Invidious you have to add it to the whitelist above
 INVIDIOUS_INSTANCE = "yt.artemislena.eu"
