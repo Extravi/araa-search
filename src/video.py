@@ -13,7 +13,7 @@ def videoResults(query) -> Response:
     api = request.args.get("api", "false")
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={query}")
+    soup = makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={quote(query)}")
     data = json.loads(soup.text)
 
     # sort by videos only

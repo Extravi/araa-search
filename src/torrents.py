@@ -15,7 +15,7 @@ def torrentResults(query) -> Response:
         api = request.args.get("api", "false")
 
         # grab & format webpage
-        soup = makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={query}#results")
+        soup = makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={quote(query)}#results")
 
         result_divs = soup.findAll("div", {"class": "tgxtablerow"})
         title = [div.find("div", {"id": "click"}) for div in result_divs]

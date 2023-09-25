@@ -14,7 +14,7 @@ def imageResults(query) -> Response:
     api = request.args.get("api", "false")
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={query}&t=images")
+    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images")
 
     # get 'img' ellements
     ellements = soup.findAll("div", {"class": "images-container"})
