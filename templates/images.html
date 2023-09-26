@@ -30,6 +30,17 @@
         </div>
         {% endfor %}
     </div>
+    <div class="prev-next prev-img">
+        <form>
+          <input type="hidden" name="q" value="{{ q }}">
+          <input type="hidden" name="t" value="{{ type }}">
+          {% set p = request.args.get('p', 1)|int %}
+          {% if p >= 2 %}
+              <button name="p" value="{{ p - 1 }}">Previous</button>
+          {% endif %}
+          <button name="p" value="{{ p + 1 }}">Next</button>
+        </form>
+    </div>
     {% else %}
         <div class="no-results-found">
             Your search '{{ q }}' came back with no results.<br>

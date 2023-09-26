@@ -91,8 +91,9 @@ def api():
     if API_ENABLED == True:
         query = request.args.get("q", "").strip()
         t = request.args.get("t", "text").strip()
+        p = (request.args.get('p', 1))
         try:
-            response = requests.get(f"http://localhost:{PORT}/search?q={query}&t={t}&api=true")
+            response = requests.get(f"http://localhost:{PORT}/search?q={query}&t={t}&api=true&p={p}")
             return json.loads(response.text)
         except Exception as e:
             app.logger.error(e)

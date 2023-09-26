@@ -1,7 +1,7 @@
 from src.helpers import makeHTMLRequest, latest_commit
 from urllib.parse import unquote, quote
 from _config import *
-from flask import request, render_template, jsonify, Response
+from flask import request, render_template, jsonify, Response, redirect
 import time
 from urllib.parse import quote
 import base64
@@ -13,13 +13,25 @@ def imageResults(query) -> Response:
 
     api = request.args.get("api", "false")
 
-    # grab & format webpage
-    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images")
+    try:
+        p = int(request.args.get('p', 1))
+        if p < 1:
+            p = 1
+        else:
+            p = int(request.args.get('p', 1))
+    except:
+        return redirect('/search')   
 
-    # get 'img' ellements
-    ellements = soup.findAll("div", {"class": "images-container"})
-    # get source urls
-    image_sources = [a.find('img')['src'] for a in ellements[0].findAll('a') if a.find('img')]
+    # grab & format webpage
+    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}")
+
+    try:
+        # get 'img' ellements
+        ellements = soup.findAll("div", {"class": "images-container"})
+        # get source urls
+        image_sources = [a.find('img')['src'] for a in ellements[0].findAll('a') if a.find('img')]
+    except:
+        return redirect('/search')
 
     # get alt tags
     image_alts = [img['alt'] for img in ellements[0].findAll('img', alt=True)]

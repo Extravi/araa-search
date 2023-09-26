@@ -108,6 +108,11 @@
     max-width: 600px;
 }
 
+.prev-img {
+    left: 0px !important;
+    margin-left: 1.2% !important;
+}
+
 .prev-next button:hover {
     border: 1px solid #5f6368;
     cursor: pointer;
