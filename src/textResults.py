@@ -1,5 +1,5 @@
 from src.helpers import makeHTMLRequest, latest_commit
-from urllib.parse import unquote
+from urllib.parse import unquote, quote
 from _config import *
 from flask import request, render_template, jsonify, Response
 import time
@@ -25,9 +25,9 @@ def textResults(query) -> Response:
         if search_type == "reddit":
             site_restriction = "site:reddit.com"
             query_for_request = f"{query} {site_restriction}"
-            soup = makeHTMLRequest(f"https://www.{domain}&q={query_for_request}&start={p}&lr={lang}")
+            soup = makeHTMLRequest(f"https://www.{domain}&q={quote(query_for_request)}&start={p}&lr={lang}")
         elif search_type == "text":
-            soup = makeHTMLRequest(f"https://www.{domain}&q={query}&start={p}&lr={lang}&safe={safe}")
+            soup = makeHTMLRequest(f"https://www.{domain}&q={quote(query)}&start={p}&lr={lang}&safe={safe}")
         else:
             return "Invalid search type"
     except Exception as e:

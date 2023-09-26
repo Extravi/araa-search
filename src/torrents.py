@@ -1,5 +1,6 @@
 from src.helpers import makeHTMLRequest, latest_commit
 from _config import *
+from urllib.parse import quote
 from flask import request, render_template, jsonify, Response
 import time
 
@@ -15,7 +16,7 @@ def torrentResults(query) -> Response:
         api = request.args.get("api", "false")
 
         # grab & format webpage
-        soup = makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={query}#results")
+        soup = makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={quote(query)}#results")
 
         result_divs = soup.findAll("div", {"class": "tgxtablerow"})
         title = [div.find("div", {"id": "click"}) for div in result_divs]
