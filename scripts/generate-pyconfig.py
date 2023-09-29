@@ -59,7 +59,7 @@ config_py = open('_config.py', 'w')
 
 # Write a disclaimer.
 config_py.write(
-    '# This _config.py was automatically generated using scripts/generate-pyconfig.py.'
+    '# This _config.py was automatically generated using scripts/generate-pyconfig.py.\n'
 )
 
 for env_var in ENV_VARS.keys():
