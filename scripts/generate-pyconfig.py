@@ -1,7 +1,7 @@
 #!/bin/python
 # This python script was made to generate a suitable `/_config.py`
 # using the current environment variables OR the defaults specified in
-# `/resource/_config.py.gen.template`.
+# the dictionary below.
 # 
 # This script uses `/resource/_config.py.gen.template` as a template
 # for the generated `/_config.py`
@@ -14,7 +14,7 @@ ENV_VARS = {
     'PORT': { # Name of the env. var.
         'default_val': 8000, # Default value (obvious)
         'pyname': 'PORT', # The name of the variable in Python (_config.py)
-        'type': int,
+        'type': int, # Type of the variable
     },
     'SHEBANG': {
         'default_val': '!',
@@ -57,7 +57,7 @@ import os
 
 config_py = open('_config.py', 'w')
 
-# Write a disclaimer.
+# Write a disclaimer saying that this file was automatically generated.
 config_py.write(
     '# This _config.py was automatically generated using scripts/generate-pyconfig.py.\n'
 )
@@ -71,7 +71,7 @@ for env_var in ENV_VARS.keys():
         val = ENV_VARS[env_var]['default_val']
         print(f"Config var. '{env_var}' not specified. Defaulting to '{val}'")
 
-    # Put quotes around each strings value.
+    # Put quotes around each variable if it's a string.
     if ENV_VARS[env_var]['type'] == str:
         val = f"'{val}'"
 
