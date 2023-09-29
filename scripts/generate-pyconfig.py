@@ -79,7 +79,7 @@ for env_var in ENV_VARS.keys():
 
 # Write the rest of the template's variables.
 # These variables are not yet configurable with this generator.
-conf_template = open('resource/_config.py.gen.template', 'r')
+conf_template = open('resources/_config.py.gen.template', 'r')
 config_py.write(conf_template.read())
 conf_template.close()
 
