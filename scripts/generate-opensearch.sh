@@ -14,6 +14,6 @@ if [ $DOMAIN ]; then
 </OpenSearchDescription>" > ./static/opensearch.xml;
 else
     echo "Make a DOMAIN env. variable & set it to your domain!
-    (Ex; DOMAIN=https://www.yourdomain.com)";
+    (Ex; DOMAIN=www.yourdomain.com)";
     exit 1;
 fi
