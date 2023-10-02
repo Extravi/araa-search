@@ -18,6 +18,9 @@ PORT = 8000
 # Torrent domains
 TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
 
+# Domain of the Invidious instance to use
+INVIDIOUS_INSTANCE = "yt.artemislena.eu"
+
 # Useragents to use in the request.
 user_agents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
@@ -57,7 +60,7 @@ WHITELISTED_DOMAINS = [
     "www.google.co.kr",
     "www.google.com.br",
     "wikipedia.org",
-    "yt.artemislena.eu",
+    INVIDIOUS_INSTANCE,
     "lite.qwant.com",
     TORRENTGALAXY_DOMAIN
 ]
@@ -69,6 +72,3 @@ API_ENABLED = False
 
 # set to false to disable torrent search
 TORRENTSEARCH_ENABLED = True
-
-# if you are using a custom Invidious you have to add it to the whitelist above
-INVIDIOUS_INSTANCE = "yt.artemislena.eu"
