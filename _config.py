@@ -17,6 +17,7 @@ PORT = 8000
 
 # Torrent domains
 TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
+NYAA_DOMAIN = "nyaa.si"
 
 # Domain of the Invidious instance to use
 INVIDIOUS_INSTANCE = "yt.artemislena.eu"
@@ -62,7 +63,13 @@ WHITELISTED_DOMAINS = [
     "wikipedia.org",
     INVIDIOUS_INSTANCE,
     "lite.qwant.com",
-    TORRENTGALAXY_DOMAIN
+    TORRENTGALAXY_DOMAIN,
+    NYAA_DOMAIN,
+]
+
+ENABLED_TORRENT_SITES = [
+    "nyaa",
+    "torrentgalaxy",
 ]
 
 COOKIE_AGE = 2147483647
