@@ -1,11 +1,12 @@
 from _config import *
 from src import helpers
+from urllib.parse import quote
 
 def name():
     return "torrentgalaxy"
 
 def search(query):
-    soup = helpers.makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={query}#results")
+    soup = helpers.makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={quote(query)}#results")
 
     result_divs = soup.findAll("div", {"class": "tgxtablerow"})
     title = [div.find("div", {"id": "click"}) for div in result_divs]

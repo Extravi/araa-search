@@ -1,7 +1,6 @@
 import time
 from src.helpers import latest_commit
 from _config import *
-from urllib.parse import quote
 from flask import request, render_template, jsonify, Response
 from src.torrent_sites import torrentgalaxy, nyaa
 
