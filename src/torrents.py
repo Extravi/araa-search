@@ -1,9 +1,8 @@
 import time
-from src.helpers import makeHTMLRequest, latest_commit
+from src.helpers import latest_commit
 from _config import *
 from urllib.parse import quote
 from flask import request, render_template, jsonify, Response
-import time
 from src.torrent_sites import torrentgalaxy, nyaa
 
 def torrentResults(query) -> Response:
