@@ -1,7 +1,7 @@
 services:
   tailsx:
-    container_name: tailsx
-    image: "docker.io/temthelem/tailsx:latest"
+    container_name: Araa
+    image: "docker.io/Extravi/araa-search:latest"
     env_file:
       - .env # May be redundant. Who cares ¯\_(ツ)_/¯
     ports:
