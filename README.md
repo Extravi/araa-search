@@ -13,7 +13,7 @@
 [![License](https://img.shields.io/github/license/Extravi/araa-search)](https://github.com/Extravi/araa-search/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/Extravi/araa-search?style=social)](https://github.com/Extravi/araa-search/stargazers)
 
-If you're looking to [install](https://extravi.dev/araa) Araa, here is a how-to guide for it.
+If you're looking to [install](https://extravi.dev/tailsx) Araa, here is a how-to guide for it.
 
 ### Instances
 
