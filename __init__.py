@@ -28,7 +28,7 @@ def settings():
     safe = request.cookies.get('safe')
     new_tab = request.cookies.get('new_tab')
     domain = request.cookies.get('domain')
-    javascript = request.cookies.get('javascript')
+    javascript = request.cookies.get('javascript', 'enabled')
     return render_template('settings.html',
                            theme=theme,
                            lang=lang,
@@ -59,11 +59,11 @@ def save_settings():
     response.set_cookie('safe', safe, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
     if domain is not None:
         response.set_cookie('javascript', javascript, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if domain is not None:
+    if domain is not None and javascript == "":
         response.set_cookie('domain', domain, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if theme is not None:
+    if theme is not None and javascript == "":
         response.set_cookie('theme', theme, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if lang is not None:
+    if lang is not None and javascript == "":
         response.set_cookie('lang', lang, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if new_tab is not None:
         response.set_cookie('new_tab', new_tab, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
@@ -130,6 +130,8 @@ def img_proxy():
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
+    lang = request.cookies.get('lang')
+    domain = request.cookies.get('domain')
     if request.method == "GET":
         # get the `q` query parameter from the URL
         query = request.args.get("q", "").strip()
@@ -140,7 +142,8 @@ def search():
                 css_style = None
             return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME), 
                 javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME, 
-                css_style=css_style, repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED)
+                css_style=css_style, repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED,
+                lang=lang, domain=domain)
 
         # Check if the query has a bang.
         if query.startswith(BANG):
