@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/Extravi/tailsx/main/static/favicon.png" width="48"/> TailsX 
+  <img src="https://raw.githubusercontent.com/Extravi/tailsx/main/static/favicon.png" width="48"/> Araa 
 </h1>
 
 <p align="center">
@@ -9,17 +9,17 @@
 
 <p align="center">A privacy-respecting, ad-free, self-hosted metasearch engine.</p>
 
-[![Counter](https://visitor-badge.laobi.icu/badge?page_id=Extravi.tailsx)](https://github.com/Extravi/tailsx)
-[![License](https://img.shields.io/github/license/Extravi/tailsx)](https://github.com/Extravi/tailsx/blob/main/LICENSE)
-[![Stars](https://img.shields.io/github/stars/Extravi/tailsx?style=social)](https://github.com/Extravi/tailsx/stargazers)
+[![Counter](https://visitor-badge.laobi.icu/badge?page_id=Extravi.tailsx)](https://github.com/Extravi/araa-search)
+[![License](https://img.shields.io/github/license/Extravi/araa-search)](https://github.com/Extravi/araa-search/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/Extravi/araa-search?style=social)](https://github.com/Extravi/araa-search/stargazers)
 
-If you're looking to [install](https://extravi.dev/tailsx) TailsX, here is a how-to guide for it.
+If you're looking to [install](https://extravi.dev/araa) Araa, here is a how-to guide for it.
 
 ### Instances
 
 | Clearnet | Tor | SSL | Country | Status |
 |-|-|-|-|-|
-| [tailsx.extravi.dev](https://tailsx.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| North America, Europe | Official instance |
+| [araa.extravi.dev](https://araa.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=araa.extravi.dev)✅| North America, Europe | Official instance |
 | [nyc.extravi.dev](https://nyc.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=nyc.extravi.dev)✅| New York 🇺🇸 | Official instance |
 | [sfo.extravi.dev](https://sfo.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=sfo.extravi.dev)✅| San Francisco 🇺🇸 | Official instance |
 | [ams.extravi.dev](https://ams.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=ams.extravi.dev)✅| Amsterdam 🇳🇱 | Official instance |
@@ -27,10 +27,10 @@ If you're looking to [install](https://extravi.dev/tailsx) TailsX, here is a how
 | [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 | Unofficial instance |
 
 ### Contributors
-![Contributors](https://contrib.rocks/image?repo=Extravi/tailsx)
+![Contributors](https://contrib.rocks/image?repo=Extravi/araa)
 
 ## Features
-Here are some of the features that TailsX a privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security provides:
+Here are some of the features that Araa a privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security provides:
 
 * Full API support for easy integration into third-party apps and services
 * Utilizes Qwant for image search, which is known for its strong privacy protections
