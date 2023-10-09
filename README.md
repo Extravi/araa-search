@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/Extravi/tailsx/main/static/favicon.png" width="48"/> Araa 
+  <img src="https://raw.githubusercontent.com/Extravi/araa-search/main/static/favicon.png" width="48"/> Araa 
 </h1>
 
 <p align="center">
