@@ -27,7 +27,7 @@ If you're looking to [install](https://extravi.dev/araa) Araa, here is a how-to 
 | [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 | Unofficial instance |
 
 ### Contributors
-![Contributors](https://contrib.rocks/image?repo=Extravi/araa)
+![Contributors](https://contrib.rocks/image?repo=Extravi/araa-search)
 
 ## Features
 Here are some of the features that Araa a privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security provides:
