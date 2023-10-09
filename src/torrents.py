@@ -36,7 +36,7 @@ def torrentResults(query) -> Response:
         return jsonify(results)
 
     return render_template("torrents.html",
-                        results=results, title=f"{query} - TailsX",
+                        results=results, title=f"{query} - Araa",
                         q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
                         theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
                         javascript=request.cookies.get('javascript', 'enabled'), type="torrent",

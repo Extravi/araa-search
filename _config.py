@@ -3,11 +3,11 @@
 BANG = '!'
 
 # Search engine bangs for ppl who want to use another engine through
-# TailsX's search bar.
+# Araa's search bar.
 # Bangs with their assosiated URLs can be found in /bangs.json.
 
 # The repository this instance is based off on.
-REPO = 'https://github.com/Extravi/tailsx'
+REPO = 'https://github.com/Extravi/araa-search'
 
 # Default theme
 DEFAULT_THEME = 'dark_blur'

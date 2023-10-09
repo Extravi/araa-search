@@ -204,7 +204,7 @@ def textResults(query) -> Response:
         else:
             type = "text"
         return render_template("results.html",
-                               results=results, sublink=sublink, p=p, title=f"{query} - TailsX",
+                               results=results, sublink=sublink, p=p, title=f"{query} - Araa",
                                q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
                                snip=f"{snip}", kno_rdesc=f"{kno}", rdesc_link=f"{unquote(kno_link)}",
                                kno_wiki=f"{kno_image}", rkno_title=f"{rkno_title}", kno_title=f"{kno_title}",
@@ -213,5 +213,5 @@ def textResults(query) -> Response:
                                javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
                                type=type, search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
-                               TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED
+                               TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, domain=domain
                                )
