@@ -21,7 +21,6 @@ If you're looking to [install](https://extravi.dev/tailsx) Araa, here is a how-t
 |-|-|-|-|-|
 | [araa.extravi.dev](https://araa.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=araa.extravi.dev)✅| North America, Europe | Official instance |
 | [nyc.extravi.dev](https://nyc.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=nyc.extravi.dev)✅| New York 🇺🇸 | Official instance |
-| [sfo.extravi.dev](https://sfo.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=sfo.extravi.dev)✅| San Francisco 🇺🇸 | Official instance |
 | [ams.extravi.dev](https://ams.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=ams.extravi.dev)✅| Amsterdam 🇳🇱 | Official instance |
 | [fra.extravi.dev](https://fra.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=fra.extravi.dev)✅| Frankfurt 🇩🇪 | Official instance |
 | [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 | Unofficial instance |
