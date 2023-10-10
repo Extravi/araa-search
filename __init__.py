@@ -161,12 +161,13 @@ def search():
                 lang=lang, domain=domain)
 
         # Check if the query has a bang.
-        if query.startswith(BANG):
+        if BANG in query:
             query += " " # Simple fix to avoid a possible error 500
                          # when parsing the query for the bangkey.
-            bangkey = query[len(BANG):query.index(" ")].lower()
+            bang_index = query.index(BANG)
+            bangkey = query[bang_index + 1:query.index(" ", bang_index)].lower()
             if SEARCH_BANGS.get(bangkey) is not None:
-                query = query.lower().removeprefix(BANG + bangkey).lstrip()
+                query = query.lower().replace(BANG + bangkey, "").lstrip()
                 return app.redirect(SEARCH_BANGS[bangkey].format(query))
             # Remove the space at the end of the query.
             # The space was added to fix a possible error 500 when
