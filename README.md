@@ -3,8 +3,8 @@
 </h1>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/98912029/253724194-ca166197-315b-4aea-8b9e-bbd7c7db8731.png" width="400">
-  <img src="https://user-images.githubusercontent.com/98912029/254550110-589a12a1-2a66-42c6-a4b4-133b33aaf2a3.png" width="400">
+  <img src="https://user-images.githubusercontent.com/98912029/273818858-cce39950-5fb9-430e-bb9e-deca196b0f52.png" width="400">
+  <img src="https://user-images.githubusercontent.com/98912029/273819046-54130214-f0f2-4d58-bc2b-da4a51d1273a.png" width="400">
 </p>
 
 <p align="center">A privacy-respecting, ad-free, self-hosted metasearch engine.</p>
@@ -39,8 +39,15 @@ Here are some of the features that Araa a privacy-respecting, ad-free, self-host
 * Ad-free search results, with no tracking or data collection for advertising purposes
 
 ## Screenshots
-<img src="https://user-images.githubusercontent.com/98912029/253724326-64db8ec7-1560-4f4e-94dd-914ae4b020f3.png" width="600">
-<img src="https://user-images.githubusercontent.com/98912029/253724288-a5e41502-524b-4084-a815-73769d0a2a2c.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/273818858-cce39950-5fb9-430e-bb9e-deca196b0f52.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/273819046-54130214-f0f2-4d58-bc2b-da4a51d1273a.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/273819432-9eaadb1a-755a-48ad-87a5-5c11e9c8af1b.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/273819556-21ca06bc-c58b-4489-8f29-27d027ea5057.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/273819631-d8fd58a8-3765-4ad7-a1bf-b5e9322ff09d.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/273819811-0af9ee14-6f75-4399-8f5a-3280aa78dd3d.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/273819929-548fbda5-8f7c-47d8-9747-0753ccab0a94.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/273819985-f20ae46f-67d6-45a9-9b27-47ccaeca6161.png" width="600">
+<img src="https://user-images.githubusercontent.com/98912029/273820030-cfcadd5f-2947-414a-b41b-76520f1bbcc0.png" width="600">
 
 ## Contact
 Email: extravi@extravi.dev
