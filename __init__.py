@@ -42,6 +42,20 @@ def settings():
                            API_ENABLED=API_ENABLED
                            )
 
+@app.route('/discover')
+def discover():
+    # default theme if none is set
+    theme = request.cookies.get('theme', DEFAULT_THEME)
+    javascript = request.cookies.get('javascript', 'enabled')
+    return render_template('discover.html',
+                           theme=theme,
+                           javascript=javascript,
+                           commit=COMMIT,
+                           repo_url=REPO,
+                           current_url=request.url,
+                           API_ENABLED=API_ENABLED
+                           )                   
+
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
@@ -56,8 +70,9 @@ def save_settings():
 
     # set the theme cookie
     response = make_response(redirect(request.referrer))
-    response.set_cookie('safe', safe, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
-    if domain is not None:
+    if safe is not None and javascript == "":
+        response.set_cookie('safe', safe, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
+    if javascript is not None and javascript == "":
         response.set_cookie('javascript', javascript, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if domain is not None and javascript == "":
         response.set_cookie('domain', domain, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
@@ -65,7 +80,7 @@ def save_settings():
         response.set_cookie('theme', theme, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     if lang is not None and javascript == "":
         response.set_cookie('lang', lang, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if new_tab is not None:
+    if new_tab is not None and javascript == "":
         response.set_cookie('new_tab', new_tab, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     response.headers["Location"] = past_location
 

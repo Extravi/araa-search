@@ -1,13 +1,12 @@
 {% extends "results_layout.html" %}
 
 {% block body %}
-    <form class="results_settings" action="/save-settings" method="post">
-        <input type="hidden" name="past" value="{{ current_url }}"></input>
-        <select class="results-settings" name="safe">
+    <div class="results_settings">
+        <select class="results-settings" name="safe" id="safeSearchSelect">
             <option value="active" {% if safe == 'active' %}selected{% endif %}>SafeSearch on</option>
             <option value="" {% if safe == '' %}selected{% endif %}>SafeSearch off</option>
         </select>
-        <select class="results-settings" name="lang">
+        <select class="results-settings" name="lang" id="languageSelect">
             <option value="" {% if lang == '' %}selected{% endif %}>Any Language</option>
             <option value="lang_en" {% if lang == 'lang_en' %}selected{% endif %}>English</option>
             <option value="lang_af" {% if lang == 'lang_af' %}selected{% endif %}>Afrikaans</option>
@@ -56,8 +55,7 @@
             <option value="lang_uk" {% if lang == 'lang_uk' %}selected{% endif %}>українська (Ukrainian)</option>
             <option value="lang_vi" {% if lang == 'lang_vi' %}selected{% endif %}>Tiếng Việt (Vietnamese)</option>
         </select>
-        <button class="save results-save" type="submit">Apply settings</button>
-    </form>
+    </div>
     <p class="fetched">{{ fetched }}</p>
     {% if check == "" %}
     {% else %}

@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const selectedOption = langSelect.options[langSelect.selectedIndex];
             const selectedValue = selectedOption.value;
             setCookie("lang", selectedValue);
-            reloadPageForTheme();
+            window.location.reload();
         });
     }
 });
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const selectedOption = domainSelect.options[domainSelect.selectedIndex];
             const selectedValue = selectedOption.value;
             setCookie("domain", selectedValue);
-            reloadPageForTheme();
+            window.location.reload();
         });
     }
 });
@@ -74,4 +74,28 @@ document.addEventListener("DOMContentLoaded", function () {
             reloadPageForTheme();
         });
     });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const safeSearchSelect = document.getElementById("safeSearchSelect");
+
+    if (safeSearchSelect) {
+        safeSearchSelect.addEventListener("change", function () {
+            const selectedValue = safeSearchSelect.value;
+            setCookie("safe", selectedValue);
+            window.location.reload();
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const languageSelect = document.getElementById("languageSelect");
+
+    if (languageSelect) {
+        languageSelect.addEventListener("change", function () {
+            const selectedValue = languageSelect.value;
+            setCookie("lang", selectedValue);
+            window.location.reload();
+        });
+    }
 });

@@ -17,6 +17,9 @@
     {% else %}
         <link rel="stylesheet" href="./css/{{ theme }}.css">
     {% endif %}
+    {% if request.path == '/settings' or request.path == '/discover' %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/settings-style.css') }}">
+    {% endif %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Araa">
 </head>

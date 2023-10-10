@@ -1,0 +1,69 @@
+:root {
+    --html-bg: #dddaec;
+    --font-fg: #000000;
+    --fg: #202124;
+
+    --search-bg: #ffffff;
+    --search-bg-input: #f6f6f6;
+    --search-bg-input-border: #dadce0;
+    --search-select: #eeeeee;
+
+    --border: #dadce0;
+
+    --link: #1a0dab;
+    --link-visited: #681da8;
+
+    --snip-border: #dadce0;
+    --snip-background: #ffffff;
+    --snip-text: #000000;
+
+    --settings-border: #5f6368;
+    --button: #f6f6f6;
+
+    --footer-bg: #e1e1e1;
+    --footer-font: #4c416e;
+
+    --highlight: #202124;
+
+    --blue: #4c416e;
+
+    --image-view: #ffffff;
+    --image-view-titlebar: #ffffff;
+    --view-image-color: #f1f3f4;
+    --image-select: #f6f6f6;
+    --fff: #fff;
+
+    --search-button: #202124;
+}
+
+.wrapper-results:hover,
+.wrapper-results:focus-within,
+.wrapper:hover,
+.wrapper:focus-within {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+.check p {
+    color: var(--highlight) !important;
+}
+
+.image:hover {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+.image_view {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+.view-image-search {
+    box-shadow: none;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+.view-image-search:hover {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}

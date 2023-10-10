@@ -22,7 +22,7 @@ ENV_VARS = {
         'type': str,
     },
     'ORIGIN_REPO': {
-        'default_val': 'https://github.com/Extravi/tailsx',
+        'default_val': 'https://github.com/Extravi/araa-search',
         'pyname': 'REPO',
         'type': str,
     },

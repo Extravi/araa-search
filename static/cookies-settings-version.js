@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const langSelect = document.querySelector("#lang");
             const domainSelect = document.querySelector("#domain");
             const themeSelect = document.querySelector("#theme");
+            const safeSelect = document.querySelector("#safe");
+            const newTabSelect = document.querySelector("#open-new-tab");
 
             if (langSelect) {
                 const selectedOption = langSelect.options[langSelect.selectedIndex];
@@ -56,6 +58,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 const selectedValue = selectedOption.value;
                 setCookie("theme", selectedValue);
             }
+
+            if (safeSelect) {
+                const selectedOption = safeSelect.options[safeSelect.selectedIndex];
+                const selectedValue = selectedOption.value;
+                setCookie("safe", selectedValue);
+            }
+
+            if (newTabSelect) {
+                const selectedOption = newTabSelect.options[newTabSelect.selectedIndex];
+                const selectedValue = selectedOption.value;
+                setCookie("new_tab", selectedValue);
+            }
         });
     }
+});
+
+document.getElementById("discoverButton").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.location.href = "/discover";
 });
