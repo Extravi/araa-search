@@ -51,6 +51,19 @@ ENV_VARS = {
         'pyname': 'TORRENTGALAXY_DOMAIN',
         'type': str,
     },
+    'NYAA_DOMAIN': {
+        'default_val': 'nyaa.si',
+        'pyname': 'NYAA_DOMAIN',
+        'type': str,
+    },
+    'TORRENT_SITES': {
+        'default_val': [
+            'nyaa',
+            'torrentgalaxy',
+        ],
+        'pyname': 'ENABLED_TORRENT_SITES',
+        'type': list,
+    },
 }
 
 import os
@@ -65,11 +78,13 @@ config_py.write(
 for env_var in ENV_VARS.keys():
     val = os.environ.get(env_var)
 
-    # If environ.get() returns None, then the env. var. wasn't supplied.
-    # Fall back on the default.
-    if val == None:
+    # If environ.get() returns None (the env. var. wasn't supplied), or
+    # the value is blank, then fall back on the default.
+    if val == None or val == "":
         val = ENV_VARS[env_var]['default_val']
-        print(f"Config var. '{env_var}' not specified. Defaulting to '{val}'")
+        # Wrap strings with quotes
+        pretty_val = f"'{val}'" if ENV_VARS[env_var]['type'] == str else val
+        print(f"Config var. '{env_var}' not specified. Defaulting to {pretty_val}.")
 
     # Put quotes around each variable if it's a string.
     if ENV_VARS[env_var]['type'] == str:
