@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "Strona internetowa",
+        "image": "Zdjęcia",
+        "video": "Filmy",
+        "reddit": "Reddit",
+        "torrent": "Torrenty"
+    },
+    "results": {
+        "results": "Wyniki uzyskano w",
+        "seconds": "sekundy"
+    },
+    "footer": {
+        "settings": "Ustawienia",
+        "source_code": "Kod źródłowy",
+        "commit": "Zatwierdzenie"
+    },
+    "search_buttons": {
+        "search_text": "Szukaj z Araa",
+        "search_images": "Szukaj obrazów z Araa"
+    },
+    "settings": {
+        "theme": "Motyw",
+        "user_theme": "Motyw użytkownika",
+        "all_settings": "Wszystkie ustawienia",
+        "settings_header": "Ustawienia",
+        "discover_themes": "Przeglądaj motywy stworzone przez społeczność",
+        "discover_themes_button": "Odkryj motywy",
+        "preferred_language": "Preferowany język dla wyników wyszukiwania",
+        "google_domain": "Domena Google",
+        "safe_search": "Bezpieczne wyszukiwanie",
+        "open_links_new_tab": "Otwieraj linki w nowej karcie",
+        "disable_javascript": "Wyłączenie JavaScript (niezalecane) wpływa na funkcje strony internetowej, dezaktywuje autouzupełnianie i spowalnia niektóre funkcje. Pozostawienie JavaScript włączonego nie naruszy Twojej prywatności, ponieważ zapytania są przetwarzane za pośrednictwem punktów końcowych po stronie serwera.",
+        "save_settings": "Zapisz ustawienia",
+        "return_to_settings": "Powrót do ustawień",
+        "preferredux_language": "Preferowany język dla nagłówków, przycisków i innych tekstów z Araa"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "API sugestii"
+    }
+}

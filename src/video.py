@@ -4,16 +4,23 @@ from flask import request, render_template, jsonify, Response
 import time
 import json
 from src.helpers import latest_commit
+from urllib.parse import quote
 
 
 def videoResults(query) -> Response:
+    # get user language settings
+    ux_lang = request.cookies.get('ux_lang', 'english')
+    json_path = f'static/lang/{ux_lang}.json'
+    with open(json_path, 'r') as file:
+        lang_data = json.load(file)
+
     # remember time we started
     start_time = time.time()
 
     api = request.args.get("api", "false")
 
     # grab & format webpage
-    soup = helpers.makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={query}")
+    soup = makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={quote(query)}")
     data = json.loads(soup.text)
 
     # sort by videos only
@@ -61,10 +68,10 @@ def videoResults(query) -> Response:
         return jsonify(results)
     else:
         return render_template("videos.html",
-                               results=results, title=f"{query} - TailsX",
-                               q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
+                               results=results, title=f"{query} - Araa",
+                               q=f"{query}", fetched=f"{elapsed_time:.2f}",
                                theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
                                javascript=request.cookies.get('javascript', 'enabled'), new_tab=request.cookies.get("new_tab"),
-                               type="video", repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
-                               commit=latest_commit()
+                               type="video", repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, ux_lang=ux_lang, 
+                               lang_data=lang_data, commit=latest_commit()
                                )

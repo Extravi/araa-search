@@ -1,23 +1,28 @@
 {% extends "preresults_layout.html" %}
 
 {% block body %}
-    <div class="settings-nav"><h1 class="logomobile"><a class="no-decoration" href="./">Tails<span class="X">X</span></a></h1></div>
+    <div class="settings-nav"><h1 class="logomobile"><a class="no-decoration" href="./">{{ lang_data.settings.all_settings }}</a></h1></div>
     <form action="/save-settings" method="post">
     <input type="hidden" name="past" value="{{ current_url }}"></input>
     <div class="settings">
-        <p>Change the look of TailsX</p>
-        <select id="theme" name="theme">
-            <option value="light" {% if theme == 'light' %}selected{% endif %}>Light</option>
-            <option value="dark_blur" {% if theme == 'dark_blur' %}selected{% endif %}>Dark (Default)</option>
-            <option value="dark_default" {% if theme == 'dark_default' %}selected{% endif %}>Dark (no background)</option>
-            <option value="dark" {% if theme == 'dark' %}selected{% endif %}>Dark</option>
-            <option value="darker" {% if theme == 'darker' %}selected{% endif %}>Darker</option>
-            <option value="github_night" {% if theme == 'github_night' %}selected{% endif %}>Github Night</option>
-            <option value="night" {% if theme == 'night' %}selected{% endif %}>Night</option>
-            <option value="classic" {% if theme == 'classic' %}selected{% endif %}>Classic</option>
-        </select>
-        <button class="save save-settings-page" type="submit">Save your settings</button>
-        <p>Preferred language for your search results</p>
+    <div class="settings-row">
+        <span class="highlight"><p>{{ lang_data.settings.all_settings }}</p></span>
+    </div>
+        <div>
+        <div class="theme-settings">
+            <div class="themes-settings-menu">
+                <div><img class="view-image-search clickable" id="dark_blur" alt="Dark (Default)" src="/themepreview/preview1.webp"></div>
+                <div><img class="view-image-search clickable" id="dark_default" alt="Dark (no background)" src="/themepreview/preview2.webp"></div>
+                <div><img class="view-image-search clickable" id="light" alt="Light" src="/themepreview/preview3.webp"></div>
+            </div>
+        </div>
+        </div>
+        <div class="settings-row">
+            <p>{{ lang_data.settings.discover_themes }}</p>
+            <button id="discoverButton">{{ lang_data.settings.discover_themes_button }}</button>
+        </div>
+        <div class="settings-row">
+        <p>{{ lang_data.settings.preferred_language }}</p>
         <select id="lang" name="lang">
             <option value="" {% if lang == '' %}selected{% endif %}>Any Language</option>
             <option value="lang_en" {% if lang == 'lang_en' %}selected{% endif %}>English</option>
@@ -67,7 +72,33 @@
             <option value="lang_uk" {% if lang == 'lang_uk' %}selected{% endif %}>українська (Ukrainian)</option>
             <option value="lang_vi" {% if lang == 'lang_vi' %}selected{% endif %}>Tiếng Việt (Vietnamese)</option>
         </select>
-        <p>Google domain</p>
+        </div>
+        <div class="settings-row">
+        <p>{{ lang_data.settings.preferredux_language }}</p>
+        <select id="ux_lang" name="ux_lang">
+            <option value="english" {% if ux_lang == 'english' %}selected{% endif %}>English</option>
+            <option value="danish" {% if ux_lang == 'danish' %}selected{% endif %}>Danish (Dansk)</option>
+            <option value="dutch" {% if ux_lang == 'dutch' %}selected{% endif %}>Dutch (Nederlands)</option>
+            <option value="french" {% if ux_lang == 'french' %}selected{% endif %}>French (Français)</option>
+            <option value="french_canadian" {% if ux_lang == 'french_canadian' %}selected{% endif %}>French Canadian (Français canadien)</option>
+            <option value="german" {% if ux_lang == 'german' %}selected{% endif %}>German (Deutsch)</option>
+            <option value="greek" {% if ux_lang == 'greek' %}selected{% endif %}>Greek (Ελληνικά)</option>
+            <option value="italian" {% if ux_lang == 'italian' %}selected{% endif %}>Italian (Italiano)</option>
+            <option value="japanese" {% if ux_lang == 'japanese' %}selected{% endif %}>Japanese (日本語)</option>
+            <option value="korean" {% if ux_lang == 'korean' %}selected{% endif %}>Korean (한국어)</option>
+            <option value="mandarin_chinese" {% if ux_lang == 'mandarin_chinese' %}selected{% endif %}>Mandarin Chinese (普通话 or 中文)</option>
+            <option value="norwegian" {% if ux_lang == 'norwegian' %}selected{% endif %}>Norwegian (Norsk)</option>
+            <option value="polish" {% if ux_lang == 'polish' %}selected{% endif %}>Polish (Polski)</option>
+            <option value="portuguese" {% if ux_lang == 'portuguese' %}selected{% endif %}>Portuguese (Português)</option>
+            <option value="russian" {% if ux_lang == 'russian' %}selected{% endif %}>Russian (Русский)</option>
+            <option value="spanish" {% if ux_lang == 'spanish' %}selected{% endif %}>Spanish (Español)</option>
+            <option value="swedish" {% if ux_lang == 'swedish' %}selected{% endif %}>Swedish (Svenska)</option>
+            <option value="turkish" {% if ux_lang == 'turkish' %}selected{% endif %}>Turkish (Türkçe)</option>
+            <option value="ukrainian" {% if ux_lang == 'ukrainian' %}selected{% endif %}>Ukrainian (Українська)</option>
+        </select>            
+        </div>
+    <div class="settings-row">
+        <p>{{ lang_data.settings.google_domain }}</p>
         <select id="domain" name="domain">
             <option value="google.com/search?gl=us" {% if domain == 'google.com/search?gl=us' %}selected{% endif %}>google.com</option>
             <option value="google.fr/search?gl=fr" {% if domain == 'google.fr/search?gl=fr' %}selected{% endif %}>google.fr</option>
@@ -79,22 +110,38 @@
             <option value="google.co.jp/search?gl=jp" {% if domain == 'google.co.jp/search?gl=jp' %}selected{% endif %}>google.co.jp</option>
             <option value="google.co.kr/search?gl=kr" {% if domain == 'google.co.kr/search?gl=kr' %}selected{% endif %}>google.co.kr</option>
             <option value="google.com.br/search?gl=br" {% if domain == 'google.com.br/search?gl=br' %}selected{% endif %}>google.com.br</option>
-        </select>        
-        <p>SafeSearch</p>
+        </select>
+    </div>        
+    <div class="settings-row">
+        <p>{{ lang_data.settings.safe_search }}</p>
         <select id="safe" name="safe">
             <option value="active" {% if safe == 'active' %}selected{% endif %}>SafeSearch on</option>
             <option value="" {% if safe == '' %}selected{% endif %}>SafeSearch off</option>
         </select>
-        <p>Open links in a new tab</p>
+    </div>
+    <div class="settings-row">
+        <p>{{ lang_data.settings.open_links_new_tab }}</p>
         <select id="open-new-tab" name="new_tab">
             <option value="" {% if new_tab == '' %}selected{% endif %}>New Tab Off</option>
             <option value="active" {% if new_tab == 'active' %}selected{% endif %}>New Tab On</option>
         </select>
-        <p>Disabling JavaScript (not recommended) affects webpage features, disables autocomplete, and slows certain functions. Keeping JavaScript enabled won't compromise your privacy, as requests are processed through server-side endpoints.</p>
+    </div>
+    <div class="settings-row">
+        <p>{{ lang_data.settings.disable_javascript }}</p>
         <select id="javascript-setting" name="javascript">
             <option value="enabled" {% if javascript == 'enabled' %}selected{% endif %}>JavaScript Enabled</option>
             <option value="" {% if javascript == '' %}selected{% endif %}>JavaScript Disabled</option>
         </select>
+    </div>
+    <div class="settings-row settings-row2">
+        <p class="font-hide">|</p>
+        <button class="save save-settings-page" type="submit">{{ lang_data.settings.save_settings }}</button>
+    </div>
+        {% if javascript == "enabled" %}
+        <script defer src="/cookies-settings-version.js"></script>
+        <script defer src="/menu.js"></script>
+        <script defer src="/cookies.js"></script>
+        {% endif %}
     </form>
     </div>
 {% endblock %}

@@ -57,3 +57,17 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
 }
+
+.search-menu {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+.view-image-search {
+    box-shadow: none;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+.view-image-search:hover {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}

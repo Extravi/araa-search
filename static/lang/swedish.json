@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "Webb",
+        "image": "Bilder",
+        "video": "Videor",
+        "reddit": "Reddit",
+        "torrent": "Torrents"
+    },
+    "results": {
+        "results": "Resultat hämtat på",
+        "seconds": "sekunder"
+    },
+    "footer": {
+        "settings": "Inställningar",
+        "source_code": "Källkod",
+        "commit": "Bekräftelse"
+    },
+    "search_buttons": {
+        "search_text": "Sök med Araa",
+        "search_images": "Sök bilder med Araa"
+    },
+    "settings": {
+        "theme": "Tema",
+        "user_theme": "Användartema",
+        "all_settings": "Alla inställningar",
+        "settings_header": "Inställningar",
+        "discover_themes": "Bläddra bland teman skapade av gemenskapen",
+        "discover_themes_button": "Upptäck Teman",
+        "preferred_language": "Föredraget språk för dina sökresultat",
+        "google_domain": "Google-domän",
+        "safe_search": "Säker sökning",
+        "open_links_new_tab": "Öppna länkar i en ny flik",
+        "disable_javascript": "Inaktivera JavaScript (inte rekommenderat) påverkar webbplatsfunktioner, stänger av automatisk ifyllning och saktar ned vissa funktioner. Att hålla JavaScript aktiverat kommer inte att äventyra din integritet, eftersom förfrågningar behandlas via serverbaserade ändpunkter.",
+        "save_settings": "Spara inställningar",
+        "return_to_settings": "Återgå till inställningar",
+        "preferredux_language": "Föredraget språk för rubriker, knappar och annan text från Araa"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "Förslags-API"
+    }
+}

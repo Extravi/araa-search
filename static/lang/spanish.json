@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "Web",
+        "image": "Imágenes",
+        "video": "Videos",
+        "reddit": "Reddit",
+        "torrent": "Torrents"
+    },
+    "results": {
+        "results": "Resultados obtenidos en",
+        "seconds": "segundos"
+    },
+    "footer": {
+        "settings": "Configuración",
+        "source_code": "Código fuente",
+        "commit": "Confirmación"
+    },
+    "search_buttons": {
+        "search_text": "Buscar con Araa",
+        "search_images": "Buscar imágenes con Araa"
+    },
+    "settings": {
+        "theme": "Tema",
+        "user_theme": "Tema de usuario",
+        "all_settings": "Todas las configuraciones",
+        "settings_header": "Configuración",
+        "discover_themes": "Explorar temas creados por la comunidad",
+        "discover_themes_button": "Descubrir temas",
+        "preferred_language": "Idioma preferido para tus resultados de búsqueda",
+        "google_domain": "Dominio de Google",
+        "safe_search": "Búsqueda segura",
+        "open_links_new_tab": "Abrir enlaces en una nueva pestaña",
+        "disable_javascript": "La desactivación de JavaScript (no recomendada) afecta las funciones del sitio web, deshabilita el autocompletado y ralentiza ciertas funciones. Mantener JavaScript habilitado no compromete su privacidad, ya que las solicitudes se procesan a través de puntos finales del lado del servidor.",
+        "save_settings": "Guardar configuraciones",
+        "return_to_settings": "Volver a la configuración",
+        "preferredux_language": "Idioma preferido para encabezados, botones y otros textos de Araa"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "API de Sugerencias"
+    }
+}

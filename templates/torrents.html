@@ -1,15 +1,15 @@
 {% extends "results_layout.html" %}
 
 {% block body %}
-    <p class="fetched fetched_dif fetched_tor">{{ fetched }}</p>
+    <p class="fetched fetched_dif fetched_tor">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
     {% if results %}
     <div class="clean">
         {% for result in results %}
         <div class="results">
-            <a id="link" href="{{ result[2] }}">{{ result[0] }}</a>
-            <a class="torrent" href="{{ result[2] }}"><h3>{{ result[1] }}</h3></a>
-            <p class="stats">{{ result[4] }} views • {{ result[3] }}</p>
-            <p class="publish__info"> Seeders: <span class="seeders">{{ result[5] }}</span> <span class="pipe">|</span> Leechers: <span class="leechers">{{ result[6] }}</span></p>
+            <a id="link" href="{{ result['magnet'] }}">{{ result["href"] }}</a>
+            <a class="torrent" href="{{ result['magnet'] }}"><h3>{{ result["title"] }}</h3></a>
+            <p class="stats">{% if result["views"] %}{{ result["views"] }} views • {% endif %}{{ result["size"] }}</p>
+            <p class="publish__info"> Seeders: <span class="seeders">{{ result["seeders"] }}</span> <span class="pipe">|</span> Leechers: <span class="leechers">{{ result["leechers"] }}</span></p>
         </div>
         {% endfor %}
     </div>

@@ -108,6 +108,11 @@
     max-width: 600px;
 }
 
+.prev-img {
+    left: 0px !important;
+    margin-left: 1.2% !important;
+}
+
 .prev-next button:hover {
     border: 1px solid #5f6368;
     cursor: pointer;
@@ -491,46 +496,98 @@ hr {
 #safe,
 #open-new-tab,
 #domain,
-#javascript-setting {
+#javascript-setting,
+#ux_lang {
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
-    border: 1px solid var(--settings-border);
+    border: 1px solid var(--border);
     color: var(--font-fg);
     width: 160px;
     background: var(--button);
-    margin-right: 330px;
+    float: right;
+    transition: all .3s ease;
+}
+
+#theme:hover,
+#lang:hover,
+#safe:hover,
+#open-new-tab:hover,
+#domain:hover,
+#javascript-setting:hover,
+#ux_lang:hover {
+    border: 1px solid #5f6368;
+    cursor: pointer;
+}
+
+.domain,
+.lang {
+    margin-top: 10px;
+    border: 1px solid var(--button);
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 15px;
+    color: var(--font-fg);
+    width: 90%;
+    background: var(--button);
 }
 
 .save {
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
-    margin-left: -17px;
-    border: 1px solid var(--settings-border);
+    border: 1px solid var(--border);
     color: var(--font-fg);
+    width: 160px;
     background: var(--button);
+    float: right;
+    transition: all .3s ease;
+}
+
+.save:hover {
+    border: 1px solid #5f6368;
     cursor: pointer;
-    position: absolute;
+}
+
+.settings-row2 {
+    border-bottom: 1px solid var(--html-bg) !important;
+}
+
+.font-hide {
+    color: var(--html-bg);
 }
 
 .settings-nav {
     max-width: 100%;
-    height: 90px;
+    height: 40px;
     background-color: var(--search-bg);
     border-bottom: 1px solid var(--border);
     padding: 10px;
 }
 
 .settings {
-    background-color: var(--snip-background);
-    border: 1px solid var(--border);
+    background-color: var(--html-bg);
     border-radius: 8px;
-    max-width: 620px;
-    height: 570px;
+    max-width: 820px;
+    height: 100%;
     padding: 10px;
-    margin-left: 100px;
-    margin-top: 40px;
+    margin-left: 170px;
+    margin-top: 20px;
+    padding-bottom: 100px;
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.settings-row select,
+.settings-row button {
+    margin-left: auto;
 }
 
 .kno_wiki {
@@ -560,10 +617,16 @@ hr {
     border-radius: 4px;
     padding: 6px;
     font-size: 14px;
-    border: 1px solid var(--snip-border);
-    color: var(--font-fg);
+    border: 1px solid var(--html-bg);
+    color: var(--highlight);
     background: var(--html-bg);
     cursor: pointer;
+    transition: all .3s ease;
+}
+
+.results-settings:hover {
+    color: var(--font-fg);
+    transition: all .3s ease;
 }
 
 .results-save {
@@ -606,15 +669,125 @@ select.results-settings {
     display: flex;
 }
 
+.settings-search-div-search {
+    right: 20px;
+    top: 25px;
+    position: fixed;
+    z-index: 9999;
+}
+
 .settings-icon-link {
     font-size: 20px;
+}
+
+.settings-icon-link-search {
+    font-size: 25px;
+    background-color: inherit;
+    border: none;
+}
+
+.search-menu {
+    position: fixed;
+    height: 420px;
+    width: 330px;
+    right: 0;
+    margin-top: 60px;
+    z-index: 9999;
+    margin-right: 20px;
+    background-color: var(--html-bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.search-menu h2 {
+    color: var(--fg);
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 14px;
+}
+
+.search-menu button {
+    color: var(--font-fg);
+    background-color: var(--button);
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 10px 10px 10px;
+    width: 90%;
+}
+
+.search-menu button:hover {
+    border: 1px solid #5f6368;
+    cursor: pointer;
+}
+
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.settings-menu-hidden {
+    display: none;
+}
+
+.settings-menu-visible {
+    display: initial;
+}
+
+.themes-settings-menu {
+    background: var(--snip-background);
+    color: var(--fg);
+    border-radius: 4px;
+    height: 100%;
+    margin: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.themes-settings-menu>div {
+    width: calc(50% - 10px);
+    margin: 5px;
+}
+
+
+.view-image-search {
+    border: 1px solid var(--snip-border);
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    vertical-align: bottom;
+    border-radius: 4px;
+}
+
+.theme-settings {
+    margin-top: 10px;
+    width: 90%;
+    border: 1px solid var(--snip-border);
+    background: var(--snip-background);
+    color: var(--fg);
+    border-radius: 4px;
+    height: 100%;
+}
+
+.theme-settings p {
+    margin: 0px;
+    padding-top: 5px;
+    margin-left: 3%;
 }
 
 .settings-search-div:hover p {
     color: #8ab4f8;
 }
 
-.settings-search-div:hover a {
+.settings-search-div:hover a,
+.settings-search-div:hover button {
     color: var(--blue);
 }
 
@@ -1343,6 +1516,10 @@ p {
     }
 
     .mobile-none {
+        display: none;
+    }
+
+    .search-menu {
         display: none;
     }
 

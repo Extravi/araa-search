@@ -1,0 +1,36 @@
+{% extends "preresults_layout.html" %}
+
+{% block body %}
+    <div class="settings-nav"><h1 class="logomobile"><a class="no-decoration" href="/settings">{{ lang_data.settings.return_to_settings }}</a></h1></div>
+    <form action="/save-settings" method="post">
+    <input type="hidden" name="past" value="{{ current_url }}"></input>
+    <div class="settings">
+    <div class="settings-row">
+        <span class="highlight"><p>{{ lang_data.settings.discover_themes_button }}</p></span>
+    </div>
+        <div>
+        <div class="theme-settings">
+            <div class="themes-settings-menu">
+                <div><img class="view-image-search clickable" id="dark_blur" alt="Dark (Default)" src="/themepreview/preview1.webp"></div>
+                <div><img class="view-image-search clickable" id="dark_default" alt="Dark (no background)" src="/themepreview/preview2.webp"></div>
+                <div><img class="view-image-search clickable" id="light" alt="Light" src="/themepreview/preview3.webp"></div>
+                <div><img class="view-image-search clickable" id="dark" alt="Dark" src="/themepreview/preview4.webp"></div>
+                <div><img class="view-image-search clickable" id="darker" alt="Darker" src="/themepreview/preview5.webp"></div>
+                <div><img class="view-image-search clickable" id="github_night" alt="Github Night" src="/themepreview/preview6.webp"></div>
+                <div><img class="view-image-search clickable" id="night" alt="Night" src="/themepreview/preview7.webp"></div>
+                <div><img class="view-image-search clickable" id="classic" alt="Classic" src="/themepreview/preview8.webp"></div>
+                <div><img class="view-image-search clickable" id="ancient" alt="Ancient" src="/themepreview/preview9.webp"></div>
+                <div><img class="view-image-search clickable" id="catppuccin_mocha_blue" alt="Catppuccin Mocha Blue" src="/themepreview/preview10.webp"></div>
+                <div><img class="view-image-search clickable" id="catppuccin_mocha_green" alt="Catppuccin Mocha Green" src="/themepreview/preview11.webp"></div>
+                <div><img class="view-image-search clickable" id="gentoo_lavender" alt="Gentoo Lavender" src="/themepreview/preview12.webp"></div>
+                <div><img class="view-image-search clickable" id="red" alt="Red" src="/themepreview/preview13.webp"></div>
+            </div>
+        </div>
+        </div>
+    </div>
+        {% if javascript == "enabled" %}
+        <script defer src="/cookies.js"></script>
+        {% endif %}
+    </form>
+    </div>
+{% endblock %}

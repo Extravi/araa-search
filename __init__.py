@@ -45,10 +45,19 @@ def settings():
     safe = request.cookies.get('safe')
     new_tab = request.cookies.get('new_tab')
     domain = request.cookies.get('domain')
-    javascript = request.cookies.get('javascript')
+    javascript = request.cookies.get('javascript', 'enabled')
+
+    # get user language settings
+    ux_lang = request.cookies.get('ux_lang', 'english')
+    json_path = f'static/lang/{ux_lang}.json'
+    with open(json_path, 'r') as file:
+        lang_data = json.load(file)
+
     return render_template('settings.html',
                            theme=theme,
                            lang=lang,
+                           ux_lang=ux_lang,
+                           lang_data=lang_data,
                            safe=safe,
                            new_tab=new_tab,
                            domain=domain,
@@ -59,12 +68,36 @@ def settings():
                            API_ENABLED=API_ENABLED
                            )
 
+@app.route('/discover')
+def discover():
+    # default theme if none is set
+    theme = request.cookies.get('theme', DEFAULT_THEME)
+    javascript = request.cookies.get('javascript', 'enabled')
+
+    # get user language settings
+    ux_lang = request.cookies.get('ux_lang', 'english')
+    json_path = f'static/lang/{ux_lang}.json'
+    with open(json_path, 'r') as file:
+        lang_data = json.load(file)
+
+    return render_template('discover.html',
+                           theme=theme,
+                           javascript=javascript,
+                           ux_lang=ux_lang,
+                           lang_data=lang_data,
+                           commit=COMMIT,
+                           repo_url=REPO,
+                           current_url=request.url,
+                           API_ENABLED=API_ENABLED
+                           )                   
+
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
     # get the selected theme from the form
     theme = request.form.get('theme')
     lang = request.form.get('lang')
+    ux_lang = request.form.get('ux_lang')
     safe = request.form.get('safe')
     new_tab = request.form.get('new_tab')
     domain = request.form.get('domain')
@@ -73,16 +106,19 @@ def save_settings():
 
     # set the theme cookie
     response = make_response(redirect(request.referrer))
-    response.set_cookie('safe', safe, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
-    if domain is not None:
+    if safe is not None and javascript == "":
+        response.set_cookie('safe', safe, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
+    if javascript is not None and javascript == "":
         response.set_cookie('javascript', javascript, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if domain is not None:
+    if domain is not None and javascript == "":
         response.set_cookie('domain', domain, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if theme is not None:
+    if theme is not None and javascript == "":
         response.set_cookie('theme', theme, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if lang is not None:
+    if lang is not None and javascript == "":
         response.set_cookie('lang', lang, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if new_tab is not None:
+    if ux_lang is not None and javascript == "":
+        response.set_cookie('ux_lang', ux_lang, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
+    if new_tab is not None and javascript == "":
         response.set_cookie('new_tab', new_tab, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
     response.headers["Location"] = past_location
 
@@ -108,8 +144,9 @@ def api():
     if API_ENABLED == True:
         query = request.args.get("q", "").strip()
         t = request.args.get("t", "text").strip()
+        p = (request.args.get('p', 1))
         try:
-            response = requests.get(f"http://localhost:{PORT}/search?q={query}&t={t}&api=true")
+            response = requests.get(f"http://localhost:{PORT}/search?q={query}&t={t}&api=true&p={p}")
             return json.loads(response.text)
         except Exception as e:
             app.logger.error(e)
@@ -146,6 +183,15 @@ def img_proxy():
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
+    lang = request.cookies.get('lang')
+    domain = request.cookies.get('domain')
+
+    # get user language settings
+    ux_lang = request.cookies.get('ux_lang', 'english')
+    json_path = f'static/lang/{ux_lang}.json'
+    with open(json_path, 'r') as file:
+        lang_data = json.load(file)
+
     if request.method == "GET":
         # get the `q` query parameter from the URL
         query = request.args.get("q", "").strip()
@@ -156,7 +202,8 @@ def search():
                 css_style = None
             return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME), 
                 javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME, 
-                css_style=css_style, repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED)
+                css_style=css_style, repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED,
+                lang=lang, domain=domain, lang_data=lang_data, ux_lang=ux_lang)
 
         # Check if the query has a bang.
         if query.startswith(BANG):

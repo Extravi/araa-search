@@ -18,14 +18,93 @@
         <link rel="stylesheet" href="./css/{{ theme }}.css">
     {% endif %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="search" type="application/opensearchdescription+xml" href="{{ url_for('static', filename='opensearch.xml') }}" title="TailsX">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/menu.css') }}">
+    <link rel="search" type="application/opensearchdescription+xml" href="{{ url_for('static', filename='opensearch.xml') }}" title="Araa">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self';">
     <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains">
 </head>
 
 <body>
+    <div class="settings-search-div settings-search-div-search">
+        <button class="material-icons-round clickable settings-icon-link settings-icon-link-search">menu</button>
+    </div>
+    <div class="search-menu settings-menu-hidden">
+        <h2>{{ lang_data.settings.settings_header }}</h2>
+    <div class="settings-content">
+        <button id="settingsButton">{{ lang_data.settings.all_settings }}</button>
+    <div class="theme-settings">
+        <p><span class="highlight">{{ lang_data.settings.theme }}: </span> <span id="theme_name">{{ lang_data.settings.user_theme }}</span></p>
+        <div class="themes-settings-menu">
+            <div><img class="view-image-search clickable" id="dark_blur" alt="Dark (Default)" src="/themepreview/preview1.webp"></div>
+            <div><img class="view-image-search clickable" id="dark_default" alt="Dark (no background)" src="/themepreview/preview2.webp"></div>
+            <div><img class="view-image-search clickable" id="light" alt="Light" src="/themepreview/preview3.webp"></div>
+        </div>
+    </div>
+    <select class="lang" name="lang">
+        <option value="" {% if lang == '' %}selected{% endif %}>Any Language</option>
+        <option value="lang_en" {% if lang == 'lang_en' %}selected{% endif %}>English</option>
+        <option value="lang_af" {% if lang == 'lang_af' %}selected{% endif %}>Afrikaans</option>
+        <option value="lang_ar" {% if lang == 'lang_ar' %}selected{% endif %}>العربية (Arabic)</option>
+        <option value="lang_hy" {% if lang == 'lang_hy' %}selected{% endif %}>Հայերեն (Armenian)</option>
+        <option value="lang_be" {% if lang == 'lang_be' %}selected{% endif %}>Беларуская (Belarusian)</option>
+        <option value="lang_bg" {% if lang == 'lang_bg' %}selected{% endif %}>български (Bulgarian)</option>
+        <option value="lang_ca" {% if lang == 'lang_ca' %}selected{% endif %}>Català (Catalan)</option>
+        <option value="lang_zh-CN" {% if lang == 'lang_zh-CN' %}selected{% endif %}>中文 (简体) (Chinese Simplified)</option>
+        <option value="lang_zh-TW" {% if lang == 'lang_zh-TW' %}selected{% endif %}>中文 (繁體) (Chinese Traditional)</option>
+        <option value="lang_hr" {% if lang == 'lang_hr' %}selected{% endif %}>Hrvatski (Croatian)</option>
+        <option value="lang_cs" {% if lang == 'lang_cs' %}selected{% endif %}>Čeština (Czech)</option>
+        <option value="lang_da" {% if lang == 'lang_da' %}selected{% endif %}>Dansk (Danish)</option>
+        <option value="lang_nl" {% if lang == 'lang_nl' %}selected{% endif %}>Nederlands (Dutch)</option>
+        <option value="lang_eo" {% if lang == 'lang_eo' %}selected{% endif %}>Esperanto</option>
+        <option value="lang_et" {% if lang == 'lang_et' %}selected{% endif %}>Eesti (Estonian)</option>
+        <option value="lang_tl" {% if lang == 'lang_tl' %}selected{% endif %}>Filipino (Tagalog)</option>
+        <option value="lang_fi" {% if lang == 'lang_fi' %}selected{% endif %}>Suomi (Finnish)</option>
+        <option value="lang_fr" {% if lang == 'lang_fr' %}selected{% endif %}>Français (French)</option>
+        <option value="lang_de" {% if lang == 'lang_de' %}selected{% endif %}>Deutsch (German)</option>
+        <option value="lang_el" {% if lang == 'lang_el' %}selected{% endif %}>Ελληνικά (Greek)</option>
+        <option value="lang_iw" {% if lang == 'lang_iw' %}selected{% endif %}>עברית (Hebrew)</option>
+        <option value="lang_hi" {% if lang == 'lang_hi' %}selected{% endif %}>हिन्दी (Hindi)</option>
+        <option value="lang_hu" {% if lang == 'lang_hu' %}selected{% endif %}>magyar (Hungarian)</option>
+        <option value="lang_is" {% if lang == 'lang_is' %}selected{% endif %}>íslenska (Icelandic)</option>
+        <option value="lang_id" {% if lang == 'lang_id' %}selected{% endif %}>Bahasa Indonesia (Indonesian)</option>
+        <option value="lang_it" {% if lang == 'lang_it' %}selected{% endif %}>italiano (Italian)</option>
+        <option value="lang_ja" {% if lang == 'lang_ja' %}selected{% endif %}>日本語 (Japanese)</option>
+        <option value="lang_ko" {% if lang == 'lang_ko' %}selected{% endif %}>한국어 (Korean)</option>
+        <option value="lang_lv" {% if lang == 'lang_lv' %}selected{% endif %}>latviešu (Latvian)</option>
+        <option value="lang_lt" {% if lang == 'lang_lt' %}selected{% endif %}>lietuvių (Lithuanian)</option>
+        <option value="lang_no" {% if lang == 'lang_no' %}selected{% endif %}>norsk (Norwegian)</option>
+        <option value="lang_fa" {% if lang == 'lang_fa' %}selected{% endif %}>فارسی (Persian)</option>
+        <option value="lang_pl" {% if lang == 'lang_pl' %}selected{% endif %}>polski (Polish)</option>
+        <option value="lang_pt" {% if lang == 'lang_pt' %}selected{% endif %}>português (Portuguese)</option>
+        <option value="lang_ro" {% if lang == 'lang_ro' %}selected{% endif %}>română (Romanian)</option>
+        <option value="lang_ru" {% if lang == 'lang_ru' %}selected{% endif %}>русский (Russian)</option>
+        <option value="lang_sr" {% if lang == 'lang_sr' %}selected{% endif %}>српски (Serbian)</option>
+        <option value="lang_sk" {% if lang == 'lang_sk' %}selected{% endif %}>slovenčina (Slovak)</option>
+        <option value="lang_sl" {% if lang == 'lang_sl' %}selected{% endif %}>slovenščina (Slovenian)</option>
+        <option value="lang_es" {% if lang == 'lang_es' %}selected{% endif %}>español (Spanish)</option>
+        <option value="lang_sw" {% if lang == 'lang_sw' %}selected{% endif %}>Kiswahili (Swahili)</option>
+        <option value="lang_sv" {% if lang == 'lang_sv' %}selected{% endif %}>svenska (Swedish)</option>
+        <option value="lang_th" {% if lang == 'lang_th' %}selected{% endif %}>ไทย (Thai)</option>
+        <option value="lang_tr" {% if lang == 'lang_tr' %}selected{% endif %}>Türkçe (Turkish)</option>
+        <option value="lang_uk" {% if lang == 'lang_uk' %}selected{% endif %}>українська (Ukrainian)</option>
+        <option value="lang_vi" {% if lang == 'lang_vi' %}selected{% endif %}>Tiếng Việt (Vietnamese)</option>
+    </select>
+    <select class="domain" name="domain">
+        <option value="google.com/search?gl=us" {% if domain == 'google.com/search?gl=us' %}selected{% endif %}>google.com</option>
+        <option value="google.fr/search?gl=fr" {% if domain == 'google.fr/search?gl=fr' %}selected{% endif %}>google.fr</option>
+        <option value="google.ca/search?gl=ca" {% if domain == 'google.ca/search?gl=ca' %}selected{% endif %}>google.ca</option>
+        <option value="google.co.uk/search?gl=uk" {% if domain == 'google.co.uk/search?gl=uk' %}selected{% endif %}>google.co.uk</option>
+        <option value="google.de/search?gl=de" {% if domain == 'google.de/search?gl=de' %}selected{% endif %}>google.de</option>
+        <option value="google.com.au/search?gl=au" {% if domain == 'google.com.au/search?gl=au' %}selected{% endif %}>google.com.au</option>
+        <option value="google.co.in/search?gl=in" {% if domain == 'google.co.in/search?gl=in' %}selected{% endif %}>google.co.in</option>
+        <option value="google.co.jp/search?gl=jp" {% if domain == 'google.co.jp/search?gl=jp' %}selected{% endif %}>google.co.jp</option>
+        <option value="google.co.kr/search?gl=kr" {% if domain == 'google.co.kr/search?gl=kr' %}selected{% endif %}>google.co.kr</option>
+        <option value="google.com.br/search?gl=br" {% if domain == 'google.com.br/search?gl=br' %}selected{% endif %}>google.com.br</option>
+    </select>
+    </div>
+    </div>
     <form action="/search" id="prev-next-form" class="results-search-container" method="get" autocomplete="off">
-        <h1 class="logomobile"><a class="no-decoration" href="./">Tails<span class="X">X</span></a></h1>
+        <h1 class="logomobile"><a class="no-decoration" href="./">Araa</a></h1>
         <div class="wrapper-results">
         <input type="text" name="q" value="{{ q }}" id="search-input" />
         <button id="search-wrapper-ico" class="material-icons-round" name="t" value="{{ type }}">search</button>
@@ -46,57 +125,57 @@
             {% if type == "text" %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="text">search</button>
-                <button name="t" value="text" class="clickable search-active">Web</button>
+                <button name="t" value="text" class="clickable search-active">{{ lang_data.buttons.text }}</button>
             </div>                  
             {% else %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable" name="t" value="text">search</button>
-                <button name="t" value="text" class="clickable">Web</button>
+                <button name="t" value="text" class="clickable">{{ lang_data.buttons.text }}</button>
             </div>      
             {% endif %}
             {% if type == "image" %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="image">image</button>
-                <button name="t" value="image" class="clickable search-active">Images</button>
+                <button name="t" value="image" class="clickable search-active">{{ lang_data.buttons.image }}</button>
             </div>
             {% else %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable" name="t" value="image">image</button>
-                <button name="t" value="image" class="clickable">Images</button>
+                <button name="t" value="image" class="clickable">{{ lang_data.buttons.image }}</button>
             </div>
             {% endif %}
             {% if type == "video" %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="video">movie</button>
-                <button name="t" value="video" class="clickable search-active">Videos</button>
+                <button name="t" value="video" class="clickable search-active">{{ lang_data.buttons.video }}</button>
             </div>
             {% else %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable" name="t" value="video">movie</button>
-                <button name="t" value="video" class="clickable">Videos</button>
+                <button name="t" value="video" class="clickable">{{ lang_data.buttons.video }}</button>
             </div>
             {% endif %}
             {% if type == "reddit" %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="reddit">forum</button>
-                <button name="t" value="reddit" class="clickable search-active">Reddit</button>
+                <button name="t" value="reddit" class="clickable search-active">{{ lang_data.buttons.reddit }}</button>
             </div>
             {% else %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable" name="t" value="reddit">forum</button>
-                <button name="t" value="reddit" class="clickable">Reddit</button>
+                <button name="t" value="reddit" class="clickable">{{ lang_data.buttons.reddit }}</button>
             </div>
             {% endif %}
             {% if TORRENTSEARCH_ENABLED == True %}
             {% if type == "torrent" %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="torrent">share</button>
-                <button name="t" value="torrent" class="clickable search-active">Torrents</button>
+                <button name="t" value="torrent" class="clickable search-active">{{ lang_data.buttons.torrent }}</button>
             </div>
             {% else %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable" name="t" value="torrent">share</button>
-                <button name="t" value="torrent" class="clickable">Torrents</button>
+                <button name="t" value="torrent" class="clickable">{{ lang_data.buttons.torrent }}</button>
             </div>
             {% endif %}
             {% else %}
@@ -107,6 +186,8 @@
         {% if javascript == "enabled" %}
         <div id="kno_title" data-kno-title="{{ kno_title }}"></div>
         <script defer src="/script.js"></script>
+        <script defer src="/menu.js"></script>
+        <script defer src="/cookies.js"></script>
           {% if not calc == "" and type == "text" %}
           <script defer src="/calculator.js"></script>
           {% endif %}
@@ -114,15 +195,15 @@
     </form>
     {% block body %}{% endblock %}
     <div class="footer">
-        <a href="/">TailsX</a>
-        <a href="/settings">Settings</a>
-        <a target="_blank" href="{{ repo_url }}">Source code <span class="emoji-code">❤️</span></a>
+        <a href="/">Araa</a>
+        <a href="/settings">{{ lang_data.footer.settings }}</a>
+        <a target="_blank" href="{{ repo_url }}">{{ lang_data.footer.source_code }} <span class="emoji-code">❤️</span></a>
         {% if API_ENABLED == True %}
-        <a target="_blank" class="mobile-none" href="/api?q=firefox&t=text&api=true">API</a>
-        <a target="_blank" class="mobile-none" href="/suggestions?q=firefox">Suggestions API</a>
+        <a target="_blank" class="mobile-none" href="/api?q=firefox&t=text&api=true">{{ lang_data.api_links.api_link }}</a>
+        <a target="_blank" class="mobile-none" href="/suggestions?q=firefox">{{ lang_data.api_links.suggestions_api_link }}</a>
         {% else %}
         {% endif %}
-        <a target="_blank" class="mobile-none" href="{{ repo_url }}/commit/{{ commit }}">Commit: {{ commit }}</a>
+        <a target="_blank" class="mobile-none" href="{{ repo_url }}/commit/{{ commit }}">{{ lang_data.footer.commit }}: {{ commit }}</a>
     </div>
 </body>
 

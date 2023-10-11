@@ -1,0 +1,72 @@
+.logomobile {
+    top: 13px !important;
+    font-size: 23px;
+}
+
+.no-decoration {
+    color: var(--fg) !important;
+    transition: all .3s ease;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.no-decoration:hover {
+    color: var(--blue) !important;
+    text-decoration: none;
+}
+
+.theme-settings {
+    width: 100% !important;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
+
+.themes-settings-menu>div {
+    width: calc(32%) !important;
+    margin: 5px;
+}
+
+p {
+    max-width: 620px !important;
+}
+
+#discoverButton {
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 15px;
+    border: 1px solid var(--border);
+    color: var(--font-fg);
+    width: 160px;
+    background: var(--button);
+    float: right;
+    transition: all .3s ease;
+}
+
+#discoverButton:hover {
+    border: 1px solid #5f6368;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 950px) {
+    .themes-settings-menu>div {
+        width: calc(20% - -60px) !important;
+        margin: 5px;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .themes-settings-menu>div {
+        width: calc(50% - 10px) !important;
+        margin: 5px;
+    }
+
+    .logomobile {
+        top: -5px !important;
+    }
+}

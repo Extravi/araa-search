@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "Web",
+        "image": "Afbeeldingen",
+        "video": "Video's",
+        "reddit": "Reddit",
+        "torrent": "Torrents"
+    },
+    "results": {
+        "results": "Resultaten opgehaald in",
+        "seconds": "seconden"
+    },
+    "footer": {
+        "settings": "Instellingen",
+        "source_code": "Broncode",
+        "commit": "Commit"
+    },
+    "search_buttons": {
+        "search_text": "Zoeken met Araa",
+        "search_images": "Zoek afbeeldingen met Araa"
+    },
+    "settings": {
+        "theme": "Thema",
+        "user_theme": "Gebruikersthema",
+        "all_settings": "Alle instellingen",
+        "settings_header": "Instellingen",
+        "discover_themes": "Blader door thema's gemaakt door de gemeenschap",
+        "discover_themes_button": "Thema's ontdekken",
+        "preferred_language": "Voorkeurstaal voor uw zoekresultaten",
+        "google_domain": "Google-domein",
+        "safe_search": "Veilig zoeken",
+        "open_links_new_tab": "Links in een nieuw tabblad openen",
+        "disable_javascript": "Het uitschakelen van JavaScript (niet aanbevolen) heeft invloed op websitefunctionaliteiten, schakelt automatisch aanvullen uit en vertraagt bepaalde functies. Het ingeschakeld houden van JavaScript compromitteert uw privacy niet, aangezien verzoeken worden verwerkt via serverzijde endpoints.",
+        "save_settings": "Instellingen opslaan",
+        "return_to_settings": "Terug naar instellingen",
+        "preferredux_language": "Voorkeurstaal voor Koppen, Knoppen en Andere Tekst van Araa"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "Suggesties API"
+    }
+}

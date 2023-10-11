@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "Web",
+        "image": "Images",
+        "video": "Videos",
+        "reddit": "Reddit",
+        "torrent": "Torrents"
+    },
+    "results": {
+        "results": "Fetched the results in",
+        "seconds": "seconds"
+    },
+    "footer": {
+        "settings": "Settings",
+        "source_code": "Source code",
+        "commit": "Commit"
+    },
+    "search_buttons": {
+        "search_text": "Search with Araa",
+        "search_images": "Search images with Araa"
+    },
+    "settings": {
+        "theme": "Theme",
+        "user_theme": "User Theme",
+        "all_settings": "All settings",
+        "settings_header": "Settings",
+        "discover_themes": "Browse themes made by the community",
+        "discover_themes_button": "Discover Themes",
+        "preferred_language": "Preferred language for your search results",
+        "google_domain": "Google domain",
+        "safe_search": "SafeSearch",
+        "open_links_new_tab": "Open links in a new tab",
+        "disable_javascript": "Disabling JavaScript (not recommended) affects webpage features, disables autocomplete, and slows certain functions. Keeping JavaScript enabled won't compromise your privacy, as requests are processed through server-side endpoints.",
+        "save_settings": "Save your settings",
+        "return_to_settings": "Return to settings",
+        "preferredux_language": "Preferred language for headlines, buttons, and other text from Araa"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "Suggestions API"
+    }
+}

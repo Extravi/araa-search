@@ -3,11 +3,11 @@
 BANG = '!'
 
 # Search engine bangs for ppl who want to use another engine through
-# TailsX's search bar.
+# Araa's search bar.
 # Bangs with their assosiated URLs can be found in /bangs.json.
 
 # The repository this instance is based off on.
-REPO = 'https://github.com/Extravi/tailsx'
+REPO = 'https://github.com/Extravi/araa-search'
 
 # Default theme
 DEFAULT_THEME = 'dark_blur'
@@ -17,6 +17,10 @@ PORT = 8000
 
 # Torrent domains
 TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
+NYAA_DOMAIN = "nyaa.si"
+
+# Domain of the Invidious instance to use
+INVIDIOUS_INSTANCE = "yt.artemislena.eu"
 
 # Useragents to use in the request.
 user_agents = [
@@ -57,9 +61,15 @@ WHITELISTED_DOMAINS = [
     "www.google.co.kr",
     "www.google.com.br",
     "wikipedia.org",
-    "yt.artemislena.eu",
+    INVIDIOUS_INSTANCE,
     "lite.qwant.com",
-    TORRENTGALAXY_DOMAIN
+    TORRENTGALAXY_DOMAIN,
+    NYAA_DOMAIN,
+]
+
+ENABLED_TORRENT_SITES = [
+    "nyaa",
+    "torrentgalaxy",
 ]
 
 COOKIE_AGE = 2147483647

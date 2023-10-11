@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TailsX</title>
+    <title>Araa</title>
     <meta name="description" content="A privacy-respecting, ad-free, self-hosted metasearch engine.">
-    <meta content="TailsX" property="og:title">
+    <meta content="Araa" property="og:title">
     <meta content="A privacy-respecting, ad-free, self-hosted metasearch engine." property="og:description">
     <meta content="/" property="og:url">
     <meta content="#5885F4" data-react-helmet="true" name="theme-color">
@@ -17,22 +17,25 @@
     {% else %}
         <link rel="stylesheet" href="./css/{{ theme }}.css">
     {% endif %}
+    {% if request.path == '/settings' or request.path == '/discover' %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/settings-style.css') }}">
+    {% endif %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="TailsX">
+    <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Araa">
 </head>
 
 <body>
 {% block body %}{% endblock %}
 <div id="search_footer" class="footer">
-    <a href="/">TailsX</a>
-    <a href="/settings">Settings</a>
-    <a target="_blank" href="{{ repo_url }}">Source code <span class="emoji-code">❤️</span></a>
+    <a href="/">Araa</a>
+    <a href="/settings">{{ lang_data.footer.settings }}</a>
+    <a target="_blank" href="{{ repo_url }}">{{ lang_data.footer.source_code }} <span class="emoji-code">❤️</span></a>
     {% if API_ENABLED == True %}
-    <a target="_blank" class="mobile-none" href="/api?q=firefox&t=text&api=true">API</a>
-    <a target="_blank" class="mobile-none" href="/suggestions?q=firefox">Suggestions API</a>
+    <a target="_blank" class="mobile-none" href="/api?q=firefox&t=text&api=true">{{ lang_data.api_links.api_link }}</a>
+    <a target="_blank" class="mobile-none" href="/suggestions?q=firefox">{{ lang_data.api_links.suggestions_api_link }}</a>
     {% else %}
     {% endif %}
-    <a target="_blank" class="mobile-none" href="{{ repo_url }}/commit/{{ commit }}">Commit: {{ commit }}</a>
+    <a target="_blank" class="mobile-none" href="{{ repo_url }}/commit/{{ commit }}">{{ lang_data.footer.commit }}: {{ commit }}</a>
 </div>
 </body>
 

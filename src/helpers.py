@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import unquote
 import random
 from _config import *
-from flask import escape, Markup, request
+from markupsafe import escape, Markup
 import requests
 import re
 from os.path import exists
@@ -32,11 +32,12 @@ def highlight_query_words(string, query):
     highlighted_words = []
     for word in words:
         cleaned_word = word.strip().lower()
+        escaped_word = escape(word)
         if query_regex.search(cleaned_word) and cleaned_word not in highlighted:
-            highlighted_words.append(Markup(f'<span class="highlight">{escape(word)}</span>'))
+            highlighted_words.append(Markup(f'<span class="highlight">{escaped_word}</span>'))
             highlighted.append(cleaned_word)
         else:
-            highlighted_words.append(escape(word))
+            highlighted_words.append(escaped_word)
     return Markup(' '.join(highlighted_words))
 
 

@@ -1,7 +1,7 @@
 {% extends "results_layout.html" %}
 
 {% block body %}
-    <p class="fetched fetched_dif fetched_vid">{{ fetched }}</p>
+    <p class="fetched fetched_dif fetched_vid">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
     {% if results %}
         {% for result in results %}
         <div><div class="video__results">

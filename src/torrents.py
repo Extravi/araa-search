@@ -1,50 +1,53 @@
-from src.helpers import makeHTMLRequest, latest_commit
+import time
+import json
+from src.helpers import latest_commit
 from _config import *
 from flask import request, render_template, jsonify, Response
-import time
-
+from src.torrent_sites import torrentgalaxy, nyaa
 
 def torrentResults(query) -> Response:
-    if TORRENTSEARCH_ENABLED == False:
+    if not TORRENTSEARCH_ENABLED:
         return jsonify({"error": "Torrent search disabled by instance operator"}), 503
-    else:
 
-        # remember time we started
-        start_time = time.time()
+    # get user language settings
+    ux_lang = request.cookies.get('ux_lang', 'english')
+    json_path = f'static/lang/{ux_lang}.json'
+    with open(json_path, 'r') as file:
+        lang_data = json.load(file)
 
-        api = request.args.get("api", "false")
+    # remember time we started
+    start_time = time.time()
 
-        # grab & format webpage
-        soup = makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={query}#results")
+    api = request.args.get("api", "false")
+    query = request.args.get("q", " ").strip()
 
-        result_divs = soup.findAll("div", {"class": "tgxtablerow"})
-        title = [div.find("div", {"id": "click"}) for div in result_divs]
-        title = [title.text.strip() for title in title]
-        hrefs = ["torrentgalaxy.to" for title in title]
-        magnet_links = [div.find("a", href=lambda href: href and href.startswith("magnet")).get("href") for div in result_divs]
-        file_sizes = [div.find("span", {"class": "badge-secondary"}).text.strip() for div in result_divs]
-        view_counts = [div.find("font", {"color": "orange"}).text.strip() for div in result_divs]
-        seeders = [div.find("font", {"color": "green"}).text.strip() for div in result_divs]
-        leechers = [div.find("font", {"color": "#ff0000"}).text.strip() for div in result_divs]
+    sites = [
+        torrentgalaxy,
+        nyaa,
+    ]
 
-        # list
-        results = []
-        for href, title, magnet_link, file_size, view_count, seeder, leecher in zip(hrefs, title, magnet_links, file_sizes, view_counts, seeders, leechers):
-            results.append([href, title, magnet_link, file_size, view_count, seeder, leecher])
+    results = []
+    for site in sites:
+        if site.name() in ENABLED_TORRENT_SITES:
+            results += site.search(query)
 
-        # calc. time spent
-        end_time = time.time()
-        elapsed_time = end_time - start_time
+    # Sorts based on how many seeders there are on a torrent.
+    results = sorted(results, key=lambda x: x["seeders"])[::-1]
 
-        if api == "true" and API_ENABLED == True:
-            # return the results list as a JSON response
-            return jsonify(results)
-        else:
-            return render_template("torrents.html",
-                                results=results, title=f"{query} - TailsX",
-                                q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
-                                theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
-                                javascript=request.cookies.get('javascript', 'enabled'), type="torrent",
-                                repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
-                                commit=latest_commit()
-                                )
+    # calc. time spent
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    if api == "true" and API_ENABLED:
+        # return the results list as a JSON response
+        return jsonify(results)
+
+    return render_template("torrents.html",
+                        results=results, title=f"{query} - Araa",
+                        q=f"{query}", fetched=f"{elapsed_time:.2f}",
+                        theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
+                        javascript=request.cookies.get('javascript', 'enabled'), type="torrent",
+                        repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, 
+                        ux_lang=ux_lang, lang_data=lang_data,
+                        commit=latest_commit()
+                        )

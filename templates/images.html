@@ -1,7 +1,7 @@
 {% extends "results_layout.html" %}
 
 {% block body %}
-    <p class="fetched fetched_dif fetched_img">{{ fetched }}</p>
+    <p class="fetched fetched_dif fetched_img">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
     {% if results %}
     <div class="images images_viewer_hidden">
         <div class="image_view image_hide">
@@ -29,6 +29,17 @@
         </a>
         </div>
         {% endfor %}
+    </div>
+    <div class="prev-next prev-img">
+        <form>
+          <input type="hidden" name="q" value="{{ q }}">
+          <input type="hidden" name="t" value="{{ type }}">
+          {% set p = request.args.get('p', 1)|int %}
+          {% if p >= 2 %}
+              <button name="p" value="{{ p - 1 }}">Previous</button>
+          {% endif %}
+          <button name="p" value="{{ p + 1 }}">Next</button>
+        </form>
     </div>
     {% else %}
         <div class="no-results-found">
