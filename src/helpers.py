@@ -1,10 +1,11 @@
-from bs4 import BeautifulSoup
-from urllib.parse import unquote
 import random
-from _config import *
-from markupsafe import escape, Markup
 import requests
 import re
+import json
+from bs4 import BeautifulSoup
+from urllib.parse import unquote
+from _config import *
+from markupsafe import escape, Markup
 from os.path import exists
 
 
@@ -46,3 +47,19 @@ def latest_commit():
         with open('./.git/refs/heads/main') as f:
             return f.readline()
     return "Not in main branch"
+
+
+def makeHTMLRequest(url: str):
+    # block unwanted request from an edited cookie
+    domain = unquote(url).split('/')[2]
+    if domain not in WHITELISTED_DOMAINS:
+        raise Exception(f"The domain '{domain}' is not whitelisted.")
+
+    # Choose a user-agent at random
+    user_agent = random.choice(user_agents)
+    headers = {"User-Agent": user_agent}
+    # Grab HTML content
+    response = requests.get(url)
+
+    # Return the BeautifulSoup object
+    return json.loads(response.content)

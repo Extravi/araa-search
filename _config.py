@@ -18,6 +18,8 @@ PORT = 8000
 # Torrent domains
 TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
 NYAA_DOMAIN = "nyaa.si"
+# apibay is the api for thepiratebay.org
+API_BAY_DOMAIN = "apibay.org"
 
 # Domain of the Invidious instance to use
 INVIDIOUS_INSTANCE = "yt.artemislena.eu"
@@ -65,11 +67,13 @@ WHITELISTED_DOMAINS = [
     "lite.qwant.com",
     TORRENTGALAXY_DOMAIN,
     NYAA_DOMAIN,
+    API_BAY_DOMAIN,
 ]
 
 ENABLED_TORRENT_SITES = [
     "nyaa",
     "torrentgalaxy",
+    "tpd"
 ]
 
 COOKIE_AGE = 2147483647
