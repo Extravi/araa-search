@@ -20,6 +20,7 @@ TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
 NYAA_DOMAIN = "nyaa.si"
 # apibay is the api for thepiratebay.org
 API_BAY_DOMAIN = "apibay.org"
+RUTOR_DOMAIN = "rutor.info"
 
 # Domain of the Invidious instance to use
 INVIDIOUS_INSTANCE = "yt.artemislena.eu"
@@ -68,12 +69,14 @@ WHITELISTED_DOMAINS = [
     TORRENTGALAXY_DOMAIN,
     NYAA_DOMAIN,
     API_BAY_DOMAIN,
+    RUTOR_DOMAIN,
 ]
 
 ENABLED_TORRENT_SITES = [
     "nyaa",
     "torrentgalaxy",
-    "tpd"
+    "tpb",
+    "rutor"
 ]
 
 COOKIE_AGE = 2147483647

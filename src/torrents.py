@@ -3,7 +3,7 @@ import json
 from src.helpers import latest_commit
 from _config import *
 from flask import request, render_template, jsonify, Response
-from src.torrent_sites import torrentgalaxy, nyaa, thepiratebay
+from src.torrent_sites import torrentgalaxy, nyaa, thepiratebay, rutor
 
 def torrentResults(query) -> Response:
     if not TORRENTSEARCH_ENABLED:
@@ -25,6 +25,7 @@ def torrentResults(query) -> Response:
         torrentgalaxy,
         nyaa,
         thepiratebay,
+        rutor,
     ]
 
     results = []
