@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "Web",
+        "image": "Bilder",
+        "video": "Videos",
+        "reddit": "Reddit",
+        "torrent": "Torrents"
+    },
+    "results": {
+        "results": "Ergebnisse abgerufen in",
+        "seconds": "Sekunden"
+    },
+    "footer": {
+        "settings": "Einstellungen",
+        "source_code": "Quellcode",
+        "commit": "Bestätigung"
+    },
+    "search_buttons": {
+        "search_text": "Suchen mit Araa",
+        "search_images": "Suche Bilder mit Araa"
+    },
+    "settings": {
+        "theme": "Thema",
+        "user_theme": "Benutzerthema",
+        "all_settings": "Alle Einstellungen",
+        "settings_header": "Einstellungen",
+        "discover_themes": "Durchsuchen Sie von der Gemeinschaft erstellte Themen",
+        "discover_themes_button": "Themen entdecken",
+        "preferred_language": "Bevorzugte Sprache für Ihre Suchergebnisse",
+        "google_domain": "Google-Domain",
+        "safe_search": "Sichere Suche",
+        "open_links_new_tab": "Links in einem neuen Tab öffnen",
+        "disable_javascript": "Das Deaktivieren von JavaScript (nicht empfohlen) beeinträchtigt Webseitenfunktionen, deaktiviert die Autovervollständigung und verlangsamt bestimmte Funktionen. Das Aktivieren von JavaScript beeinträchtigt nicht Ihre Privatsphäre, da Anfragen über serverseitige Endpunkte verarbeitet werden.",
+        "save_settings": "Einstellungen speichern",
+        "return_to_settings": "Zurück zu den Einstellungen",
+        "preferredux_language": "Bevorzugte Sprache für Überschriften, Schaltflächen und anderen Text von Araa"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "Vorschläge API"
+    }
+}

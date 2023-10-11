@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "ウェブ",
+        "image": "画像",
+        "video": "ビデオ",
+        "reddit": "Reddit",
+        "torrent": "トレント"
+    },
+    "results": {
+        "results": "結果を取得しました",
+        "seconds": "秒"
+    },
+    "footer": {
+        "settings": "設定",
+        "source_code": "ソースコード",
+        "commit": "コミット"
+    },
+    "search_buttons": {
+        "search_text": "Araaで検索",
+        "search_images": "Araaで画像検索"
+    },
+    "settings": {
+        "theme": "テーマ",
+        "user_theme": "ユーザーテーマ",
+        "all_settings": "すべての設定",
+        "settings_header": "設定",
+        "discover_themes": "コミュニティが作成したテーマを閲覧",
+        "discover_themes_button": "テーマを発見",
+        "preferred_language": "検索結果のための優先言語",
+        "google_domain": "Googleドメイン",
+        "safe_search": "安全検索",
+        "open_links_new_tab": "リンクを新しいタブで開く",
+        "disable_javascript": "JavaScriptを無効にする（お勧めしません）はウェブサイトの機能に影響を与え、自動入力を無効にし、一部の機能を遅くします。 JavaScriptを有効にしてもプライバシーは侵害されません。リクエストはサーバーサイドのエンドポイントを介して処理されます。",
+        "save_settings": "設定を保存",
+        "return_to_settings": "設定に戻る",
+        "preferredux_language": "Araaからの見出し、ボタン、およびその他のテキストの優先言語"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "提案API"
+    }
+}

@@ -496,7 +496,8 @@ hr {
 #safe,
 #open-new-tab,
 #domain,
-#javascript-setting {
+#javascript-setting,
+#ux_lang {
     border-radius: 4px;
     padding: 6px;
     font-size: 15px;
@@ -513,7 +514,8 @@ hr {
 #safe:hover,
 #open-new-tab:hover,
 #domain:hover,
-#javascript-setting:hover {
+#javascript-setting:hover,
+#ux_lang:hover {
     border: 1px solid #5f6368;
     cursor: pointer;
 }

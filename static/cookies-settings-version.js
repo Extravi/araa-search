@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const themeSelect = document.querySelector("#theme");
             const safeSelect = document.querySelector("#safe");
             const newTabSelect = document.querySelector("#open-new-tab");
+            const uxLangSelect = document.querySelector("#ux_lang");
 
             if (langSelect) {
                 const selectedOption = langSelect.options[langSelect.selectedIndex];
@@ -69,6 +70,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 const selectedOption = newTabSelect.options[newTabSelect.selectedIndex];
                 const selectedValue = selectedOption.value;
                 setCookie("new_tab", selectedValue);
+            }
+
+            if (uxLangSelect) {
+                const selectedOption = uxLangSelect.options[uxLangSelect.selectedIndex];
+                const selectedValue = selectedOption.value;
+                setCookie("ux_lang", selectedValue);
             }
         });
     }

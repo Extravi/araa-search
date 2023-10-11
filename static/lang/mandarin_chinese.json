@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "网页",
+        "image": "图片",
+        "video": "视频",
+        "reddit": "Reddit",
+        "torrent": "种子"
+    },
+    "results": {
+        "results": "结果获取耗时",
+        "seconds": "秒"
+    },
+    "footer": {
+        "settings": "设置",
+        "source_code": "源代码",
+        "commit": "提交"
+    },
+    "search_buttons": {
+        "search_text": "使用Araa搜索",
+        "search_images": "使用Araa搜索图片"
+    },
+    "settings": {
+        "theme": "主题",
+        "user_theme": "用户主题",
+        "all_settings": "所有设置",
+        "settings_header": "设置",
+        "discover_themes": "浏览社区创建的主题",
+        "discover_themes_button": "发现主题",
+        "preferred_language": "搜索结果的首选语言",
+        "google_domain": "谷歌域名",
+        "safe_search": "安全搜索",
+        "open_links_new_tab": "在新标签页中打开链接",
+        "disable_javascript": "禁用JavaScript（不建议）会影响网站功能，禁用自动完成并减慢某些功能。 启用JavaScript不会泄露隐私，因为请求通过服务器端点处理。",
+        "save_settings": "保存设置",
+        "return_to_settings": "返回设置",
+        "preferredux_language": "Araa的标题、按钮和其他文本的首选语言"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "建议API"
+    }
+}

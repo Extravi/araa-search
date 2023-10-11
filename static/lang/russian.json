@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "Веб",
+        "image": "Изображения",
+        "video": "Видео",
+        "reddit": "Reddit",
+        "torrent": "Торренты"
+    },
+    "results": {
+        "results": "Результаты получены за",
+        "seconds": "секунд"
+    },
+    "footer": {
+        "settings": "Настройки",
+        "source_code": "Исходный код",
+        "commit": "Подтверждение"
+    },
+    "search_buttons": {
+        "search_text": "Искать с Araa",
+        "search_images": "Искать изображения с Araa"
+    },
+    "settings": {
+        "theme": "Тема",
+        "user_theme": "Тема пользователя",
+        "all_settings": "Все настройки",
+        "settings_header": "Настройки",
+        "discover_themes": "Просматривайте темы, созданные сообществом",
+        "discover_themes_button": "Открывайте темы",
+        "preferred_language": "Предпочтительный язык для ваших результатов поиска",
+        "google_domain": "Домен Google",
+        "safe_search": "Безопасный поиск",
+        "open_links_new_tab": "Открывать ссылки в новой вкладке",
+        "disable_javascript": "Отключение JavaScript (не рекомендуется) влияет на функциональность веб-сайта, отключает автозаполнение и замедляет некоторые функции. Включение JavaScript не ущемляет вашу конфиденциальность, поскольку запросы обрабатываются через серверные точки.",
+        "save_settings": "Сохранить настройки",
+        "return_to_settings": "Вернуться к настройкам",
+        "preferredux_language": "Предпочтительный язык для заголовков, кнопок и другого текста из Araa"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "API предложений"
+    }
+}

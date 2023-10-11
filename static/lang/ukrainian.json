@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "Веб",
+        "image": "Зображення",
+        "video": "Відео",
+        "reddit": "Reddit",
+        "torrent": "Торренти"
+    },
+    "results": {
+        "results": "Результати отримано за",
+        "seconds": "секунд"
+    },
+    "footer": {
+        "settings": "Налаштування",
+        "source_code": "Вихідний код",
+        "commit": "Підтвердження"
+    },
+    "search_buttons": {
+        "search_text": "Пошук за допомогою Araa",
+        "search_images": "Пошук зображень за допомогою Araa"
+    },
+    "settings": {
+        "theme": "Тема",
+        "user_theme": "Тема користувача",
+        "all_settings": "Усі налаштування",
+        "settings_header": "Налаштування",
+        "discover_themes": "Переглядайте теми, створені спільнотою",
+        "discover_themes_button": "Відкривайте теми",
+        "preferred_language": "Улюблена мова для ваших результатів пошуку",
+        "google_domain": "Домен Google",
+        "safe_search": "Безпечний пошук",
+        "open_links_new_tab": "Відкривати посилання в новій вкладці",
+        "disable_javascript": "Вимкнення JavaScript (не рекомендується) впливає на функціональність веб-сайту, вимикає автозаповнення і сповільнює деякі функції. Включення JavaScript не порушує вашу конфіденційність, оскільки запити обробляються через серверні кінцеві точки.",
+        "save_settings": "Зберегти налаштування",
+        "return_to_settings": "Повернутися до налаштувань",
+        "preferredux_language": "Обрана мова для заголовків, кнопок та іншого тексту від Araa"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "API пропозицій"
+    }
+}

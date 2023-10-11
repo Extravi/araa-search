@@ -1,0 +1,42 @@
+{
+    "buttons": {
+        "text": "Web",
+        "image": "Billeder",
+        "video": "Videoer",
+        "reddit": "Reddit",
+        "torrent": "Torrents"
+    },
+    "results": {
+        "results": "Resultater hentet på",
+        "seconds": "sekunder"
+    },
+    "footer": {
+        "settings": "Indstillinger",
+        "source_code": "Kildekode",
+        "commit": "Godkendelse"
+    },
+    "search_buttons": {
+        "search_text": "Søg med Araa",
+        "search_images": "Søg billeder med Araa"
+    },
+    "settings": {
+        "theme": "Tema",
+        "user_theme": "Brugertema",
+        "all_settings": "Alle indstillinger",
+        "settings_header": "Indstillinger",
+        "discover_themes": "Gennemse temaer lavet af fællesskabet",
+        "discover_themes_button": "Find temaer",
+        "preferred_language": "Foretrukken sprog til dine søgeresultater",
+        "google_domain": "Google domæne",
+        "safe_search": "Sikker søgning",
+        "open_links_new_tab": "Åbn links i en ny fane",
+        "disable_javascript": "Deaktivering af JavaScript (ikke anbefalet) påvirker websidefunktioner, deaktiverer autoudfyldning og bremser visse funktioner. At holde JavaScript aktiveret vil ikke kompromittere dit privatliv, da anmodninger behandles gennem serverbaserede slutpunkter.",
+        "save_settings": "Gem dine indstillinger",
+        "return_to_settings": "Tilbage til indstillinger",
+        "preferredux_language": "Foretrukken Sprog til Overskrifter, Knapper og Anden Tekst fra Araa"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "Forslag API"
+    }
+}
