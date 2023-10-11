@@ -56,7 +56,7 @@
             <option value="lang_vi" {% if lang == 'lang_vi' %}selected{% endif %}>Tiếng Việt (Vietnamese)</option>
         </select>
     </div>
-    <p class="fetched">{{ fetched }}</p>
+    <p class="fetched">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
     {% if check == "" %}
     {% else %}
         <div class="check"><p>Did you mean: <a href="/search?q={{ check }}&t={{ search_type }}"><h3>{{ check }}</h3></a></p></div>

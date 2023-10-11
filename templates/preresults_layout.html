@@ -28,14 +28,14 @@
 {% block body %}{% endblock %}
 <div id="search_footer" class="footer">
     <a href="/">Araa</a>
-    <a href="/settings">Settings</a>
-    <a target="_blank" href="{{ repo_url }}">Source code <span class="emoji-code">❤️</span></a>
+    <a href="/settings">{{ lang_data.footer.settings }}</a>
+    <a target="_blank" href="{{ repo_url }}">{{ lang_data.footer.source_code }} <span class="emoji-code">❤️</span></a>
     {% if API_ENABLED == True %}
-    <a target="_blank" class="mobile-none" href="/api?q=firefox&t=text&api=true">API</a>
-    <a target="_blank" class="mobile-none" href="/suggestions?q=firefox">Suggestions API</a>
+    <a target="_blank" class="mobile-none" href="/api?q=firefox&t=text&api=true">{{ lang_data.api_links.api_link }}</a>
+    <a target="_blank" class="mobile-none" href="/suggestions?q=firefox">{{ lang_data.api_links.suggestions_api_link }}</a>
     {% else %}
     {% endif %}
-    <a target="_blank" class="mobile-none" href="{{ repo_url }}/commit/{{ commit }}">Commit: {{ commit }}</a>
+    <a target="_blank" class="mobile-none" href="{{ repo_url }}/commit/{{ commit }}">{{ lang_data.footer.commit }}: {{ commit }}</a>
 </div>
 </body>
 

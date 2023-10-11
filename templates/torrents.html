@@ -1,7 +1,7 @@
 {% extends "results_layout.html" %}
 
 {% block body %}
-    <p class="fetched fetched_dif fetched_tor">{{ fetched }}</p>
+    <p class="fetched fetched_dif fetched_tor">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
     {% if results %}
     <div class="clean">
         {% for result in results %}

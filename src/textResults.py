@@ -9,6 +9,12 @@ from math import isclose # For float comparisons
 
 
 def textResults(query) -> Response:
+    # get user language settings
+    ux_lang = request.cookies.get('ux_lang', 'english')
+    json_path = f'static/lang/{ux_lang}.json'
+    with open(json_path, 'r') as file:
+        lang_data = json.load(file)
+
     # remember time we started
     start_time = time.time()
 
@@ -205,7 +211,7 @@ def textResults(query) -> Response:
             type = "text"
         return render_template("results.html",
                                results=results, sublink=sublink, p=p, title=f"{query} - Araa",
-                               q=f"{query}", fetched=f"Fetched the results in {elapsed_time:.2f} seconds",
+                               q=f"{query}", fetched=f"{elapsed_time:.2f}",
                                snip=f"{snip}", kno_rdesc=f"{kno}", rdesc_link=f"{unquote(kno_link)}",
                                kno_wiki=f"{kno_image}", rkno_title=f"{rkno_title}", kno_title=f"{kno_title}",
                                user_info=f"{info}", calc=f"{calc}", check=check, current_url=current_url,
@@ -213,5 +219,5 @@ def textResults(query) -> Response:
                                javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
                                type=type, search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
-                               TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, domain=domain
+                               TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, domain=domain, ux_lang=ux_lang, lang_data=lang_data
                                )

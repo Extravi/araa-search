@@ -9,11 +9,11 @@
         <button class="material-icons-round clickable settings-icon-link settings-icon-link-search">menu</button>
     </div>
     <div class="search-menu settings-menu-hidden">
-        <h2>Settings</h2>
+        <h2>{{ lang_data.settings.settings_header }}</h2>
     <div class="settings-content">
-        <button id="settingsButton">All settings</button>
+        <button id="settingsButton">{{ lang_data.settings.all_settings }}</button>
     <div class="theme-settings">
-        <p><span class="highlight">Theme: </span> <span id="theme_name">User Theme</span></p>
+        <p><span class="highlight">{{ lang_data.settings.theme }}: </span> <span id="theme_name">{{ lang_data.settings.user_theme }}</span></p>
         <div class="themes-settings-menu">
             <div><img class="view-image-search clickable" id="dark_blur" alt="Dark (Default)" src="/themepreview/preview1.webp"></div>
             <div><img class="view-image-search clickable" id="dark_default" alt="Dark (no background)" src="/themepreview/preview2.webp"></div>
@@ -95,8 +95,8 @@
             </div>
         </div>
         <div class="search-button-wrapper">
-            <button name="t" value="text" type="submit">Search with Araa</button>
-            <button name="t" value="image" type="submit">Search images with Araa</button>
+            <button name="t" value="text" type="submit">{{ lang_data.search_buttons.search_text }}</button>
+            <button name="t" value="image" type="submit">{{ lang_data.search_buttons.search_images }}</button>
         </div>
         {% if javascript == "enabled" %}
         <script defer src="/script.js"></script>

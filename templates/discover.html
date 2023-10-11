@@ -1,12 +1,12 @@
 {% extends "preresults_layout.html" %}
 
 {% block body %}
-    <div class="settings-nav"><h1 class="logomobile"><a class="no-decoration" href="/settings">Return to settings</a></h1></div>
+    <div class="settings-nav"><h1 class="logomobile"><a class="no-decoration" href="/settings">{{ lang_data.settings.return_to_settings }}</a></h1></div>
     <form action="/save-settings" method="post">
     <input type="hidden" name="past" value="{{ current_url }}"></input>
     <div class="settings">
     <div class="settings-row">
-        <span class="highlight"><p>Discover Themes</p></span>
+        <span class="highlight"><p>{{ lang_data.settings.discover_themes_button }}</p></span>
     </div>
         <div>
         <div class="theme-settings">
