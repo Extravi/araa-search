@@ -69,7 +69,7 @@ WHITELISTED_DOMAINS = [
 
 ENABLED_TORRENT_SITES = [
     "nyaa",
-    # "torrentgalaxy",
+    "torrentgalaxy",
 ]
 
 COOKIE_AGE = 2147483647
