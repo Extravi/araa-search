@@ -7,7 +7,7 @@ from src.helpers import latest_commit
 from urllib.parse import quote
 
 
-def videoResults(query) -> Response:
+def videoResults(query, api=False) -> Response:
     # get user language settings
     ux_lang = request.cookies.get('ux_lang', 'english')
     json_path = f'static/lang/{ux_lang}.json'
@@ -16,8 +16,6 @@ def videoResults(query) -> Response:
 
     # remember time we started
     start_time = time.time()
-
-    api = request.args.get("api", "false")
 
     # grab & format webpage
     soup = makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={quote(query)}")
@@ -63,7 +61,7 @@ def videoResults(query) -> Response:
     end_time = time.time()
     elapsed_time = end_time - start_time
 
-    if api == "true" and API_ENABLED == True:
+    if api and API_ENABLED:
         # return the results list as a JSON response
         return jsonify(results)
     else:

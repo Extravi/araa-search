@@ -124,16 +124,18 @@ def wikipedia():
 
 @app.route("/api")
 def api():
-    if API_ENABLED == True:
+    if API_ENABLED:
         query = request.args.get("q", "").strip()
         t = request.args.get("t", "text").strip()
-        p = (request.args.get('p', 1))
-        try:
-            response = requests.get(f"http://localhost:{PORT}/search?q={query}&t={t}&api=true&p={p}")
-            return json.loads(response.text)
-        except Exception as e:
-            app.logger.error(e)
-            return jsonify({"error": "An error occurred while processing the request"}), 500
+        match t:
+            case "torrent":
+                return torrents.torrentResults(query, api=True)
+            case "video":
+                return video.videoResults(query, api=True)
+            case "image":
+                return images.imageResults(query, api=True)
+            case _:
+                return textResults.textResults(query, api=True)
     else:
         return jsonify({"error": "API disabled by instance operator"}), 503
 

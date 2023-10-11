@@ -5,7 +5,7 @@ from _config import *
 from flask import request, render_template, jsonify, Response
 from src.torrent_sites import torrentgalaxy, nyaa
 
-def torrentResults(query) -> Response:
+def torrentResults(query, api=False) -> Response:
     if not TORRENTSEARCH_ENABLED:
         return jsonify({"error": "Torrent search disabled by instance operator"}), 503
 
@@ -18,7 +18,6 @@ def torrentResults(query) -> Response:
     # remember time we started
     start_time = time.time()
 
-    api = request.args.get("api", "false")
     query = request.args.get("q", " ").strip()
 
     sites = [
@@ -38,7 +37,7 @@ def torrentResults(query) -> Response:
     end_time = time.time()
     elapsed_time = end_time - start_time
 
-    if api == "true" and API_ENABLED:
+    if api and API_ENABLED:
         # return the results list as a JSON response
         return jsonify(results)
 

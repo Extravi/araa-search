@@ -7,35 +7,11 @@ import json
 from urllib.parse import quote
 import base64
 
-# try:
-#     # get 'img' ellements
-#     ellements = soup.findAll("div", {"class": "images-container"})
-#     # get source urls
-#     image_sources = [a.find('img')['src'] for a in ellements[0].findAll('a') if a.find('img')]
-# except:
-#     return redirect('/search')
-#
-# # get alt tags
-# image_alts = [img['alt'] for img in ellements[0].findAll('img', alt=True)]
-#
-# # generate results
-# images = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
-#
-# # decode urls
-# links = [a['href'] for a in ellements[0].findAll('a') if a.has_attr('href')]
-# links = [url.split("?position")[0].split("==/")[-1] for url in links]
-# links = [unquote(base64.b64decode(link).decode('utf-8')) for link in links]
-#
-# # list
-# results = []
-# for image, link, image_alt in zip(images, links, image_alts):
-#     results.append((image, link, image_alt))
-
 def generate_proxy_link(link):
     link = link.split("?position")[0].split("==/")[-1]
     return unquote(base64.b64decode(link).decode('utf-8'))
 
-def imageResults(query) -> Response:
+def imageResults(query, api=False) -> Response:
     # get user language settings
     ux_lang = request.cookies.get('ux_lang', 'english')
     json_path = f'static/lang/{ux_lang}.json'
@@ -44,8 +20,6 @@ def imageResults(query) -> Response:
 
     # remember time we started
     start_time = time.time()
-
-    api = request.args.get("api", "false")
 
     try:
         p = int(request.args.get('p', 1))
@@ -74,7 +48,7 @@ def imageResults(query) -> Response:
     elapsed_time = end_time - start_time
 
     # render
-    if api == "true" and API_ENABLED:
+    if api and API_ENABLED:
         # return the results list as a JSON response
         return jsonify(results)
     else:

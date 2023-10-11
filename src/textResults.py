@@ -8,7 +8,7 @@ import re
 from math import isclose # For float comparisons
 
 
-def textResults(query) -> Response:
+def textResults(query, api=False) -> Response:
     # get user language settings
     ux_lang = request.cookies.get('ux_lang', 'english')
     json_path = f'static/lang/{ux_lang}.json'
@@ -18,7 +18,6 @@ def textResults(query) -> Response:
     # remember time we started
     start_time = time.time()
 
-    api = request.args.get("api", "false")
     search_type = request.args.get("t", "text")
     p = request.args.get("p", 0)
     lang = request.cookies.get('lang', '')
@@ -201,7 +200,7 @@ def textResults(query) -> Response:
     if "exported_math_expression" not in locals():
         exported_math_expression = ""
 
-    if api == "true" and API_ENABLED == True:
+    if api and API_ENABLED:
         # return the results list as a JSON response
         return jsonify(results)
     else:
