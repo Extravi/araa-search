@@ -9,10 +9,11 @@ def search(query):
     url = f"https://{RUTOR_DOMAIN}/search/{quote(query)}"
     html = helpers.makeHTMLRequest(url)
     results = []
-    
+
     for torrent in html.select(".gai, .tum"):
         tds = torrent.findall("td")
-        
+        spans = torrent.findall("span")
+
         # If a torrent has comments, it has 5 columns, but if it has none,
         # it has 4 columns. This is a shift to account for that.
         td_shift = len(tds) - 4
@@ -23,8 +24,8 @@ def search(query):
             "magnet": tds[1].findall("a")[1]["href"],
             "size": tds[2 + td_shift].get_text(),
             "views": None,
-            "seeders": int(tds[3 + td_shift].find("span", {"class": "green"}).get_text()),
-            "leechers": int(tds[3 + td_shift].find("span", {"class": "green"}).get_text()),
+            "seeders": int(spans[0].get_text()),
+            "leechers": int(spans[1]).get_text()),
         })
 
     return results
