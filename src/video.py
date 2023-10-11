@@ -6,6 +6,14 @@ import json
 from src.helpers import latest_commit
 from urllib.parse import quote
 
+def format_duration(seconds):
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+    seconds = seconds % 60
+    if hours != 0:
+        return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+    else:
+        return f"{minutes:02d}:{seconds:02d}"
 
 def videoResults(query, api=False) -> Response:
     # get user language settings
@@ -21,41 +29,23 @@ def videoResults(query, api=False) -> Response:
     soup = makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={quote(query)}")
     data = json.loads(soup.text)
 
-    # sort by videos only
-    videos = [item for item in data if item.get("type") == "video"]
-
-    # retrieve links
-    ytIds = [video["videoId"] for video in videos]
-    hrefs = [f"https://{INVIDIOUS_INSTANCE}/watch?v={ytId}" for ytId in ytIds]
-
-    # retrieve title
-    title = [title["title"] for title in videos]
-
-    # retrieve date
-    date_span = [date["publishedText"] for date in videos]
-
-    # retrieve views
-    views = [views["viewCountText"] for views in videos]
-
-    # retrieve creator
-    creator_text = [creator_text["author"] for creator_text in videos]
-
-    # retrieve publisher
-    publisher_text = ["YouTube" for creator in videos]
-
-    # retrieve images
-    video_thumbnails = [item['videoThumbnails'] for item in data if item.get('type') == 'video']
-    maxres_thumbnails = [thumbnail for thumbnails in video_thumbnails for thumbnail in thumbnails if thumbnail['quality'] == 'medium']
-    filtered_urls = ['/img_proxy?url=' + thumbnail['url'].replace(":3000", "").replace("http://", "https://") for thumbnail in maxres_thumbnails]
-
-    # retrieve time
-    duration = [duration["lengthSeconds"] for duration in videos]
-    formatted_durations = [f"{duration // 60:02d}:{duration % 60:02d}" for duration in duration]
-
-    # list
     results = []
-    for href, title, date, view, creator, publisher, image, duration in zip(hrefs, title, date_span, views, creator_text, publisher_text, filtered_urls, formatted_durations):
-        results.append([href, title, date, view, creator, publisher, image, duration])
+    for video in data:
+        if video["type"] != "video":
+            continue
+        for thumbnail in video['videoThumbnails']:
+            if thumbnail["quality"] == "medium":
+                thumbnail_link = '/img_proxy?url=' + thumbnail['url']
+        results.append({
+            "publisher": "YouTube",
+            "title": video["title"],
+            "link": f"https://{INVIDIOUS_INSTANCE}/watch?v={video['videoId']}",
+            "views": video["viewCountText"],
+            "date_span": video["publishedText"],
+            "author": video["author"],
+            "length": format_duration(video["lengthSeconds"]),
+            "thumbnail": thumbnail_link
+        })
 
     # calc. time spent
     end_time = time.time()

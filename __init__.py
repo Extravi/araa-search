@@ -127,15 +127,14 @@ def api():
     if API_ENABLED:
         query = request.args.get("q", "").strip()
         t = request.args.get("t", "text").strip()
-        match t:
-            case "torrent":
-                return torrents.torrentResults(query, api=True)
-            case "video":
-                return video.videoResults(query, api=True)
-            case "image":
-                return images.imageResults(query, api=True)
-            case _:
-                return textResults.textResults(query, api=True)
+        if t == "torrent":
+            return torrents.torrentResults(query, api=True)
+        elif t == "video":
+            return video.videoResults(query, api=True)
+        elif t == "image":
+            return images.imageResults(query, api=True)
+        else:
+            return textResults.textResults(query, api=True)
     else:
         return jsonify({"error": "API disabled by instance operator"}), 503
 
