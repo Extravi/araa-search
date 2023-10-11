@@ -24,8 +24,8 @@
         </div>
         {% for result in results %}
         <div class="image">
-        <a class="clickable" {% if new_tab == "active" %} target="_blank" {% endif %} href="{{ result[1] }}">
-            <img class="open-image-viewer" src="{{ result[0] }}" alt="{{ result[2] }}"/>
+        <a class="clickable" {% if new_tab == "active" %} target="_blank" {% endif %} href="{{ result['origin_link'] }}">
+            <img class="open-image-viewer" src="{{ result['image_source'] }}" alt="{{ result['desc'] }}"/>
         </a>
         </div>
         {% endfor %}

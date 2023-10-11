@@ -69,13 +69,13 @@ WHITELISTED_DOMAINS = [
 
 ENABLED_TORRENT_SITES = [
     "nyaa",
-    "torrentgalaxy",
+    # "torrentgalaxy",
 ]
 
 COOKIE_AGE = 2147483647
 
-# set to true to enable api support
-API_ENABLED = False
+# set to True to enable api support
+API_ENABLED = True
 
 # set to false to disable torrent search
 TORRENTSEARCH_ENABLED = True
