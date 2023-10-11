@@ -22,21 +22,14 @@ def search(query):
     results = []
 
     for torrent in torrent_data:
-        try:
-            seeders = int(torrent["seeders"])
-            leechers = int(torrent["leechers"])
-        except ValueError:
-            seeders = 0
-            leechers = 0
-
         results.append({
             "href": "thepiratebay.org",
             "title": torrent["name"],
             "magnet": generate_magnet_link(torrent["info_hash"]),
             "size": convert_bytes(int(torrent["size"])),
             "views": None,
-            "seeders": seeders,
-            "leechers": leechers
+            "seeders": int(torrent["seeders"]),
+            "leechers": int(torrent["leechers"])
         })
 
     return results
