@@ -15,10 +15,7 @@ def search(query):
         
         # If a torrent has comments, it has 5 columns, but if it has none,
         # it has 4 columns. This is a shift to account for that.
-        if len(tds) == 5:
-            td_shift = 1
-        else:
-            td_shift = 0
+        td_shift = len(tds) - 4
 
         results.append({
             "href": RUTOR_DOMAIN,

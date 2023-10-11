@@ -76,7 +76,7 @@ ENABLED_TORRENT_SITES = [
     "nyaa",
     "torrentgalaxy",
     "tpb",
-    "rutor"
+    "rutor",
 ]
 
 COOKIE_AGE = 2147483647
