@@ -3,11 +3,11 @@
 {% block body %}
     <div class="results_settings">
         <select class="results-settings" name="safe" id="safeSearchSelect">
-            <option value="active" {% if safe == 'active' %}selected{% endif %}>SafeSearch on</option>
-            <option value="" {% if safe == '' %}selected{% endif %}>SafeSearch off</option>
+            <option value="active" {% if safe == 'active' %}selected{% endif %}>{{ lang_data.settings.safe_search }} {{ lang_data.settings.on }}</option>
+            <option value="" {% if safe == '' %}selected{% endif %}>{{ lang_data.settings.safe_search }} {{ lang_data.settings.off }}</option>
         </select>
         <select class="results-settings" name="lang" id="languageSelect">
-            <option value="" {% if lang == '' %}selected{% endif %}>Any Language</option>
+            <option value="" {% if lang == '' %}selected{% endif %}>{{ lang_data.settings.any_language }}</option>
             <option value="lang_en" {% if lang == 'lang_en' %}selected{% endif %}>English</option>
             <option value="lang_af" {% if lang == 'lang_af' %}selected{% endif %}>Afrikaans</option>
             <option value="lang_ar" {% if lang == 'lang_ar' %}selected{% endif %}>العربية (Arabic)</option>
@@ -160,9 +160,9 @@
           <input type="hidden" name="t" value="{{ type }}">
           {% set p = request.args.get('p', 0)|int %}
           {% if p >= 10 %}
-              <button name="p" value="{{ p - 10 }}">Previous</button>
+              <button name="p" value="{{ p - 10 }}">{{ lang_data.buttons.previous }}</button>
           {% endif %}
-          <button name="p" value="{{ p + 10 }}">Next</button>
+          <button name="p" value="{{ p + 10 }}">{{ lang_data.buttons.next }}</button>
         </form>
     </div>
     {% else %}

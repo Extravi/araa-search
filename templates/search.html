@@ -21,7 +21,7 @@
         </div>
     </div>
     <select class="lang" name="lang">
-        <option value="" {% if lang == '' %}selected{% endif %}>Any Language</option>
+        <option value="" {% if lang == '' %}selected{% endif %}>{{ lang_data.settings.any_language }}</option>
         <option value="lang_en" {% if lang == 'lang_en' %}selected{% endif %}>English</option>
         <option value="lang_af" {% if lang == 'lang_af' %}selected{% endif %}>Afrikaans</option>
         <option value="lang_ar" {% if lang == 'lang_ar' %}selected{% endif %}>العربية (Arabic)</option>
