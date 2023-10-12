@@ -4,7 +4,9 @@
         "image": "Afbeeldingen",
         "video": "Video's",
         "reddit": "Reddit",
-        "torrent": "Torrents"
+        "torrent": "Torrents",
+        "next": "Volgende",
+        "previous": "Vorige"
     },
     "results": {
         "results": "Resultaten opgehaald in",
@@ -33,7 +35,10 @@
         "disable_javascript": "Het uitschakelen van JavaScript (niet aanbevolen) heeft invloed op websitefunctionaliteiten, schakelt automatisch aanvullen uit en vertraagt bepaalde functies. Het ingeschakeld houden van JavaScript compromitteert uw privacy niet, aangezien verzoeken worden verwerkt via serverzijde endpoints.",
         "save_settings": "Instellingen opslaan",
         "return_to_settings": "Terug naar instellingen",
-        "preferredux_language": "Voorkeurstaal voor Koppen, Knoppen en Andere Tekst van Araa"
+        "preferredux_language": "Voorkeurstaal voor Koppen, Knoppen en Andere Tekst van Araa",
+        "on": "aan",
+        "off": "uit",
+        "any_language": "Elke taal"
     },
     "api_links": {
         "api_link": "API",

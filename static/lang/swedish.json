@@ -4,7 +4,9 @@
         "image": "Bilder",
         "video": "Videor",
         "reddit": "Reddit",
-        "torrent": "Torrents"
+        "torrent": "Torrents",
+        "next": "Nästa",
+        "previous": "Föregående"
     },
     "results": {
         "results": "Resultat hämtat på",
@@ -33,7 +35,10 @@
         "disable_javascript": "Inaktivera JavaScript (inte rekommenderat) påverkar webbplatsfunktioner, stänger av automatisk ifyllning och saktar ned vissa funktioner. Att hålla JavaScript aktiverat kommer inte att äventyra din integritet, eftersom förfrågningar behandlas via serverbaserade ändpunkter.",
         "save_settings": "Spara inställningar",
         "return_to_settings": "Återgå till inställningar",
-        "preferredux_language": "Föredraget språk för rubriker, knappar och annan text från Araa"
+        "preferredux_language": "Föredraget språk för rubriker, knappar och annan text från Araa",
+        "on": "på",
+        "off": "av",
+        "any_language": "Valfritt språk"
     },
     "api_links": {
         "api_link": "API",

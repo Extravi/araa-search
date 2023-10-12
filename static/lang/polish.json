@@ -4,7 +4,9 @@
         "image": "Zdjęcia",
         "video": "Filmy",
         "reddit": "Reddit",
-        "torrent": "Torrenty"
+        "torrent": "Torrenty",
+        "next": "Następny",
+        "previous": "Poprzedni"
     },
     "results": {
         "results": "Wyniki uzyskano w",
@@ -33,7 +35,10 @@
         "disable_javascript": "Wyłączenie JavaScript (niezalecane) wpływa na funkcje strony internetowej, dezaktywuje autouzupełnianie i spowalnia niektóre funkcje. Pozostawienie JavaScript włączonego nie naruszy Twojej prywatności, ponieważ zapytania są przetwarzane za pośrednictwem punktów końcowych po stronie serwera.",
         "save_settings": "Zapisz ustawienia",
         "return_to_settings": "Powrót do ustawień",
-        "preferredux_language": "Preferowany język dla nagłówków, przycisków i innych tekstów z Araa"
+        "preferredux_language": "Preferowany język dla nagłówków, przycisków i innych tekstów z Araa",
+        "on": "włączony",
+        "off": "wyłączony",
+        "any_language": "Dowolny język"
     },
     "api_links": {
         "api_link": "API",

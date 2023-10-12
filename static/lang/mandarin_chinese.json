@@ -4,7 +4,9 @@
         "image": "图片",
         "video": "视频",
         "reddit": "Reddit",
-        "torrent": "种子"
+        "torrent": "种子",
+        "next": "下一步",
+        "previous": "上一步"
     },
     "results": {
         "results": "结果获取耗时",
@@ -33,7 +35,10 @@
         "disable_javascript": "禁用JavaScript（不建议）会影响网站功能，禁用自动完成并减慢某些功能。 启用JavaScript不会泄露隐私，因为请求通过服务器端点处理。",
         "save_settings": "保存设置",
         "return_to_settings": "返回设置",
-        "preferredux_language": "Araa的标题、按钮和其他文本的首选语言"
+        "preferredux_language": "Araa的标题、按钮和其他文本的首选语言",
+        "on": "开",
+        "off": "关",
+        "any_language": "任何语言"
     },
     "api_links": {
         "api_link": "API",

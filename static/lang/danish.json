@@ -4,7 +4,9 @@
         "image": "Billeder",
         "video": "Videoer",
         "reddit": "Reddit",
-        "torrent": "Torrents"
+        "torrent": "Torrents",
+        "next": "Næste",
+        "previous": "Forrige"
     },
     "results": {
         "results": "Resultater hentet på",
@@ -33,7 +35,10 @@
         "disable_javascript": "Deaktivering af JavaScript (ikke anbefalet) påvirker websidefunktioner, deaktiverer autoudfyldning og bremser visse funktioner. At holde JavaScript aktiveret vil ikke kompromittere dit privatliv, da anmodninger behandles gennem serverbaserede slutpunkter.",
         "save_settings": "Gem dine indstillinger",
         "return_to_settings": "Tilbage til indstillinger",
-        "preferredux_language": "Foretrukken Sprog til Overskrifter, Knapper og Anden Tekst fra Araa"
+        "preferredux_language": "Foretrukken Sprog til Overskrifter, Knapper og Anden Tekst fra Araa",
+        "on": "på",
+        "off": "fra",
+        "any_language": "Enhver sprog"
     },
     "api_links": {
         "api_link": "API",

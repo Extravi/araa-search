@@ -4,7 +4,9 @@
         "image": "画像",
         "video": "ビデオ",
         "reddit": "Reddit",
-        "torrent": "トレント"
+        "torrent": "トレント",
+        "next": "次へ",
+        "previous": "前へ"
     },
     "results": {
         "results": "結果を取得しました",
@@ -33,7 +35,10 @@
         "disable_javascript": "JavaScriptを無効にする（お勧めしません）はウェブサイトの機能に影響を与え、自動入力を無効にし、一部の機能を遅くします。 JavaScriptを有効にしてもプライバシーは侵害されません。リクエストはサーバーサイドのエンドポイントを介して処理されます。",
         "save_settings": "設定を保存",
         "return_to_settings": "設定に戻る",
-        "preferredux_language": "Araaからの見出し、ボタン、およびその他のテキストの優先言語"
+        "preferredux_language": "Araaからの見出し、ボタン、およびその他のテキストの優先言語",
+        "on": "オン",
+        "off": "オフ",
+        "any_language": "任意の言語"
     },
     "api_links": {
         "api_link": "API",

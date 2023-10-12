@@ -4,7 +4,9 @@
         "image": "Images",
         "video": "Videos",
         "reddit": "Reddit",
-        "torrent": "Torrents"
+        "torrent": "Torrents",
+        "next": "Next",
+        "previous": "Previous"
     },
     "results": {
         "results": "Fetched the results in",
@@ -33,7 +35,10 @@
         "disable_javascript": "Disabling JavaScript (not recommended) affects webpage features, disables autocomplete, and slows certain functions. Keeping JavaScript enabled won't compromise your privacy, as requests are processed through server-side endpoints.",
         "save_settings": "Save your settings",
         "return_to_settings": "Return to settings",
-        "preferredux_language": "Preferred language for headlines, buttons, and other text from Araa"
+        "preferredux_language": "Preferred language for headlines, buttons, and other text from Araa",
+        "on": "on",
+        "off": "off",
+        "any_language": "Any Language"
     },
     "api_links": {
         "api_link": "API",
