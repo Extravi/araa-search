@@ -49,7 +49,7 @@ def latest_commit():
     return "Not in main branch"
 
 
-def makeHTMLRequest(url: str):
+def makeJSONRequest(url: str):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
@@ -61,5 +61,5 @@ def makeHTMLRequest(url: str):
     # Grab HTML content
     response = requests.get(url)
 
-    # Return the BeautifulSoup object
-    return json.loads(response.content)
+    # Return the JSON object
+    return json.loads(response.text)

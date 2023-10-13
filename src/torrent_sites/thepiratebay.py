@@ -18,7 +18,7 @@ def convert_bytes(size):
 
 def search(query):
     url = f"https://{API_BAY_DOMAIN}/q.php?q={quote(query)}&cat="
-    torrent_data = helpers.makeHTMLRequest(url)
+    torrent_data = helpers.makeJSONRequest(url)
     results = []
 
     for torrent in torrent_data:

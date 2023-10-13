@@ -25,7 +25,7 @@ def search(query):
             "size": tds[2 + td_shift].get_text(),
             "views": None,
             "seeders": int(spans[0].get_text()),
-            "leechers": int(spans[1]).get_text()),
+            "leechers": int(spans[1].get_text()),
         })
 
     return results

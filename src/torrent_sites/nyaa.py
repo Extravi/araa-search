@@ -9,15 +9,16 @@ def search(query):
     soup = helpers.makeHTMLRequest(f"https://{NYAA_DOMAIN}/?f=0&c=0_0&q={quote(query)}")
     results = []
     for torrent in soup.select(".default, .success, .danger"):
-        list_of_anchors = torrent.select("a")
-        text_center = torrent.select(".text-center")
+        # list_of_anchors = torrent.select("a")
+        # text_center = torrent.select(".text-center")
+        list_of_tds = torrent.find_all("td")
         results.append({
             "href": NYAA_DOMAIN,
-            "title": list_of_anchors[1].get_text().strip(),
-            "magnet": list_of_anchors[1]["href"],
-            "size": text_center[1].get_text().strip(),
+            "title": list_of_tds[1].find_all("a")[-1].get_text(),
+            "magnet": list_of_tds[2].find_all("a")[1]["href"],
+            "size": list_of_tds[3].get_text().strip(),
             "views": None,
-            "seeders": int(text_center[3].get_text().strip()),
-            "leechers": int(text_center[4].get_text().strip())
+            "seeders": int(list_of_tds[5].get_text().strip()),
+            "leechers": int(list_of_tds[6].get_text().strip())
         })
     return results

@@ -218,4 +218,4 @@ def search():
 
 
 if __name__ == "__main__":
-    app.run(threaded=True, port=PORT)
+    app.run(threaded=True, port=PORT, debug=True)
