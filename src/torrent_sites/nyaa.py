@@ -9,8 +9,6 @@ def search(query):
     soup = helpers.makeHTMLRequest(f"https://{NYAA_DOMAIN}/?f=0&c=0_0&q={quote(query)}")
     results = []
     for torrent in soup.select(".default, .success, .danger"):
-        # list_of_anchors = torrent.select("a")
-        # text_center = torrent.select(".text-center")
         list_of_tds = torrent.find_all("td")
         results.append({
             "href": NYAA_DOMAIN,

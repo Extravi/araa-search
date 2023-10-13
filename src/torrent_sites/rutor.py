@@ -11,18 +11,14 @@ def search(query):
     results = []
 
     for torrent in html.select(".gai, .tum"):
-        tds = torrent.findall("td")
-        spans = torrent.findall("span")
-
-        # If a torrent has comments, it has 5 columns, but if it has none,
-        # it has 4 columns. This is a shift to account for that.
-        td_shift = len(tds) - 4
+        tds = torrent.find_all("td")
+        spans = torrent.find_all("span")
 
         results.append({
             "href": RUTOR_DOMAIN,
             "title": tds[1].get_text(),
-            "magnet": tds[1].findall("a")[1]["href"],
-            "size": tds[2 + td_shift].get_text(),
+            "magnet": tds[1].find_all("a")[1]["href"],
+            "size": tds[-2].get_text(),
             "views": None,
             "seeders": int(spans[0].get_text()),
             "leechers": int(spans[1].get_text()),
