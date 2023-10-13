@@ -44,7 +44,7 @@ def highlight_query_words(string, query):
                     highlighted_words.append(highlighted_word)
                     break
             else:
-                highlighted_words.append(word)
+                highlighted_words.append(escape(word))
         highlighted = ' '.join(highlighted_words)
     return Markup(highlighted)
 
