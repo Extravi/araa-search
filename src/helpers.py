@@ -58,7 +58,7 @@ def makeJSONRequest(url: str):
     # Choose a user-agent at random
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
-    # Grab HTML content
+    # Grab json content
     response = requests.get(url)
 
     # Return the JSON object
