@@ -13,7 +13,7 @@ def search(query):
         results.append({
             "href": NYAA_DOMAIN,
             "title": list_of_tds[1].find_all("a")[-1].get_text(),
-            "magnet": helpers.apply_trackers(list_of_tds[2].find_all("a")[1]["href"]),
+            "magnet": helpers.apply_trackers(list_of_tds[2].find_all("a")[-1]["href"]),
             "size": list_of_tds[3].get_text().strip(),
             "views": None,
             "seeders": int(list_of_tds[5].get_text().strip()),
