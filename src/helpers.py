@@ -63,3 +63,17 @@ def makeJSONRequest(url: str):
 
     # Return the JSON object
     return json.loads(response.text)
+
+def get_magnet_hash(magnet):
+    return magnet.split("btih:")[1].split("&")[0]
+
+def get_magnet_name(magnet):
+    return magnet.split("&dn=")[1].split("&tr")[0]
+
+
+def apply_trackers(hash, name="", magnet=True):
+    if magnet:
+        name = get_magnet_name(hash)
+        hash = get_magnet_hash(hash)
+    
+    return f"magnet:?xt=urn:btih:{hash}&dn={name}&tr={'&tr='.join(TORRENT_TRACKERS)}"

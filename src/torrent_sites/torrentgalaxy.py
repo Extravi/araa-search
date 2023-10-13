@@ -30,7 +30,7 @@ def search(query):
         results.append({
             "href": TORRENTGALAXY_DOMAIN,
             "title": title,
-            "magnet": magnet_link,
+            "magnet": helpers.apply_trackers(magnet_link),
             "size": file_size,
             "views": view_count,
             "seeders": seeder,

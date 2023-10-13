@@ -5,9 +5,6 @@ from urllib.parse import quote
 def name():
     return "tpb"
 
-def generate_magnet_link(info_hash):
-    return f"magnet:?xt=urn:btih:{info_hash}&tr=http://nyaa.tracker.wf:7777/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://exodus.desync.com:6969/announce&tr=udp://tracker.torrent.eu.org:451/announce"
-
 def convert_bytes(size):
     units = ['bytes', 'KB', 'MB', 'GB', 'TB']
     index = 0
@@ -25,7 +22,11 @@ def search(query):
         results.append({
             "href": "thepiratebay.org",
             "title": torrent["name"],
-            "magnet": generate_magnet_link(torrent["info_hash"]),
+            "magnet": helpers.apply_trackers(
+                torrent["info_hash"],
+                name=torrent["name"],
+                magnet=False
+            ),
             "size": convert_bytes(int(torrent["size"])),
             "views": None,
             "seeders": int(torrent["seeders"]),

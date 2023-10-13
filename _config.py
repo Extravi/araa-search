@@ -79,6 +79,14 @@ ENABLED_TORRENT_SITES = [
     "rutor",
 ]
 
+TORRENT_TRACKERS = [
+    'http://nyaa.tracker.wf:7777/announce',
+    'udp://open.stealth.si:80/announce',
+    'udp://tracker.opentrackr.org:1337/announce',
+    'udp://exodus.desync.com:6969/announce',
+    'udp://tracker.torrent.eu.org:451/announce'
+]
+
 COOKIE_AGE = 2147483647
 
 # set to true to enable api support

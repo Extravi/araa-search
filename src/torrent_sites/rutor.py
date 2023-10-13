@@ -17,7 +17,7 @@ def search(query):
         results.append({
             "href": RUTOR_DOMAIN,
             "title": tds[1].get_text(),
-            "magnet": tds[1].find_all("a")[1]["href"],
+            "magnet": helpers.apply_trackers(tds[1].find_all("a")[1]["href"]),
             "size": tds[-2].get_text(),
             "views": None,
             "seeders": int(spans[0].get_text()),
