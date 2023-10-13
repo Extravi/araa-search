@@ -29,22 +29,23 @@ def makeHTMLRequest(url: str):
 def highlight_query_words(string, query):
     # detect the language of the string
     detected_language = detect(string)
-    
+    string = escape(string)
+
     if detected_language in ['ja', 'zh', 'ko']:
         query_words = [re.escape(word) for word in query.lower().split()]
         query_regex = re.compile('|'.join(query_words), re.I)
-        highlighted = query_regex.sub(lambda match: Markup(f'<span class="highlight">{escape(match.group(0))}</span>'), string)
+        highlighted = query_regex.sub(lambda match: Markup(f'<span class="highlight">{match.group(0)}</span>'), string)
     else:
         query_words = query.lower().split()
         highlighted_words = []
         for word in string.split():
             for query_word in query_words:
                 if fuzz.ratio(word.lower(), query_word) >= 80:
-                    highlighted_word = Markup(f'<span class="highlight">{escape(word)}</span>')
+                    highlighted_word = Markup(f'<span class="highlight">{word}</span>')
                     highlighted_words.append(highlighted_word)
                     break
             else:
-                highlighted_words.append(escape(word))
+                highlighted_words.append(word)
         highlighted = ' '.join(highlighted_words)
     return Markup(highlighted)
 
