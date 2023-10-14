@@ -28,7 +28,10 @@ def makeHTMLRequest(url: str):
 # search highlights
 def highlight_query_words(string, query):
     # detect the language of the string
-    detected_language = detect(string)
+    try:
+        detected_language = detect(string)
+    except:
+        detected_language = ""
     string = escape(string)
 
     if detected_language in ['ja', 'zh', 'ko']:
