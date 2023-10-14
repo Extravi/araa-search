@@ -1231,25 +1231,26 @@ p {
     position: relative;
     border: 1px solid var(--snip-border);
     margin-left: 175px;
-    background: var(--snip-background);
-    color: var(--snip-text);
+    color: var(--fg);
     width: 530px;
     padding: 15px;
-    font-size: 16px;
+    margin-bottom: 627px;
+    margin-top: -20px;
+    font-size: 14px;
+    line-height: 1.58;
+    letter-spacing: normal;
 }
 
 @media only screen and (max-width: 1320px) {
 
-    .snip,
-    .no-results-found {
+    .snip {
         margin-left: 780px;
     }
 }
 
 @media only screen and (max-width: 1220px) {
 
-    .snip,
-    .no-results-found {
+    .snip {
         position: relative;
         float: none;
         margin-left: 170px;
