@@ -11,7 +11,6 @@ import base64
 def imageResults(query) -> Response:
     # get user language settings
     ux_lang = request.cookies.get('ux_lang', 'english')
-    safe_search = request.cookies.get("safe", "active")
     json_path = f'static/lang/{ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
@@ -26,7 +25,7 @@ def imageResults(query) -> Response:
         return redirect('/search')
 
     # returns 1 if active, else 0
-    safe_search = int(safe_search == "active")
+    safe_search = int(request.cookies.get("safe", "active") == "active")
 
     # grab & format webpage
     soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}&s={safe_search}")
