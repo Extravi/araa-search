@@ -4,6 +4,7 @@ from _config import *
 from flask import request, render_template, jsonify, Response, redirect
 import time
 import json
+import strings
 from urllib.parse import quote
 import base64
 
@@ -11,6 +12,7 @@ import base64
 def imageResults(query) -> Response:
     # get user language settings
     ux_lang = request.cookies.get('ux_lang', 'english')
+    safe_search = request.cookies.get("safe", "active")
     json_path = f'static/lang/{ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
@@ -20,17 +22,20 @@ def imageResults(query) -> Response:
 
     api = request.args.get("api", "false")
 
-    try:
-        p = int(request.args.get('p', 1))
-        if p < 1:
-            p = 1
-        else:
-            p = int(request.args.get('p', 1))
-    except:
-        return redirect('/search')   
+    p = request.args.get('p', 1)
+    if not p.isdigit():
+        return redirect('/search')
+    p = int(p)
+    if p < 1:
+        p = 1
+
+    if safe_search == "active":
+        safe_search = "1"
+    else:
+        safe_search = "0"
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}")
+    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}&s={safe_search}")
 
     try:
         # get 'img' ellements
