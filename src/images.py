@@ -24,8 +24,6 @@ def imageResults(query) -> Response:
     p = request.args.get('p', '1')
     if not p.isdigit():
         return redirect('/search')
-    else:
-        p = int(p)
 
     # returns 1 if active, else 0
     safe_search = int(safe_search == "active")
