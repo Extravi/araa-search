@@ -25,14 +25,11 @@ def imageResults(query) -> Response:
     p = request.args.get('p', 1)
     if not p.isdigit():
         return redirect('/search')
-    p = int(p)
-    if p < 1:
-        p = 1
-
-    if safe_search == "active":
-        safe_search = "1"
     else:
-        safe_search = "0"
+        p = int(p)
+
+    # returns 1 if active, else 0
+    safe_search = int(safe_search == "active")
 
     # grab & format webpage
     soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}&s={safe_search}")
