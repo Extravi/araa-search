@@ -21,7 +21,7 @@ def imageResults(query) -> Response:
 
     api = request.args.get("api", "false")
 
-    p = request.args.get('p', 1)
+    p = request.args.get('p', '1')
     if not p.isdigit():
         return redirect('/search')
     else:
