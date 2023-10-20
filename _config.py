@@ -18,6 +18,9 @@ PORT = 8000
 # Torrent domains
 TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
 NYAA_DOMAIN = "nyaa.si"
+# apibay is the api for thepiratebay.org
+API_BAY_DOMAIN = "apibay.org"
+RUTOR_DOMAIN = "rutor.info"
 
 # Domain of the Invidious instance to use
 INVIDIOUS_INSTANCE = "yt.artemislena.eu"
@@ -65,11 +68,23 @@ WHITELISTED_DOMAINS = [
     "lite.qwant.com",
     TORRENTGALAXY_DOMAIN,
     NYAA_DOMAIN,
+    API_BAY_DOMAIN,
+    RUTOR_DOMAIN,
 ]
 
 ENABLED_TORRENT_SITES = [
     "nyaa",
     "torrentgalaxy",
+    "tpb",
+    "rutor",
+]
+
+TORRENT_TRACKERS = [
+    'http://nyaa.tracker.wf:7777/announce',
+    'udp://open.stealth.si:80/announce',
+    'udp://tracker.opentrackr.org:1337/announce',
+    'udp://exodus.desync.com:6969/announce',
+    'udp://tracker.torrent.eu.org:451/announce'
 ]
 
 COOKIE_AGE = 2147483647

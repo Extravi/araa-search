@@ -11,7 +11,6 @@ def search(query):
     result_divs = soup.findAll("div", {"class": "tgxtablerow"})
     title = [div.find("div", {"id": "click"}) for div in result_divs]
     title = [title.text.strip() for title in title]
-    hrefs = [TORRENTGALAXY_DOMAIN for title in title]
     magnet_links = [
         div.find("a", href=lambda href: href and href.startswith("magnet")).get("href")
         for div in result_divs
@@ -26,12 +25,12 @@ def search(query):
 
     # list
     results = []
-    for href, title, magnet_link, file_size, view_count, seeder, leecher in zip(
-        hrefs, title, magnet_links, file_sizes, view_counts, seeders, leechers):
+    for title, magnet_link, file_size, view_count, seeder, leecher in zip(
+        title, magnet_links, file_sizes, view_counts, seeders, leechers):
         results.append({
-            "href": href,
+            "href": TORRENTGALAXY_DOMAIN,
             "title": title,
-            "magnet": magnet_link,
+            "magnet": helpers.apply_trackers(magnet_link),
             "size": file_size,
             "views": view_count,
             "seeders": seeder,

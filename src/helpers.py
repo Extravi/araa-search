@@ -1,10 +1,11 @@
-from bs4 import BeautifulSoup
-from urllib.parse import unquote
 import random
-from _config import *
-from markupsafe import escape, Markup
 import requests
 import re
+import json
+from bs4 import BeautifulSoup
+from urllib.parse import unquote
+from _config import *
+from markupsafe import escape, Markup
 from os.path import exists
 from langdetect import detect
 from thefuzz import fuzz
@@ -58,3 +59,33 @@ def latest_commit():
         with open('./.git/refs/heads/main') as f:
             return f.readline()
     return "Not in main branch"
+
+
+def makeJSONRequest(url: str):
+    # block unwanted request from an edited cookie
+    domain = unquote(url).split('/')[2]
+    if domain not in WHITELISTED_DOMAINS:
+        raise Exception(f"The domain '{domain}' is not whitelisted.")
+
+    # Choose a user-agent at random
+    user_agent = random.choice(user_agents)
+    headers = {"User-Agent": user_agent}
+    # Grab json content
+    response = requests.get(url)
+
+    # Return the JSON object
+    return json.loads(response.text)
+
+def get_magnet_hash(magnet):
+    return magnet.split("btih:")[1].split("&")[0]
+
+def get_magnet_name(magnet):
+    return magnet.split("&dn=")[1].split("&tr")[0]
+
+
+def apply_trackers(hash, name="", magnet=True):
+    if magnet:
+        name = get_magnet_name(hash)
+        hash = get_magnet_hash(hash)
+    
+    return f"magnet:?xt=urn:btih:{hash}&dn={name}&tr={'&tr='.join(TORRENT_TRACKERS)}"
