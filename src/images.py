@@ -20,17 +20,15 @@ def imageResults(query) -> Response:
 
     api = request.args.get("api", "false")
 
-    try:
-        p = int(request.args.get('p', 1))
-        if p < 1:
-            p = 1
-        else:
-            p = int(request.args.get('p', 1))
-    except:
-        return redirect('/search')   
+    p = request.args.get('p', '1')
+    if not p.isdigit():
+        return redirect('/search')
+
+    # returns 1 if active, else 0
+    safe_search = int(request.cookies.get("safe", "active") == "active")
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}")
+    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}&s={safe_search}")
 
     try:
         # get 'img' ellements
