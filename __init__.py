@@ -2,6 +2,8 @@ from flask import Flask, request, render_template, jsonify, Response, make_respo
 import requests
 import random
 import json
+import urllib
+from flask_cors import CORS, cross_origin
 from _config import *
 from src import textResults, torrents, helpers, images, video
 
@@ -16,6 +18,8 @@ for bang, url in bjson.items():
 app = Flask(__name__, static_folder="static", static_url_path="")
 app.jinja_env.filters['highlight_query_words'] = helpers.highlight_query_words
 app.jinja_env.globals.update(int=int)
+
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 COMMIT = helpers.latest_commit()
 
@@ -161,6 +165,21 @@ def img_proxy():
     else:
         # Return an error response if the request failed
         return Response("Error fetching image", status=500)
+
+
+@app.route("/answers", methods=["GET"])
+@cross_origin()
+def answers():
+    query = request.args.get("q", "").strip()
+    print(query)
+    url = f"https://search.brave.com/api/summarizer?key={urllib.parse.quote(query)}%3Agb%3Aen"
+
+    response = requests.get(
+        url,
+        headers={"User-Agent": random.choice(user_agents)}
+    )
+
+    return jsonify(json.loads(response.content))
 
 
 @app.route("/", methods=["GET", "POST"])
