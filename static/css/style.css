@@ -1241,6 +1241,34 @@ p {
     letter-spacing: normal;
 }
 
+.answer-box {
+  background: var(--snip-background);
+  border: 1px solid var(--snip-border);
+  max-width: 600px;
+  margin-left: 170px;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.refs sup {
+  text-decoration: underline;
+  margin: 0px 3px;
+}
+
+.block:hover {
+  background: #404042;
+}
+
+a.reference {
+  display: inline-block;
+  color: var(--font-fg);
+  margin-right: 10px;
+  padding: 2px;
+  margin-top: 10px;
+  border-radius: 3px;
+}
+
 @media only screen and (max-width: 1320px) {
 
     .snip {
@@ -1258,6 +1286,10 @@ p {
 }
 
 @media only screen and (max-width: 750px) {
+    .answer-box {
+      margin-left: 10px;
+      max-width: 86%;
+    }
 
     .snip,
     .no-results-found {
