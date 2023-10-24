@@ -141,10 +141,11 @@ def api():
 @app.route("/img_proxy")
 def img_proxy():
     # Get the URL of the image to proxy
+
     url = request.args.get("url", "").strip()
 
     # Only allow proxying image from startpage.com, upload.wikimedia.org and imgs.search.brave.com
-    if not (url.startswith("https://s1.qwant.com/") or url.startswith("https://s2.qwant.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith("https://yt.artemislena.eu")):
+    if not (url.startswith("https://s1.qwant.com/") or url.startswith("https://s2.qwant.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith(f"https://{INVIDIOUS_INSTANCE}")):
         return Response("Error: invalid URL", status=400)
 
     # Choose one user agent at random

@@ -6,9 +6,9 @@
         {% for result in results %}
         <div><div class="video__results">
         <div class="video__img__results">
-            <img src="{{ result[6] }}">
+	<a href=" {{ result[0] }}"> <img src="{{ result[6] }}">
                 <div class="duration">{{ result[7] }}</div>
-            </img>
+	</img></a>
         </div>
             <div class="results">
             <a {% if new_tab == "active" %} target="_blank" {% endif %} href="{{ result[0] }}"><h3 class="video_title" href="{{ result[0] }}">{{ result[1] }}</h3></a>
