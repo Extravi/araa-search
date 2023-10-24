@@ -56,10 +56,22 @@ ENV_VARS = {
         'pyname': 'NYAA_DOMAIN',
         'type': str,
     },
+    'APIBAY_DOMAIN': {
+        'default_val': 'apibay.org',
+        'pyname': 'API_BAY_DOMAIN',
+        'type': str,
+    },
+    'RUTOR_DOMAIN': {
+        'default_val': 'rutor.info',
+        'pyname': 'RUTOR_DOMAIN',
+        'type': str,
+    },
     'TORRENT_SITES': {
         'default_val': [
             'nyaa',
             'torrentgalaxy',
+            'tpb',
+            'rutor',
         ],
         'pyname': 'ENABLED_TORRENT_SITES',
         'type': list,
