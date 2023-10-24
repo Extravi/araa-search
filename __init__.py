@@ -196,7 +196,7 @@ def search():
         query += " " # Simple fix to avoid a possible error 500
                      # when parsing the query for the bangkey.
         bang_index = query.index(BANG)
-        bangkey = query[bang_index + 1:query.index(" ", bang_index)].lower()
+        bangkey = query[bang_index + len(BANG):query.index(" ", bang_index)].lower()
         if SEARCH_BANGS.get(bangkey) is not None:
             query = query.lower().replace(BANG + bangkey, "").lstrip()
             return app.redirect(SEARCH_BANGS[bangkey].format(query))
