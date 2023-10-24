@@ -1,8 +1,13 @@
 services:
   araa-search:
     container_name: Araa
-    image: "docker.io/temthelem/araa-search:latest"
+    image: docker.io/temthelem/araa-search:latest
     env_file:
       - .env # May be redundant. Who cares ¯\_(ツ)_/¯
     ports:
       - "${PORT}:${PORT}"
+  watchtower: # Not required. Keeps containers up-to-date.
+    container_name: watchtower
+    image: docker.io/containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
