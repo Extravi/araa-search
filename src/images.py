@@ -68,5 +68,5 @@ def imageResults(query) -> Response:
             theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
             javascript=request.cookies.get('javascript', 'enabled'), type="image",
             new_tab=request.cookies.get("new_tab"), repo_url=REPO, API_ENABLED=API_ENABLED,
-            TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, ux_lang=ux_lang, lang_data=lang_data, 
+            TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, ux_lang=ux_lang, lang_data=lang_data,
             commit=latest_commit())

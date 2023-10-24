@@ -72,7 +72,7 @@ def discover():
                            repo_url=REPO,
                            current_url=request.url,
                            API_ENABLED=API_ENABLED
-                           )                   
+                           )
 
 
 @app.route('/save-settings', methods=['POST'])
@@ -166,6 +166,10 @@ def img_proxy():
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
+    # Searching only takes in GET requests. Return early if the request is anything but GET.
+    if request.method != "GET":
+        return Response(f"Error; expected GET request, got {request.method}", status=400)
+
     lang = request.cookies.get('lang')
     domain = request.cookies.get('domain')
 
@@ -175,47 +179,46 @@ def search():
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
-    if request.method == "GET":
-        # get the `q` query parameter from the URL
-        query = request.args.get("q", "").strip()
-        if query == "":
-            if request.cookies.get('theme', DEFAULT_THEME) == 'dark_blur':
-                css_style = "dark_blur_beta.css"
-            else:
-                css_style = None
-            return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME), 
-                javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME, 
-                css_style=css_style, repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED,
-                lang=lang, domain=domain, lang_data=lang_data, ux_lang=ux_lang)
+    # get the `q` query parameter from the URL
+    query = request.args.get("q", "").strip()
+    if query == "":
+        if request.cookies.get('theme', DEFAULT_THEME) == 'dark_blur':
+            css_style = "dark_blur_beta.css"
+        else:
+            css_style = None
+        return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME),
+            javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
+            css_style=css_style, repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED,
+            lang=lang, domain=domain, lang_data=lang_data, ux_lang=ux_lang)
 
-        # Check if the query has a bang.
-        if BANG in query:
-            query += " " # Simple fix to avoid a possible error 500
-                         # when parsing the query for the bangkey.
-            bang_index = query.index(BANG)
-            bangkey = query[bang_index + 1:query.index(" ", bang_index)].lower()
-            if SEARCH_BANGS.get(bangkey) is not None:
-                query = query.lower().replace(BANG + bangkey, "").lstrip()
-                return app.redirect(SEARCH_BANGS[bangkey].format(query))
-            # Remove the space at the end of the query.
-            # The space was added to fix a possible error 500 when
-            # parsing the query for the bangkey.
-            query = query[:len(query) - 1]
+    # Check if the query has a bang.
+    if BANG in query:
+        query += " " # Simple fix to avoid a possible error 500
+                     # when parsing the query for the bangkey.
+        bang_index = query.index(BANG)
+        bangkey = query[bang_index + len(BANG):query.index(" ", bang_index)].lower()
+        if SEARCH_BANGS.get(bangkey) is not None:
+            query = query.lower().replace(BANG + bangkey, "").lstrip()
+            return app.redirect(SEARCH_BANGS[bangkey].format(query))
+        # Remove the space at the end of the query.
+        # The space was added to fix a possible error 500 when
+        # parsing the query for the bangkey.
+        query = query[:len(query) - 1]
 
-        # type of search (text, image, etc.)
-        type = request.args.get("t", "text")
+    # type of search (text, image, etc.)
+    type = request.args.get("t", "text")
 
-        # render page based off of type
-        # NOTE: Python 3.10 needed for a match statement!
-        match type:
-            case "torrent":
-                return torrents.torrentResults(query)
-            case "video":
-                return video.videoResults(query)
-            case "image":
-                return images.imageResults(query)
-            case _:
-                return textResults.textResults(query)
+    # render page based off of type
+    # NOTE: Python 3.10 needed for a match statement!
+    match type:
+        case "torrent":
+            return torrents.torrentResults(query)
+        case "video":
+            return video.videoResults(query)
+        case "image":
+            return images.imageResults(query)
+        case _:
+            return textResults.textResults(query)
 
 
 if __name__ == "__main__":

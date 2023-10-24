@@ -25,7 +25,7 @@ def makeHTMLRequest(url: str):
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
-    
+
 # search highlights
 def highlight_query_words(string, query):
     # detect the language of the string
