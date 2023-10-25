@@ -49,4 +49,4 @@ Here are some of the features that Araa a privacy-respecting, ad-free, self-host
 <img src="https://user-images.githubusercontent.com/98912029/273820030-cfcadd5f-2947-414a-b41b-76520f1bbcc0.png" width="600">
 
 ## Contact
-Email: extravi@extravi.dev
+Email: dante@extravi.dev
