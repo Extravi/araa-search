@@ -32,7 +32,8 @@ const resultsWrapper = document.querySelector('.autocomplete');
 
 async function getSuggestions(query) {
   try {
-    const response = await fetch(`/suggestions?q=${query}`);
+    params = new URLSearchParams({"q": query}).toString();
+    const response = await fetch(`/suggestions?${params}`);
     const data = await response.json();
     return data[1]; // Return only the array of suggestion strings
   } catch (error) {
