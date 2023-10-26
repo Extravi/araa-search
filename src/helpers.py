@@ -89,3 +89,27 @@ def apply_trackers(hash, name="", magnet=True):
         hash = get_magnet_hash(hash)
     
     return f"magnet:?xt=urn:btih:{hash}&dn={name}&tr={'&tr='.join(TORRENT_TRACKERS)}"
+
+def string_to_bytes(file_size):
+    units = {
+        'bytes': 1,
+        'kb': 1024,
+        'mb': 1024 ** 2,
+        'gb': 1024 ** 3,
+        'tb': 1024 ** 4,
+        'kib': 1024,
+        'mib': 1024 ** 2,
+        'gib': 1024 ** 3,
+        'tib': 1024 ** 4
+    }
+
+    size, unit = file_size.lower().split()
+    return float(size) * units[unit]
+
+def bytes_to_string(size):
+    units = ['bytes', 'KB', 'MB', 'GB', 'TB']
+    index = 0
+    while size >= 1024 and index < len(units) - 1:
+        size /= 1024
+        index += 1
+    return f"{size:.2f} {units[index]}"

@@ -20,6 +20,7 @@ def torrentResults(query) -> Response:
 
     api = request.args.get("api", "false")
     query = request.args.get("q", " ").strip()
+    sort = request.args.get("sort", "seed")
 
     sites = [
         torrentgalaxy,
@@ -31,10 +32,22 @@ def torrentResults(query) -> Response:
     results = []
     for site in sites:
         if site.name() in ENABLED_TORRENT_SITES:
-            results += site.search(query)
+            try:
+                results += site.search(query)
+            except ConnectionError:
+                continue
 
-    # Sorts based on how many seeders there are on a torrent.
-    results = sorted(results, key=lambda x: x["seeders"])[::-1]
+    # Allow user to decide how the results are sorted
+    match sort:
+        case "leech":
+            results = sorted(results, key=lambda x: x["leechers"])[::-1]
+        case "lth": # Low to High file size
+            results = sorted(results, key=lambda x: x["bytes"])
+        case "htl": # Low to High file size
+            results = sorted(results, key=lambda x: x["bytes"])[::-1]
+        case _: # Defaults to seeders
+            results = sorted(results, key=lambda x: x["seeders"])[::-1]
+
 
     # calc. time spent
     end_time = time.time()
@@ -51,5 +64,5 @@ def torrentResults(query) -> Response:
                         javascript=request.cookies.get('javascript', 'enabled'), type="torrent",
                         repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, 
                         ux_lang=ux_lang, lang_data=lang_data,
-                        commit=latest_commit()
+                        commit=latest_commit(), sort=sort
                         )
