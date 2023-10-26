@@ -13,7 +13,7 @@
 [![License](https://img.shields.io/github/license/Extravi/araa-search)](https://github.com/Extravi/araa-search/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/Extravi/araa-search?style=social)](https://github.com/Extravi/araa-search/stargazers)
 
-If you're looking to [install](https://extravi.dev/tailsx) Araa, here is a how-to guide for it.
+If you're looking to [install](https://extravi.dev/araa) Araa, here is a how-to guide for it.
 
 ### Instances
 
@@ -49,4 +49,4 @@ Here are some of the features that Araa a privacy-respecting, ad-free, self-host
 <img src="https://user-images.githubusercontent.com/98912029/273820030-cfcadd5f-2947-414a-b41b-76520f1bbcc0.png" width="600">
 
 ## Contact
-Email: extravi@extravi.dev
+Email: dante@extravi.dev
