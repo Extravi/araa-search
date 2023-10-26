@@ -21,6 +21,8 @@ def torrentResults(query) -> Response:
     api = request.args.get("api", "false")
     query = request.args.get("q", " ").strip()
     sort = request.args.get("sort", "seed")
+    if sort not in ["seed", "leech", "lth", "htl"]:
+        sort = "seed"
 
     sites = [
         torrentgalaxy,
