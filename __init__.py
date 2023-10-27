@@ -77,33 +77,17 @@ def discover():
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
-    # get the selected theme from the form
-    theme = request.form.get('theme')
-    lang = request.form.get('lang')
-    ux_lang = request.form.get('ux_lang')
-    safe = request.form.get('safe')
-    new_tab = request.form.get('new_tab')
-    domain = request.form.get('domain')
-    javascript = request.form.get('javascript')
-    past_location = request.form.get('past')
+    cookies = ['safe', 'javascript', 'domain', 'theme', 'lang', 'ux_lang', 'new_tab']
 
-    # set the theme cookie
     response = make_response(redirect(request.referrer))
-    if safe is not None and javascript == "":
-        response.set_cookie('safe', safe, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS")) # set the cookie to never expire
-    if javascript is not None and javascript == "":
-        response.set_cookie('javascript', javascript, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if domain is not None and javascript == "":
-        response.set_cookie('domain', domain, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if theme is not None and javascript == "":
-        response.set_cookie('theme', theme, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if lang is not None and javascript == "":
-        response.set_cookie('lang', lang, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if ux_lang is not None and javascript == "":
-        response.set_cookie('ux_lang', ux_lang, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    if new_tab is not None and javascript == "":
-        response.set_cookie('new_tab', new_tab, max_age=COOKIE_AGE, httponly=True, secure=app.config.get("HTTPS"))
-    response.headers["Location"] = past_location
+    for cookie in cookies:
+        cookie_status = request.form.get(cookie)
+        if cookie_status is not None:
+            response.set_cookie(cookie, cookie_status,
+                                max_age=COOKIE_AGE, httponly=False, 
+                                secure=app.config.get("HTTPS")
+                                )
+    response.headers["Location"] = request.form.get('past')
 
     return response
 

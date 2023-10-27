@@ -613,8 +613,10 @@ hr {
     display: flex;
 }
 
-.results-settings {
+.results-settings, .results-save {
     border-radius: 4px;
+    width: 127px;
+    margin-right: 10px;
     padding: 6px;
     font-size: 14px;
     border: 1px solid var(--html-bg);
@@ -624,22 +626,9 @@ hr {
     transition: all .3s ease;
 }
 
-.results-settings:hover {
+.results-settings:hover, .results-save:hover {
     color: var(--font-fg);
     transition: all .3s ease;
-}
-
-.results-save {
-    font-size: 14px;
-    background: var(--html-bg);
-    border: 1px solid var(--snip-border);
-    margin: 0 !important;
-    position: relative !important;
-}
-
-select.results-settings {
-    width: 127px;
-    margin-right: 10px;
 }
 
 .settings-results-link {
