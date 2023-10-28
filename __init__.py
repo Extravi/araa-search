@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, jsonify, Response, make_respo
 import requests
 import random
 import json
+from urllib.parse import quote
 from _config import *
 from src import textResults, torrents, helpers, images, video
 
@@ -111,7 +112,7 @@ def save_settings():
 @app.route("/suggestions")
 def suggestions():
     query = request.args.get("q", "").strip()
-    response = requests.get(f"https://ac.duckduckgo.com/ac?q={query}&type=list")
+    response = requests.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
     return json.loads(response.text)
 
 
@@ -199,6 +200,7 @@ def search():
         bangkey = query[bang_index + len(BANG):query.index(" ", bang_index)].lower()
         if SEARCH_BANGS.get(bangkey) is not None:
             query = query.lower().replace(BANG + bangkey, "").lstrip()
+            query = quote(query) # Quote the query to redirect properly.
             return app.redirect(SEARCH_BANGS[bangkey].format(query))
         # Remove the space at the end of the query.
         # The space was added to fix a possible error 500 when
