@@ -39,8 +39,6 @@ def textResults(query) -> Response:
     except Exception as e:
         error_message = str(e)
         return jsonify({"error": error_message}), 500
-    with open("hello.html", "w") as f:
-        f.write(str(soup))
 
     # retrieve links
     result_divs = soup.findAll("div", {"class": "yuRUbf"})
