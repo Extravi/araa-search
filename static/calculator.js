@@ -41,71 +41,96 @@ document.body.addEventListener('keydown', (key) => {
     return;
   }
 
-  if ('0123456789()+-*/.'.includes(key.key)) {
-    if (parseInt(calcInput.textContent) === 0 && key.key !== ".") {
-      calcInput.textContent = "";
-    }
-    calcInput.textContent += key.key;
+  if ('0123456789().'.includes(key.key)) {
+    numberButtonHandle(key.key);
   }
-  if (key.key === "Backspace") {
-    if (calcInput.textContent.length === 1) {
-      calcInput.textContent = "0";
-    } else {
-      calcInput.textContent = calcInput.textContent.slice(0, -1);
-    }
+  else if ('+-*/'.includes(key.key)) {
+    calcInput.textContent += ` ${key.key}`;
+  }
+  else switch (key.key) {
+    case 'Backspace':
+      doBackspace();
+      break;
+    case 'Enter':
+      evaluateExpression();
+      break;
   }
 })
 
 numberButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    // remove any 0 output.
-    if (parseInt(calcInput.textContent) === 0 && button.textContent !== ".") {
-      calcInput.textContent = "";
-    }
-
-    calcInput.textContent += button.textContent;
-  });
+  button.addEventListener('click', () => numberButtonHandle(button.textContent));
 });
 
 addBtn.addEventListener('click', () => {
-  calcInput.textContent += ' + ';
+  calcInput.textContent += ' +';
 });
 
 subtractBtn.addEventListener('click', () => {
-  calcInput.textContent += ' - ';
+  calcInput.textContent += ' -';
 });
 
 multiplyBtn.addEventListener('click', () => {
-  calcInput.textContent += ' * ';
+  calcInput.textContent += ' *';
 });
 
 divideBtn.addEventListener('click', () => {
-  calcInput.textContent += ' / ';
+  calcInput.textContent += ' /';
 });
 
 clearBtn.addEventListener('click', () => {
   calcInput.textContent = '0';
 });
 
-backspaceBtn.addEventListener('click', () => {
-  calcInput.textContent = calcInput.textContent.slice(0, -1);
-});
+backspaceBtn.addEventListener('click', doBackspace);
 
-equalsBtn.addEventListener('click', () => {
-  const expression = calcInput.textContent;
-  const result = evaluateExpression(expression);
-  document.querySelector(".prev_calculation").textContent = expression;
-  calcInput.textContent = result;
-});
+equalsBtn.addEventListener('click', evaluateExpression);
 
-// Implementation from https://github.com/TommyPang/SimpleCalculator
+// Executes a 'backspace' on the calculator's expression.
+// Made to reduce repetitive code.
+function doBackspace() {
+  do {
+    calcInput.textContent = calcInput.textContent.slice(0, -1);
+  } while (calcInput.textContent.endsWith(' '));
+  // ^^^ Sometimes there are spaces in the expression (see above listeners).
+  // Remove them aswell.
 
-function evaluateExpression(expression) {
-  expression = expression.replace(/\s/g, '');
-  return helper(Array.from(expression), 0);
+  // If the contents of calcInput have been completely cleared, output 0
+  // to the textbox to match the clear button's behaviour.
+  if (calcInput.textContent.length === 0) {
+    calcInput.textContent = '0';
+  }
 }
 
-function helper(s, idx) {
+// Handles the presses to all numberButtons.
+function numberButtonHandle(button) {
+  // remove any 0 output.
+  if (calcInput.textContent === '0' && button !== ".") {
+    calcInput.textContent = "";
+  }
+
+  // If the end of calcInput has an operator, append an extra space for
+  // the number to make the expression look better.
+  if (/\+|\-|\*|\//.test(calcInput.textContent[calcInput.textContent.length - 1])) {
+    calcInput.textContent += ' ';
+  }
+
+  // If statement will prevent multiple dots.
+  if (!(calcInput.textContent.includes('.') && button === '.')) {
+    calcInput.textContent += button;
+  }
+}
+
+// Implementation from https://github.com/TommyPang/SimpleCalculator.
+// Slightly modified.
+
+function evaluateExpression() {
+  let expression = calcInput.textContent;
+  document.querySelector(".prev_calculation").textContent = expression;
+  expression = expression.replace(/\s/g, '');
+  calcInput.textContent = helper(Array.from(expression));
+}
+
+function helper(s, idx = 0) {
   var stk = [];
   let sign = '+';
   let num = 0;
