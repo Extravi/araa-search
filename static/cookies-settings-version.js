@@ -33,49 +33,17 @@ function setCookie(name, value) {
 document.addEventListener("DOMContentLoaded", function () {
     const saveButton = document.querySelector(".save-settings-page");
 
-    if (saveButton) {
+    if (saveButton != null) {
         saveButton.addEventListener("click", function () {
-            const langSelect = document.querySelector("#lang");
-            const domainSelect = document.querySelector("#domain");
-            const themeSelect = document.querySelector("#theme");
-            const safeSelect = document.querySelector("#safe");
-            const newTabSelect = document.querySelector("#open-new-tab");
-            const uxLangSelect = document.querySelector("#ux_lang");
-
-            if (langSelect) {
-                const selectedOption = langSelect.options[langSelect.selectedIndex];
+            let setting_list = ["lang", "domain", "theme", "safe", "open-new-tab", "ux_lang"];
+            for (let i = 0; i < setting_list.length; i++) {
+              setting = setting_list[i];
+              settingSelect = document.getElementById(setting);
+              if (settingSelect) {
+                const selectedOption = settingSelect.options[settingSelect.selectedIndex];
                 const selectedValue = selectedOption.value;
-                setCookie("lang", selectedValue);
-            }
-
-            if (domainSelect) {
-                const selectedOption = domainSelect.options[domainSelect.selectedIndex];
-                const selectedValue = selectedOption.value;
-                setCookie("domain", selectedValue);
-            }
-
-            if (themeSelect) {
-                const selectedOption = themeSelect.options[themeSelect.selectedIndex];
-                const selectedValue = selectedOption.value;
-                setCookie("theme", selectedValue);
-            }
-
-            if (safeSelect) {
-                const selectedOption = safeSelect.options[safeSelect.selectedIndex];
-                const selectedValue = selectedOption.value;
-                setCookie("safe", selectedValue);
-            }
-
-            if (newTabSelect) {
-                const selectedOption = newTabSelect.options[newTabSelect.selectedIndex];
-                const selectedValue = selectedOption.value;
-                setCookie("new_tab", selectedValue);
-            }
-
-            if (uxLangSelect) {
-                const selectedOption = uxLangSelect.options[uxLangSelect.selectedIndex];
-                const selectedValue = selectedOption.value;
-                setCookie("ux_lang", selectedValue);
+                setCookie(setting, selectedValue);
+              }
             }
         });
     }

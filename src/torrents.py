@@ -64,7 +64,7 @@ def torrentResults(query) -> Response:
                         q=f"{query}", fetched=f"{elapsed_time:.2f}",
                         theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
                         javascript=request.cookies.get('javascript', 'enabled'), type="torrent",
-                        repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, 
+                        repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
                         ux_lang=ux_lang, lang_data=lang_data,
                         commit=latest_commit(), sort=sort
                         )
