@@ -49,9 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.reload();
         });
     }
-});
 
-document.addEventListener("DOMContentLoaded", function () {
     const domainSelect = document.querySelector(".domain");
 
     if (domainSelect) {
@@ -62,9 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.reload();
         });
     }
-});
 
-document.addEventListener("DOMContentLoaded", function () {
     const themeDivs = document.querySelectorAll(".themes-settings-menu div");
 
     themeDivs.forEach(function (div) {
@@ -74,9 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
             reloadPageForTheme();
         });
     });
-});
 
-document.addEventListener("DOMContentLoaded", function () {
     const safeSearchSelect = document.getElementById("safeSearchSelect");
 
     if (safeSearchSelect) {
@@ -86,9 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.reload();
         });
     }
-});
 
-document.addEventListener("DOMContentLoaded", function () {
     const languageSelect = document.getElementById("languageSelect");
 
     if (languageSelect) {

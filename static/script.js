@@ -26,6 +26,14 @@
  *  for the JavaScript code in this page.
  */
 
+// Removes the 'Apply Settings' button for Javascript users, 
+// since changing any of the elements causes the settings to apply
+// automatically.
+let resultsSave = document.querySelector(".results-save");
+if (resultsSave != null) {
+  resultsSave.style.display = "none";
+}
+
 const searchInput = document.getElementById('search-input');
 const searchWrapper = document.querySelectorAll('.wrapper, .wrapper-results')[0];
 const resultsWrapper = document.querySelector('.autocomplete');
