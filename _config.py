@@ -23,7 +23,7 @@ API_BAY_DOMAIN = "apibay.org"
 RUTOR_DOMAIN = "rutor.info"
 
 # Domain of the Invidious instance to use
-INVIDIOUS_INSTANCE = "inv.seitan-ayoub.lol"
+INVIDIOUS_INSTANCE = "yt.artemislena.eu"
 
 # Useragents to use in the request.
 user_agents = [
