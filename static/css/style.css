@@ -613,7 +613,7 @@ hr {
     display: flex;
 }
 
-.results-settings, .results-save {
+.results-settings, .results-save, .torrent-settings, .torrent-sort-save {
     border-radius: 4px;
     width: 127px;
     margin-right: 10px;
@@ -624,6 +624,12 @@ hr {
     background: var(--html-bg);
     cursor: pointer;
     transition: all .3s ease;
+}
+
+form.torrent-sort {
+  position: relative;
+  left: 175px;
+  max-width: fit-content;
 }
 
 .results-settings:hover, .results-save:hover {

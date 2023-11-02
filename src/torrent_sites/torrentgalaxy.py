@@ -15,8 +15,8 @@ def search(query):
         div.find("a", href=lambda href: href and href.startswith("magnet")).get("href")
         for div in result_divs
     ]
-    file_sizes = [
-        div.find("span", {"class": "badge-secondary"}).text.strip()
+    byte_sizes = [
+        helpers.string_to_bytes(div.find("span", {"class": "badge-secondary"}).text.strip())
         for div in result_divs
     ]
     view_counts = [int(div.find("font", {"color": "orange"}).text.replace(',', '')) for div in result_divs]
@@ -25,13 +25,14 @@ def search(query):
 
     # list
     results = []
-    for title, magnet_link, file_size, view_count, seeder, leecher in zip(
-        title, magnet_links, file_sizes, view_counts, seeders, leechers):
+    for title, magnet_link, byte_size, view_count, seeder, leecher in zip(
+        title, magnet_links, byte_sizes, view_counts, seeders, leechers):
         results.append({
             "href": TORRENTGALAXY_DOMAIN,
             "title": title,
             "magnet": helpers.apply_trackers(magnet_link),
-            "size": file_size,
+            "bytes": byte_size,
+            "size": helpers.bytes_to_string(byte_size),
             "views": view_count,
             "seeders": seeder,
             "leechers": leecher
