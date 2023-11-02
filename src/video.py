@@ -43,12 +43,18 @@ def videoResults(query) -> Response:
     creator_text = [creator_text["author"] for creator_text in videos]
 
     # retrieve publisher
-    publisher_text = ["YouTube" for creator in videos]
+    publisher_text = ["Invidious" for creator in videos]
 
     # retrieve images
     video_thumbnails = [item['videoThumbnails'] for item in data if item.get('type') == 'video']
     maxres_thumbnails = [thumbnail for thumbnails in video_thumbnails for thumbnail in thumbnails if thumbnail['quality'] == 'medium']
-    filtered_urls = ['/img_proxy?url=' + thumbnail['url'].replace(":3000", "").replace("http://", "https://") for thumbnail in maxres_thumbnails]
+
+    #For some reason, URLs aren't standardized across different instances of Invidious' API, some instances use relative URLs. This is a quick workaround.
+    if INVIDIOUS_INSTANCE not in maxres_thumbnails[0]["url"]:
+        filtered_urls = ['/img_proxy?url=https://' + INVIDIOUS_INSTANCE + thumbnail['url'].replace(":3000", "").replace("http://", "https://") for thumbnail in maxres_thumbnails]
+    else: 
+        filtered_urls = ['/img_proxy?url=' + thumbnail['url'].replace(":3000", "").replace("http://", "https://") for thumbnail in maxres_thumbnails]
+
 
     # retrieve time
     duration = [duration["lengthSeconds"] for duration in videos]
