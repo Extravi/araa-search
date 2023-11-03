@@ -5,8 +5,28 @@ from urllib.parse import quote
 def name():
     return "nyaa"
 
-def search(query):
-    soup = helpers.makeHTMLRequest(f"https://{NYAA_DOMAIN}/?f=0&c=0_0&q={quote(query)}")
+def get_catagory_code(cat):
+    match cat:
+        case "all":
+            return ""
+        case "anime":
+            return "&c=1_0"
+        case "music":
+            return "&c=2_0"
+        case "game":
+            return "&c=6_2"
+        case "software":
+            return "&c=6_1"
+        case _:
+            return "ignore"
+
+
+def search(query, catagory="all"):
+    catagory = get_catagory_code(catagory)
+    if catagory == "ignore":
+        return []
+
+    soup = helpers.makeHTMLRequest(f"https://{NYAA_DOMAIN}/?f=0&q={quote(query)}{catagory}")
     results = []
     for torrent in soup.select(".default, .success, .danger"):
         list_of_tds = torrent.find_all("td")

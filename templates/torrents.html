@@ -13,6 +13,19 @@
         <option value="lth" {% if sort == "lth" %} selected {% endif %}>Size (Low to High)</option>
         <option value="htl" {% if sort == "htl" %} selected {% endif %}>Size (High to Low)</option>
       </select>
+      <select class="torrent-cat" name="cat">
+        <option value="all" {% if cat == "all" %} selected {% endif %}>All Catagories</option>
+        <option value="movie" {% if cat == "movie" %} selected {% endif %}>Movies</option>
+        <option value="audiobook" {% if cat == "audiobook" %} selected {% endif %}>Audiobooks</option>
+        <option value="tv" {% if cat == "tv" %} selected {% endif %}>TV Shows</option>
+        <option value="games" {% if cat == "games" %} selected {% endif %}>Games</option>
+        <option value="software" {% if cat == "software" %} selected {% endif %}>Software</option>
+        <option value="anime" {% if cat == "anime" %} selected {% endif %}>Anime</option>
+        <option value="music" {% if cat == "music" %} selected {% endif %}>Music</option>
+        {% if safesearch != "active" %}
+          <option value="xxx" {% if cat == "xxx" %} selected {% endif %}>XXX (18+)</option>
+        {% endif %}
+      </select>
       <button type="submit" class="torrent-sort-save">Submit</button>
     </form>
     <div class="clean">
