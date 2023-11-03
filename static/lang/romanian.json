@@ -1,0 +1,47 @@
+{
+    "buttons": {
+        "text": "Web",
+        "image": "Imagini",
+        "video": "Videoclipuri",
+        "reddit": "Reddit",
+        "torrent": "Torrente",
+        "next": "Următor",
+        "previous": "Înainte"
+    },
+    "results": {
+        "results": "A obținut rezultatele în",
+        "seconds": "secunde"
+    },
+    "footer": {
+        "settings": "Setări",
+        "source_code": "Cod sursă",
+        "commit": "Commit"
+    },
+    "search_buttons": {
+        "search_text": "Căutare cu Araa",
+        "search_images": "Caută imagini cu Araa"
+    },
+    "settings": {
+        "theme": "Temă",
+        "user_theme": "Tema userului",
+        "all_settings": "Toate setările",
+        "settings_header": "Setări",
+        "discover_themes": "Explorați temele create de comunitate",
+        "discover_themes_button": "Descoperă temele",
+        "preferred_language": "Limba preferată pentru rezultatele căutării",
+        "google_domain": "Domeniul Google",
+        "safe_search": "Căutare sigură",
+        "open_links_new_tab": "Deschideți linkurile într-o filă nouă",
+        "disable_javascript": "Dezactivarea JavaScript (nerecomandată) afectează caracteristicile paginilor web, dezactivează completarea automată și încetinește anumite funcții. Menținerea activării JavaScript nu vă va compromite confidențialitatea, deoarece solicitările sunt procesate prin intermediul unor puncte finale de pe server.",
+        "save_settings": "Salvați setările",
+        "return_to_settings": "Reveniți la setări",
+        "preferredux_language": "Limba preferată pentru titlurile, butoanele și alte texte din Araa",
+        "on": "activat",
+        "off": "dezactivat",
+        "any_language": "Orice limbă"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "Sugestii API"
+    }
+}
