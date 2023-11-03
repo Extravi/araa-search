@@ -19,7 +19,6 @@ def torrentResults(query) -> Response:
     start_time = time.time()
 
     api = request.args.get("api", "false")
-
     catagory = request.args.get("cat", "all")
     query = request.args.get("q", " ").strip()
     safesearch = request.cookies.get("safe", "active")
@@ -28,7 +27,7 @@ def torrentResults(query) -> Response:
         sort = "seed"
 
     sites = [
-        # torrentgalaxy,
+        torrentgalaxy,
         nyaa,
         thepiratebay,
         rutor,
