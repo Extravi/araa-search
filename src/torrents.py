@@ -19,7 +19,9 @@ def torrentResults(query) -> Response:
     start_time = time.time()
 
     api = request.args.get("api", "false")
+    catagory = request.args.get("cat", "all")
     query = request.args.get("q", " ").strip()
+    safesearch = request.cookies.get("safe", "active")
     sort = request.args.get("sort", "seed")
     if sort not in ["seed", "leech", "lth", "htl"]:
         sort = "seed"
@@ -35,8 +37,11 @@ def torrentResults(query) -> Response:
     for site in sites:
         if site.name() in ENABLED_TORRENT_SITES:
             try:
-                results += site.search(query)
-            except ConnectionError:
+                # For some reason, rutor doesn't give reliable catagories.
+                if catagory != "all" and site.name() == "rutor":
+                    continue
+                results += site.search(query, catagory=catagory)
+            except:
                 continue
 
     # Allow user to decide how the results are sorted
@@ -62,6 +67,7 @@ def torrentResults(query) -> Response:
     return render_template("torrents.html",
                         results=results, title=f"{query} - Araa",
                         q=f"{query}", fetched=f"{elapsed_time:.2f}",
+                        cat=catagory, safesearch=safesearch,
                         theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
                         javascript=request.cookies.get('javascript', 'enabled'), type="torrent",
                         repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,

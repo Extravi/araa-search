@@ -5,8 +5,36 @@ from urllib.parse import quote
 def name():
     return "rutor"
 
-def search(query):
-    url = f"https://{RUTOR_DOMAIN}/search/{quote(query)}"
+def get_catagory_code(cat):
+    match cat:
+        case "all":
+            return ""
+        case "audiobook":
+            return "ignore"
+        case "movie":
+            return "&category=1" 
+        case "tv":
+            return "&category=6"
+        case "games":
+            return "&category=8"
+        case "software":
+            return "&category=9"
+        case "anime":
+            return "&category=10"
+        case "music":
+            return "&category=2"
+        case "xxx":
+            return "ignore"
+        case _:
+            return ""
+
+def search(query, catagory="all"):
+    catagory = get_catagory_code(catagory)
+    if catagory == "ignore":
+        return []
+
+
+    url = f"https://{RUTOR_DOMAIN}/search/{quote(query)}{catagory}"
     html = helpers.makeHTMLRequest(url)
     results = []
 

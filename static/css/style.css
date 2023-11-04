@@ -613,7 +613,9 @@ hr {
     display: flex;
 }
 
-.results-settings, .results-save, .torrent-settings, .torrent-sort-save {
+.results-settings, .results-save,
+.torrent-settings, .torrent-sort-save,
+.torrent-cat {
     border-radius: 4px;
     width: 127px;
     margin-right: 10px;
