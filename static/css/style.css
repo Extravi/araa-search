@@ -628,6 +628,10 @@ hr {
     transition: all .3s ease;
 }
 
+.torrent-settings, .torrent-sort-save {
+    width: fit-content;
+}
+
 form.torrent-sort {
   position: relative;
   left: 175px;
@@ -1528,6 +1532,10 @@ p {
 
     select.results-settings {
         width: 110px;
+    }
+
+    form.torrent-sort {
+      left: 20px;
     }
 
     #search-wrapper-ico {
