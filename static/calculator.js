@@ -103,21 +103,36 @@ function doBackspace() {
 
 // Handles the presses to all numberButtons.
 function numberButtonHandle(button) {
-  // remove any 0 output.
-  if (calcInput.textContent === '0' && button !== ".") {
-    calcInput.textContent = "";
-  }
-
   // If the end of calcInput has an operator, append an extra space for
   // the number to make the expression look better.
   if (/\+|\-|\*|\//.test(calcInput.textContent[calcInput.textContent.length - 1])) {
     calcInput.textContent += ' ';
   }
 
-  // If statement will prevent multiple dots.
-  if (!(calcInput.textContent.includes('.') && button === '.')) {
-    calcInput.textContent += button;
+  // The 'trailing' substring in an expression; i.e. 2.3 in '4 + 5 * 6 + 2.3'
+  const trailing = calcInput.textContent.split(' ').pop();
+
+  // Do some specific things for decimals.
+  if (button === '.') {
+    // If statement will prevent multiple dots in a number.
+    if (trailing.includes('.')) {
+      return;
+    }
+
+    // Add an extra 0 if the trailing substring is blank.
+    // Makes thinks look nicer (0.3 instead of .3).
+    if (trailing.length === 0) {
+      calcInput.textContent += '0';
+    }
   }
+  // Remove any 0 output if a dot is not being added.
+  // i.e if 9 is input and the expression is '9 + 0' it'll change
+  // to '9 + 9' because of this if statement.
+  else if (trailing === '0') {
+    calcInput.textContent = calcInput.textContent.substring(0, calcInput.textContent.length-1);
+  }
+
+  calcInput.textContent += button;
 }
 
 // Implementation from https://github.com/TommyPang/SimpleCalculator.
