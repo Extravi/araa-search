@@ -45,6 +45,10 @@ document.body.addEventListener('keydown', (key) => {
     numberButtonHandle(key.key);
   }
   else if ('+-*/'.includes(key.key)) {
+    // Make a decimal that's '1234.' into '1234.0' before adding an operator.
+    if (calcInput.textContent[calcInput.textContent.length - 1] === '.') {
+      calcInput.textContent += '0';
+    }
     calcInput.textContent += ` ${key.key}`;
   }
   else switch (key.key) {
@@ -62,18 +66,34 @@ numberButtons.forEach(button => {
 });
 
 addBtn.addEventListener('click', () => {
+  // Make a decimal that's '1234.' into '1234.0' before adding an operator.
+  if (calcInput.textContent[calcInput.textContent.length - 1] === '.') {
+    calcInput.textContent += '0';
+  }
   calcInput.textContent += ' +';
 });
 
 subtractBtn.addEventListener('click', () => {
+  // Make a decimal that's '1234.' into '1234.0' before adding an operator.
+  if (calcInput.textContent[calcInput.textContent.length - 1] === '.') {
+    calcInput.textContent += '0';
+  }
   calcInput.textContent += ' -';
 });
 
 multiplyBtn.addEventListener('click', () => {
+  // Make a decimal that's '1234.' into '1234.0' before adding an operator.
+  if (calcInput.textContent[calcInput.textContent.length - 1] === '.') {
+    calcInput.textContent += '0';
+  }
   calcInput.textContent += ' *';
 });
 
 divideBtn.addEventListener('click', () => {
+  // Make a decimal that's '1234.' into '1234.0' before adding an operator.
+  if (calcInput.textContent[calcInput.textContent.length - 1] === '.') {
+    calcInput.textContent += '0';
+  }
   calcInput.textContent += ' /';
 });
 
