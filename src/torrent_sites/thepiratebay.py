@@ -5,8 +5,39 @@ from urllib.parse import quote
 def name():
     return "tpb"
 
-def search(query):
-    url = f"https://{API_BAY_DOMAIN}/q.php?q={quote(query)}&cat="
+def get_catagory_code(cat):
+    match cat:
+        case "all":
+            return ""
+        case "audiobook":
+            return "102"
+        case "movie":
+            return "201" 
+        case "tv":
+            return "205"
+        case "games":
+            return "400"
+        case "software":
+            return "300"
+        case "anime":
+            # TPB has no anime catagory.
+            return "ignore"
+        case "music":
+            return "100"
+        case "xxx":
+            safesearch = (request.cookies.get("safe", "active") == "active")
+            if safesearch:
+                return "ignore"
+            return "500"
+        case _:
+            return ""
+
+def search(query, catagory="all"):
+    catagory = get_catagory_code(catagory)
+    if catagory == "ignore":
+        return []
+
+    url = f"https://{API_BAY_DOMAIN}/q.php?q={quote(query)}&cat={catagory}"
     torrent_data = helpers.makeJSONRequest(url)
     results = []
 

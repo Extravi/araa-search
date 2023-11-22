@@ -613,7 +613,9 @@ hr {
     display: flex;
 }
 
-.results-settings, .results-save, .torrent-settings, .torrent-sort-save {
+.results-settings, .results-save,
+.torrent-settings, .torrent-sort-save,
+.torrent-cat {
     border-radius: 4px;
     width: 127px;
     margin-right: 10px;
@@ -624,6 +626,10 @@ hr {
     background: var(--html-bg);
     cursor: pointer;
     transition: all .3s ease;
+}
+
+.torrent-settings, .torrent-sort-save {
+    width: fit-content;
 }
 
 form.torrent-sort {
@@ -1526,6 +1532,10 @@ p {
 
     select.results-settings {
         width: 110px;
+    }
+
+    form.torrent-sort {
+      left: 20px;
     }
 
     #search-wrapper-ico {
