@@ -19,9 +19,6 @@ If you're looking to [install](https://extravi.dev/araa) Araa, here is a how-to 
 
 | Clearnet | Tor | SSL | Country | Status |
 |-|-|-|-|-|
-| [tailsx.extravi.dev](https://tailsx.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.extravi.dev)✅| North America, Europe | Official instance |
-| [nyc.extravi.dev](https://nyc.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=nyc.extravi.dev)✅| New York 🇺🇸 | Official instance |
-| [fra.extravi.dev](https://fra.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=fra.extravi.dev)✅| Frankfurt 🇩🇪 | Official instance |
 | [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 | Unofficial instance |
 
 ### Contributors
