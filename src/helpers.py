@@ -9,6 +9,7 @@ from markupsafe import escape, Markup
 from os.path import exists
 from langdetect import detect
 from thefuzz import fuzz
+from flask import request
 
 
 def makeHTMLRequest(url: str):
@@ -113,3 +114,13 @@ def bytes_to_string(size):
         size /= 1024
         index += 1
     return f"{size:.2f} {units[index]}"
+
+class Settings():
+    def __init__(self):
+        self.domain = request.cookies.get("domain", "google.com/search?gl=us")
+        self.javascript = request.cookies.get("javascript", "enabled")
+        self.lang = request.cookies.get("lang", "")
+        self.new_tab = request.cookies.get("new_tab", "")
+        self.safe = request.cookies.get("safe", "active")
+        self.ux_lang = request.cookies.get("ux_lang", "english")
+        self.theme = request.cookies.get("theme", DEFAULT_THEME)

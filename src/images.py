@@ -1,4 +1,4 @@
-from src.helpers import makeHTMLRequest, latest_commit
+from src import helpers
 from urllib.parse import unquote, quote
 from _config import *
 from flask import request, render_template, jsonify, Response, redirect
@@ -10,8 +10,9 @@ import base64
 
 def imageResults(query) -> Response:
     # get user language settings
-    ux_lang = request.cookies.get('ux_lang', 'english')
-    json_path = f'static/lang/{ux_lang}.json'
+    settings = helpers.Settings()
+
+    json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
@@ -25,10 +26,10 @@ def imageResults(query) -> Response:
         return redirect('/search')
 
     # returns 1 if active, else 0
-    safe_search = int(request.cookies.get("safe", "active") == "active")
+    safe_search = int(settings.safe == "active")
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}&s={safe_search}")
+    soup = helpers.makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}&s={safe_search}")
 
     try:
         # get 'img' ellements
@@ -65,8 +66,7 @@ def imageResults(query) -> Response:
     else:
         return render_template("images.html", results=results, title=f"{query} - Araa",
             q=f"{query}", fetched=f"{elapsed_time:.2f}",
-            theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
-            javascript=request.cookies.get('javascript', 'enabled'), type="image",
-            new_tab=request.cookies.get("new_tab"), repo_url=REPO, API_ENABLED=API_ENABLED,
-            TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, ux_lang=ux_lang, lang_data=lang_data,
-            commit=latest_commit())
+            type="image",
+            repo_url=REPO, API_ENABLED=API_ENABLED,
+            TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
+            commit=helpers.latest_commit(), settings=settings)

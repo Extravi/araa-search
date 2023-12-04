@@ -1,4 +1,5 @@
 from src.helpers import makeHTMLRequest
+from src import helpers
 from _config import *
 from flask import request, render_template, jsonify, Response
 import time
@@ -8,9 +9,9 @@ from urllib.parse import quote
 
 
 def videoResults(query) -> Response:
-    # get user language settings
-    ux_lang = request.cookies.get('ux_lang', 'english')
-    json_path = f'static/lang/{ux_lang}.json'
+    settings = helpers.Settings()
+
+    json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
@@ -76,8 +77,6 @@ def videoResults(query) -> Response:
         return render_template("videos.html",
                                results=results, title=f"{query} - Araa",
                                q=f"{query}", fetched=f"{elapsed_time:.2f}",
-                               theme=request.cookies.get('theme', DEFAULT_THEME), DEFAULT_THEME=DEFAULT_THEME,
-                               javascript=request.cookies.get('javascript', 'enabled'), new_tab=request.cookies.get("new_tab"),
-                               type="video", repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, ux_lang=ux_lang, 
-                               lang_data=lang_data, commit=latest_commit()
+                               type="video", repo_url=REPO, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
+                               lang_data=lang_data, commit=latest_commit(), settings=settings
                                )
