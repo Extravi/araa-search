@@ -12,6 +12,13 @@ def textResults(query) -> Response:
     # get user language settings
     settings = helpers.Settings()
 
+    # Define where to get request args from. If the request is using GET,
+    # use request.args. Otherwise (POST), use request.form
+    if request.method == "GET":
+        args = request.args
+    else:
+        args = request.form
+
     json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
@@ -19,9 +26,9 @@ def textResults(query) -> Response:
     # remember time we started
     start_time = time.time()
 
-    api = request.args.get("api", "false")
-    search_type = request.args.get("t", "text")
-    p = request.args.get("p", 0)
+    api = args.get("api", "false")
+    search_type = args.get("t", "text")
+    p = args.get("p", 0)
 
     try:
         # search query

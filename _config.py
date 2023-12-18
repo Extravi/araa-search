@@ -12,6 +12,9 @@ REPO = 'https://github.com/Extravi/araa-search'
 # Default theme
 DEFAULT_THEME = 'dark_blur'
 
+# Default method
+DEFAULT_METHOD = "GET"
+
 # The port for this server to listen on
 PORT = 8000
 

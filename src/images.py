@@ -12,6 +12,11 @@ def imageResults(query) -> Response:
     # get user language settings
     settings = helpers.Settings()
 
+    if request.method == "GET":
+        args = request.args
+    else:
+        args = request.form
+
     json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
@@ -19,9 +24,9 @@ def imageResults(query) -> Response:
     # remember time we started
     start_time = time.time()
 
-    api = request.args.get("api", "false")
+    api = args.get("api", "false")
 
-    p = request.args.get('p', '1')
+    p = args.get('p', '1')
     if not p.isdigit():
         return redirect('/search')
 
@@ -60,7 +65,7 @@ def imageResults(query) -> Response:
     elapsed_time = end_time - start_time
 
     # render
-    if api == "true" and API_ENABLED == True:
+    if api == "true" and API_ENABLED:
         # return the results list as a JSON response
         return jsonify(results)
     else:

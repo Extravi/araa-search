@@ -88,7 +88,7 @@ def apply_trackers(hash, name="", magnet=True):
     if magnet:
         name = get_magnet_name(hash)
         hash = get_magnet_hash(hash)
-    
+
     return f"magnet:?xt=urn:btih:{hash}&dn={name}&tr={'&tr='.join(TORRENT_TRACKERS)}"
 
 def string_to_bytes(file_size):
@@ -124,3 +124,4 @@ class Settings():
         self.safe = request.cookies.get("safe", "active")
         self.ux_lang = request.cookies.get("ux_lang", "english")
         self.theme = request.cookies.get("theme", DEFAULT_THEME)
+        self.method = request.cookies.get("method", DEFAULT_METHOD)
