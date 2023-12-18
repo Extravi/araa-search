@@ -182,7 +182,6 @@ if (urlParams.get("t") === "image") {
   const images = document.querySelector('.images');
   const viewImageImg = document.querySelector('.view-image-img');
   const proxyLinkUwu = document.querySelector('.proxy-link-uwu');
-  const proxyLinkUwu2 = document.querySelector('.proxy-link-uwu-2');
   const imageSource = document.querySelector('.image-source');
   const imageViewerLink = document.querySelector('.image-viewer-link');
   const imageSize = document.querySelector('.image-size');
@@ -234,12 +233,10 @@ if (urlParams.get("t") === "image") {
     const src = openImageViewer[currentImageIndex].getAttribute('src');
     const alt = openImageViewer[currentImageIndex].getAttribute('alt');
     const data = openImageViewer[currentImageIndex].getAttribute('data');
-    const data2 = openImageViewer[currentImageIndex].getAttribute('data2');
     const clickableLink = openImageViewer[currentImageIndex].closest('.clickable');
     const href = clickableLink.getAttribute('href');
     viewImageImg.src = src;
     proxyLinkUwu.href = data;
-    proxyLinkUwu2.href = data2;
     imageSource.href = href;
     imageViewerLink.href = href;
     imageSource.textContent = href;

@@ -46,7 +46,6 @@ def imageResults(query) -> Response:
         # get source urls
         image_sources = [item["media_preview"] for item in elements]
         media_fullsize = [item["media_fullsize"] for item in elements]
-        media_fullsize_no_proxy = [item["media"] for item in elements]
     except:
         return redirect('/search')
 
@@ -56,15 +55,14 @@ def imageResults(query) -> Response:
     # generate results
     images = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
     media_fullsize_images = [f"/img_proxy?url={quote(img_src)}" for img_src in media_fullsize]
-    media_fullsize_images_no_proxy = [img_src for img_src in media_fullsize_no_proxy]
 
     # source urls
     links = [item["url"] for item in elements]
 
     # list
     results = []
-    for image, link, image_alt, image_fullsize, image_fullsize_no_proxy in zip(images, links, image_alts, media_fullsize_images, media_fullsize_images_no_proxy):
-        results.append((image, link, image_alt, image_fullsize, image_fullsize_no_proxy))
+    for image, link, image_alt, image_fullsize in zip(images, links, image_alts, media_fullsize_images):
+        results.append((image, link, image_alt, image_fullsize))
 
     # calc. time spent
     end_time = time.time()

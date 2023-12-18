@@ -672,6 +672,10 @@ form.torrent-sort {
     z-index: 9999;
 }
 
+#settingsButton {
+    transition: all .3s ease;
+}
+
 .settings-icon-link {
     font-size: 20px;
 }
@@ -784,6 +788,7 @@ form.torrent-sort {
 
 .settings-search-div:hover a,
 .settings-search-div:hover button {
+    transition: all .3s ease;
     color: var(--blue);
 }
 
@@ -1078,6 +1083,7 @@ p {
 }
 
 .search-container-results-btn:hover button {
+    transition: all 0.3s ease;
     color: var(--blue);
 }
 
@@ -1576,9 +1582,5 @@ p {
         display: table-row;
         margin: 30px 0px 0px 0px;
         width: 80%;
-    }
-
-    .proxy-link-uwu-p {
-        display: none !important;
     }
 }

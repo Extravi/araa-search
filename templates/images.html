@@ -18,7 +18,6 @@
             <p class="image-alt"></p>
             <p>View source: <a class="image-source" href=""></a></p>
             <p>View full resolution image with <a class="proxy-link-uwu" href="">proxy</a></p>
-            <p class="proxy-link-uwu-p">View full resolution image without <a class="proxy-link-uwu-2" href="">proxy</a></p>
             <p>Engine: qwant image search</p>
             <hr>
             <p>Image proxy size: <span class="image-size"></span></p>
@@ -26,9 +25,8 @@
         {% for result in results %}
         <div class="image">
         <a class="clickable" {% if settings.new_tab == "active" %} target="_blank" {% endif %} href="{{ result[1] }}">
-            <img class="open-image-viewer" src="{{ result[0] }}" alt="{{ result[2] }}" data="{{ result[3] }}" data2="{{ result[4] }}"/>
+            <img class="open-image-viewer" src="{{ result[0] }}" alt="{{ result[2] }}" data="{{ result[3] }}"/>
         </a>
-        <p class="img-p">testing</p>
         </div>
         {% endfor %}
     </div>
