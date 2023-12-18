@@ -22,7 +22,7 @@
         <option value="software" {% if cat == "software" %} selected {% endif %}>Software</option>
         <option value="anime" {% if cat == "anime" %} selected {% endif %}>Anime</option>
         <option value="music" {% if cat == "music" %} selected {% endif %}>Music</option>
-        {% if safesearch != "active" %}
+        {% if settings.safe != "active" %}
           <option value="xxx" {% if cat == "xxx" %} selected {% endif %}>XXX (18+)</option>
         {% endif %}
       </select>

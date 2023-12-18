@@ -23,56 +23,38 @@ COMMIT = helpers.latest_commit()
 
 @app.route('/settings')
 def settings():
-    # default theme if none is set
-    theme = request.cookies.get('theme', DEFAULT_THEME)
-    lang = request.cookies.get('lang')
-    safe = request.cookies.get('safe')
-    new_tab = request.cookies.get('new_tab')
-    domain = request.cookies.get('domain')
-    javascript = request.cookies.get('javascript', 'enabled')
+    settings = helpers.Settings()
 
     # get user language settings
-    ux_lang = request.cookies.get('ux_lang', 'english')
-    json_path = f'static/lang/{ux_lang}.json'
+    json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
     return render_template('settings.html',
-                           theme=theme,
-                           lang=lang,
-                           ux_lang=ux_lang,
-                           lang_data=lang_data,
-                           safe=safe,
-                           new_tab=new_tab,
-                           domain=domain,
-                           javascript=javascript,
                            commit=COMMIT,
                            repo_url=REPO,
                            current_url=request.url,
-                           API_ENABLED=API_ENABLED
+                           API_ENABLED=API_ENABLED,
+                           settings=settings,
+                           lang_data=lang_data
                            )
 
 @app.route('/discover')
 def discover():
-    # default theme if none is set
-    theme = request.cookies.get('theme', DEFAULT_THEME)
-    javascript = request.cookies.get('javascript', 'enabled')
+    settings = helpers.Settings()
 
     # get user language settings
-    ux_lang = request.cookies.get('ux_lang', 'english')
-    json_path = f'static/lang/{ux_lang}.json'
+    json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
     return render_template('discover.html',
-                           theme=theme,
-                           javascript=javascript,
-                           ux_lang=ux_lang,
                            lang_data=lang_data,
                            commit=COMMIT,
                            repo_url=REPO,
                            current_url=request.url,
-                           API_ENABLED=API_ENABLED
+                           API_ENABLED=API_ENABLED,
+                           settings=settings
                            )
 
 
@@ -156,26 +138,19 @@ def search():
     if request.method != "GET":
         return Response(f"Error; expected GET request, got {request.method}", status=400)
 
-    lang = request.cookies.get('lang')
-    domain = request.cookies.get('domain')
+    settings = helpers.Settings()
 
     # get user language settings
-    ux_lang = request.cookies.get('ux_lang', 'english')
-    json_path = f'static/lang/{ux_lang}.json'
+    json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
     # get the `q` query parameter from the URL
     query = request.args.get("q", "").strip()
     if query == "":
-        if request.cookies.get('theme', DEFAULT_THEME) == 'dark_blur':
-            css_style = "dark_blur_beta.css"
-        else:
-            css_style = None
-        return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME),
-            javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
-            css_style=css_style, repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED,
-            lang=lang, domain=domain, lang_data=lang_data, ux_lang=ux_lang)
+        return render_template("search.html",
+            repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED,
+            lang_data=lang_data, settings=settings)
 
     # Check if the query has a bang.
     if BANG in query:
