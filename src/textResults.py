@@ -212,7 +212,7 @@ def textResults(query) -> Response:
                                snip=f"{snip}", kno_rdesc=f"{kno}", rdesc_link=f"{unquote(kno_link)}",
                                kno_wiki=f"{kno_image}", rkno_title=f"{rkno_title}", kno_title=f"{kno_title}",
                                user_info=f"{info}", calc=f"{calc}", check=check, current_url=current_url,
-                               type=type, search_type=search_type, repo_url=REPO, commit=helpers.latest_commit(),
+                               type=type, search_type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
                                settings=settings,

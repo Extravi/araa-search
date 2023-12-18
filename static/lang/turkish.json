@@ -15,7 +15,8 @@
     "footer": {
         "settings": "Ayarlar",
         "source_code": "Kaynak Kodu",
-        "commit": "Taahhüt"
+        "commit": "Taahhüt",
+        "donate": "Bağış Yap"
     },
     "search_buttons": {
         "search_text": "Araa ile ara",

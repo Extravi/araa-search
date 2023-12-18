@@ -8,6 +8,7 @@ BANG = '!'
 
 # The repository this instance is based off on.
 REPO = 'https://github.com/Extravi/araa-search'
+DONATE = 'https://github.com/sponsors/Extravi'
 
 # Default theme
 DEFAULT_THEME = 'dark_blur'
@@ -65,7 +66,7 @@ WHITELISTED_DOMAINS = [
     "www.google.com.br",
     "wikipedia.org",
     INVIDIOUS_INSTANCE,
-    "lite.qwant.com",
+    "api.qwant.com",
     TORRENTGALAXY_DOMAIN,
     NYAA_DOMAIN,
     API_BAY_DOMAIN,

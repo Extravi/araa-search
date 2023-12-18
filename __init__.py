@@ -33,6 +33,7 @@ def settings():
     return render_template('settings.html',
                            commit=COMMIT,
                            repo_url=REPO,
+                           donate_url=DONATE,
                            current_url=request.url,
                            API_ENABLED=API_ENABLED,
                            settings=settings,
@@ -52,6 +53,7 @@ def discover():
                            lang_data=lang_data,
                            commit=COMMIT,
                            repo_url=REPO,
+                           donate_url=DONATE,
                            current_url=request.url,
                            API_ENABLED=API_ENABLED,
                            settings=settings
@@ -149,7 +151,7 @@ def search():
     query = request.args.get("q", "").strip()
     if query == "":
         return render_template("search.html",
-            repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED,
+            repo_url=REPO, donate_url=DONATE, commit=COMMIT, API_ENABLED=API_ENABLED,
             lang_data=lang_data, settings=settings)
 
     # Check if the query has a bang.

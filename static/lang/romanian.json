@@ -15,7 +15,8 @@
     "footer": {
         "settings": "Setări",
         "source_code": "Cod sursă",
-        "commit": "Commit"
+        "commit": "Commit",
+        "donate": "Donați"
     },
     "search_buttons": {
         "search_text": "Căutare cu Araa",

@@ -5,7 +5,8 @@ from flask import request, render_template, jsonify, Response, redirect
 import time
 import json
 from urllib.parse import quote
-import base64
+import requests
+import random
 
 
 def imageResults(query) -> Response:
@@ -29,31 +30,36 @@ def imageResults(query) -> Response:
     safe_search = int(settings.safe == "active")
 
     # grab & format webpage
-    soup = helpers.makeHTMLRequest(f"https://lite.qwant.com/?q={quote(query)}&t=images&p={p}&s={safe_search}")
+    user_agent = random.choice(user_agents)
+    headers = {"User-Agent": user_agent}
+    response = requests.get(f"https://api.qwant.com/v3/search/images?t=images&q={quote(query)}&count=50&locale=en_CA&offset={p}&device=desktop&tgp=2&safesearch={safe_search}", headers=headers)
+    json_data = response.json()
 
     try:
         # get 'img' ellements
-        ellements = soup.findAll("div", {"class": "images-container"})
+        elements = json_data["data"]["result"]["items"]
         # get source urls
-        image_sources = [a.find('img')['src'] for a in ellements[0].findAll('a') if a.find('img')]
+        image_sources = [item["media_preview"] for item in elements]
+        media_fullsize = [item["media_fullsize"] for item in elements]
+        media_fullsize_no_proxy = [item["media"] for item in elements]
     except:
         return redirect('/search')
 
     # get alt tags
-    image_alts = [img['alt'] for img in ellements[0].findAll('img', alt=True)]
+    image_alts = [item["title"] for item in elements]
 
     # generate results
     images = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
+    media_fullsize_images = [f"/img_proxy?url={quote(img_src)}" for img_src in media_fullsize]
+    media_fullsize_images_no_proxy = [img_src for img_src in media_fullsize_no_proxy]
 
-    # decode urls
-    links = [a['href'] for a in ellements[0].findAll('a') if a.has_attr('href')]
-    links = [url.split("?position")[0].split("==/")[-1] for url in links]
-    links = [unquote(base64.b64decode(link).decode('utf-8')) for link in links]
+    # source urls
+    links = [item["url"] for item in elements]
 
     # list
     results = []
-    for image, link, image_alt in zip(images, links, image_alts):
-        results.append((image, link, image_alt))
+    for image, link, image_alt, image_fullsize, image_fullsize_no_proxy in zip(images, links, image_alts, media_fullsize_images, media_fullsize_images_no_proxy):
+        results.append((image, link, image_alt, image_fullsize, image_fullsize_no_proxy))
 
     # calc. time spent
     end_time = time.time()
@@ -67,6 +73,6 @@ def imageResults(query) -> Response:
         return render_template("images.html", results=results, title=f"{query} - Araa",
             q=f"{query}", fetched=f"{elapsed_time:.2f}",
             type="image",
-            repo_url=REPO, API_ENABLED=API_ENABLED,
+            repo_url=REPO, donate_url=DONATE, API_ENABLED=API_ENABLED,
             TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
             commit=helpers.latest_commit(), settings=settings)

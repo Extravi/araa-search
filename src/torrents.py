@@ -66,7 +66,7 @@ def torrentResults(query) -> Response:
     return render_template("torrents.html",
                         results=results, title=f"{query} - Araa",
                         q=f"{query}", fetched=f"{elapsed_time:.2f}",
-                        cat=catagory, type="torrent", repo_url=REPO, 
+                        cat=catagory, type="torrent", repo_url=REPO, donate_url=DONATE,
                         API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
                         lang_data=lang_data, commit=helpers.latest_commit(), sort=sort, settings=settings
                         )

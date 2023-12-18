@@ -15,7 +15,8 @@
     "footer": {
         "settings": "설정",
         "source_code": "소스 코드",
-        "commit": "확인"
+        "commit": "확인",
+        "donate": "기부"
     },
     "search_buttons": {
         "search_text": "Araa로 검색",
