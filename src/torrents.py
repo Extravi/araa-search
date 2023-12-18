@@ -7,8 +7,16 @@ from src.torrent_sites import torrentgalaxy, nyaa, thepiratebay, rutor
 
 def torrentResults(query) -> Response:
     settings = helpers.Settings()
+
     if not TORRENTSEARCH_ENABLED:
         return jsonify({"error": "Torrent search disabled by instance operator"}), 503
+
+    # Define where to get request args from. If the request is using GET,
+    # use request.args. Otherwise (POST), use request.form
+    if request.method == "GET":
+        args = request.args
+    else:
+        args = request.form
 
     # get user language settings
     json_path = f'static/lang/{settings.ux_lang}.json'
@@ -18,10 +26,10 @@ def torrentResults(query) -> Response:
     # remember time we started
     start_time = time.time()
 
-    api = request.args.get("api", "false")
-    catagory = request.args.get("cat", "all")
-    query = request.args.get("q", " ").strip()
-    sort = request.args.get("sort", "seed")
+    api = args.get("api", "false")
+    catagory = args.get("cat", "all")
+    query = args.get("q", " ").strip()
+    sort = args.get("sort", "seed")
     if sort not in ["seed", "leech", "lth", "htl"]:
         sort = "seed"
 

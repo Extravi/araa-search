@@ -4,7 +4,7 @@
     <p class="fetched fetched_dif fetched_tor">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
 
     {% if results %}
-    <form action="search" class="torrent-sort">
+    <form action="search" class="torrent-sort" method="{{ settings.method }}">
       <input type="hidden" name="q" value="{{ q }}">
       <input type="hidden" name="t" value="torrent">
       <select class="torrent-settings" name="sort">

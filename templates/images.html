@@ -33,7 +33,7 @@
         {% endfor %}
     </div>
     <div class="prev-next prev-img">
-        <form>
+        <form method="{{ settings.method }}">
           <input type="hidden" name="q" value="{{ q }}">
           <input type="hidden" name="t" value="{{ type }}">
           {% set p = request.args.get('p', 1)|int %}

@@ -127,6 +127,13 @@
         </select>
     </div>
     <div class="settings-row">
+        <p>Method</p>
+        <select id="open-new-tab" name="method">
+            <option value="GET" {% if settings.method == "GET" %}selected{% endif %}>GET</option>
+            <option value="POST" {% if settings.method == "POST" %}selected{% endif %}>POST</option>
+        </select>
+    </div>
+    <div class="settings-row">
         <p>{{ lang_data.settings.disable_javascript }}</p>
         <select id="javascript-setting" name="javascript">
             <option value="enabled" {% if settings.javascript == 'enabled' %}selected{% endif %}>JavaScript Enabled</option>
