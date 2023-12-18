@@ -124,8 +124,8 @@ def img_proxy():
     else:
         url = request.form.get("url", "").strip()
 
-    # Only allow proxying image from startpage.com,
-    # upload.wikimedia.org and imgs.search.brave.com
+    # Only allow proxying image from qwant.com,
+    # upload.wikimedia.org, and the default invidious instance
     if not url.startswith(("https://s1.qwant.com/", "https://s2.qwant.com/",
                            "https://upload.wikimedia.org/wikipedia/commons/",
                            f"https://{INVIDIOUS_INSTANCE}")
