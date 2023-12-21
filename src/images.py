@@ -28,8 +28,8 @@ def imageResults(query) -> Response:
     api = args.get("api", "false")
 
     p = args.get('p', '1')
-    # if not p.isdigit():
-    #     return redirect('/search')
+    if not p.isdigit():
+        return redirect('/search')
 
     # returns 1 if active, else 0
     safe_search = int(settings.safe == "active")
@@ -53,36 +53,6 @@ def imageResults(query) -> Response:
         image['source'] = urlparse(image['url']).netloc
 
         results.append(image)
-
-    # try:
-    #     # get 'img' ellements
-    #     elements = json_data["data"]["result"]["items"]
-    #     # get source urls
-    #     image_sources = [item["media_preview"] for item in elements]
-    #     media_fullsize = [item["media_fullsize"] for item in elements]
-    # except:
-    #     return redirect('/search')
-    #
-    # # get alt tags
-    # image_alts = [item["title"] for item in elements]
-    #
-    # # generate results
-    # images = [f"/img_proxy?url={quote(img_src)}" for img_src in image_sources]
-    # media_fullsize_images = [f"/img_proxy?url={quote(img_src)}" for img_src in media_fullsize]
-    #
-    # # source urls
-    # links = [item["url"] for item in elements]
-    #
-    # # list
-    # results = []
-    # for image, link, image_alt, image_fullsize in zip(images, links, image_alts, media_fullsize_images):
-    #     results.append({
-    #         "image": image,
-    #         "link": link,
-    #         "image_title": image_alt,
-    #         "image_full": image_fullsize,
-    #         "source": urlparse(link).netloc,
-    #     })
 
     # calc. time spent
     end_time = time.time()
