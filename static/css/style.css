@@ -265,7 +265,7 @@ html {
   top: calc(100% - 25px);
   left: 5px; 
   font-size: 12px;
-  background-color: #000000A0;
+  background-color: var(--view-image-color);
   color: var(--fg);
   border-radius: 4px;
   height: 18px;
@@ -280,7 +280,7 @@ html {
 }
 
 .image:hover img {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 14px 28px var(--view-image-color);
 }
 
 .img_title, .img_source {
@@ -427,10 +427,6 @@ hr {
 
 .images_viewer_hidden {
     margin-right: 1.2% !important;
-}
-
-.image_selected {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .stats {
