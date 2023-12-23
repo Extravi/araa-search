@@ -271,8 +271,12 @@ html {
     height: 18px;
     display: flex;
     align-items: center;
-    transition: 1s;
+    transition: .3s;
     padding: 0 2px;
+}
+
+.image img {
+    transition: .3s;
 }
 
 .resolution {
