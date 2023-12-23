@@ -181,10 +181,11 @@ if (urlParams.get("t") === "image") {
   const imageView = document.querySelector('.image_view');
   const images = document.querySelector('.images');
   const viewImageImg = document.querySelector('.view-image-img');
-  const proxyLinkUwu = document.querySelector('.proxy-link-uwu');
   const imageSource = document.querySelector('.image-source');
+  const imageFull = document.querySelector(".full-size");
   const imageViewerLink = document.querySelector('.image-viewer-link');
   const imageSize = document.querySelector('.image-size');
+  const fullImageSize = document.querySelector(".full-image-size");
   const imageAlt = document.querySelector('.image-alt');
   const openImageViewer = document.querySelectorAll('.open-image-viewer');
   const imageBefore = document.querySelector('.image-before');
@@ -194,6 +195,9 @@ if (urlParams.get("t") === "image") {
   closeButton.addEventListener('click', function() {
     imageView.classList.remove('image_show');
     imageView.classList.add('image_hide');
+    for (const image of document.querySelectorAll(".image_selected")) {
+      image.classList = ['image'];
+    }
     images.classList.add('images_viewer_hidden');
   });
 
@@ -230,20 +234,25 @@ if (urlParams.get("t") === "image") {
   });
 
   function showImage() {
+    for (const image of document.querySelectorAll(".image_selected")) {
+      image.classList = ['image'];
+    }
+    document.querySelectorAll(".image")[currentImageIndex].classList.add("image_selected") ;
     const src = openImageViewer[currentImageIndex].getAttribute('src');
     const alt = openImageViewer[currentImageIndex].getAttribute('alt');
     const data = openImageViewer[currentImageIndex].getAttribute('data');
     const clickableLink = openImageViewer[currentImageIndex].closest('.clickable');
     const href = clickableLink.getAttribute('href');
     viewImageImg.src = src;
-    proxyLinkUwu.href = data;
+    imageFull.href = data;
     imageSource.href = href;
-    imageViewerLink.href = href;
     imageSource.textContent = href;
+    imageViewerLink.href = href;
     images.classList.remove('images_viewer_hidden');
     imageView.classList.remove('image_hide');
     imageView.classList.add('image_show');
     imageAlt.textContent = alt;
+    fullImageSize.textContent = document.querySelector(".image_selected .resolution").textContent;
 
     getImageSize(src).then(size => {
       imageSize.textContent = size;
