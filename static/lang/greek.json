@@ -15,7 +15,8 @@
     "footer": {
         "settings": "Ρυθμίσεις",
         "source_code": "Κώδικας Πηγής",
-        "commit": "Καταχώρηση"
+        "commit": "Καταχώρηση",
+        "donate": "Δωρίστε"
     },
     "search_buttons": {
         "search_text": "Αναζήτηση με Araa",

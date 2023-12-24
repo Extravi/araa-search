@@ -15,7 +15,8 @@
     "footer": {
         "settings": "Налаштування",
         "source_code": "Вихідний код",
-        "commit": "Підтвердження"
+        "commit": "Підтвердження",
+        "donate": "Пожертвувати"
     },
     "search_buttons": {
         "search_text": "Пошук за допомогою Araa",

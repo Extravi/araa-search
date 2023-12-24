@@ -4,7 +4,7 @@
     <p class="fetched fetched_dif fetched_tor">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
 
     {% if results %}
-    <form action="search" class="torrent-sort">
+    <form action="search" class="torrent-sort" method="{{ settings.method }}">
       <input type="hidden" name="q" value="{{ q }}">
       <input type="hidden" name="t" value="torrent">
       <select class="torrent-settings" name="sort">
@@ -22,7 +22,7 @@
         <option value="software" {% if cat == "software" %} selected {% endif %}>Software</option>
         <option value="anime" {% if cat == "anime" %} selected {% endif %}>Anime</option>
         <option value="music" {% if cat == "music" %} selected {% endif %}>Music</option>
-        {% if safesearch != "active" %}
+        {% if settings.safe != "active" %}
           <option value="xxx" {% if cat == "xxx" %} selected {% endif %}>XXX (18+)</option>
         {% endif %}
       </select>

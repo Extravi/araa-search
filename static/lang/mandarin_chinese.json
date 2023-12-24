@@ -15,7 +15,8 @@
     "footer": {
         "settings": "设置",
         "source_code": "源代码",
-        "commit": "提交"
+        "commit": "提交",
+        "donate": "捐赠"
     },
     "search_buttons": {
         "search_text": "使用Araa搜索",

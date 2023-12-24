@@ -15,7 +15,8 @@
     "footer": {
         "settings": "Indstillinger",
         "source_code": "Kildekode",
-        "commit": "Godkendelse"
+        "commit": "Godkendelse",
+        "donate": "Doner"
     },
     "search_buttons": {
         "search_text": "Søg med Araa",

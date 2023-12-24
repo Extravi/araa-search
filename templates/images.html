@@ -17,21 +17,31 @@
             </a>
             <p class="image-alt"></p>
             <p>View source: <a class="image-source" href=""></a></p>
-            <p>View image with <a class="proxy-link-uwu" href="">proxy</a></p>
+            <p>View full resolution image with <a class="full-size" href="">proxy</a></p>
             <p>Engine: qwant image search</p>
             <hr>
-            <p>Image proxy size: <span class="image-size"></span></p>
+            <p>Full-resolution image size: <span class="full-image-size"></span></p>
         </div>
         {% for result in results %}
-        <div class="image">
-        <a class="clickable" {% if new_tab == "active" %} target="_blank" {% endif %} href="{{ result[1] }}">
-            <img class="open-image-viewer" src="{{ result[0] }}" alt="{{ result[2] }}"/>
-        </a>
+        <div class="image" width="{{ result.thumb_height }}">
+          <a class="clickable" {% if settings.new_tab == "active" %} target="_blank" {% endif %} href="{{ result.url }}">
+              <img 
+                class="open-image-viewer"
+                src="{{ result.thumb_proxy }}"
+                alt="{{ result.title }}"
+                data="{{ result.media }}"
+              />
+              <div class="resolution">{{ result.width }} × {{ result.height }}</div>
+              <div class="details">
+                <div class="img_title">{{ result.title }}</div>
+                <div class="img_source">{{ result.source }}</div>
+              </div>
+          </a>
         </div>
         {% endfor %}
     </div>
     <div class="prev-next prev-img">
-        <form>
+        <form method="{{ settings.method }}">
           <input type="hidden" name="q" value="{{ q }}">
           <input type="hidden" name="t" value="{{ type }}">
           {% set p = request.args.get('p', 1)|int %}

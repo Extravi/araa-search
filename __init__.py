@@ -23,17 +23,10 @@ COMMIT = helpers.latest_commit()
 
 @app.route('/settings')
 def settings():
-    # default theme if none is set
-    theme = request.cookies.get('theme', DEFAULT_THEME)
-    lang = request.cookies.get('lang')
-    safe = request.cookies.get('safe')
-    new_tab = request.cookies.get('new_tab')
-    domain = request.cookies.get('domain')
-    javascript = request.cookies.get('javascript', 'enabled')
+    settings = helpers.Settings()
 
     # get user language settings
-    ux_lang = request.cookies.get('ux_lang', 'english')
-    json_path = f'static/lang/{ux_lang}.json'
+    json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
@@ -42,54 +35,45 @@ def settings():
         request.url = f"https://{request.host}/settings{f'?{request.query_string.decode()}' if request.query_string.decode() else ''}"
 
     return render_template('settings.html',
-                           theme=theme,
-                           lang=lang,
-                           ux_lang=ux_lang,
-                           lang_data=lang_data,
-                           safe=safe,
-                           new_tab=new_tab,
-                           domain=domain,
-                           javascript=javascript,
                            commit=COMMIT,
                            repo_url=REPO,
+                           donate_url=DONATE,
                            current_url=request.url,
-                           API_ENABLED=API_ENABLED
+                           API_ENABLED=API_ENABLED,
+                           settings=settings,
+                           lang_data=lang_data
                            )
 
 @app.route('/discover')
 def discover():
-    # default theme if none is set
-    theme = request.cookies.get('theme', DEFAULT_THEME)
-    javascript = request.cookies.get('javascript', 'enabled')
+    settings = helpers.Settings()
 
     # get user language settings
-    ux_lang = request.cookies.get('ux_lang', 'english')
-    json_path = f'static/lang/{ux_lang}.json'
+    json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
     return render_template('discover.html',
-                           theme=theme,
-                           javascript=javascript,
-                           ux_lang=ux_lang,
                            lang_data=lang_data,
                            commit=COMMIT,
                            repo_url=REPO,
+                           donate_url=DONATE,
                            current_url=request.url,
-                           API_ENABLED=API_ENABLED
+                           API_ENABLED=API_ENABLED,
+                           settings=settings
                            )
 
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
-    cookies = ['safe', 'javascript', 'domain', 'theme', 'lang', 'ux_lang', 'new_tab']
+    cookies = ['safe', 'javascript', 'domain', 'theme', 'lang', 'ux_lang', 'new_tab', 'method']
 
     response = make_response(redirect(request.referrer))
     for cookie in cookies:
         cookie_status = request.form.get(cookie)
         if cookie_status is not None:
             response.set_cookie(cookie, cookie_status,
-                                max_age=COOKIE_AGE, httponly=False, 
+                                max_age=COOKIE_AGE, httponly=False,
                                 secure=app.config.get("HTTPS")
                                 )
     response.headers["Location"] = request.form.get('past')
@@ -99,24 +83,34 @@ def save_settings():
 
 @app.route("/suggestions")
 def suggestions():
-    query = request.args.get("q", "").strip()
+    if request.method == "GET":
+        query = request.args.get("q", "").strip()
+    else:
+        query = request.form.get("q", "").strip()
     response = requests.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
     return json.loads(response.text)
 
 
 @app.route("/wikipedia")
 def wikipedia():
-    query = request.args.get("q", "").strip()
+    if request.method == "GET":
+        query = request.args.get("q", "").strip()
+    else:
+        query = request.form.get("q", "").strip()
     response = helpers.makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={quote(query)}&pithumbsize=500")
     return json.loads(response.text)
 
 
 @app.route("/api")
 def api():
-    if API_ENABLED == True:
-        query = request.args.get("q", "").strip()
-        t = request.args.get("t", "text").strip()
-        p = (request.args.get('p', 1))
+    if API_ENABLED:
+        if request.method == "GET":
+            args = request.args
+        else:
+            args = request.form
+        query = args.get("q", "").strip()
+        t = args.get("t", "text").strip()
+        p = args.get('p', 1)
         try:
             response = requests.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
             return json.loads(response.text)
@@ -131,10 +125,17 @@ def api():
 def img_proxy():
     # Get the URL of the image to proxy
 
-    url = request.args.get("url", "").strip()
+    if request.method == "GET":
+        url = request.args.get("url", "").strip()
+    else:
+        url = request.form.get("url", "").strip()
 
-    # Only allow proxying image from startpage.com, upload.wikimedia.org and imgs.search.brave.com
-    if not (url.startswith("https://s1.qwant.com/") or url.startswith("https://s2.qwant.com/") or url.startswith("https://upload.wikimedia.org/wikipedia/commons/") or url.startswith(f"https://{INVIDIOUS_INSTANCE}")):
+    # Only allow proxying image from qwant.com,
+    # upload.wikimedia.org, and the default invidious instance
+    if not url.startswith(("https://s1.qwant.com/", "https://s2.qwant.com/",
+                           "https://upload.wikimedia.org/wikipedia/commons/",
+                           f"https://{INVIDIOUS_INSTANCE}")
+                          ):
         return Response("Error: invalid URL", status=400)
 
     # Choose one user agent at random
@@ -156,30 +157,31 @@ def img_proxy():
 @app.route("/", methods=["GET", "POST"])
 @app.route("/search", methods=["GET", "POST"])
 def search():
-    # Searching only takes in GET requests. Return early if the request is anything but GET.
-    if request.method != "GET":
-        return Response(f"Error; expected GET request, got {request.method}", status=400)
+    # Return early if the request is anything but GET or POST.
+    if request.method not in ["POST", "GET"]:
+        return Response(
+            f"Error; expected GET or POST request, got {request.method}",
+            status=400
+        )
 
-    lang = request.cookies.get('lang')
-    domain = request.cookies.get('domain')
+    if request.method == "GET":
+        args = request.args
+    else:
+        args = request.form
+
+    settings = helpers.Settings()
 
     # get user language settings
-    ux_lang = request.cookies.get('ux_lang', 'english')
-    json_path = f'static/lang/{ux_lang}.json'
+    json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
     # get the `q` query parameter from the URL
-    query = request.args.get("q", "").strip()
+    query = args.get("q", "").strip()
     if query == "":
-        if request.cookies.get('theme', DEFAULT_THEME) == 'dark_blur':
-            css_style = "dark_blur_beta.css"
-        else:
-            css_style = None
-        return render_template("search.html", theme = request.cookies.get('theme', DEFAULT_THEME),
-            javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
-            css_style=css_style, repo_url=REPO, commit=COMMIT, API_ENABLED=API_ENABLED,
-            lang=lang, domain=domain, lang_data=lang_data, ux_lang=ux_lang)
+        return render_template("search.html",
+            repo_url=REPO, donate_url=DONATE, commit=COMMIT, API_ENABLED=API_ENABLED,
+            lang_data=lang_data, settings=settings)
 
     # Check if the query has a bang.
     if BANG in query:
@@ -189,7 +191,7 @@ def search():
         bangkey = query[bang_index + len(BANG):query.index(" ", bang_index)].lower()
         if SEARCH_BANGS.get(bangkey) is not None:
             query = query.lower().replace(BANG + bangkey, "").lstrip()
-            query = quote(query) # Quote the query to redirect properly.
+            query = quote(query)  # Quote the query to redirect properly.
             return app.redirect(SEARCH_BANGS[bangkey].format(query))
         # Remove the space at the end of the query.
         # The space was added to fix a possible error 500 when
@@ -197,7 +199,7 @@ def search():
         query = query[:len(query) - 1]
 
     # type of search (text, image, etc.)
-    type = request.args.get("t", "text")
+    type = args.get("t", "text")
 
     # render page based off of type
     # NOTE: Python 3.10 needed for a match statement!

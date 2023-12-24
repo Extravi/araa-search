@@ -1,4 +1,4 @@
-from src.helpers import makeHTMLRequest, latest_commit
+from src import helpers
 from urllib.parse import unquote, quote
 from _config import *
 from flask import request, render_template, jsonify, Response
@@ -10,30 +10,34 @@ from math import isclose # For float comparisons
 
 def textResults(query) -> Response:
     # get user language settings
-    ux_lang = request.cookies.get('ux_lang', 'english')
-    json_path = f'static/lang/{ux_lang}.json'
+    settings = helpers.Settings()
+
+    # Define where to get request args from. If the request is using GET,
+    # use request.args. Otherwise (POST), use request.form
+    if request.method == "GET":
+        args = request.args
+    else:
+        args = request.form
+
+    json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
         lang_data = json.load(file)
 
     # remember time we started
     start_time = time.time()
 
-    api = request.args.get("api", "false")
-    search_type = request.args.get("t", "text")
-    p = request.args.get("p", 0)
-    lang = request.cookies.get('lang', '')
-    safe = request.cookies.get('safe', 'active')
-    domain = request.cookies.get('domain', 'google.com/search?gl=us')
-    javascript = request.cookies.get('javascript', 'enabled')
+    api = args.get("api", "false")
+    search_type = args.get("t", "text")
+    p = args.get("p", 0)
 
     try:
         # search query
         if search_type == "reddit":
             site_restriction = "site:reddit.com"
             query_for_request = f"{query} {site_restriction}"
-            soup = makeHTMLRequest(f"https://www.{domain}&q={quote(query_for_request)}&start={p}&lr={lang}")
+            soup = helpers.makeHTMLRequest(f"https://www.{settings.domain}&q={quote(query_for_request)}&start={p}&lr={settings.lang}")
         elif search_type == "text":
-            soup = makeHTMLRequest(f"https://www.{domain}&q={quote(query)}&start={p}&lr={lang}&safe={safe}")
+            soup = helpers.makeHTMLRequest(f"https://www.{settings.domain}&q={quote(query)}&start={p}&lr={settings.lang}&safe={settings.safe}")
         else:
             return "Invalid search type"
     except Exception as e:
@@ -115,7 +119,7 @@ def textResults(query) -> Response:
         check = check.replace("site:reddit.com", "").strip()
 
     # get image for kno try javascript version first
-    if javascript == "enabled":
+    if settings.javascript == "enabled":
         if kno_link == "":
             kno_image = ""
             kno_title = ""
@@ -215,9 +219,8 @@ def textResults(query) -> Response:
                                snip=f"{snip}", kno_rdesc=f"{kno}", rdesc_link=f"{unquote(kno_link)}",
                                kno_wiki=f"{kno_image}", rkno_title=f"{rkno_title}", kno_title=f"{kno_title}",
                                user_info=f"{info}", calc=f"{calc}", check=check, current_url=current_url,
-                               theme=request.cookies.get('theme', DEFAULT_THEME), new_tab=request.cookies.get("new_tab"),
-                               javascript=request.cookies.get('javascript', 'enabled'), DEFAULT_THEME=DEFAULT_THEME,
-                               type=type, search_type=search_type, repo_url=REPO, lang=lang, safe=safe, commit=latest_commit(),
+                               type=type, search_type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
-                               TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, domain=domain, ux_lang=ux_lang, lang_data=lang_data
+                               TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
+                               settings=settings,
                                )

@@ -15,7 +15,8 @@
     "footer": {
         "settings": "Настройки",
         "source_code": "Исходный код",
-        "commit": "Подтверждение"
+        "commit": "Подтверждение",
+        "donate": "Пожертвовать"
     },
     "search_buttons": {
         "search_text": "Искать с Araa",

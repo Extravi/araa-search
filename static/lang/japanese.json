@@ -15,7 +15,8 @@
     "footer": {
         "settings": "設定",
         "source_code": "ソースコード",
-        "commit": "コミット"
+        "commit": "コミット",
+        "donate": "寄付"
     },
     "search_buttons": {
         "search_text": "Araaで検索",

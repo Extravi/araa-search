@@ -15,7 +15,8 @@
     "footer": {
         "settings": "Instellingen",
         "source_code": "Broncode",
-        "commit": "Commit"
+        "commit": "Commit",
+        "donate": "Doneren"
     },
     "search_buttons": {
         "search_text": "Zoeken met Araa",

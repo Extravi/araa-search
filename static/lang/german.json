@@ -15,7 +15,8 @@
     "footer": {
         "settings": "Einstellungen",
         "source_code": "Quellcode",
-        "commit": "Bestätigung"
+        "commit": "Bestätigung",
+        "donate": "Spenden"
     },
     "search_buttons": {
         "search_text": "Suchen mit Araa",
