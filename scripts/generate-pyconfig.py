@@ -26,6 +26,11 @@ ENV_VARS = {
         'pyname': 'REPO',
         'type': str,
     },
+    'DONATE_URL': {
+        'default_val': 'https://github.com/sponsors/Extravi',
+        'pyname': 'DONATE',
+        'type': str,
+    },
     'DEFAULT_THEME': {
         'default_val': 'dark_blur',
         'pyname': 'DEFAULT_THEME',
