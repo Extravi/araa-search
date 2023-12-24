@@ -3,7 +3,7 @@ FROM ubuntu:latest
 # LABEL can be used to attach metadata to the container.
 LABEL title="Araa Search" \
       description="A privacy-respecting, ad-free, self-hosted Google metasearch engine with strong security and full API support." \
-      git_repo="https://github.com/Extravi/araa-search" \
+      git_repo="https://github.com/TEMtheLEM/araa-search" \
       authors="https://github.com/Extravi/araa-search/contributors" \
       maintainer="TEMtheLEM <temthelem@duck.com>" \
       image="https://hub.docker.com/r/temthelem/araa-search"
@@ -20,5 +20,7 @@ RUN . venv/bin/activate
 RUN pip install -r requirements.txt
 
 COPY . .
+
+ENV ORIGIN_REPO=https://github.com/TEMtheLEM/araa-search
 
 CMD [ "sh", "scripts/docker-cmd.sh" ]

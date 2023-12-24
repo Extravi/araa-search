@@ -45,7 +45,7 @@ document.body.addEventListener('keydown', (key) => {
     numberButtonHandle(key.key);
   }
   else if ('+-*/'.includes(key.key)) {
-    calcInput.textContent += ` ${key.key}`;
+    operatorButtonHandle(key.key);
   }
   else switch (key.key) {
     case 'Backspace':
@@ -61,21 +61,10 @@ numberButtons.forEach(button => {
   button.addEventListener('click', () => numberButtonHandle(button.textContent));
 });
 
-addBtn.addEventListener('click', () => {
-  calcInput.textContent += ' +';
-});
-
-subtractBtn.addEventListener('click', () => {
-  calcInput.textContent += ' -';
-});
-
-multiplyBtn.addEventListener('click', () => {
-  calcInput.textContent += ' *';
-});
-
-divideBtn.addEventListener('click', () => {
-  calcInput.textContent += ' /';
-});
+addBtn.addEventListener('click', () => operatorButtonHandle('+'));
+subtractBtn.addEventListener('click', () => operatorButtonHandle('-'));
+multiplyBtn.addEventListener('click', () => operatorButtonHandle('*'));
+divideBtn.addEventListener('click', () => operatorButtonHandle('/'));
 
 clearBtn.addEventListener('click', () => {
   calcInput.textContent = '0';
@@ -101,23 +90,62 @@ function doBackspace() {
   }
 }
 
+// Handles the presses to all operator buttons.
+function operatorButtonHandle(operator) {
+  // Avoid multiple operators being added.
+  // This will override the current operator with the new operator being added.
+  if (/\+|\-|\*|\//.test(calcInput.textContent.split(' ').pop())) {
+    calcInput.textContent = calcInput.textContent.substring(0, calcInput.textContent.length - 1);
+  }
+
+  // Make a decimal that's '1234.' into '1234.0' before adding an operator.
+  if (calcInput.textContent[calcInput.textContent.length - 1] === '.') {
+    calcInput.textContent += '0';
+  }
+
+  calcInput.textContent += ` ${operator}`;
+}
+
 // Handles the presses to all numberButtons.
 function numberButtonHandle(button) {
-  // remove any 0 output.
-  if (calcInput.textContent === '0' && button !== ".") {
-    calcInput.textContent = "";
-  }
+  // The absolute last char of the expression; i.e. '3' in '4 + 5 * 6 + 2.3'
+  const lastChar = calcInput.textContent[calcInput.textContent.length - 1];
 
   // If the end of calcInput has an operator, append an extra space for
   // the number to make the expression look better.
-  if (/\+|\-|\*|\//.test(calcInput.textContent[calcInput.textContent.length - 1])) {
+  if (/\+|\-|\*|\//.test(lastChar)) {
     calcInput.textContent += ' ';
   }
-
-  // If statement will prevent multiple dots.
-  if (!(calcInput.textContent.includes('.') && button === '.')) {
-    calcInput.textContent += button;
+  // Add a multiplication operator around brackets.
+  else if ((lastChar === ")" || button === "(") && calcInput.textContent !== '0') {
+    operatorButtonHandle('* ');
   }
+
+  // The 'trailing' substring in an expression; i.e. 2.3 in '4 + 5 * 6 + 2.3'
+  // Collected here as the expression may have been modified by the above code
+  const trailing = calcInput.textContent.split(' ').pop();
+
+  // Do some specific things for decimals.
+  if (button === '.') {
+    // Prevent multiple dots in a number.
+    if (trailing.includes('.')) {
+      return;
+    }
+
+    // Add an extra 0 if the trailing substring is blank or opening parenthesis
+    // Makes thinks look nicer (0.3 instead of .3).
+    if (trailing.length === 0 || trailing === '(') {
+      calcInput.textContent += '0';
+    }
+  }
+  // Remove any 0 output if a dot is not being added.
+  // i.e if 9 is input and the expression is '9 + 0', it'll change
+  // to '9 + 9' because of this if statement.
+  else if (trailing === '0') {
+    calcInput.textContent = calcInput.textContent.substring(0, calcInput.textContent.length - 1);
+  }
+
+  calcInput.textContent += button;
 }
 
 // Implementation from https://github.com/TommyPang/SimpleCalculator.
