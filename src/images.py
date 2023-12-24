@@ -46,7 +46,10 @@ def imageResults(query) -> Response:
 
     results = []
     for image in images:
-        image['thumb_proxy'] = f"/img_proxy?url={quote(image['thumbnail'])}"
+        # Get original bing image URL
+        bing_url = unquote(urlparse(image['thumbnail']).query).split("u=")[1].split("&")[0]
+
+        image['thumb_proxy'] = f"/img_proxy?url={quote(bing_url)}"
 
         # Get domain name
         image['source'] = urlparse(image['url']).netloc
