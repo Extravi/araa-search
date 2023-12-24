@@ -81,6 +81,11 @@ ENV_VARS = {
         'pyname': 'ENABLED_TORRENT_SITES',
         'type': list,
     },
+    'DEFAULT_METHOD': {
+        'default_val': 'GET',
+        'pyname': 'DEFAULT_METHOD',
+        'type': str,
+    },
 }
 
 import os
