@@ -132,7 +132,7 @@ def img_proxy():
 
     # Only allow proxying image from qwant.com,
     # upload.wikimedia.org, and the default invidious instance
-    if not url.startswith(("https://s1.qwant.com/", "https://s2.qwant.com/",
+    if not url.startswith(("https://tse.mm.bing.net/",
                            "https://upload.wikimedia.org/wikipedia/commons/",
                            f"https://{INVIDIOUS_INSTANCE}")
                           ):
