@@ -16,11 +16,15 @@
             </div>
             </a>
             <p class="image-alt"></p>
-            <p>View source: <a class="image-source" href=""></a></p>
-            <p>View full resolution image with <a class="full-size" href="">proxy</a></p>
-            <p>Engine: qwant image search</p>
-            <hr>
-            <p>Full-resolution image size: <span class="full-image-size"></span></p>
+            <p class="img_domain"></p>
+            <div class="image_details">
+              <span class="filetype"></span>
+              <span class="resolution"></span>
+            </div>
+            <div class="links">
+              <a class="source_link">{% include 'svgs/web_icon.svg' %} <span>View Website </span></a>
+              <a class="view_full">{% include 'svgs/fullscreen.svg' %}</a>
+            </div>
         </div>
         {% for result in results %}
         <div class="image" width="{{ result.thumb_height }}">
@@ -30,6 +34,7 @@
                 src="{{ result.thumb_proxy }}"
                 alt="{{ result.title }}"
                 data="{{ result.media }}"
+                type="{{ result.thumb_type.upper() }}"
               />
               <div class="resolution">{{ result.width }} × {{ result.height }}</div>
               <div class="details">
