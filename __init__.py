@@ -97,7 +97,7 @@ def wikipedia():
         query = request.args.get("q", "").strip()
     else:
         query = request.form.get("q", "").strip()
-    response = helpers.makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={query}&pithumbsize=500")
+    response = helpers.makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={quote(query)}&pithumbsize=500")
     return json.loads(response.text)
 
 
@@ -112,7 +112,7 @@ def api():
         t = args.get("t", "text").strip()
         p = args.get('p', 1)
         try:
-            response = requests.get(f"http://localhost:{PORT}/search?q={query}&t={t}&api=true&p={p}")
+            response = requests.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
             return json.loads(response.text)
         except Exception as e:
             app.logger.error(e)
