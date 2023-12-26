@@ -341,6 +341,60 @@ html {
     right: 0px;
 }
 
+.image-alt {
+  color: var(--fff);
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.img_domain {
+  margin-top: 2px;
+}
+
+.image_details {
+  margin-left: 20px;
+  height: 40px;
+  font-size: 15px;
+}
+
+.filetype {
+  color: var(--fg);
+  border: 1px solid var(--fg);
+  border-radius: 5px;
+  padding: 4px;
+}
+
+.links {
+  margin-left: 15px;
+  height: fit-content;
+}
+
+.source_link, .view_full {
+  cursor: pointer;
+  color: var(--blue);
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+  padding: 5px;
+  margin-left: 5px;
+  width: fit-content;
+  vertical-align: bottom;
+  transition: .5s;
+}
+
+.source_link:hover, .view_full:hover {
+  opacity: .75;
+}
+
+.view_full svg {
+  position: relative;
+  top: 2px;
+}
+
+.source_link svg, .view_full svg {
+  height: 1em;
+  width: 1em;
+}
+
 .image-view-close {
     background-color: var(--image-view-titlebar);
     height: 7%;
@@ -402,17 +456,9 @@ html {
     white-space: nowrap;
 }
 
-.image_view a:hover {
-    text-decoration: underline;
-}
-
 .image_view p {
     margin-left: 20px;
     margin-right: 20px;
-    display: block;
-}
-
-.image_view a {
     display: block;
 }
 
