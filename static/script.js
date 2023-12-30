@@ -40,7 +40,7 @@ const resultsWrapper = document.querySelector('.autocomplete');
 
 async function getSuggestions(query) {
   try {
-    params = new URLSearchParams({"q": query}).toString();
+    params = new URLSearchParams({ "q": query }).toString();
     const response = await fetch(`/suggestions?${params}`);
     const data = await response.json();
     return data[1]; // Return only the array of suggestion strings
@@ -150,26 +150,26 @@ font.load().then(() => {
 });
 
 // load image after server side processing
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
   var knoTitleElement = document.getElementById('kno_title');
   var kno_title = knoTitleElement.dataset.knoTitle;
   fetch(kno_title)
-  .then(response => response.json())
-  .then(data => {
-    const pageId = Object.keys(data.query.pages)[0];
-    const thumbnailSource = data.query.pages[pageId].thumbnail.source;
-    const url = "/img_proxy?url=" + thumbnailSource;
+    .then(response => response.json())
+    .then(data => {
+      const pageId = Object.keys(data.query.pages)[0];
+      const thumbnailSource = data.query.pages[pageId].thumbnail.source;
+      const url = "/img_proxy?url=" + thumbnailSource;
 
-    // update the img tag with url and add kno_wiki_show
-    var imgElement = document.querySelector('.kno_wiki');
-    imgElement.src = url;
-    imgElement.classList.add('kno_wiki_show');
+      // update the img tag with url and add kno_wiki_show
+      var imgElement = document.querySelector('.kno_wiki');
+      imgElement.src = url;
+      imgElement.classList.add('kno_wiki_show');
 
-    console.log(url);
-  })
-  .catch(error => {
-    console.log('Error fetching data:', error);
-  });
+      console.log(url);
+    })
+    .catch(error => {
+      console.log('Error fetching data:', error);
+    });
 });
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -183,6 +183,7 @@ if (urlParams.get("t") === "image") {
   const viewImageImg = document.querySelector('.view-image-img');
   const imageSource = document.querySelector('.image-source');
   const imageFull = document.querySelector(".full-size");
+  const imageProxy = document.querySelector('.proxy-size');
   const imageViewerLink = document.querySelector('.image-viewer-link');
   const imageSize = document.querySelector('.image-size');
   const fullImageSize = document.querySelector(".full-image-size");
@@ -192,7 +193,7 @@ if (urlParams.get("t") === "image") {
   const imageNext = document.querySelector('.image-next');
   let currentImageIndex = 0;
 
-  closeButton.addEventListener('click', function() {
+  closeButton.addEventListener('click', function () {
     imageView.classList.remove('image_show');
     imageView.classList.add('image_hide');
     for (const image of document.querySelectorAll(".image_selected")) {
@@ -202,48 +203,46 @@ if (urlParams.get("t") === "image") {
   });
 
   openImageViewer.forEach((image, index) => {
-    image.addEventListener('click', function(event) {
+    image.addEventListener('click', function (event) {
       event.preventDefault();
       currentImageIndex = index;
       showImage();
     });
   });
 
-  imageBefore.addEventListener('click', function() {
-    currentImageIndex = (currentImageIndex - 1 + openImageViewer.length) % openImageViewer.length;
-    showImage();
-  });
-
-  document.addEventListener('keydown', function(event) {
+  document.addEventListener('keydown', function (event) {
     if (event.key === 'ArrowLeft') {
       currentImageIndex = (currentImageIndex - 1 + openImageViewer.length) % openImageViewer.length;
       showImage();
     }
-  });
-
-  imageNext.addEventListener('click', function() {
-    currentImageIndex = (currentImageIndex + 1) % openImageViewer.length;
-    showImage();
-  });
-
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'ArrowRight') {
+    else if (event.key === 'ArrowRight') {
       currentImageIndex = (currentImageIndex + 1) % openImageViewer.length;
       showImage();
     }
+  });
+
+  imageBefore.addEventListener('click', function () {
+    currentImageIndex = (currentImageIndex - 1 + openImageViewer.length) % openImageViewer.length;
+    showImage();
+  });
+
+  imageNext.addEventListener('click', function () {
+    currentImageIndex = (currentImageIndex + 1) % openImageViewer.length;
+    showImage();
   });
 
   function showImage() {
     for (const image of document.querySelectorAll(".image_selected")) {
       image.classList = ['image'];
     }
-    document.querySelectorAll(".image")[currentImageIndex].classList.add("image_selected") ;
+    document.querySelectorAll(".image")[currentImageIndex].classList.add("image_selected");
     const src = openImageViewer[currentImageIndex].getAttribute('src');
     const alt = openImageViewer[currentImageIndex].getAttribute('alt');
     const data = openImageViewer[currentImageIndex].getAttribute('data');
     const clickableLink = openImageViewer[currentImageIndex].closest('.clickable');
     const href = clickableLink.getAttribute('href');
     viewImageImg.src = src;
+    imageProxy.href = src;
     imageFull.href = data;
     imageSource.href = href;
     imageSource.textContent = href;
@@ -262,11 +261,11 @@ if (urlParams.get("t") === "image") {
   function getImageSize(url) {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.onload = function() {
+      img.onload = function () {
         const size = `${this.width} x ${this.height}`;
         resolve(size);
       };
-      img.onerror = function() {
+      img.onerror = function () {
         reject('Error loading image');
       };
       img.src = url;
