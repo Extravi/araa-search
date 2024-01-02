@@ -85,6 +85,7 @@ def captcha():
         # start the webdriver to use later
         options = Options()
         options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
         # url for captcha
