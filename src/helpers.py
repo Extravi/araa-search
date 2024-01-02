@@ -13,6 +13,7 @@ from flask import request
 from selenium.webdriver.common.by import By
 from twocaptcha import TwoCaptcha
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 
@@ -82,7 +83,9 @@ def captcha():
         solver = TwoCaptcha(CAPTCHA_API_KEY)
 
         # start the webdriver to use later
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+        options = Options()
+        options.add_argument('--headless')
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
         # url for captcha
         url = f"https://www.google.com/search?q="
