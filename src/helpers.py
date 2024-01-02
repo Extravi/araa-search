@@ -10,6 +10,11 @@ from os.path import exists
 from langdetect import detect
 from thefuzz import fuzz
 from flask import request
+from selenium.webdriver.common.by import By
+from twocaptcha import TwoCaptcha
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
 
 
 def makeHTMLRequest(url: str):
@@ -20,8 +25,12 @@ def makeHTMLRequest(url: str):
 
     # Choose a user-agent at random
     user_agent = random.choice(user_agents)
-    headers = {"User-Agent": user_agent}
-    # Grab HTML content
+    headers = {
+        "User-Agent": user_agent,
+        "Cookie": f"GOOGLE_ABUSE_EXEMPTION={GOOGLE_ABUSE_COOKIE}"
+    }
+    
+    # Grab HTML content with the specific cookie
     html = requests.get(url, headers=headers)
 
     # Return the BeautifulSoup object
@@ -61,6 +70,68 @@ def latest_commit():
             return f.readline()
     return "Not in main branch"
 
+CAPTCHA_SOLVER_ACTIVE = False
+GOOGLE_ABUSE_COOKIE = None
+def captcha():
+    # set global solver variable 
+    global CAPTCHA_SOLVER_ACTIVE, GOOGLE_ABUSE_COOKIE
+    # check if solver is already running
+    if CAPTCHA_SOLVER_ACTIVE == False:
+        # start solver
+        CAPTCHA_SOLVER_ACTIVE = True
+        solver = TwoCaptcha(CAPTCHA_API_KEY)
+
+        # start the webdriver to use later
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+
+        # url for captcha
+        url = f"https://www.google.com/search?q="
+
+        # Choose a user-agent at random
+        user_agent = random.choice(user_agents)
+        headers = {"User-Agent": user_agent}
+        # Grab HTML content
+        html = requests.get(url, headers=headers)
+        url = html.url
+
+        # get data-s tag
+        soup = BeautifulSoup(html.text, "lxml")
+        captcha_form = soup.find("form", {"id": "captcha-form"})
+        recaptcha_div = captcha_form.find("div", {"class": "g-recaptcha"})
+        data_s_value = recaptcha_div.get("data-s", "")
+
+        # try to solve captcha
+        try:
+            result = solver.recaptcha(
+            sitekey="6LfwuyUTAAAAAOAmoS0fdqijC2PbbdH4kjq62Y1b",
+            datas=f"{data_s_value}",
+            url=f"{url}")
+        except Exception as e:
+            CAPTCHA_SOLVER_ACTIVE = False
+            driver.close()
+            print(e)
+        else:
+            # get the captcha code
+            code = result['code']
+            # request the page
+            driver.get(url)
+            # set the solved code
+            recaptcha_response_element = driver.find_element(By.ID, 'g-recaptcha-response')
+            driver.execute_script(f'arguments[0].value = "{code}";', recaptcha_response_element)
+            # continue and get cookies
+            continue_input = driver.find_element(By.CSS_SELECTOR, 'form#captcha-form input[name="continue"]')
+            continue_input.submit()
+            # capture cookie value to send in request
+            cookies = driver.get_cookies()
+            for cookie in driver.get_cookies():
+                if cookie['name'] == 'GOOGLE_ABUSE_EXEMPTION':
+                    GOOGLE_ABUSE_COOKIE = cookie['value']
+                    break
+            # close the web driver and set solver to false
+            CAPTCHA_SOLVER_ACTIVE = False
+            driver.close()
+    else:
+        pass
 
 def makeJSONRequest(url: str):
     # block unwanted request from an edited cookie

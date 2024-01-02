@@ -44,6 +44,14 @@ def textResults(query) -> Response:
         error_message = str(e)
         return jsonify({"error": error_message}), 500
 
+    # check for captcha
+    try:
+        captcha = soup.findAll("form", {"id": "captcha-form"})
+        if captcha and CAPTCHA_ENABLED == True:
+            helpers.captcha()
+    except:
+        pass
+
     # retrieve links
     result_divs = soup.findAll("div", {"class": "yuRUbf"})
     links = [div.find("a") for div in result_divs]
