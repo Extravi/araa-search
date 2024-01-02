@@ -98,3 +98,9 @@ API_ENABLED = False
 
 # set to false to disable torrent search
 TORRENTSEARCH_ENABLED = True
+
+# enable 2captcha api support
+CAPTCHA_ENABLED = False
+
+# 2captcha api key
+CAPTCHA_API_KEY = "YOUR_API_KEY"
