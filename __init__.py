@@ -130,16 +130,18 @@ def img_proxy():
     else:
         url = request.form.get("url", "").strip()
 
-    # Only allow proxying image from qwant.com,
-    # upload.wikimedia.org, and the default invidious instance
+    # Only allow proxying from certain domains
     if not url.startswith(("https://tse.mm.bing.net/",
+                           "https://s1.qwant.com/",
+                           "https://s2.qwant.com/",
                            "https://tse1.explicit.bing.net/",
                            "https://tse2.explicit.bing.net/",
                            "https://tse3.explicit.bing.net/",
                            "https://tse4.explicit.bing.net/",
+                           "https://encrypted-tbn0.gstatic.com/",
                            "https://upload.wikimedia.org/wikipedia/commons/",
                            f"https://{INVIDIOUS_INSTANCE}")
-                          ):
+                          ) and "gstatic.com" not in url and "googleusercontent.com" not in url:
         return Response("Error: invalid URL", status=400)
 
     # Choose one user agent at random

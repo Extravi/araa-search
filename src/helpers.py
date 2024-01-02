@@ -23,6 +23,8 @@ def makeHTMLRequest(url: str):
     headers = {"User-Agent": user_agent}
     # Grab HTML content
     html = requests.get(url, headers=headers)
+    if html.status_code != 200:
+        raise Exception("Non-200 code returned")
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
@@ -72,13 +74,15 @@ def makeJSONRequest(url: str):
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
     # Grab json content
-    response = requests.get(url)
+    response = requests.get(url, headers=headers)
 
     # Return the JSON object
     return json.loads(response.text)
 
+
 def get_magnet_hash(magnet):
     return magnet.split("btih:")[1].split("&")[0]
+
 
 def get_magnet_name(magnet):
     return magnet.split("&dn=")[1].split("&tr")[0]
@@ -90,6 +94,7 @@ def apply_trackers(hash, name="", magnet=True):
         hash = get_magnet_hash(hash)
 
     return f"magnet:?xt=urn:btih:{hash}&dn={name}&tr={'&tr='.join(TORRENT_TRACKERS)}"
+
 
 def string_to_bytes(file_size):
     units = {
@@ -107,6 +112,7 @@ def string_to_bytes(file_size):
     size, unit = file_size.lower().split()
     return float(size) * units[unit]
 
+
 def bytes_to_string(size):
     units = ['bytes', 'KB', 'MB', 'GB', 'TB']
     index = 0
@@ -114,6 +120,7 @@ def bytes_to_string(size):
         size /= 1024
         index += 1
     return f"{size:.2f} {units[index]}"
+
 
 class Settings():
     def __init__(self):

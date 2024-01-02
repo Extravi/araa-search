@@ -59,16 +59,13 @@
       <button class="results-save" type="submit">Apply settings</button>
     </form>
     <p class="fetched">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
-    {% if check == "" %}
-    {% else %}
-        <div class="check"><p>Did you mean: <a href="/search?q={{ check }}&t={{ search_type }}"><h3>{{ check }}</h3></a></p></div>
+    {% if not results.check == "" %}
+        <div class="check"><p>Did you mean: <a href="/search?q={{ results.check }}&t={{ args.t }}"><h3>{{ results.check }}</h3></a></p></div>
     {% endif %}
-    {% if user_info == "" %}
-    {% else %}
+    {% if not user_info == "" %}
         <p id="info_font" class="snip">{{ user_info }}</p>
     {% endif %}
-    {% if calc == "" %}
-    {% else %}
+    {% if not calc == "" %}
     {% if settings.javascript == "enabled" %}
         <div class="calc">
             <div class="calc-input" id="calc-input">
@@ -108,57 +105,56 @@
         <p id="info_font" class="snip">{{ calc }}</p>
         {% endif %}
     {% endif %}
-    {% if kno_rdesc == "" %}
-    {% else %}
+    {% if results.wiki.has_wiki %}
     <div class="snip">
-        <h1 class="snip_title">{{ rkno_title }}</h1>
-        {% if kno_wiki == "" %}
-        {% else %}
-        <img src="{{ kno_wiki }}"/>
+        <h1 class="snip_title">{{ results.wiki.title }}</h1>
+
+        {% if results.wiki.image %}
+          <img src="{{ results.wiki.image }}"/>
         {% endif %}
+
         {% if settings.javascript == "enabled" %}
-        <img class="kno_wiki" src=""/>
+          <img class="kno_wiki" src=""/>
         {% endif %}
-        {{ kno_rdesc }}<a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a>
+        {{ results.wiki.description }}
+        <a target="_blank" href="{{ results.wiki.link }}">{{ results.wiki.link }}</a>
     </div>
     {% endif %}
-    {% if snip == "" %}
-    {% else %}
-        <p class="snipp">{{ snip|highlight_query_words(q) }} <a target="_blank" href="{{ results[0][0] }}">{{ results[0][0] }}</a></p>
+    {% if not results.snip == "" %}
+        <p class="snipp">
+          {{ results.snip|highlight_query_words(args.q) }}
+          <a target="_blank" href="{{ results.results[0].href }}">{{ results.results[0].href }}</a>
+        </p>
     {% endif %}
-    {% if results %}
-    <div class="result_sublink">
-      <a id="link" {% if settings.new_tab == "active" %} target="_blank" {% endif %} href="{{ results[0][0] }}">{{ results[0][0] }}</a>
-        <a {% if settings.new_tab == "active"  %} target="_blank" {% endif %} href="{{ results[0][0] }}"><h3>{{ results[0][1] }}</h3></a>
-        <p>{{ results[0][2]|highlight_query_words(q) }}</p>
-    </div>
-    {% endif %}
-    {% if sublink == "" %}
-    {% else %}
-    <div class="results">
-    {% for result in sublink %}
-    <div class="sublinks">
-        <a href="{{ result[0] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result[1] }}</h3></a>
-        <p>{{ result[2] }}</p>
-    </div>
-    {% endfor %}
-    </div>
-    {% endif %}
+
+
     {% if results %}
     <div class="clean">
-        {% for result in results[1:] %}
-        <div class="results">
-            <a id="link" href="{{ result[0] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}>{{ result[0] }}</a>
-            <a href="{{ result[0] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result[1] }}</h3></a>
-            <p>{{ result[2]|highlight_query_words(q) }}</p>
+      {% for result in results.results %}
+        <div class="{%if result.has_sublinks%}result_sublink{%else%}results{%endif%}">
+            <a id="link" href="{{ result.href }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}>{{ result.href }}</a>
+            <a href="{{ result.href }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result.title }}</h3></a>
+            <p>{{ result.desc|highlight_query_words(args.q) }}</p>
         </div>
-        {% endfor %}
+        {% if result.has_sublinks %}
+          <div class="results">
+          {% for sublink in result.sublinks %}
+            <div class="sublinks">
+              <a href="{{ sublink.href }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ sublink.title }}</h3></a>
+              <p>{{ sublink.desc }}</p>
+            </div>
+          {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
+    {% endif %}
+
+    {% if results %}
     <div class="prev-next">
         <form method="{{ settings.method }}">
-          <input type="hidden" name="q" value="{{ q }}">
-          <input type="hidden" name="t" value="{{ type }}">
-          {% set p = request.args.get('p', 0)|int %}
+          <input type="hidden" name="q" value="{{ args.q }}">
+          <input type="hidden" name="t" value="{{ args.t }}">
           {% if p >= 10 %}
               <button name="p" value="{{ p - 10 }}">{{ lang_data.buttons.previous }}</button>
           {% endif %}
@@ -167,7 +163,7 @@
     </div>
     {% else %}
         <div class="no-results-found">
-            Your search '{{ q }}' came back with no results.<br>
+            Your search '{{ args.q }}' came back with no results.<br>
             Try rephrasing your search term and/or recorrect any spelling mistakes.
         </div>
     {% endif %}
