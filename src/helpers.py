@@ -25,6 +25,11 @@ def makeHTMLRequest(url: str):
     if domain not in WHITELISTED_DOMAINS:
         raise Exception(f"The domain '{domain}' is not whitelisted.")
 
+    # get google cookies
+    with open("./2captcha.json", "r") as file:
+        data = json.load(file)
+    GOOGLE_ABUSE_COOKIE = data["GOOGLE_ABUSE_COOKIE"]
+
     # Choose a user-agent at random
     user_agent = random.choice(user_agents)
     headers = {
@@ -72,15 +77,19 @@ def latest_commit():
             return f.readline()
     return "Not in main branch"
 
-CAPTCHA_SOLVER_ACTIVE = False
-GOOGLE_ABUSE_COOKIE = None
 def captcha():
-    # set global solver variable 
-    global CAPTCHA_SOLVER_ACTIVE, GOOGLE_ABUSE_COOKIE
+    # get google cookies
+    with open("./2captcha.json", "r") as file:
+        data = json.load(file)
+    CAPTCHA_SOLVER_ACTIVE = data["CAPTCHA_SOLVER_ACTIVE"]
     # check if solver is already running
-    if CAPTCHA_SOLVER_ACTIVE == False:
+    if CAPTCHA_SOLVER_ACTIVE == "false":
         # start solver
-        CAPTCHA_SOLVER_ACTIVE = True
+        with open("./2captcha.json", "r") as file:
+            data = json.load(file)
+        data["CAPTCHA_SOLVER_ACTIVE"] = "true"
+        with open("./2captcha.json", "w") as file:
+            json.dump(data, file, indent=4) 
         solver = TwoCaptcha(CAPTCHA_API_KEY)
 
         # Choose a user-agent at random
@@ -116,7 +125,11 @@ def captcha():
             datas=f"{data_s_value}",
             url=f"{url}")
         except Exception as e:
-            CAPTCHA_SOLVER_ACTIVE = False
+            with open("./2captcha.json", "r") as file:
+                data = json.load(file)
+            data["CAPTCHA_SOLVER_ACTIVE"] = "false"
+            with open("./2captcha.json", "w") as file:
+                json.dump(data, file, indent=4) 
             driver.close()
             print(e)
         else:
@@ -140,10 +153,18 @@ def captcha():
             cookies = driver.get_cookies()
             for cookie in driver.get_cookies():
                 if cookie['name'] == 'GOOGLE_ABUSE_EXEMPTION':
-                    GOOGLE_ABUSE_COOKIE = cookie['value']
+                    with open("./2captcha.json", "r") as file:
+                        data = json.load(file)
+                    data["GOOGLE_ABUSE_COOKIE"] = cookie['value']
+                    with open("./2captcha.json", "w") as file:
+                        json.dump(data, file, indent=4)
                     break
             # close the web driver and set solver to false
-            CAPTCHA_SOLVER_ACTIVE = False
+            with open("./2captcha.json", "r") as file:
+                data = json.load(file)
+            data["CAPTCHA_SOLVER_ACTIVE"] = "false"
+            with open("./2captcha.json", "w") as file:
+                json.dump(data, file, indent=4) 
             driver.close()
     else:
         pass
