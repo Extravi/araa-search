@@ -11,6 +11,7 @@ from langdetect import detect
 from thefuzz import fuzz
 from flask import request
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from twocaptcha import TwoCaptcha
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
@@ -82,18 +83,22 @@ def captcha():
         CAPTCHA_SOLVER_ACTIVE = True
         solver = TwoCaptcha(CAPTCHA_API_KEY)
 
+        # Choose a user-agent at random
+        user_agent = random.choice(user_agents)
+        headers = {"User-Agent": user_agent}
+
         # start the webdriver to use later
         options = Options()
+        options.add_argument(f'user-agent={user_agent}')
         options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
         # url for captcha
         url = f"https://www.google.com/search?q="
 
-        # Choose a user-agent at random
-        user_agent = random.choice(user_agents)
-        headers = {"User-Agent": user_agent}
         # Grab HTML content
         html = requests.get(url, headers=headers)
         url = html.url
@@ -120,7 +125,13 @@ def captcha():
             # request the page
             driver.get(url)
             # set the solved code
-            recaptcha_response_element = driver.find_element(By.ID, 'g-recaptcha-response')
+            while True:
+                # Sometimes Google won't load the captcha even on a fully loaded page, so refresh until it's loaded.
+                try:
+                    recaptcha_response_element = driver.find_element(By.ID, 'g-recaptcha-response')
+                    break 
+                except NoSuchElementException:
+                    driver.refresh()
             driver.execute_script(f'arguments[0].value = "{code}";', recaptcha_response_element)
             # continue and get cookies
             continue_input = driver.find_element(By.CSS_SELECTOR, 'form#captcha-form input[name="continue"]')
