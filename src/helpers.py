@@ -28,17 +28,37 @@ def makeHTMLRequest(url: str):
     # get google cookies
     with open("./2captcha.json", "r") as file:
         data = json.load(file)
+    GOOGLE_OGPC_COOKIE = data["GOOGLE_OGPC_COOKIE"]
+    GOOGLE_NID_COOKIE = data["GOOGLE_NID_COOKIE"]
+    GOOGLE_AEC_COOKIE = data["GOOGLE_AEC_COOKIE"]
+    GOOGLE_1P_JAR_COOKIE = data["GOOGLE_1P_JAR_COOKIE"]
     GOOGLE_ABUSE_COOKIE = data["GOOGLE_ABUSE_COOKIE"]
 
     # Choose a user-agent at random
     user_agent = random.choice(user_agents)
     headers = {
         "User-Agent": user_agent,
-        "Cookie": f"GOOGLE_ABUSE_EXEMPTION={GOOGLE_ABUSE_COOKIE}"
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Dnt": "1",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": "1"
+    }
+
+    cookies = {
+        "OGPC": f"{GOOGLE_OGPC_COOKIE}",
+        "NID": f"{GOOGLE_NID_COOKIE}",
+        "AEC": f"{GOOGLE_AEC_COOKIE}",
+        "1P_JAR": f"{GOOGLE_1P_JAR_COOKIE}",
+        "GOOGLE_ABUSE_EXEMPTION": f"{GOOGLE_ABUSE_COOKIE}"
     }
     
     # Grab HTML content with the specific cookie
-    html = requests.get(url, headers=headers)
+    html = requests.get(url, headers=headers, cookies=cookies)
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
@@ -151,14 +171,14 @@ def captcha():
             continue_input.submit()
             # capture cookie value to send in request
             cookies = driver.get_cookies()
-            for cookie in driver.get_cookies():
-                if cookie['name'] == 'GOOGLE_ABUSE_EXEMPTION':
-                    with open("./2captcha.json", "r") as file:
-                        data = json.load(file)
-                    data["GOOGLE_ABUSE_COOKIE"] = cookie['value']
-                    with open("./2captcha.json", "w") as file:
-                        json.dump(data, file, indent=4)
-                    break
+            with open("./2captcha.json", "r") as file:
+                data = json.load(file)
+            for cookie in cookies:
+                cookie_name = cookie['name']
+                if cookie_name in cookie_mapping:
+                    data[cookie_mapping[cookie_name]] = cookie['value']
+            with open("./2captcha.json", "w") as file:
+                json.dump(data, file, indent=4)
             # close the web driver and set solver to false
             with open("./2captcha.json", "r") as file:
                 data = json.load(file)
