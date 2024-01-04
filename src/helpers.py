@@ -56,6 +56,9 @@ def makeHTMLRequest(url: str):
         "1P_JAR": f"{GOOGLE_1P_JAR_COOKIE}",
         "GOOGLE_ABUSE_EXEMPTION": f"{GOOGLE_ABUSE_COOKIE}"
     }
+
+    # Force all requests to only use IPv4
+    requests.packages.urllib3.util.connection.HAS_IPV6 = False
     
     # Grab HTML content with the specific cookie
     html = requests.get(url, headers=headers, cookies=cookies)
