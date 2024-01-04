@@ -22,10 +22,13 @@ from selenium import webdriver
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
-# Make a persistent session
-s = requests.Session()
+# Make persistent request sessions
+s = requests.Session() # generic
+google = requests.Session() # google
+wiki = requests.Session() # wikipedia
+invidious = requests.Session() # invidious
 
-def makeHTMLRequest(url: str, is_google=False):
+def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_invidious=False):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
@@ -58,7 +61,14 @@ def makeHTMLRequest(url: str, is_google=False):
     }
     
     # Grab HTML content with the specific cookie
-    html = s.get(url, headers=headers, cookies=cookies)
+    if is_google:
+        html = google.get(url, headers=headers, cookies=cookies) # persistent session for google
+    elif is_wiki:
+        html = wiki.get(url, headers=headers, cookies=cookies) # persistent session for wikipedia
+    elif is_invidious:
+        html = invidious.get(url, headers=headers, cookies=cookies) # persistent session for invidious
+    else:
+        html = s.get(url, headers=headers, cookies=cookies) # generic persistent session
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
@@ -134,7 +144,7 @@ def captcha():
         url = f"https://www.google.com/search?q="
 
         # Grab HTML content
-        html = s.get(url, headers=headers)
+        html = google.get(url, headers=headers) # use the persistent session for google
         url = html.url
 
         # get data-s tag
@@ -243,7 +253,7 @@ def bytes_to_string(size):
 
 class Settings():
     def __init__(self):
-        self.domain = request.cookies.get("domain", "google.com/search?gl=us")
+        self.domain = request.cookies.get("domain", "/search?gl=us")
         self.javascript = request.cookies.get("javascript", "enabled")
         self.lang = request.cookies.get("lang", "")
         self.new_tab = request.cookies.get("new_tab", "")

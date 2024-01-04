@@ -35,9 +35,9 @@ def textResults(query) -> Response:
         if search_type == "reddit":
             site_restriction = "site:reddit.com"
             query_for_request = f"{query} {site_restriction}"
-            soup = helpers.makeHTMLRequest(f"https://www.{settings.domain}&q={quote(query_for_request)}&start={p}&lr={settings.lang}", is_google=True)
+            soup = helpers.makeHTMLRequest(f"https://www.google.com{settings.domain}&q={quote(query_for_request)}&start={p}&lr={settings.lang}", is_google=True)
         elif search_type == "text":
-            soup = helpers.makeHTMLRequest(f"https://www.{settings.domain}&q={quote(query)}&start={p}&lr={settings.lang}&safe={settings.safe}", is_google=True)
+            soup = helpers.makeHTMLRequest(f"https://www.google.com{settings.domain}&q={quote(query)}&start={p}&lr={settings.lang}&safe={settings.safe}", is_google=True)
         else:
             return "Invalid search type"
     except Exception as e:
@@ -142,7 +142,7 @@ def textResults(query) -> Response:
         else:
             try:
                 kno_title = kno_link.split("/")[-1]
-                soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500")
+                soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500", is_wiki=True)
                 data = json.loads(soup.text)
                 img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
                 kno_image = [f"/img_proxy?url={img_src}"]
