@@ -20,6 +20,9 @@ app.jinja_env.globals.update(int=int)
 
 COMMIT = helpers.latest_commit()
 
+# Make a persistent session
+s = requests.Session()
+
 
 @app.route('/settings')
 def settings():
@@ -87,7 +90,7 @@ def suggestions():
         query = request.args.get("q", "").strip()
     else:
         query = request.form.get("q", "").strip()
-    response = requests.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
+    response = s.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
     return json.loads(response.text)
 
 
@@ -112,7 +115,7 @@ def api():
         t = args.get("t", "text").strip()
         p = args.get('p', 1)
         try:
-            response = requests.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
+            response = s.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
             return json.loads(response.text)
         except Exception as e:
             app.logger.error(e)
@@ -147,7 +150,7 @@ def img_proxy():
     headers = {"User-Agent": user_agent}
 
     # Fetch the image data from the specified URL
-    response = requests.get(url, headers=headers)
+    response = s.get(url, headers=headers)
 
     # Check that the request was successful
     if response.status_code == 200:
