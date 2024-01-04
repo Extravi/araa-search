@@ -8,6 +8,12 @@ import requests
 import random
 
 
+# Force all requests to only use IPv4
+requests.packages.urllib3.util.connection.HAS_IPV6 = False
+
+# Make a persistent session
+s = requests.Session()
+
 def imageResults(query) -> Response:
     # get user language settings
     settings = helpers.Settings()
@@ -36,7 +42,7 @@ def imageResults(query) -> Response:
     # grab & format webpage
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
-    response = requests.get(f"https://api.qwant.com/v3/search/images?t=images&q={quote(query)}&count=50&locale=en_CA&offset={p}&device=desktop&tgp=2&safesearch={safe_search}", headers=headers)
+    response = s.get(f"https://api.qwant.com/v3/search/images?t=images&q={quote(query)}&count=50&locale=en_CA&offset={p}&device=desktop&tgp=2&safesearch={safe_search}", headers=headers)
     json_data = response.json()
 
     # Get all the images from the response, while avoiding any errors.
