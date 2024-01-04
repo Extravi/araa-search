@@ -67,15 +67,6 @@ VALID_UA_PROMPTS = [
 
 WHITELISTED_DOMAINS = [
     "www.google.com",
-    "www.google.fr",
-    "www.google.ca",
-    "www.google.co.uk",
-    "www.google.de",
-    "www.google.com.au",
-    "www.google.co.in",
-    "www.google.co.jp",
-    "www.google.co.kr",
-    "www.google.com.br",
     "wikipedia.org",
     INVIDIOUS_INSTANCE,
     "api.qwant.com",

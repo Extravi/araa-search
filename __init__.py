@@ -23,9 +23,12 @@ COMMIT = helpers.latest_commit()
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
-# Make a persistent session
-s = requests.Session()
-
+# Make persistent request sessions
+s = requests.Session() # generic
+ac = requests.Session() # suggestions
+wikimedia = requests.Session() # wikimedia
+bing = requests.Session() # bing
+invidious = requests.Session() # invidious
 
 @app.route('/settings')
 def settings():
@@ -93,7 +96,7 @@ def suggestions():
         query = request.args.get("q", "").strip()
     else:
         query = request.form.get("q", "").strip()
-    response = s.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
+    response = ac.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
     return json.loads(response.text)
 
 
@@ -103,7 +106,7 @@ def wikipedia():
         query = request.args.get("q", "").strip()
     else:
         query = request.form.get("q", "").strip()
-    response = helpers.makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={quote(query)}&pithumbsize=500")
+    response = helpers.makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={quote(query)}&pithumbsize=500", is_wiki=True)
     return json.loads(response.text)
 
 
@@ -118,7 +121,7 @@ def api():
         t = args.get("t", "text").strip()
         p = args.get('p', 1)
         try:
-            response = s.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
+            response = requests.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
             return json.loads(response.text)
         except Exception as e:
             app.logger.error(e)
@@ -153,7 +156,19 @@ def img_proxy():
     headers = {"User-Agent": user_agent}
 
     # Fetch the image data from the specified URL
-    response = s.get(url, headers=headers)
+    if url.startswith(("https://tse.mm.bing.net/",
+                        "https://tse1.explicit.bing.net/",
+                        "https://tse2.explicit.bing.net/",
+                        "https://tse3.explicit.bing.net/",
+                        "https://tse4.explicit.bing.net/")
+                        ):
+        response = bing.get(url, headers=headers)
+    elif url.startswith("https://upload.wikimedia.org/wikipedia/commons/"):
+        response = wikimedia.get(url, headers=headers)
+    elif url.startswith(f"https://{INVIDIOUS_INSTANCE}"):
+        response = invidious.get(url, headers=headers)
+    else:
+        response = s.get(url, headers=headers)
 
     # Check that the request was successful
     if response.status_code == 200:
