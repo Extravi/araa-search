@@ -3,7 +3,7 @@ import requests
 import re
 import json
 from bs4 import BeautifulSoup
-from urllib.parse import unquote
+from urllib.parse import unquote, urlparse
 from _config import *
 from markupsafe import escape, Markup
 from os.path import exists
@@ -19,24 +19,30 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 
 
-def makeHTMLRequest(url: str):
+# Force all requests to only use IPv4
+requests.packages.urllib3.util.connection.HAS_IPV6 = False
+
+def makeHTMLRequest(url: str, is_google=False):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
         raise Exception(f"The domain '{domain}' is not whitelisted.")
 
-    # get google cookies
-    data = load_config()
-    GOOGLE_OGPC_COOKIE = data["GOOGLE_OGPC_COOKIE"]
-    GOOGLE_NID_COOKIE = data["GOOGLE_NID_COOKIE"]
-    GOOGLE_AEC_COOKIE = data["GOOGLE_AEC_COOKIE"]
-    GOOGLE_1P_JAR_COOKIE = data["GOOGLE_1P_JAR_COOKIE"]
-    GOOGLE_ABUSE_COOKIE = data["GOOGLE_ABUSE_COOKIE"]
+    if is_google:
+        # get google cookies
+        data = load_config()
+        cookies = {
+            "OGPC": data["GOOGLE_OGPC_COOKIE"],
+            "NID": data["GOOGLE_NID_COOKIE"],
+            "AEC": data["GOOGLE_AEC_COOKIE"],
+            "1P_JAR": data["GOOGLE_1P_JAR_COOKIE"],
+            "GOOGLE_ABUSE_EXEMPTION": data["GOOGLE_ABUSE_COOKIE"]
+        }
+    else:
+        cookies = {}
 
-    # Choose a user-agent at random
-    user_agent = random.choice(user_agents)
     headers = {
-        "User-Agent": user_agent,
+        "User-Agent": random.choice(user_agents),  # Choose a user-agent at random
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
         "Accept-Encoding": "gzip, deflate",
         "Accept-Language": "en-US,en;q=0.5",
@@ -47,17 +53,6 @@ def makeHTMLRequest(url: str):
         "Sec-Fetch-User": "?1",
         "Upgrade-Insecure-Requests": "1"
     }
-
-    cookies = {
-        "OGPC": f"{GOOGLE_OGPC_COOKIE}",
-        "NID": f"{GOOGLE_NID_COOKIE}",
-        "AEC": f"{GOOGLE_AEC_COOKIE}",
-        "1P_JAR": f"{GOOGLE_1P_JAR_COOKIE}",
-        "GOOGLE_ABUSE_EXEMPTION": f"{GOOGLE_ABUSE_COOKIE}"
-    }
-
-    # Force all requests to only use IPv4
-    requests.packages.urllib3.util.connection.HAS_IPV6 = False
     
     # Grab HTML content with the specific cookie
     html = requests.get(url, headers=headers, cookies=cookies)
