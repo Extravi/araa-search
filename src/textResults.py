@@ -35,9 +35,9 @@ def textResults(query) -> Response:
         if search_type == "reddit":
             site_restriction = "site:reddit.com"
             query_for_request = f"{query} {site_restriction}"
-            soup = helpers.makeHTMLRequest(f"https://www.{settings.domain}&q={quote(query_for_request)}&start={p}&lr={settings.lang}")
+            soup = helpers.makeHTMLRequest(f"https://www.{settings.domain}&q={quote(query_for_request)}&start={p}&lr={settings.lang}", is_google=True)
         elif search_type == "text":
-            soup = helpers.makeHTMLRequest(f"https://www.{settings.domain}&q={quote(query)}&start={p}&lr={settings.lang}&safe={settings.safe}")
+            soup = helpers.makeHTMLRequest(f"https://www.{settings.domain}&q={quote(query)}&start={p}&lr={settings.lang}&safe={settings.safe}", is_google=True)
         else:
             return "Invalid search type"
     except Exception as e:
