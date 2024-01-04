@@ -22,6 +22,9 @@ from selenium import webdriver
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
+# Make a persistent session
+s = requests.Session()
+
 def makeHTMLRequest(url: str, is_google=False):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
@@ -55,7 +58,7 @@ def makeHTMLRequest(url: str, is_google=False):
     }
     
     # Grab HTML content with the specific cookie
-    html = requests.get(url, headers=headers, cookies=cookies)
+    html = s.get(url, headers=headers, cookies=cookies)
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
@@ -131,7 +134,7 @@ def captcha():
         url = f"https://www.google.com/search?q="
 
         # Grab HTML content
-        html = requests.get(url, headers=headers)
+        html = s.get(url, headers=headers)
         url = html.url
 
         # get data-s tag
@@ -195,7 +198,7 @@ def makeJSONRequest(url: str):
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
     # Grab json content
-    response = requests.get(url)
+    response = s.get(url)
 
     # Return the JSON object
     return json.loads(response.text)
