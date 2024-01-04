@@ -20,6 +20,9 @@ app.jinja_env.globals.update(int=int)
 
 COMMIT = helpers.latest_commit()
 
+# Force all requests to only use IPv4
+requests.packages.urllib3.util.connection.HAS_IPV6 = False
+
 # Make a persistent session
 s = requests.Session()
 
