@@ -26,8 +26,7 @@ def makeHTMLRequest(url: str):
         raise Exception(f"The domain '{domain}' is not whitelisted.")
 
     # get google cookies
-    with open("./2captcha.json", "r") as file:
-        data = json.load(file)
+    data = load_config()
     GOOGLE_OGPC_COOKIE = data["GOOGLE_OGPC_COOKIE"]
     GOOGLE_NID_COOKIE = data["GOOGLE_NID_COOKIE"]
     GOOGLE_AEC_COOKIE = data["GOOGLE_AEC_COOKIE"]
@@ -100,19 +99,24 @@ def latest_commit():
             return f.readline()
     return "Not in main branch"
 
+def load_config():
+    with open("./2captcha.json", "r") as file:
+        return json.load(file)
+
+def save_config(data):
+    with open("./2captcha.json", "w") as file:
+        json.dump(data, file, indent=4)
+
 def captcha():
     # get google cookies
-    with open("./2captcha.json", "r") as file:
-        data = json.load(file)
+    data = load_config()
     CAPTCHA_SOLVER_ACTIVE = data["CAPTCHA_SOLVER_ACTIVE"]
     # check if solver is already running
     if CAPTCHA_SOLVER_ACTIVE == "false":
         # start solver
-        with open("./2captcha.json", "r") as file:
-            data = json.load(file)
+        data = load_config()
         data["CAPTCHA_SOLVER_ACTIVE"] = "true"
-        with open("./2captcha.json", "w") as file:
-            json.dump(data, file, indent=4) 
+        save_config(data)
         solver = TwoCaptcha(CAPTCHA_API_KEY)
 
         # Choose a user-agent at random
@@ -148,11 +152,9 @@ def captcha():
             datas=f"{data_s_value}",
             url=f"{url}")
         except Exception as e:
-            with open("./2captcha.json", "r") as file:
-                data = json.load(file)
+            data = load_config()
             data["CAPTCHA_SOLVER_ACTIVE"] = "false"
-            with open("./2captcha.json", "w") as file:
-                json.dump(data, file, indent=4) 
+            save_config(data) 
             driver.close()
             print(e)
         else:
@@ -174,20 +176,16 @@ def captcha():
             continue_input.submit()
             # capture cookie value to send in request
             cookies = driver.get_cookies()
-            with open("./2captcha.json", "r") as file:
-                data = json.load(file)
+            data = load_config()
             for cookie in cookies:
                 cookie_name = cookie['name']
                 if cookie_name in cookie_mapping:
                     data[cookie_mapping[cookie_name]] = cookie['value']
-            with open("./2captcha.json", "w") as file:
-                json.dump(data, file, indent=4)
+            save_config(data)
             # close the web driver and set solver to false
-            with open("./2captcha.json", "r") as file:
-                data = json.load(file)
+            data = load_config()
             data["CAPTCHA_SOLVER_ACTIVE"] = "false"
-            with open("./2captcha.json", "w") as file:
-                json.dump(data, file, indent=4) 
+            save_config(data)
             driver.close()
     else:
         pass
