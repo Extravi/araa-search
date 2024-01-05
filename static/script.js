@@ -58,6 +58,7 @@ searchInput.addEventListener('input', async () => {
     results = await getSuggestions(input);
   }
   renderResults(results);
+  currentIndex = -1; // Reset index when we return new results
 });
 
 searchInput.addEventListener('keydown', (event) => {
