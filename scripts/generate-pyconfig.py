@@ -88,7 +88,7 @@ ENV_VARS = {
     },
     'ENABLE_2CAPTCHA': {
         'default_val': False,
-        'pyname': 'CAPTCHA_ENABLED'
+        'pyname': 'CAPTCHA_ENABLED',
         'type': bool,
     },
     '2CAPTCHA_KEY': {
