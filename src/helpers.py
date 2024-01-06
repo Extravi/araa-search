@@ -261,3 +261,4 @@ class Settings():
         self.ux_lang = request.cookies.get("ux_lang", "english")
         self.theme = request.cookies.get("theme", DEFAULT_THEME)
         self.method = request.cookies.get("method", DEFAULT_METHOD)
+        self.ac = request.cookies.get("ac", DEFAULT_AUTOCOMPLETE)

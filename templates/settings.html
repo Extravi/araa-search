@@ -134,6 +134,13 @@
         </select>
     </div>
     <div class="settings-row">
+        <p>Autocomplete</p>
+        <select id="open-new-tab" name="ac">
+            <option value="google" {% if settings.ac == "google" %}selected{% endif %}>Google</option>
+            <option value="ddg" {% if settings.ac == "ddg" %}selected{% endif %}>DuckDuckGo</option>
+        </select>
+    </div>
+    <div class="settings-row">
         <p>{{ lang_data.settings.disable_javascript }}</p>
         <select id="javascript-setting" name="javascript">
             <option value="enabled" {% if settings.javascript == 'enabled' %}selected{% endif %}>JavaScript Enabled</option>
