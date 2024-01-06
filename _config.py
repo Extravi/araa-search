@@ -16,6 +16,9 @@ DEFAULT_THEME = 'dark_blur'
 # Default method
 DEFAULT_METHOD = "GET"
 
+# Default autocomplete "google" will use Google, and "ddg" will use DuckDuckGo
+DEFAULT_AUTOCOMPLETE = "google"
+
 # The port for this server to listen on
 PORT = 8000
 

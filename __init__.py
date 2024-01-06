@@ -26,9 +26,14 @@ requests.packages.urllib3.util.connection.HAS_IPV6 = False
 # Make persistent request sessions
 s = requests.Session() # generic
 ac = requests.Session() # suggestions
+googleac = requests.Session() # googleac
 wikimedia = requests.Session() # wikimedia
 bing = requests.Session() # bing
 invidious = requests.Session() # invidious
+
+# Set a custom request header for the autocomplete session
+ac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
+googleac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
 
 @app.route('/settings')
 def settings():
@@ -75,7 +80,7 @@ def discover():
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
-    cookies = ['safe', 'javascript', 'domain', 'theme', 'lang', 'ux_lang', 'new_tab', 'method']
+    cookies = ['safe', 'javascript', 'domain', 'theme', 'lang', 'ux_lang', 'new_tab', 'method', 'ac']
 
     response = make_response(redirect(request.referrer))
     for cookie in cookies:
@@ -92,12 +97,29 @@ def save_settings():
 
 @app.route("/suggestions")
 def suggestions():
+    # get user autocomplete settings
+    settings = helpers.Settings()
+
     if request.method == "GET":
         query = request.args.get("q", "").strip()
     else:
         query = request.form.get("q", "").strip()
-    response = ac.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
-    return json.loads(response.text)
+    if settings.ac == "ddg":
+        response = ac.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
+        return json.loads(response.text)
+    else:
+        response = googleac.get(f"https://suggestqueries.google.com/complete/search?client=firefox&q={quote(query)}")
+        suggestions_list = json.loads(response.text)
+
+        # remove items at index 2 and 3
+        if len(suggestions_list) > 2:
+            suggestions_list.pop(3)
+        if len(suggestions_list) > 2:
+            suggestions_list.pop(2)
+
+        # limit results
+        suggestions_list[1] = suggestions_list[1][:8]
+        return jsonify(suggestions_list)
 
 
 @app.route("/wikipedia")
