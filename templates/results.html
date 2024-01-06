@@ -128,8 +128,10 @@
         <p class="snipp">{{ snip|highlight_query_words(q) }} <a target="_blank" href="{{ results[0][0] }}">{{ results[0][0] }}</a></p>
     {% endif %}
 
-    {% if widget.type == "dictionary" %}
-      {% include "widgets/dictionary.html" %}
+    {% if widget %}
+      {% if widget.type == "dictionary" %}
+        {% include "widgets/dictionary.html" %}
+      {% endif %}
     {% endif %}
 
     {% if results %}
