@@ -108,6 +108,7 @@
         <p id="info_font" class="snip">{{ calc }}</p>
         {% endif %}
     {% endif %}
+
     {% if kno_rdesc == "" %}
     {% else %}
     <div class="snip">
@@ -126,6 +127,11 @@
     {% else %}
         <p class="snipp">{{ snip|highlight_query_words(q) }} <a target="_blank" href="{{ results[0][0] }}">{{ results[0][0] }}</a></p>
     {% endif %}
+
+    {% if widget.type == "dictionary" %}
+      {% include "widgets/dictionary.html" %}
+    {% endif %}
+
     {% if results %}
     <div class="result_sublink">
       <a id="link" {% if settings.new_tab == "active" %} target="_blank" {% endif %} href="{{ results[0][0] }}">{{ results[0][0] }}</a>

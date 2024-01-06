@@ -1,0 +1,50 @@
+.definitions {
+  position: relative;
+  left: 175px;
+  max-width: 600px;
+  background: var(--snip-background);
+  border: 1px solid var(--snip-border);
+  border-radius: 8px;
+  padding: 7px;
+}
+
+.word {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.word_type {
+  margin-top: 10px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.def_list {
+  padding-left: 30px;
+  margin-bottom: 0px;
+}
+
+.def_list li::marker {
+  color: var(--fg);
+}
+
+.definition {
+  color: var(--fff);
+}
+
+.def_list li {
+  padding-bottom: 10px;
+}
+
+@media only screen and (max-width: 750px) {
+  .definitions {
+    left: 10px;
+  }
+}
+
+@media only screen and (max-width: 1220px) {
+  .definitions {
+    margin-top: 5px;
+    max-width: 500px;
+  }
+}
