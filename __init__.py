@@ -20,6 +20,10 @@ app.jinja_env.globals.update(int=int)
 
 COMMIT = helpers.latest_commit()
 
+# Debug code uncomment when needed
+#import logging, requests, timeit
+#logging.basicConfig(level=logging.DEBUG, format="%(message)s")
+
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 

@@ -11,7 +11,7 @@ REPO = 'https://github.com/Extravi/araa-search'
 DONATE = 'https://github.com/sponsors/Extravi'
 
 # Default theme
-DEFAULT_THEME = 'dark_blur'
+DEFAULT_THEME = 'dark_default'
 
 # Default method
 DEFAULT_METHOD = "GET"
