@@ -26,6 +26,8 @@
     --highlight: #e6edf3;
 
     --blue: #8ab4f8;
+
+    --green: #31b06e;
     
     --image-view: #161b22;
     --image-view-titlebar: #161b22;
@@ -34,6 +36,8 @@
     --fff: #fff;
 
     --search-button: #BABCBE;
+
+    --publish-info: #7f869e;
 
     color-scheme: dark;
 }

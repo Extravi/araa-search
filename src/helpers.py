@@ -18,6 +18,9 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 
+# Debug code uncomment when needed
+#import logging, requests, timeit
+#logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False

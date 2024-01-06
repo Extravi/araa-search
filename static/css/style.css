@@ -440,7 +440,7 @@ hr {
 }
 
 .stats {
-    color: #31b06e;
+    color: var(--green);
     max-width: 48em;
     line-height: 1.25rem;
     margin-bottom: 1px;
@@ -448,7 +448,7 @@ hr {
 }
 
 .publish__info {
-    color: #7f869e;
+    color: var(--publish-info);
     max-width: 48em;
     line-height: 1.25rem;
     font-size: 13px;
@@ -456,6 +456,14 @@ hr {
 
 .results .video_title {
     font-size: 16px;
+}
+
+.video_title {
+    font-size: 16px;
+}
+
+.video-results-margin {
+    margin-bottom: 0px !important;
 }
 
 .video__img__results img {
@@ -496,7 +504,7 @@ hr {
     padding: .5em;
     background: rgba(0, 0, 0, .5);
     right: 0;
-    bottom: 4px;
+    margin-top: -28px !important;
     line-height: 1.3;
     letter-spacing: -0.4px;
 }
@@ -682,6 +690,13 @@ hr {
     color: var(--highlight);
     background: var(--html-bg);
     cursor: pointer;
+    transition: all .3s ease;
+}
+
+.torrent-cat:hover,
+.torrent-settings:hover,
+.torrent-sort-save:hover {
+    color: var(--font-fg);
     transition: all .3s ease;
 }
 
@@ -1593,6 +1608,10 @@ p {
         font-size: 13px;
         margin-top: 140px;
         max-width: 355px;
+    }
+
+    .video_title {
+        font-size: 14px !important;
     }
 
     select.results-settings {

@@ -26,12 +26,16 @@
     --highlight: #202124;
 
     --blue: #4285f4;
+
+    --green: #202124;
     
     --image-view: #ffffff;
     --image-view-titlebar: #ffffff;
     --view-image-color: #f1f3f4;
     --image-select: #f6f6f6;
     --fff: #fff;
+
+    --publish-info: #202124;
 
     --search-button: #202124;
 }

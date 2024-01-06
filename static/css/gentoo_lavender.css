@@ -27,11 +27,15 @@
 
     --blue: #4c416e;
 
+    --green: #31b06e;
+
     --image-view: #ffffff;
     --image-view-titlebar: #ffffff;
     --view-image-color: #f1f3f4;
     --image-select: #f6f6f6;
     --fff: #fff;
+
+    --publish-info: #7f869e;
 
     --search-button: #202124;
 }

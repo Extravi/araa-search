@@ -27,6 +27,8 @@
 
     --blue: #007032;
 
+    --green: #31b06e;
+
     --image-view: #0f0f0f;
     --image-view-titlebar: #0f0f0f;
     --view-image-color: #000000;
@@ -34,6 +36,8 @@
     --fff: #fff;
 
     --search-button: #ffffff;
+
+    --publish-info: #7f869e;
 
     color-scheme: dark;
 }
