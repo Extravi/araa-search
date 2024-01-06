@@ -175,7 +175,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 const urlParams = new URLSearchParams(window.location.search);
 
-if (document.querySelectorAll(".search-active")[1].innerText === "Images") {
+if (document.querySelectorAll(".search-active")[1].getAttribute("value") === "image") {
 
   // image viewer for image search
   const closeButton = document.querySelector('.image-close');
