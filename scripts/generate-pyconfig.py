@@ -96,6 +96,11 @@ ENV_VARS = {
         'pyname': 'CAPTCHA_API_KEY',
         'type': str,
     },
+    'DEFAULT_AC_ENGINE': {
+        'default_val': 'google',
+        'pyname': 'DEFAULT_AUTOCOMPLETE',
+        'type': str,
+    },
 }
 
 import os
