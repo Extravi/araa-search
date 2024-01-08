@@ -8,4 +8,4 @@ langdetect
 2captcha-python
 selenium
 webdriver-manager
-httpx
+httpx[http2]
