@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, jsonify, Response, make_response, redirect
 import requests
+import httpx
 import random
 import json
 from urllib.parse import quote
@@ -21,19 +22,19 @@ app.jinja_env.globals.update(int=int)
 COMMIT = helpers.latest_commit()
 
 # Debug code uncomment when needed
-#import logging, requests, timeit
+#import logging, timeit
 #logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
 # Make persistent request sessions
-s = requests.Session() # generic
-ac = requests.Session() # suggestions
-googleac = requests.Session() # googleac
-wikimedia = requests.Session() # wikimedia
-bing = requests.Session() # bing
-invidious = requests.Session() # invidious
+s = httpx.Client(http2=True, follow_redirects=True)  # generic
+ac = httpx.Client(http2=True, follow_redirects=True)  # suggestions
+googleac = httpx.Client(http2=True, follow_redirects=True)  # googleac
+wikimedia = httpx.Client(http2=True, follow_redirects=True)  # wikimedia
+bing = httpx.Client(http2=True, follow_redirects=True)  # bing
+invidious = httpx.Client(http2=True, follow_redirects=True)  # invidious
 
 # Set a custom request header for the autocomplete session
 ac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
