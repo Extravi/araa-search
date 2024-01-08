@@ -1,5 +1,6 @@
 import random
 import requests
+import httpx
 import re
 import json
 from bs4 import BeautifulSoup
@@ -19,17 +20,17 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 
 # Debug code uncomment when needed
-#import logging, requests, timeit
+#import logging, timeit
 #logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
 # Make persistent request sessions
-s = requests.Session() # generic
-google = requests.Session() # google
-wiki = requests.Session() # wikipedia
-invidious = requests.Session() # invidious
+s = httpx.Client(http2=True, follow_redirects=True)  # generic
+google = httpx.Client(http2=True, follow_redirects=True)  # google
+wiki = httpx.Client(http2=True, follow_redirects=True)  # wikipedia
+invidious = httpx.Client(http2=True, follow_redirects=True)  # invidious
 
 def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_invidious=False):
     # block unwanted request from an edited cookie
