@@ -181,29 +181,40 @@ def img_proxy():
     # Choose one user agent at random
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
+    
+    # retries
+    max_retries = 3
 
     # Fetch the image data from the specified URL
-    if url.startswith(("https://tse.mm.bing.net/",
-                        "https://tse1.explicit.bing.net/",
-                        "https://tse2.explicit.bing.net/",
-                        "https://tse3.explicit.bing.net/",
-                        "https://tse4.explicit.bing.net/")
-                        ):
-        response = bing.get(url, headers=headers)
-    elif url.startswith("https://upload.wikimedia.org/wikipedia/commons/"):
-        response = wikimedia.get(url, headers=headers)
-    elif url.startswith(f"https://{INVIDIOUS_INSTANCE}"):
-        response = invidious.get(url, headers=headers)
-    else:
-        response = s.get(url, headers=headers)
+    for attempt in range(max_retries):
+        try:
+            if url.startswith(("https://tse.mm.bing.net/",
+                                "https://tse1.explicit.bing.net/",
+                                "https://tse2.explicit.bing.net/",
+                                "https://tse3.explicit.bing.net/",
+                                "https://tse4.explicit.bing.net/")
+                                ):
+                response = bing.get(url, headers=headers)
+            elif url.startswith("https://upload.wikimedia.org/wikipedia/commons/"):
+                response = wikimedia.get(url, headers=headers)
+            elif url.startswith(f"https://{INVIDIOUS_INSTANCE}"):
+                response = invidious.get(url, headers=headers)
+            else:
+                response = s.get(url, headers=headers)
 
-    # Check that the request was successful
-    if response.status_code == 200:
-        # Create a Flask response with the image data and the appropriate Content-Type header
-        return Response(response.content, mimetype=response.headers["Content-Type"])
-    else:
-        # Return an error response if the request failed
-        return Response("Error fetching image", status=500)
+            # Check that the request was successful
+            if response.status_code == 200:
+                # Create a Flask response with the image data and the appropriate Content-Type header
+                return Response(response.content, mimetype=response.headers["Content-Type"])
+            else:
+                raise Exception("Non-200 status code")
+
+        # Try the request again
+        except Exception:
+            if attempt == max_retries - 1:
+                return Response("Error fetching image", status=500)
+            else:
+                pass
 
 
 @app.route("/", methods=["GET", "POST"])
