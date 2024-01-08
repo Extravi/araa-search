@@ -31,6 +31,7 @@ s = httpx.Client(http2=True, follow_redirects=True)  # generic
 google = httpx.Client(http2=True, follow_redirects=True)  # google
 wiki = httpx.Client(http2=True, follow_redirects=True)  # wikipedia
 invidious = httpx.Client(http2=True, follow_redirects=True)  # invidious
+legacy = requests.Session() # legacy session for compatibility
 
 def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_invidious=False):
     # block unwanted request from an edited cookie
@@ -148,7 +149,7 @@ def captcha():
         url = f"https://www.google.com/search?q="
 
         # Grab HTML content
-        html = google.get(url, headers=headers) # use the persistent session for google
+        html = legacy.get(url, headers=headers) # use the persistent session for google
         url = html.url
 
         # get data-s tag
