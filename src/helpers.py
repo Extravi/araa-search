@@ -1,6 +1,5 @@
 import random
 import requests
-import httpx
 import re
 import json
 from bs4 import BeautifulSoup
@@ -20,18 +19,17 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 
 # Debug code uncomment when needed
-#import logging, timeit
+#import logging, requests, timeit
 #logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
 # Make persistent request sessions
-s = httpx.Client(http2=True, follow_redirects=True)  # generic
-google = httpx.Client(http2=True, follow_redirects=True)  # google
-wiki = httpx.Client(http2=True, follow_redirects=True)  # wikipedia
-invidious = httpx.Client(http2=True, follow_redirects=True)  # invidious
-legacy = requests.Session() # legacy session for compatibility
+s = requests.Session() # generic
+google = requests.Session() # google
+wiki = requests.Session() # wikipedia
+invidious = requests.Session() # invidious
 
 def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_invidious=False):
     # block unwanted request from an edited cookie
@@ -149,7 +147,7 @@ def captcha():
         url = f"https://www.google.com/search?q="
 
         # Grab HTML content
-        html = legacy.get(url, headers=headers) # use the persistent session for google
+        html = google.get(url, headers=headers) # use the persistent session for google
         url = html.url
 
         # get data-s tag

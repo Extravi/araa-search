@@ -5,18 +5,17 @@ from flask import request, render_template, jsonify, Response, redirect
 import time
 import json
 import requests
-import httpx
 import random
 
 # Debug code uncomment when needed
-#import logging, timeit
+#import logging, requests, timeit
 #logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
 # Make a persistent session
-qwant = httpx.Client(http2=True, follow_redirects=True)
+qwant = requests.Session()
 
 def imageResults(query) -> Response:
     # get user language settings
