@@ -1,11 +1,12 @@
 from src import helpers
+from src.widgets import check_widgets
 from urllib.parse import unquote, quote
 from _config import *
 from flask import request, render_template, jsonify, Response
 import time
 import json
 import re
-from math import isclose # For float comparisons
+from math import isclose  # For float comparisons
 
 
 def textResults(query) -> Response:
@@ -47,7 +48,7 @@ def textResults(query) -> Response:
     # check for captcha
     try:
         captcha = soup.findAll("form", {"id": "captcha-form"})
-        if captcha and CAPTCHA_ENABLED == True:
+        if captcha and CAPTCHA_ENABLED:
             helpers.captcha()
     except:
         pass
@@ -210,6 +211,8 @@ def textResults(query) -> Response:
 
     current_url = request.url
 
+    widget = check_widgets.check_for_widgets(query, hrefs, soup)
+
     if "exported_math_expression" not in locals():
         exported_math_expression = ""
 
@@ -230,5 +233,5 @@ def textResults(query) -> Response:
                                type=type, search_type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-                               settings=settings,
+                               settings=settings, widget=widget
                                )

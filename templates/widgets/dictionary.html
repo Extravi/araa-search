@@ -1,0 +1,19 @@
+{% if widget.content %}
+<link rel="stylesheet" href="./css/definitions.css">
+<div class="definitions">
+  <div id="word_line">
+    <span class="word">{{ widget.content.word }}</span>
+    <span class="phonetics">{{ widget.content.phonetic }}</span>
+  </div>
+
+  {% for meaning in widget.content.meanings %}
+    <div class="word_type">{{ meaning.partOfSpeech }}</div>
+    <ol class="def_list">
+      {% for def in meaning.definitions %}
+        <li><span class="definition">{{ def.definition }}</span></li>
+      {% endfor %}
+    </ol>
+  {% endfor %}
+
+</div>
+{% endif %}

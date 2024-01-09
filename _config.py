@@ -77,6 +77,7 @@ WHITELISTED_DOMAINS = [
     NYAA_DOMAIN,
     API_BAY_DOMAIN,
     RUTOR_DOMAIN,
+    "api.dictionaryapi.dev"
 ]
 
 ENABLED_TORRENT_SITES = [
