@@ -256,12 +256,12 @@ def bytes_to_string(size):
 
 class Settings():
     def __init__(self):
-        self.domain = request.cookies.get("domain", "/search?gl=us")
+        self.domain = request.cookies.get("domain", DEFAULT_GOOGLE_DOMAIN)
         self.javascript = request.cookies.get("javascript", "enabled")
         self.lang = request.cookies.get("lang", "")
         self.new_tab = request.cookies.get("new_tab", "")
         self.safe = request.cookies.get("safe", "active")
-        self.ux_lang = request.cookies.get("ux_lang", "english")
+        self.ux_lang = request.cookies.get("ux_lang", DEFAULT_UX_LANG)
         self.theme = request.cookies.get("theme", DEFAULT_THEME)
         self.method = request.cookies.get("method", DEFAULT_METHOD)
         self.ac = request.cookies.get("ac", DEFAULT_AUTOCOMPLETE)

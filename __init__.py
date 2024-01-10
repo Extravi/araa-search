@@ -39,6 +39,7 @@ invidious = requests.Session() # invidious
 ac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
 googleac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
 
+
 @app.route('/settings')
 def settings():
     settings = helpers.Settings()
@@ -49,8 +50,8 @@ def settings():
         lang_data = json.load(file)
 
     # Upgrade the request URL to https as to prevent a redirection error with /save-settings.
-    if not request.is_secure:
-        request.url = f"https://{request.host}/settings{f'?{request.query_string.decode()}' if request.query_string.decode() else ''}"
+    # if not request.is_secure:
+    #     request.url = f"https://{request.host}/settings{f'?{request.query_string.decode()}' if request.query_string.decode() else ''}"
 
     return render_template('settings.html',
                            commit=COMMIT,
@@ -59,8 +60,10 @@ def settings():
                            current_url=request.url,
                            API_ENABLED=API_ENABLED,
                            settings=settings,
-                           lang_data=lang_data
+                           lang_data=lang_data,
+                           UX_LANGUAGES=UX_LANGUAGES
                            )
+
 
 @app.route('/discover')
 def discover():

@@ -107,3 +107,31 @@ CAPTCHA_ENABLED = False
 
 # 2captcha api key
 CAPTCHA_API_KEY = "YOUR_API_KEY"
+
+UX_LANGUAGES = [
+    {'lang_lower': 'english', 'lang_fancy': 'English'},
+    {'lang_lower': 'danish', 'lang_fancy': 'Danish (Dansk)'},
+    {'lang_lower': 'dutch', 'lang_fancy': 'Dutch (Nederlands)'},
+    {'lang_lower': 'french', 'lang_fancy': 'French (Français)'},
+    {'lang_lower': 'french_canadian', 'lang_fancy': 'French Canadian (Français canadien)'},
+    {'lang_lower': 'german', 'lang_fancy': 'German (Deutsch)'},
+    {'lang_lower': 'greek', 'lang_fancy': 'Greek (Ελληνικά)'},
+    {'lang_lower': 'italian', 'lang_fancy': 'Italian (Italiano)'},
+    {'lang_lower': 'japanese', 'lang_fancy': 'Japanese (日本語)'},
+    {'lang_lower': 'korean', 'lang_fancy': 'Korean (한국어)'},
+    {'lang_lower': 'mandarin_chinese', 'lang_fancy': 'Mandarin Chinese (普通话 or 中文)'},
+    {'lang_lower': 'norwegian', 'lang_fancy': 'Norwegian (Norsk)'},
+    {'lang_lower': 'polish', 'lang_fancy': 'Polish (Polski)'},
+    {'lang_lower': 'portuguese', 'lang_fancy': 'Portuguese (Português)'},
+    {'lang_lower': 'russian', 'lang_fancy': 'Russian (Русский)'},
+    {'lang_lower': 'spanish', 'lang_fancy': 'Spanish (Español)'},
+    {'lang_lower': 'swedish', 'lang_fancy': 'Swedish (Svenska)'},
+    {'lang_lower': 'turkish', 'lang_fancy': 'Turkish (Türkçe)'},
+    {'lang_lower': 'ukrainian', 'lang_fancy': 'Ukrainian (Українська)'},
+    {'lang_lower': 'romanian', 'lang_fancy': 'Romanian (Română)'},
+]
+
+# See all the 'lang_lower' values in UX_LANGUAGES
+DEFAULT_UX_LANG = "english"
+
+DEFAULT_GOOGLE_DOMAIN = "/search?gl=us"
