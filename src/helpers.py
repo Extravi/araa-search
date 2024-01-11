@@ -29,9 +29,9 @@ requests.packages.urllib3.util.connection.HAS_IPV6 = False
 s = requests.Session() # generic
 google = requests.Session() # google
 wiki = requests.Session() # wikipedia
-invidious = requests.Session() # invidious
+piped = requests.Session() # piped
 
-def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_invidious=False):
+def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
@@ -68,8 +68,8 @@ def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_invidious=False
         html = google.get(url, headers=headers, cookies=cookies) # persistent session for google
     elif is_wiki:
         html = wiki.get(url, headers=headers, cookies=cookies) # persistent session for wikipedia
-    elif is_invidious:
-        html = invidious.get(url, headers=headers, cookies=cookies) # persistent session for invidious
+    elif is_piped:
+        html = piped.get(url, headers=headers, cookies=cookies) # persistent session for piped
     else:
         html = s.get(url, headers=headers, cookies=cookies) # generic persistent session
 

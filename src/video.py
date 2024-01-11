@@ -28,44 +28,34 @@ def videoResults(query) -> Response:
     api = args.get("api", "false")
 
     # grab & format webpage
-    soup = makeHTMLRequest(f"https://{INVIDIOUS_INSTANCE}/api/v1/search?q={quote(query)}", is_invidious=True)
+    soup = makeHTMLRequest(f"https://{PIPED_INSTANCE_API}/search?q={quote(query)}&filter=all", is_piped=True)
     data = json.loads(soup.text)
 
-    # sort by videos only
-    videos = [item for item in data if item.get("type") == "video"]
-
     # retrieve links
-    ytIds = [video["videoId"] for video in videos]
-    hrefs = [f"https://{INVIDIOUS_INSTANCE}/watch?v={ytId}" for ytId in ytIds]
+    ytIds = [item["url"] for item in data["items"] if item.get("type") != "channel"]
+    hrefs = [f"https://{PIPED_INSTANCE}{ytId}" for ytId in ytIds]
 
     # retrieve title
-    title = [title["title"] for title in videos]
+    title = [item["title"] for item in data["items"] if item.get("type") != "channel"]
 
     # retrieve date
-    date_span = [date["publishedText"] for date in videos]
+    date_span = [item["uploadedDate"] for item in data["items"] if item.get("type") != "channel"]
 
     # retrieve views
-    views = [views["viewCountText"] for views in videos]
+    views = [f"{views//1000000000}B views" if views >= 1000000000 else f"{views//1000000}M views" if views >= 1000000 else f"{views/1000:.1f}K views" if 1000 < views < 10000 else f"{views//1000}K views" if views >= 10000 else f"{views} views" for views in [item["views"] for item in data["items"] if item.get("type") != "channel"]]
 
     # retrieve creator
-    creator_text = [creator_text["author"] for creator_text in videos]
+    creator_text = [item["uploaderName"] for item in data["items"] if item.get("type") != "channel"]
 
     # retrieve publisher
-    publisher_text = ["Invidious" for creator in videos]
+    publisher_text = ["Piped" for item in data["items"] if item.get("type") != "channel"]
 
     # retrieve images
-    video_thumbnails = [item['videoThumbnails'] for item in data if item.get('type') == 'video']
-    maxres_thumbnails = [thumbnail for thumbnails in video_thumbnails for thumbnail in thumbnails if thumbnail['quality'] == 'medium']
-
-    #For some reason, URLs aren't standardized across different instances of Invidious' API, some instances use relative URLs. This is a quick workaround.
-    if INVIDIOUS_INSTANCE not in maxres_thumbnails[0]["url"]:
-        filtered_urls = ['/img_proxy?url=https://' + INVIDIOUS_INSTANCE + thumbnail['url'].replace(":3000", "").replace("http://", "https://") for thumbnail in maxres_thumbnails]
-    else: 
-        filtered_urls = ['/img_proxy?url=' + thumbnail['url'].replace(":3000", "").replace("http://", "https://") for thumbnail in maxres_thumbnails]
-
+    filtered_urls = [item["thumbnail"] for item in data["items"] if item.get("type") != "channel"]
+    filtered_urls = [f'/img_proxy?url={filtered_url}' for filtered_url in filtered_urls]
 
     # retrieve time
-    duration = [duration["lengthSeconds"] for duration in videos]
+    duration = [item["duration"] for item in data["items"] if item.get("type") != "channel"]
     formatted_durations = [f"{duration // 60:02d}:{duration % 60:02d}" for duration in duration]
 
     # list

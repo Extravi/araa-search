@@ -33,7 +33,7 @@ ac = requests.Session() # suggestions
 googleac = requests.Session() # googleac
 wikimedia = requests.Session() # wikimedia
 bing = requests.Session() # bing
-invidious = requests.Session() # invidious
+piped = requests.Session() # piped
 
 # Set a custom request header for the autocomplete session
 ac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
@@ -166,14 +166,14 @@ def img_proxy():
         url = request.form.get("url", "").strip()
 
     # Only allow proxying image from qwant.com,
-    # upload.wikimedia.org, and the default invidious instance
+    # upload.wikimedia.org, and the default piped instance
     if not url.startswith(("https://tse.mm.bing.net/",
                            "https://tse1.explicit.bing.net/",
                            "https://tse2.explicit.bing.net/",
                            "https://tse3.explicit.bing.net/",
                            "https://tse4.explicit.bing.net/",
                            "https://upload.wikimedia.org/wikipedia/commons/",
-                           f"https://{INVIDIOUS_INSTANCE}")
+                           f"https://{PIPED_INSTANCE_PROXY}")
                           ):
         return Response("Error: invalid URL", status=400)
 
@@ -191,8 +191,8 @@ def img_proxy():
         response = bing.get(url, headers=headers)
     elif url.startswith("https://upload.wikimedia.org/wikipedia/commons/"):
         response = wikimedia.get(url, headers=headers)
-    elif url.startswith(f"https://{INVIDIOUS_INSTANCE}"):
-        response = invidious.get(url, headers=headers)
+    elif url.startswith(f"https://{PIPED_INSTANCE_PROXY}"):
+        response = piped.get(url, headers=headers)
     else:
         response = s.get(url, headers=headers)
 

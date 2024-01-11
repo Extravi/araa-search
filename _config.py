@@ -29,8 +29,10 @@ NYAA_DOMAIN = "nyaa.si"
 API_BAY_DOMAIN = "apibay.org"
 RUTOR_DOMAIN = "rutor.info"
 
-# Domain of the Invidious instance to use
-INVIDIOUS_INSTANCE = "yt.artemislena.eu"
+# Domain of the Piped instance to use
+PIPED_INSTANCE_API = "ytapi.extravi.dev"
+PIPED_INSTANCE = "yt.extravi.dev"
+PIPED_INSTANCE_PROXY = "ytproxy.extravi.dev"
 
 # Useragents to use in the request.
 user_agents = [
@@ -71,7 +73,9 @@ VALID_UA_PROMPTS = [
 WHITELISTED_DOMAINS = [
     "www.google.com",
     "wikipedia.org",
-    INVIDIOUS_INSTANCE,
+    PIPED_INSTANCE,
+    PIPED_INSTANCE_API,
+    PIPED_INSTANCE_PROXY,
     "api.qwant.com",
     TORRENTGALAXY_DOMAIN,
     NYAA_DOMAIN,
