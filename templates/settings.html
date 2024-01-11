@@ -76,26 +76,10 @@
         <div class="settings-row">
         <p>{{ lang_data.settings.preferredux_language }}</p>
         <select id="ux_lang" name="ux_lang">
-            <option value="english" {% if settings.ux_lang == 'english' %}selected{% endif %}>English</option>
-            <option value="danish" {% if settings.ux_lang == 'danish' %}selected{% endif %}>Danish (Dansk)</option>
-            <option value="dutch" {% if settings.ux_lang == 'dutch' %}selected{% endif %}>Dutch (Nederlands)</option>
-            <option value="french" {% if settings.ux_lang == 'french' %}selected{% endif %}>French (Français)</option>
-            <option value="french_canadian" {% if settings.ux_lang == 'french_canadian' %}selected{% endif %}>French Canadian (Français canadien)</option>
-            <option value="german" {% if settings.ux_lang == 'german' %}selected{% endif %}>German (Deutsch)</option>
-            <option value="greek" {% if settings.ux_lang == 'greek' %}selected{% endif %}>Greek (Ελληνικά)</option>
-            <option value="italian" {% if settings.ux_lang == 'italian' %}selected{% endif %}>Italian (Italiano)</option>
-            <option value="japanese" {% if settings.ux_lang == 'japanese' %}selected{% endif %}>Japanese (日本語)</option>
-            <option value="korean" {% if settings.ux_lang == 'korean' %}selected{% endif %}>Korean (한국어)</option>
-            <option value="mandarin_chinese" {% if settings.ux_lang == 'mandarin_chinese' %}selected{% endif %}>Mandarin Chinese (普通话 or 中文)</option>
-            <option value="norwegian" {% if settings.ux_lang == 'norwegian' %}selected{% endif %}>Norwegian (Norsk)</option>
-            <option value="polish" {% if settings.ux_lang == 'polish' %}selected{% endif %}>Polish (Polski)</option>
-            <option value="portuguese" {% if settings.ux_lang == 'portuguese' %}selected{% endif %}>Portuguese (Português)</option>
-            <option value="russian" {% if settings.ux_lang == 'russian' %}selected{% endif %}>Russian (Русский)</option>
-            <option value="spanish" {% if settings.ux_lang == 'spanish' %}selected{% endif %}>Spanish (Español)</option>
-            <option value="swedish" {% if settings.ux_lang == 'swedish' %}selected{% endif %}>Swedish (Svenska)</option>
-            <option value="turkish" {% if settings.ux_lang == 'turkish' %}selected{% endif %}>Turkish (Türkçe)</option>
-            <option value="ukrainian" {% if settings.ux_lang == 'ukrainian' %}selected{% endif %}>Ukrainian (Українська)</option>
-        </select>            
+            {% for language in UX_LANGUAGES %}
+              <option value="{{ language.lang_lower }}" {% if settings.ux_lang == language.lang_lower %}selected{% endif %}>{{ language.lang_fancy }}</option>
+            {% endfor %}
+        </select>
         </div>
     <div class="settings-row">
         <p>{{ lang_data.settings.google_domain }}</p>
