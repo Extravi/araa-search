@@ -46,9 +46,19 @@ ENV_VARS = {
         'pyname': 'TORRENTSEARCH_ENABLED',
         'type': bool,
     },
-    'INVIDIOUS_INSTANCE': {
-        'default_val': 'yt.artemislena.eu',
-        'pyname': 'INVIDIOUS_INSTANCE',
+    'PIPED_INSTANCE': {
+        'default_val': 'yt.extravi.dev',
+        'pyname': 'PIPED_INSTANCE',
+        'type': str,
+    },
+    'PIPED_API': {
+        'default_val': 'ytapi.extravi.dev',
+        'pyname': 'PIPED_INSTANCE_API',
+        'type': str,
+    },
+    'PIPED_PROXY': {
+        'default_val': 'ytproxy.extravi.dev',
+        'pyname': 'PIPED_INSTANCE_PROXY',
         'type': str,
     },
     'TORRENTGALAXY_DOMAIN': {
