@@ -111,6 +111,11 @@ ENV_VARS = {
         'pyname': 'DEFAULT_AUTOCOMPLETE',
         'type': str,
     },
+    'DEFAULT_LANG': {
+        'default_val': 'english',
+        'pyname': 'DEFAULT_UX_LANG',
+        'type': str,
+    },
 }
 
 import os
