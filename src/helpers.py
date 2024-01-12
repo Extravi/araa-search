@@ -1,6 +1,5 @@
 import random
 import requests
-import httpx
 import re
 import json
 from bs4 import BeautifulSoup
@@ -20,19 +19,19 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 
 # Debug code uncomment when needed
-#import logging, timeit
+#import logging, requests, timeit
 #logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
 # Make persistent request sessions
-s = httpx.Client(http2=True, follow_redirects=True)  # generic
-google = httpx.Client(http2=True, follow_redirects=True)  # google
-wiki = httpx.Client(http2=True, follow_redirects=True)  # wikipedia
-invidious = httpx.Client(http2=True, follow_redirects=True)  # invidious
+s = requests.Session() # generic
+google = requests.Session() # google
+wiki = requests.Session() # wikipedia
+piped = requests.Session() # piped
 
-def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_invidious=False):
+def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
@@ -69,8 +68,8 @@ def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_invidious=False
         html = google.get(url, headers=headers, cookies=cookies) # persistent session for google
     elif is_wiki:
         html = wiki.get(url, headers=headers, cookies=cookies) # persistent session for wikipedia
-    elif is_invidious:
-        html = invidious.get(url, headers=headers, cookies=cookies) # persistent session for invidious
+    elif is_piped:
+        html = piped.get(url, headers=headers, cookies=cookies) # persistent session for piped
     else:
         html = s.get(url, headers=headers, cookies=cookies) # generic persistent session
 
@@ -257,12 +256,12 @@ def bytes_to_string(size):
 
 class Settings():
     def __init__(self):
-        self.domain = request.cookies.get("domain", "/search?gl=us")
+        self.domain = request.cookies.get("domain", DEFAULT_GOOGLE_DOMAIN)
         self.javascript = request.cookies.get("javascript", "enabled")
         self.lang = request.cookies.get("lang", "")
         self.new_tab = request.cookies.get("new_tab", "")
         self.safe = request.cookies.get("safe", "active")
-        self.ux_lang = request.cookies.get("ux_lang", "english")
+        self.ux_lang = request.cookies.get("ux_lang", DEFAULT_UX_LANG)
         self.theme = request.cookies.get("theme", DEFAULT_THEME)
         self.method = request.cookies.get("method", DEFAULT_METHOD)
         self.ac = request.cookies.get("ac", DEFAULT_AUTOCOMPLETE)
