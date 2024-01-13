@@ -213,7 +213,7 @@ def makeJSONRequest(url: str):
     headers = {"User-Agent": user_agent}
 
     # Grab json content
-    response = requests.get(url, headers=headers, timeout=8.0)
+    response = s.get(url, headers=headers, timeout=8.0)
 
     # Return the JSON object
     return json.loads(response.text)
