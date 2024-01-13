@@ -1,45 +1,44 @@
-from _config import *
+import _config as config
 from src import helpers
 from urllib.parse import quote
+
 
 def name():
     return "nyaa"
 
+
 def get_catagory_code(cat):
-    match cat:
-        case "all":
-            return ""
-        case "anime":
-            return "&c=1_0"
-        case "music":
-            return "&c=2_0"
-        case "game":
-            return "&c=6_2"
-        case "software":
-            return "&c=6_1"
-        case _:
-            return "ignore"
+    catagory_codes = {
+        "all": "",
+        "anime": "&c=1_0",
+        "music": "&c=2_0",
+        "game": "&c=6_2",
+        "software": "&c=6_1"
+    }
+    return catagory_codes.get(cat)
 
 
 def search(query, catagory="all"):
     catagory = get_catagory_code(catagory)
-    if catagory == "ignore":
+    if catagory is None:
         return []
 
-    soup = helpers.makeHTMLRequest(f"https://{NYAA_DOMAIN}/?f=0&q={quote(query)}{catagory}")
+    soup = helpers.makeHTMLRequest(f"https://{config.NYAA_DOMAIN}/?f=0&q={quote(query)}{catagory}")
     results = []
     for torrent in soup.select(".default, .success, .danger"):
         list_of_tds = torrent.find_all("td")
         byte_size = helpers.string_to_bytes(list_of_tds[3].get_text().strip())
+        title = list_of_tds[1].find_all("a")[-1]
 
         results.append({
-            "href": NYAA_DOMAIN,
-            "title": list_of_tds[1].find_all("a")[-1].get_text(),
+            "href": config.NYAA_DOMAIN,
+            "title": title.get_text(),
             "magnet": helpers.apply_trackers(list_of_tds[2].find_all("a")[-1]["href"]),
             "bytes": byte_size,
             "size": helpers.bytes_to_string(byte_size),
-            "views": None,
             "seeders": int(list_of_tds[5].get_text().strip()),
-            "leechers": int(list_of_tds[6].get_text().strip())
+            "leechers": int(list_of_tds[6].get_text().strip()),
+            "post_link": f"https://{config.NYAA_DOMAIN}{title['href']}"
         })
+
     return results

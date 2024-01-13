@@ -1,43 +1,36 @@
-from _config import *
+import _config as config
 from src import helpers
 from urllib.parse import quote
+from flask import request
+
 
 def name():
     return "tpb"
 
+
 def get_catagory_code(cat):
-    match cat:
-        case "all":
-            return ""
-        case "audiobook":
-            return "102"
-        case "movie":
-            return "201" 
-        case "tv":
-            return "205"
-        case "games":
-            return "400"
-        case "software":
-            return "300"
-        case "anime":
-            # TPB has no anime catagory.
-            return "ignore"
-        case "music":
-            return "100"
-        case "xxx":
-            safesearch = (request.cookies.get("safe", "active") == "active")
-            if safesearch:
-                return "ignore"
-            return "500"
-        case _:
-            return ""
+    if cat == "xxx" and request.cookie.get("safe", "active") != "active":
+        return "500"
+
+    catagory_codes = {
+        'all': '',
+        'audiobook': '102',
+        'movie': '201',
+        'tv': '205',
+        'games': '400',
+        'software': '300',
+        'music': '100'
+    }
+
+    return catagory_codes.get(cat)
+
 
 def search(query, catagory="all"):
     catagory = get_catagory_code(catagory)
-    if catagory == "ignore":
+    if catagory is None:
         return []
 
-    url = f"https://{API_BAY_DOMAIN}/q.php?q={quote(query)}&cat={catagory}"
+    url = f"https://{config.API_BAY_DOMAIN}/q.php?q={quote(query)}&cat={catagory}"
     torrent_data = helpers.makeJSONRequest(url)
     results = []
 
@@ -53,9 +46,9 @@ def search(query, catagory="all"):
             ),
             "bytes": byte_size,
             "size": helpers.bytes_to_string(byte_size),
-            "views": None,
             "seeders": int(torrent["seeders"]),
-            "leechers": int(torrent["leechers"])
+            "leechers": int(torrent["leechers"]),
+            "post_link": f"https://thepiratebay.org/{torrent['id']}"
         })
 
     return results

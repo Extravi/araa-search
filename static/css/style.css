@@ -711,6 +711,11 @@ form.torrent-sort {
     max-width: fit-content;
 }
 
+.original_link h5 {
+    margin: 2px;
+    font-weight: normal;
+}
+
 .results-settings:hover,
 .results-save:hover {
     color: var(--font-fg);
