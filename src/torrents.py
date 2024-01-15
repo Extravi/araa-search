@@ -4,6 +4,7 @@ from src import helpers
 import _config as config
 from flask import request, render_template, jsonify, Response
 from src.torrent_sites import torrentgalaxy, nyaa, thepiratebay, rutor
+import multiprocessing
 
 
 def torrentResults(query) -> Response:
@@ -41,16 +42,14 @@ def torrentResults(query) -> Response:
         rutor,
     ]
 
-    results = []
+    results = multiprocessing.Manager().list()
+    processes = []
     for site in sites:
-        if site.name() in config.ENABLED_TORRENT_SITES:
-            try:
-                # For some reason, rutor doesn't give reliable catagories.
-                if catagory != "all" and site.name() == "rutor":
-                    continue
-                results += site.search(query, catagory=catagory)
-            except:
-                continue
+        # Create a process for each of the sites.
+        processes.append(multiprocessing.Process(target=site.search, args=(query, catagory, results)))
+
+    [process.start() for process in processes]
+    [process.join() for process in processes]
 
     # Allow user to decide how the results are sorted
     match sort:

@@ -3,30 +3,14 @@ from src import helpers
 from urllib.parse import quote
 
 
-def name():
-    return "rutor"
-
-
-def get_catagory_code(cat):
-    catagory_codes = {
-        'all': '',
-        'movie': '&category=1',
-        'tv': '&category=6',
-        'games': '&category=8',
-        'software': '&category=9',
-        'anime': '&category=10',
-        'music': '&category=2',
-    }
-
-    return catagory_codes.get(cat)
-
-
-def search(query, catagory="all"):
-    catagory = get_catagory_code(catagory)
-    if catagory is None:
+def search(query, catagory):
+    if "rutor" not in config.ENABLED_TORRENT_SITES:
         return []
 
-    url = f"https://{config.RUTOR_DOMAIN}/search/{quote(query)}{catagory}"
+    if catagory != "all":
+        return []
+
+    url = f"https://{config.RUTOR_DOMAIN}/search/{quote(query)}"
     html = helpers.makeHTMLRequest(url)
     results = []
 

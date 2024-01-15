@@ -4,10 +4,6 @@ from urllib.parse import quote
 from flask import request
 
 
-def name():
-    return "tpb"
-
-
 def get_catagory_code(cat):
     if cat == "xxx" and request.cookie.get("safe", "active") != "active":
         return "500"
@@ -25,13 +21,22 @@ def get_catagory_code(cat):
     return catagory_codes.get(cat)
 
 
-def search(query, catagory="all"):
+def search(query, catagory, results_object):
+    if "tpb" not in config.ENABLED_TORRENT_SITES:
+        return []
+
     catagory = get_catagory_code(catagory)
     if catagory is None:
         return []
 
     url = f"https://{config.API_BAY_DOMAIN}/q.php?q={quote(query)}&cat={catagory}"
-    torrent_data = helpers.makeJSONRequest(url)
+    try:
+        torrent_data = helpers.makeJSONRequest(
+            url,
+            timeout=8,
+        )
+    except:
+        return
     results = []
 
     for torrent in torrent_data:
@@ -51,4 +56,4 @@ def search(query, catagory="all"):
             "post_link": f"https://thepiratebay.org/{torrent['id']}"
         })
 
-    return results
+    results_object.extend(results)

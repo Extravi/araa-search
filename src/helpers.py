@@ -31,7 +31,7 @@ google = requests.Session() # google
 wiki = requests.Session() # wikipedia
 piped = requests.Session() # piped
 
-def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
+def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False, timeout=20):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
@@ -62,16 +62,16 @@ def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
         "Sec-Fetch-User": "?1",
         "Upgrade-Insecure-Requests": "1"
     }
-    
+
     # Grab HTML content with the specific cookie
     if is_google:
-        html = google.get(url, headers=headers, cookies=cookies) # persistent session for google
+        html = google.get(url, headers=headers, cookies=cookies, timeout=timeout)  # persistent session for google
     elif is_wiki:
-        html = wiki.get(url, headers=headers, cookies=cookies) # persistent session for wikipedia
+        html = wiki.get(url, headers=headers, cookies=cookies, timeout=timeout)  # persistent session for wikipedia
     elif is_piped:
-        html = piped.get(url, headers=headers, cookies=cookies) # persistent session for piped
+        html = piped.get(url, headers=headers, cookies=cookies, timeout=timeout)  # persistent session for piped
     else:
-        html = s.get(url, headers=headers, cookies=cookies) # generic persistent session
+        html = s.get(url, headers=headers, cookies=cookies, timeout=timeout)  # generic persistent session
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")

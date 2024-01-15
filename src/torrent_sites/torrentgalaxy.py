@@ -4,10 +4,6 @@ from urllib.parse import quote
 from flask import request
 
 
-def name():
-    return "torrentgalaxy"
-
-
 def get_catagory_code(cat):
     if cat == "xxx" and request.cookie.get("safe", "active") != "active":
         return "&c48=1&c35=1&c47=1&c34=1"
@@ -26,11 +22,21 @@ def get_catagory_code(cat):
     return catagory_codes.get(cat)
 
 
-def search(query, catagory="all"):
+def search(query, catagory, results_object):
+    if "torrentgalaxy" not in config.ENABLED_TORRENT_SITES:
+        return []
+
     catagory = get_catagory_code(catagory)
     if catagory is None:
         return []
-    soup = helpers.makeHTMLRequest(f"https://{config.TORRENTGALAXY_DOMAIN}/torrents.php?search={quote(query)}{catagory}#results")
+
+    try:
+        soup = helpers.makeHTMLRequest(
+            f"https://{config.TORRENTGALAXY_DOMAIN}/torrents.php?search={quote(query)}{catagory}#results",
+            timeout=8,
+        )
+    except:
+        return
 
     results = []
     for result in soup.findAll("div", {"class": "tgxtablerow"}):
@@ -49,4 +55,4 @@ def search(query, catagory="all"):
             "leechers": int(list_of_bolds[3]),
         })
 
-    return results
+    results_object.extend(results)
