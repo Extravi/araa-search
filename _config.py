@@ -101,7 +101,7 @@ TORRENT_TRACKERS = [
 COOKIE_AGE = 2147483647
 
 # set to true to enable api support
-API_ENABLED = True
+API_ENABLED = False
 
 # set to false to disable torrent search
 TORRENTSEARCH_ENABLED = True
