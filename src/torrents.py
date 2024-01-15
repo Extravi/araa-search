@@ -46,7 +46,12 @@ def torrentResults(query) -> Response:
     processes = []
     for site in sites:
         # Create a process for each of the sites.
-        processes.append(multiprocessing.Process(target=site.search, args=(query, catagory, results)))
+        processes.append(
+            multiprocessing.Process(
+                target=site.search,
+                args=(query, catagory, results)
+            )
+        )
 
     [process.start() for process in processes]
     [process.join() for process in processes]

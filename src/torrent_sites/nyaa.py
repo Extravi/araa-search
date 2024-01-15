@@ -46,6 +46,5 @@ def search(query, catagory, results_object):
             "leechers": int(list_of_tds[6].get_text().strip()),
             "post_link": f"https://{config.NYAA_DOMAIN}{title['href']}"
         })
-        print(results)
 
     results_object.extend(results)
