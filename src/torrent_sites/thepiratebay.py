@@ -36,7 +36,8 @@ def search(query, catagory, results_object):
             timeout=8,
         )
     except:
-        return
+        return []
+
     results = []
 
     for torrent in torrent_data:

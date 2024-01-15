@@ -202,7 +202,7 @@ def captcha():
         pass
 
 
-def makeJSONRequest(url: str):
+def makeJSONRequest(url: str, timeout=8):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
@@ -213,7 +213,7 @@ def makeJSONRequest(url: str):
     headers = {"User-Agent": user_agent}
 
     # Grab json content
-    response = s.get(url, headers=headers, timeout=8.0)
+    response = s.get(url, headers=headers, timeout=timeout)
 
     # Return the JSON object
     return json.loads(response.text)
