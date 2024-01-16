@@ -12,10 +12,6 @@
   letter-spacing: normal;
 }
 
-.definitions {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
 .word {
   font-size: 20px;
   color: var(--highlight);
