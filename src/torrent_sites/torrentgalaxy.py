@@ -24,7 +24,7 @@ def get_catagory_code(cat):
 
 def search(query, catagory, results_object):
     if "torrentgalaxy" not in config.ENABLED_TORRENT_SITES:
-        return []
+        return []    
 
     catagory = get_catagory_code(catagory)
     if catagory is None:
@@ -41,9 +41,9 @@ def search(query, catagory, results_object):
 
     results = []
     for result in soup.findAll("div", {"class": "tgxtablerow"}):
-        list_of_anchors = results.find_all("a")
-        byte_size = results.find("span", {"class": "badge-secondary"})
-        list_of_bolds = results.find_all("b")
+        list_of_anchors = result.find_all("a")
+        byte_size = result.find("span", {"class": "badge-secondary"}).get_text()
+        list_of_bolds = result.find_all("b")
 
         results.append({
             "href": config.TORRENTGALAXY_DOMAIN,
@@ -52,8 +52,8 @@ def search(query, catagory, results_object):
             "magnet": helpers.apply_trackers(list_of_anchors[4]),
             "bytes": byte_size,
             "size": helpers.bytes_to_string(byte_size),
-            "seeders": int(list_of_bolds[2]),
-            "leechers": int(list_of_bolds[3]),
+            "seeders": int(list_of_bolds[2].replace(',', '')),
+            "leechers": int(list_of_bolds[3].replace(',', '')),
         })
 
     results_object.extend(results)
