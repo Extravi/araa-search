@@ -22,7 +22,7 @@
 
     --footer-bg: #101010;
     --footer-font: #999da2;
-    
+
     --highlight: #bcc0c3;
 
     --blue: #8ab4f8;
@@ -39,7 +39,11 @@
 }
 
 .snip {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.definitions {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .calc-btn:hover {
