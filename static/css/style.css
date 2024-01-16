@@ -1335,6 +1335,10 @@ p {
         font-size: 13px;
     }
 
+    .definitions {
+        max-width: 86% !important;
+    }
+
     .calc {
         left: 20px;
     }
