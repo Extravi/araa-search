@@ -714,6 +714,7 @@ form.torrent-sort {
 .original_link h5 {
     margin: 2px;
     font-weight: normal;
+    color: var(--fg);
 }
 
 .results-settings:hover,
