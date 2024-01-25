@@ -268,12 +268,5 @@ def search():
             return textResults.textResults(query)
 
 
-@app.after_request
-def add_header(response):
-    # Let browser refresh cached data once every 4 hours.
-    response.cache_control.max_age = 14400
-    return response
-
-
 if __name__ == "__main__":
     app.run(threaded=True, port=PORT)
