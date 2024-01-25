@@ -270,8 +270,8 @@ def search():
 
 @app.after_request
 def add_header(response):
-    # Let browser refresh cached data once every hour.
-    response.cache_control.max_age = 3600
+    # Let browser refresh cached data once every 4 hours.
+    response.cache_control.max_age = 14400
     return response
 
 
