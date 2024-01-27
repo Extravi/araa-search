@@ -37,6 +37,7 @@ if (resultsSave != null) {
 const searchInput = document.getElementById('search-input');
 const searchWrapper = document.querySelectorAll('.wrapper, .wrapper-results')[0];
 const resultsWrapper = document.querySelector('.autocomplete');
+const clearSearch = document.querySelector("#clearSearch");
 
 async function getSuggestions(query) {
   try {
@@ -51,8 +52,8 @@ async function getSuggestions(query) {
 
 let currentIndex = -1; // Keep track of the currently selected suggestion
 
+let results = [];
 searchInput.addEventListener('input', async () => {
-  let results = [];
   let input = searchInput.value;
   if (input.length) {
     results = await getSuggestions(input);
@@ -60,6 +61,20 @@ searchInput.addEventListener('input', async () => {
   renderResults(results);
   currentIndex = -1; // Reset index when we return new results
 });
+
+searchInput.addEventListener("focus", async () => {
+  if (results.length === 0) {
+    console.log("dfsakjfkds")
+    results = await getSuggestions(searchInput.value);
+  }
+  renderResults(results);
+})
+
+clearSearch.style.visibility = "visible"; // Only show the clear search button for JS users.
+clearSearch.addEventListener("click", () => {
+  searchInput.value = "";
+  searchInput.focus();
+})
 
 searchInput.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
