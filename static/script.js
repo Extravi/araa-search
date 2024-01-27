@@ -63,9 +63,9 @@ searchInput.addEventListener('input', async () => {
 });
 
 searchInput.addEventListener("focus", async () => {
-  if (results.length === 0) {
-    console.log("dfsakjfkds")
-    results = await getSuggestions(searchInput.value);
+  let input = searchInput.value;
+  if (results.length === 0 && input.length != 0) {
+    results = await getSuggestions(input);
   }
   renderResults(results);
 })
