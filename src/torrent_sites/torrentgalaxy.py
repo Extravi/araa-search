@@ -4,6 +4,12 @@ from urllib.parse import quote
 from flask import request
 
 
+def get_magnet_anchor(anchors: list):
+    for anchor in anchors:
+        if "magnet" in anchor:
+            return anchor
+
+
 def get_catagory_code(cat):
     if cat == "xxx" and request.cookie.get("safe", "active") != "active":
         return "&c48=1&c35=1&c47=1&c34=1"
@@ -24,7 +30,7 @@ def get_catagory_code(cat):
 
 def search(query, catagory, results_object):
     if "torrentgalaxy" not in config.ENABLED_TORRENT_SITES:
-        return []    
+        return []
 
     catagory = get_catagory_code(catagory)
     if catagory is None:
@@ -38,18 +44,20 @@ def search(query, catagory, results_object):
     except:
         return []
 
-
     results = []
     for result in soup.findAll("div", {"class": "tgxtablerow"}):
         list_of_anchors = result.find_all("a")
         byte_size = result.find("span", {"class": "badge-secondary"}).get_text()
         list_of_bolds = result.find_all("b")
+        magnet = get_magnet_anchor(list_of_anchors)
+        if magnet is None:
+            continue
 
         results.append({
             "href": config.TORRENTGALAXY_DOMAIN,
             "title": list_of_anchors[1].get_text(),
             "post_link": f"https://{config.TORRENTGALAXY_DOMAIN}{list_of_anchors[1].get('href')}",
-            "magnet": helpers.apply_trackers(list_of_anchors[4]),
+            "magnet": helpers.apply_trackers(magnet),
             "bytes": byte_size,
             "size": helpers.bytes_to_string(byte_size),
             "seeders": int(list_of_bolds[2].replace(',', '')),
