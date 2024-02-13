@@ -69,7 +69,8 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-#search-wrapper-ico, #clearSearch {
+#search-wrapper-ico,
+#clearSearch {
     background: none;
     border: none;
     color: var(--fg);
@@ -79,8 +80,9 @@
     cursor: pointer;
 }
 
-#search-wrapper-ico:hover, #clearSearch:hover {
-  color: var(--blue);
+#search-wrapper-ico:hover,
+#clearSearch:hover {
+    color: var(--blue);
 }
 
 #sub-search-wrapper-ico {
@@ -94,8 +96,8 @@
 }
 
 #clearSearch {
-  right: 40px;
-  visibility: hidden;
+    right: 40px;
+    visibility: hidden;
 }
 
 .fetched_dif {
@@ -1661,5 +1663,9 @@ p {
         display: table-row;
         margin: 30px 0px 0px 0px;
         width: 80%;
+    }
+
+    #clearSearch {
+        top: 6px;
     }
 }
