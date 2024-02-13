@@ -82,6 +82,7 @@
 
 #search-wrapper-ico:hover,
 #clearSearch:hover {
+    transition: all .3s ease;
     color: var(--blue);
 }
 
