@@ -111,6 +111,7 @@ def suggestions():
         query = request.args.get("q", "").strip()
     else:
         query = request.form.get("q", "").strip()
+
     if settings.ac == "ddg":
         response = ac.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
         return json.loads(response.text)
