@@ -69,14 +69,21 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-#search-wrapper-ico {
+#search-wrapper-ico,
+#clearSearch {
     background: none;
     border: none;
-    color: var(--blue);
+    color: var(--fg);
     position: absolute;
-    top: 6px;
+    top: 7px;
     right: 10px;
     cursor: pointer;
+}
+
+#search-wrapper-ico:hover,
+#clearSearch:hover {
+    transition: all .3s ease;
+    color: var(--blue);
 }
 
 #sub-search-wrapper-ico {
@@ -87,6 +94,11 @@
     /* will be set to 17px if icon pack can be loaded. */
     padding-right: 0px;
     margin-right: 0px;
+}
+
+#clearSearch {
+    right: 40px;
+    visibility: hidden;
 }
 
 .fetched_dif {
@@ -1652,5 +1664,9 @@ p {
         display: table-row;
         margin: 30px 0px 0px 0px;
         width: 80%;
+    }
+
+    #clearSearch {
+        top: 6px;
     }
 }
