@@ -3,7 +3,7 @@ import requests
 import re
 import json
 from bs4 import BeautifulSoup
-from urllib.parse import unquote, urlparse
+from urllib.parse import unquote
 from _config import *
 from markupsafe import escape, Markup
 from os.path import exists
@@ -31,7 +31,7 @@ google = requests.Session() # google
 wiki = requests.Session() # wikipedia
 piped = requests.Session() # piped
 
-def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
+def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False, timeout=20):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
@@ -62,16 +62,16 @@ def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
         "Sec-Fetch-User": "?1",
         "Upgrade-Insecure-Requests": "1"
     }
-    
+
     # Grab HTML content with the specific cookie
     if is_google:
-        html = google.get(url, headers=headers, cookies=cookies) # persistent session for google
+        html = google.get(url, headers=headers, cookies=cookies, timeout=timeout)  # persistent session for google
     elif is_wiki:
-        html = wiki.get(url, headers=headers, cookies=cookies) # persistent session for wikipedia
+        html = wiki.get(url, headers=headers, cookies=cookies, timeout=timeout)  # persistent session for wikipedia
     elif is_piped:
-        html = piped.get(url, headers=headers, cookies=cookies) # persistent session for piped
+        html = piped.get(url, headers=headers, cookies=cookies, timeout=timeout)  # persistent session for piped
     else:
-        html = s.get(url, headers=headers, cookies=cookies) # generic persistent session
+        html = s.get(url, headers=headers, cookies=cookies, timeout=timeout)  # generic persistent session
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
@@ -201,7 +201,8 @@ def captcha():
     else:
         pass
 
-def makeJSONRequest(url: str):
+
+def makeJSONRequest(url: str, timeout=8):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
@@ -210,14 +211,17 @@ def makeJSONRequest(url: str):
     # Choose a user-agent at random
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
+
     # Grab json content
-    response = s.get(url)
+    response = s.get(url, headers=headers, timeout=timeout)
 
     # Return the JSON object
     return json.loads(response.text)
 
+
 def get_magnet_hash(magnet):
     return magnet.split("btih:")[1].split("&")[0]
+
 
 def get_magnet_name(magnet):
     return magnet.split("&dn=")[1].split("&tr")[0]
@@ -229,6 +233,7 @@ def apply_trackers(hash, name="", magnet=True):
         hash = get_magnet_hash(hash)
 
     return f"magnet:?xt=urn:btih:{hash}&dn={name}&tr={'&tr='.join(TORRENT_TRACKERS)}"
+
 
 def string_to_bytes(file_size):
     units = {
@@ -246,6 +251,7 @@ def string_to_bytes(file_size):
     size, unit = file_size.lower().split()
     return float(size) * units[unit]
 
+
 def bytes_to_string(size):
     units = ['bytes', 'KB', 'MB', 'GB', 'TB']
     index = 0
@@ -253,6 +259,7 @@ def bytes_to_string(size):
         size /= 1024
         index += 1
     return f"{size:.2f} {units[index]}"
+
 
 class Settings():
     def __init__(self):

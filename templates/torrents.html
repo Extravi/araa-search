@@ -31,10 +31,11 @@
     <div class="clean">
         {% for result in results %}
         <div class="results">
-            <a id="link" href="{{ result['magnet'] }}">{{ result["href"] }}</a>
-            <a class="torrent" href="{{ result['magnet'] }}"><h3>{{ result["title"] }}</h3></a>
-            <p class="stats">{% if result["views"] %}{{ result["views"] }} views • {% endif %}{{ result["size"] }}</p>
-            <p class="publish__info"> Seeders: <span class="seeders">{{ result["seeders"] }}</span> <span class="pipe">|</span> Leechers: <span class="leechers">{{ result["leechers"] }}</span></p>
+            <a id="link" href="{{ result.magnet }}">{{ result.href }}</a>
+            <a class="torrent" href="{{ result.magnet }}"><h3>{{ result.title }}</h3></a>
+            <a class="original_link" href="{{ result.post_link }}"><h5>[View Source]</h5></a>
+            <p class="stats">{{ result.size }}</p>
+            <p class="publish__info">Seeders: <span class="seeders">{{ result.seeders }}</span> | Leechers: <span class="leechers">{{ result.leechers }}</span></p>
         </div>
         {% endfor %}
     </div>

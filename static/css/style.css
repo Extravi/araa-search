@@ -723,6 +723,12 @@ form.torrent-sort {
     max-width: fit-content;
 }
 
+.original_link h5 {
+    margin: 2px;
+    font-weight: normal;
+    color: var(--fg);
+}
+
 .results-settings:hover,
 .results-save:hover {
     color: var(--font-fg);
@@ -1665,7 +1671,7 @@ p {
         margin: 30px 0px 0px 0px;
         width: 80%;
     }
-
+  
     #clearSearch {
         top: 6px;
     }
