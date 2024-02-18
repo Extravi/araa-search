@@ -3,7 +3,7 @@ import json
 from src import helpers
 import _config as config
 from flask import request, render_template, jsonify, Response
-from src.torrent_sites import nyaa, thepiratebay, rutor
+from src.torrent_sites import torrentgalaxy, nyaa, thepiratebay, rutor
 import multiprocessing
 
 
@@ -36,6 +36,7 @@ def torrentResults(query) -> Response:
         sort = "seed"
 
     sites = [
+        torrentgalaxy,
         nyaa,
         thepiratebay,
         rutor,
