@@ -51,6 +51,11 @@ ENV_VARS = {
         'pyname': 'INVIDIOUS_INSTANCE',
         'type': str,
     },
+    'TORRENTGALAXY_DOMAIN': {
+        'default_val': 'torrentgalaxy.to',
+        'pyname': 'TORRENTGALAXY_DOMAIN',
+        'type': str,
+    },
     'NYAA_DOMAIN': {
         'default_val': 'nyaa.si',
         'pyname': 'NYAA_DOMAIN',
@@ -69,6 +74,7 @@ ENV_VARS = {
     'TORRENT_SITES': {
         'default_val': [
             'nyaa',
+            'torrentgalaxy',
             'tpb',
             'rutor',
         ],

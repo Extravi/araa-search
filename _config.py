@@ -23,6 +23,7 @@ DEFAULT_AUTOCOMPLETE = "google"
 PORT = 8000
 
 # Torrent domains
+TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
 NYAA_DOMAIN = "nyaa.si"
 # apibay is the api for thepiratebay.org
 API_BAY_DOMAIN = "apibay.org"
@@ -76,6 +77,7 @@ WHITELISTED_DOMAINS = [
     PIPED_INSTANCE_API,
     PIPED_INSTANCE_PROXY,
     "api.qwant.com",
+    TORRENTGALAXY_DOMAIN,
     NYAA_DOMAIN,
     API_BAY_DOMAIN,
     RUTOR_DOMAIN,
@@ -83,6 +85,7 @@ WHITELISTED_DOMAINS = [
 
 ENABLED_TORRENT_SITES = [
     "nyaa",
+    "torrentgalaxy",
     "tpb",
     "rutor",
 ]
