@@ -22,11 +22,14 @@ requests.packages.urllib3.util.connection.HAS_IPV6 = False
 # Force all HTTPX requests to only use IPv4
 transport = httpx.HTTPTransport(local_address="0.0.0.0")
 
+# Pool limit configuration
+limits = httpx.Limits(max_keepalive_connections=None, max_connections=None, keepalive_expiry=None)
+
 # Make persistent request sessions
 s = requests.Session() # generic
-google = httpx.Client(http2=True, follow_redirects=True, transport=transport)  # google
-wiki = httpx.Client(http2=True, follow_redirects=True, transport=transport)  # wikipedia
-piped = httpx.Client(http2=True, follow_redirects=True, transport=transport)  # piped
+google = httpx.Client(http2=True, follow_redirects=True, transport=transport, limits=limits)  # google
+wiki = httpx.Client(http2=True, follow_redirects=True, transport=transport, limits=limits)  # wikipedia
+piped = httpx.Client(http2=True, follow_redirects=True, transport=transport, limits=limits)  # piped
 
 def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     # block unwanted request from an edited cookie
