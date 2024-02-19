@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template, jsonify, Response, make_response, redirect
 import requests
+import httpx
+import trio
 import random
 import json
 from urllib.parse import quote
@@ -21,16 +23,19 @@ app.jinja_env.globals.update(int=int)
 COMMIT = helpers.latest_commit()
 
 # Debug code uncomment when needed
-#import logging, requests, timeit
+#import logging, timeit
 #logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
+# Force all HTTPX requests to only use IPv4
+transport = httpx.HTTPTransport(local_address="0.0.0.0")
+
 # Make persistent request sessions
 s = requests.Session() # generic
-ac = requests.Session() # suggestions
-googleac = requests.Session() # googleac
+ac = httpx.Client(http2=True, follow_redirects=True, transport=transport)  # ac
+googleac = httpx.Client(http2=True, follow_redirects=True, transport=transport)  # googleac
 wikimedia = requests.Session() # wikimedia
 bing = requests.Session() # bing
 piped = requests.Session() # piped
