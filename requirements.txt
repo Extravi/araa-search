@@ -4,6 +4,5 @@ bs4
 gunicorn
 requests
 thefuzz
-langdetect
 httpx[http2]
 trio
