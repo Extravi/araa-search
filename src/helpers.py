@@ -1,5 +1,7 @@
 import random
 import requests
+import httpx
+import trio
 import re
 import json
 from bs4 import BeautifulSoup
@@ -10,45 +12,28 @@ from os.path import exists
 from langdetect import detect
 from thefuzz import fuzz
 from flask import request
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-from twocaptcha import TwoCaptcha
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium import webdriver
 
 # Debug code uncomment when needed
-#import logging, requests, timeit
+#import logging, timeit
 #logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
 # Force all requests to only use IPv4
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
+# Force all HTTPX requests to only use IPv4
+transport = httpx.HTTPTransport(local_address="0.0.0.0")
+
 # Make persistent request sessions
 s = requests.Session() # generic
-google = requests.Session() # google
-wiki = requests.Session() # wikipedia
-piped = requests.Session() # piped
+google = httpx.Client(http2=True, follow_redirects=True, transport=transport)  # google
+wiki = httpx.Client(http2=True, follow_redirects=True, transport=transport)  # wikipedia
+piped = httpx.Client(http2=True, follow_redirects=True, transport=transport)  # piped
 
 def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
         raise Exception(f"The domain '{domain}' is not whitelisted.")
-
-    if is_google:
-        # get google cookies
-        data = load_config()
-        cookies = {
-            "OGPC": data["GOOGLE_OGPC_COOKIE"],
-            "NID": data["GOOGLE_NID_COOKIE"],
-            "AEC": data["GOOGLE_AEC_COOKIE"],
-            "1P_JAR": data["GOOGLE_1P_JAR_COOKIE"],
-            "GOOGLE_ABUSE_EXEMPTION": data["GOOGLE_ABUSE_COOKIE"]
-        }
-    else:
-        cookies = {}
 
     headers = {
         "User-Agent": random.choice(user_agents), # Choose a user-agent at random
@@ -65,13 +50,13 @@ def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     
     # Grab HTML content with the specific cookie
     if is_google:
-        html = google.get(url, headers=headers, cookies=cookies) # persistent session for google
+        html = google.get(url, headers=headers) # persistent session for google
     elif is_wiki:
-        html = wiki.get(url, headers=headers, cookies=cookies) # persistent session for wikipedia
+        html = wiki.get(url, headers=headers) # persistent session for wikipedia
     elif is_piped:
-        html = piped.get(url, headers=headers, cookies=cookies) # persistent session for piped
+        html = piped.get(url, headers=headers) # persistent session for piped
     else:
-        html = s.get(url, headers=headers, cookies=cookies) # generic persistent session
+        html = s.get(url, headers=headers) # generic persistent session
 
     # Return the BeautifulSoup object
     return BeautifulSoup(html.text, "lxml")
@@ -109,97 +94,6 @@ def latest_commit():
         with open('./.git/refs/heads/main') as f:
             return f.readline()
     return "Not in main branch"
-
-def load_config():
-    with open("./2captcha.json", "r") as file:
-        return json.load(file)
-
-def save_config(data):
-    with open("./2captcha.json", "w") as file:
-        json.dump(data, file, indent=4)
-
-def captcha():
-    # get google cookies
-    data = load_config()
-    CAPTCHA_SOLVER_ACTIVE = data["CAPTCHA_SOLVER_ACTIVE"]
-    # check if solver is already running
-    if CAPTCHA_SOLVER_ACTIVE == "false":
-        # start solver
-        data = load_config()
-        data["CAPTCHA_SOLVER_ACTIVE"] = "true"
-        save_config(data)
-        solver = TwoCaptcha(CAPTCHA_API_KEY)
-
-        # Choose a user-agent at random
-        user_agent = random.choice(user_agents)
-        headers = {"User-Agent": user_agent}
-
-        # start the webdriver to use later
-        options = Options()
-        options.add_argument(f'user-agent={user_agent}')
-        options.add_argument('--headless')
-        options.add_argument("--disable-gpu")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
-
-        # url for captcha
-        url = f"https://www.google.com/search?q="
-
-        # Grab HTML content
-        html = google.get(url, headers=headers) # use the persistent session for google
-        url = html.url
-
-        # get data-s tag
-        soup = BeautifulSoup(html.text, "lxml")
-        captcha_form = soup.find("form", {"id": "captcha-form"})
-        recaptcha_div = captcha_form.find("div", {"class": "g-recaptcha"})
-        data_s_value = recaptcha_div.get("data-s", "")
-
-        # try to solve captcha
-        try:
-            result = solver.recaptcha(
-            sitekey="6LfwuyUTAAAAAOAmoS0fdqijC2PbbdH4kjq62Y1b",
-            datas=f"{data_s_value}",
-            url=f"{url}")
-        except Exception as e:
-            data = load_config()
-            data["CAPTCHA_SOLVER_ACTIVE"] = "false"
-            save_config(data) 
-            driver.close()
-            print(e)
-        else:
-            # get the captcha code
-            code = result['code']
-            # request the page
-            driver.get(url)
-            # set the solved code
-            while True:
-                # Sometimes Google won't load the captcha even on a fully loaded page, so refresh until it's loaded.
-                try:
-                    recaptcha_response_element = driver.find_element(By.ID, 'g-recaptcha-response')
-                    break 
-                except NoSuchElementException:
-                    driver.refresh()
-            driver.execute_script(f'arguments[0].value = "{code}";', recaptcha_response_element)
-            # continue and get cookies
-            continue_input = driver.find_element(By.CSS_SELECTOR, 'form#captcha-form input[name="continue"]')
-            continue_input.submit()
-            # capture cookie value to send in request
-            cookies = driver.get_cookies()
-            data = load_config()
-            for cookie in cookies:
-                cookie_name = cookie['name']
-                if cookie_name in cookie_mapping:
-                    data[cookie_mapping[cookie_name]] = cookie['value']
-            save_config(data)
-            # close the web driver and set solver to false
-            data = load_config()
-            data["CAPTCHA_SOLVER_ACTIVE"] = "false"
-            save_config(data)
-            driver.close()
-    else:
-        pass
 
 def makeJSONRequest(url: str):
     # block unwanted request from an edited cookie
