@@ -5,6 +5,4 @@ gunicorn
 requests
 thefuzz
 langdetect
-2captcha-python
-selenium
-webdriver-manager
+httpx[http2]
