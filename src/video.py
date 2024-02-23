@@ -32,30 +32,30 @@ def videoResults(query) -> Response:
     data = json.loads(soup.text)
 
     # retrieve links
-    ytIds = [item["url"] for item in data["items"] if item.get("type") != "channel"]
+    ytIds = [item["url"] for item in data["items"] if item.get("type") not in ["channel", "playlist"]]
     hrefs = [f"https://{PIPED_INSTANCE}{ytId}" for ytId in ytIds]
 
     # retrieve title
-    title = [item["title"] for item in data["items"] if item.get("type") != "channel"]
+    title = [item["title"] for item in data["items"] if item.get("type") not in ["channel", "playlist"]]
 
     # retrieve date
-    date_span = [item["uploadedDate"] for item in data["items"] if item.get("type") != "channel"]
+    date_span = [item["uploadedDate"] for item in data["items"] if item.get("type") not in ["channel", "playlist"]]
 
     # retrieve views
-    views = [f"{views//1000000000}B views" if views >= 1000000000 else f"{views//1000000}M views" if views >= 1000000 else f"{views/1000:.1f}K views" if 1000 < views < 10000 else f"{views//1000}K views" if views >= 10000 else f"{views} views" for views in [item["views"] for item in data["items"] if item.get("type") != "channel"]]
+    views = [f"{views//1000000000}B views" if views >= 1000000000 else f"{views//1000000}M views" if views >= 1000000 else f"{views/1000:.1f}K views" if 1000 < views < 10000 else f"{views//1000}K views" if views >= 10000 else f"{views} views" for views in [item["views"] for item in data["items"] if item.get("type") not in ["channel", "playlist"]]]
 
     # retrieve creator
-    creator_text = [item["uploaderName"] for item in data["items"] if item.get("type") != "channel"]
+    creator_text = [item["uploaderName"] for item in data["items"] if item.get("type") not in ["channel", "playlist"]]
 
     # retrieve publisher
-    publisher_text = ["Piped" for item in data["items"] if item.get("type") != "channel"]
+    publisher_text = ["Piped" for item in data["items"] if item.get("type") not in ["channel", "playlist"]]
 
     # retrieve images
-    filtered_urls = [item["thumbnail"] for item in data["items"] if item.get("type") != "channel"]
+    filtered_urls = [item["thumbnail"] for item in data["items"] if item.get("type") not in ["channel", "playlist"]]
     filtered_urls = [f'/img_proxy?url={filtered_url}' for filtered_url in filtered_urls]
 
     # retrieve time
-    duration = [item["duration"] for item in data["items"] if item.get("type") != "channel"]
+    duration = [item["duration"] for item in data["items"] if item.get("type") not in ["channel", "playlist"]]
     formatted_durations = [f"{duration // 60:02d}:{duration % 60:02d}" for duration in duration]
 
     # list

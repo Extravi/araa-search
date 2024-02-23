@@ -44,15 +44,6 @@ user_agents = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15",
 ]
 
-# Cookies to use in the request.
-cookie_mapping = {
-    'OGPC': 'GOOGLE_OGPC_COOKIE',
-    'NID': 'GOOGLE_NID_COOKIE',
-    'AEC': 'GOOGLE_AEC_COOKIE',
-    '1P_JAR': 'GOOGLE_1P_JAR_COOKIE',
-    'GOOGLE_ABUSE_EXEMPTION': 'GOOGLE_ABUSE_COOKIE'
-}
-
 # prompts for user agent & ip queries
 VALID_IP_PROMPTS = [
     "what is my ip",
@@ -105,12 +96,6 @@ API_ENABLED = False
 
 # set to false to disable torrent search
 TORRENTSEARCH_ENABLED = True
-
-# enable 2captcha api support
-CAPTCHA_ENABLED = False
-
-# 2captcha api key
-CAPTCHA_API_KEY = "YOUR_API_KEY"
 
 UX_LANGUAGES = [
     {'lang_lower': 'english', 'lang_fancy': 'English'},

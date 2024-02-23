@@ -4,7 +4,5 @@ bs4
 gunicorn
 requests
 thefuzz
-langdetect
-2captcha-python
-selenium
-webdriver-manager
+httpx[http2]
+trio
