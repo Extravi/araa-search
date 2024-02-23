@@ -5,6 +5,8 @@
 sh scripts/generate-opensearch.sh || exit $?
 python3 scripts/generate-pyconfig.py || exit $?
 
-[ "$PORT" ] || PORT=8000
+[ "$WORKERS" ] || WORKERS=2
+[ "$THREADS" ] || THREADS=8
+[ "$PORT" ]    || PORT=8000
 
 exec gunicorn --workers $WORKERS --threads $THREADS --bind="0.0.0.0:$PORT" __init__:app
