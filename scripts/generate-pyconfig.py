@@ -96,16 +96,16 @@ ENV_VARS = {
         'pyname': 'DEFAULT_METHOD',
         'type': str,
     },
-    'ENABLE_2CAPTCHA': {
-        'default_val': False,
-        'pyname': 'CAPTCHA_ENABLED',
-        'type': bool,
-    },
-    '2CAPTCHA_KEY': {
-        'default_val': '',
-        'pyname': 'CAPTCHA_API_KEY',
-        'type': str,
-    },
+    # 'ENABLE_2CAPTCHA': {
+    #     'default_val': False,
+    #     'pyname': 'CAPTCHA_ENABLED',
+    #     'type': bool,
+    # },
+    # '2CAPTCHA_KEY': {
+    #     'default_val': '',
+    #     'pyname': 'CAPTCHA_API_KEY',
+    #     'type': str,
+    # },
     'DEFAULT_AC_ENGINE': {
         'default_val': 'google',
         'pyname': 'DEFAULT_AUTOCOMPLETE',
