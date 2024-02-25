@@ -46,9 +46,19 @@ ENV_VARS = {
         'pyname': 'TORRENTSEARCH_ENABLED',
         'type': bool,
     },
-    'INVIDIOUS_INSTANCE': {
-        'default_val': 'yt.artemislena.eu',
-        'pyname': 'INVIDIOUS_INSTANCE',
+    'PIPED_INSTANCE': {
+        'default_val': 'yt.extravi.dev',
+        'pyname': 'PIPED_INSTANCE',
+        'type': str,
+    },
+    'PIPED_API': {
+        'default_val': 'ytapi.extravi.dev',
+        'pyname': 'PIPED_INSTANCE_API',
+        'type': str,
+    },
+    'PIPED_PROXY': {
+        'default_val': 'ytproxy.extravi.dev',
+        'pyname': 'PIPED_INSTANCE_PROXY',
         'type': str,
     },
     'TORRENTGALAXY_DOMAIN': {
@@ -86,14 +96,14 @@ ENV_VARS = {
         'pyname': 'DEFAULT_METHOD',
         'type': str,
     },
-    'ENABLE_2CAPTCHA': {
-        'default_val': False,
-        'pyname': 'CAPTCHA_ENABLED',
-        'type': bool,
+    'DEFAULT_AC_ENGINE': {
+        'default_val': 'google',
+        'pyname': 'DEFAULT_AUTOCOMPLETE',
+        'type': str,
     },
-    '2CAPTCHA_KEY': {
-        'default_val': '',
-        'pyname': 'CAPTCHA_API_KEY',
+    'DEFAULT_LANG': {
+        'default_val': 'english',
+        'pyname': 'DEFAULT_UX_LANG',
         'type': str,
     },
 }
