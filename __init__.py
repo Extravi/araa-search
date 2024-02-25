@@ -44,8 +44,8 @@ bing = requests.Session() # bing
 piped = requests.Session() # piped
 
 # Set a custom request header for the autocomplete session
-ac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
-googleac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
+ac.headers.update({'User-Agent': random.choice(user_agents)})
+googleac.headers.update({'User-Agent': random.choice(user_agents)})
 
 
 @app.route('/settings')
@@ -266,7 +266,6 @@ def search():
     type = args.get("t", "text")
 
     # render page based off of type
-    # NOTE: Python 3.10 needed for a match statement!
     match type:
         case "torrent":
             return torrents.torrentResults(query)
