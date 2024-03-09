@@ -247,20 +247,19 @@ def search():
             repo_url=REPO, donate_url=DONATE, commit=COMMIT, API_ENABLED=API_ENABLED,
             lang_data=lang_data, settings=settings)
 
-    # Check if the query has a bang.
-    if BANG in query:
+    # Search bangs.
+    bang_index = -1
+    while (bang_index := query.find(BANG, bang_index + 1, len(query))) != -1:
+        if bang_index > 0 and query[bang_index - 1].strip() != "":
+            continue
         query += " " # Simple fix to avoid a possible error 500
                      # when parsing the query for the bangkey.
-        bang_index = query.index(BANG)
         bangkey = query[bang_index + len(BANG):query.index(" ", bang_index)].lower()
-        if SEARCH_BANGS.get(bangkey) is not None:
-            query = query.lower().replace(BANG + bangkey, "").lstrip()
-            query = quote(query)  # Quote the query to redirect properly.
-            return app.redirect(SEARCH_BANGS[bangkey].format(q=query))
-        # Remove the space at the end of the query.
-        # The space was added to fix a possible error 500 when
-        # parsing the query for the bangkey.
-        query = query[:len(query) - 1]
+        if (bang_url := SEARCH_BANGS.get(bangkey)) is not None:
+            # strip bang from query
+            query = query[:bang_index] + query[bang_index + len(BANG + bangkey) + 1:]
+            query = quote(query.strip())  # ensure query is quoted to redirect properly.
+            return app.redirect(bang_url.format(query))
 
     # type of search (text, image, etc.)
     type = args.get("t", "text")
