@@ -102,6 +102,9 @@ def textResults(query) -> Response:
         else:
             rkno_title = ""
 
+    for div in soup.find_all("div", {'class': 'nnFGuf'}): 
+        div.decompose()
+
     # retrieve featured snippet
     try:
         featured_snip = soup.find("span", {"class": "hgKElc"})
