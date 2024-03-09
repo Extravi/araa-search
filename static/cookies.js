@@ -30,14 +30,6 @@ function setCookie(name, value) {
     document.cookie = `${name}=${value}; HostOnly=true; SameSite=None; Secure; Max-Age=2147483647`;
 }
 
-function reloadPageForTheme() {
-    const themeCookie = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("theme="));
-
-    if (themeCookie) {
-        window.location.reload();
-    }
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     const langSelect = document.querySelector(".lang");
 
@@ -67,7 +59,11 @@ document.addEventListener("DOMContentLoaded", function () {
         div.addEventListener("click", function () {
             const clickedDivId = div.firstElementChild.id;
             setCookie("theme", clickedDivId);
-            reloadPageForTheme();
+            for (const link of document.querySelectorAll('link[rel="stylesheet"]')) {
+              if (!link['href'].includes("style")) {
+                link['href'] = `./css/${clickedDivId}.css`
+              }
+            }
         });
     });
 
