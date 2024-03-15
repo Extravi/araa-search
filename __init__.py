@@ -123,19 +123,19 @@ def suggestions():
     if settings.ac == "ddg":
         response = ac.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
         return json.loads(response.text)
-    else:
-        response = googleac.get(f"https://suggestqueries.google.com/complete/search?client=firefox&q={quote(query)}")
-        suggestions_list = json.loads(response.text)
 
-        # remove items at index 2 and 3
-        if len(suggestions_list) > 2:
-            suggestions_list.pop(3)
-        if len(suggestions_list) > 2:
-            suggestions_list.pop(2)
+    response = googleac.get(f"https://suggestqueries.google.com/complete/search?client=firefox&q={quote(query)}")
+    suggestions_list = json.loads(response.text)
 
-        # limit results
-        suggestions_list[1] = suggestions_list[1][:8]
-        return jsonify(suggestions_list)
+    # remove items at index 2 and 3
+    if len(suggestions_list) > 2:
+        suggestions_list.pop(3)
+    if len(suggestions_list) > 2:
+        suggestions_list.pop(2)
+
+    # limit results
+    suggestions_list[1] = suggestions_list[1][:8]
+    return jsonify(suggestions_list)
 
 
 @app.route("/wikipedia")
@@ -150,23 +150,21 @@ def wikipedia():
 
 @app.route("/api")
 def api():
-    if API_ENABLED:
-        if request.method == "GET":
-            args = request.args
-        else:
-            args = request.form
-        query = args.get("q", "").strip()
-        t = args.get("t", "text").strip()
-        p = args.get('p', 1)
-        try:
-            response = requests.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
-            return json.loads(response.text)
-        except Exception as e:
-            app.logger.error(e)
-            return jsonify({"error": "An error occurred while processing the request"}), 500
-    else:
+    if not API_ENABLED:
         return jsonify({"error": "API disabled by instance operator"}), 503
-
+    if request.method == "GET":
+        args = request.args
+    else:
+        args = request.form
+    query = args.get("q", "").strip()
+    t = args.get("t", "text").strip()
+    p = args.get('p', 1)
+    try:
+        response = requests.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
+        return json.loads(response.text)
+    except Exception as e:
+        app.logger.error(e)
+        return jsonify({"error": "An error occurred while processing the request"}), 500
 
 @app.route("/img_proxy")
 def img_proxy():
@@ -212,9 +210,8 @@ def img_proxy():
     if response.status_code == 200:
         # Create a Flask response with the image data and the appropriate Content-Type header
         return Response(response.content, mimetype=response.headers["Content-Type"])
-    else:
-        # Return an error response if the request failed
-        return Response("Error fetching image", status=500)
+    # Return an error response if the request failed
+    return Response("Error fetching image", status=500)
 
 
 @app.route("/", methods=["GET", "POST"])
