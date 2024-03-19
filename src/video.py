@@ -8,6 +8,16 @@ from src.helpers import latest_commit
 from urllib.parse import quote
 
 
+def parse_time(time):
+    hours = time // 3600
+    minutes = (time % 3600) // 60
+    seconds = time % 60
+    time_string = ""
+    if hours != 0:
+        time_string += f"{hours:02d}:"
+    return f"{time_string}{minutes:02d}:{seconds:02d}"
+
+
 def videoResults(query) -> Response:
     settings = helpers.Settings()
 
@@ -56,7 +66,7 @@ def videoResults(query) -> Response:
 
     # retrieve time
     duration = [item["duration"] for item in data["items"] if item.get("type") not in ["channel", "playlist"]]
-    formatted_durations = [f"{duration // 60:02d}:{duration % 60:02d}" for duration in duration]
+    formatted_durations = [parse_time(duration) for duration in duration]
 
     # list
     results = []
