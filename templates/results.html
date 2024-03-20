@@ -133,15 +133,14 @@
         <p>{{ results[0][2]|highlight_query_words(q) }}</p>
     </div>
     {% endif %}
-    {% if sublink == "" %}
-    {% else %}
+    {% if sublink %}
     <div class="results">
-    {% for result in sublink %}
-    <div class="sublinks">
-        <a href="{{ result[0] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result[1] }}</h3></a>
-        <p>{{ result[2] }}</p>
-    </div>
-    {% endfor %}
+      {% for result in sublink %}
+      <div class="sublinks">
+          <a href="{{ result[0] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result[1] }}</h3></a>
+          <p>{{ result[2] }}</p>
+      </div>
+      {% endfor %}
     </div>
     {% endif %}
     {% if results %}
