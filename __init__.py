@@ -255,7 +255,7 @@ def search():
         if SEARCH_BANGS.get(bangkey) is not None:
             query = query.lower().replace(BANG + bangkey, "").lstrip()
             query = quote(query)  # Quote the query to redirect properly.
-            return app.redirect(SEARCH_BANGS[bangkey].format(q=query))
+            return app.redirect(SEARCH_BANGS[bangkey].format(query))
         # Remove the space at the end of the query.
         # The space was added to fix a possible error 500 when
         # parsing the query for the bangkey.
