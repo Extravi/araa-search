@@ -921,7 +921,6 @@ form.torrent-sort {
     color: var(--font-fg);
 }
 
-
 .autocomplete ul li:hover {
     cursor: pointer;
     background: var(--search-select);
