@@ -64,7 +64,7 @@ searchInput.addEventListener('input', async () => {
 
 searchInput.addEventListener("focus", async () => {
   let input = searchInput.value;
-  if (results.length === 0 && input.length != 0) {
+  if (input.length != 0) {
     results = await getSuggestions(input);
   }
   renderResults(results);
@@ -114,7 +114,10 @@ function renderResults(results) {
 
   let content = '';
   results.forEach((item) => {
-    content += `<li>${item}</li>`;
+    content += `<li>
+                  <span class="value">${item}</span>
+                  <span class="complete material-icons-round">north_west</span>
+              </li>`;
   });
 
   // Only show the autocomplete suggestions if the search input has a non-empty value
@@ -125,15 +128,25 @@ function renderResults(results) {
 }
 
 resultsWrapper.addEventListener('click', (event) => {
-  if (event.target.tagName === 'LI') {
+  let classList = Array.from(event.target.classList);
+  if (event.target.tagName === 'LI' || classList.includes("value")) {
     // Set the value of the search input to the clicked suggestion
-    searchInput.value = event.target.textContent;
+    if (event.target.tagName == "LI") {
+      searchInput.value = event.target.childNodes[1].textContent;
+    } else {
+      searchInput.value = event.target.textContent;
+    }
     // Reset the current index
     currentIndex = -1;
     // Submit the form
-    searchWrapper.querySelector('input[type="submit"]').click();
+    document.querySelector("form[action='/search']").submit();
     // Remove the show class from the search wrapper
     searchWrapper.classList.remove('show');
+  } else if (classList.includes("complete")) {
+    let parent = event.target.parentElement;
+    let result_content = parent.querySelector("span");
+    searchInput.value = result_content.textContent + " ";
+    searchInput.focus();
   }
 });
 

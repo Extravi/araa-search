@@ -908,11 +908,19 @@ form.torrent-sort {
     text-align: left;
 }
 
+.autocomplete ul li .complete {
+    float: right;
+    visibility: visible;
+    cursor: pointer;
+    user-select: none;
+}
+
 .show .autocomplete {
     padding-top: 10px;
     padding-bottom: 10px;
     color: var(--font-fg);
 }
+
 
 .autocomplete ul li:hover {
     cursor: pointer;
