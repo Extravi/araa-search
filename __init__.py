@@ -185,6 +185,7 @@ def img_proxy():
                            "https://tse3.explicit.bing.net/",
                            "https://tse4.explicit.bing.net/",
                            "https://upload.wikimedia.org/wikipedia/commons/",
+                           "https://upload.wikimedia.org/wikipedia/en/thumb",
                            f"https://{PIPED_INSTANCE_PROXY}")
                           ):
         return Response("Error: invalid URL", status=400)
