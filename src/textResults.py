@@ -5,7 +5,7 @@ from flask import request, render_template, jsonify, Response
 import time
 import json
 import re
-from math import isclose # For float comparisons
+from math import isclose  # For float comparisons
 
 
 def textResults(query) -> Response:
