@@ -252,6 +252,7 @@ def search():
         query += " " # Simple fix to avoid a possible error 500
                      # when parsing the query for the bangkey.
         bangkey = query[bang_index + len(BANG):query.index(" ", bang_index)].lower()
+        query = query[:len(query) - 1]
         if (bang_url := SEARCH_BANGS.get(bangkey)) is not None:
             # strip bang from query
             query = query[:bang_index] + query[bang_index + len(BANG + bangkey) + 1:]
