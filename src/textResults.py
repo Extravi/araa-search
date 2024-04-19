@@ -44,18 +44,34 @@ def textResults(query) -> Response:
         error_message = str(e)
         return jsonify({"error": error_message}), 500
 
-    # retrieve links
-    result_divs = soup.findAll("div", {"class": "yuRUbf"})
-    links = [div.find("a") for div in result_divs]
-    hrefs = [link.get("href") for link in links]
+    # results
+    result_divs = soup.findAll("div", {"class": "MjjYud"})
+    
+    # initialize lists to store data
+    links = []
+    titles = []
+    descriptions = []
+    hrefs = []
 
-    # retrieve title
-    h3 = [div.find("h3") for div in result_divs]
-    titles = [titles.text.strip() for titles in h3]
-
-    # retrieve description
-    result_desc = soup.findAll("div", {"class": "VwiC3b"})
-    descriptions = [descs.text.strip() for descs in result_desc]
+    # loop through each div
+    for div in result_divs:
+        # retrieve links
+        link = div.find("a")
+        if link is not None:
+            links.append(link.get("href"))
+            hrefs.append(link.get("href"))
+        
+        # retrieve title
+        title = div.find("h3")
+        if title is not None:
+            titles.append(title.text.strip())
+        
+        # retrieve description
+        desc = div.find("div", {"class": "VwiC3b"})
+        if desc is not None:
+            descriptions.append(desc.text.strip())
+        else:
+            descriptions.append("No description available.")
 
     # retrieve sublinks
     try:
