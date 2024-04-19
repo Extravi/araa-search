@@ -257,7 +257,7 @@ def search():
             # strip bang from query
             query = query[:bang_index] + query[bang_index + len(BANG + bangkey) + 1:]
             query = quote(query.strip())  # ensure query is quoted to redirect properly.
-            return app.redirect(bang_url.format(query))
+            return app.redirect(bang_url.format(q=query))
 
     # type of search (text, image, etc.)
     type = args.get("t", "text")
