@@ -60,8 +60,11 @@ def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     else:
         html = s.get(url, headers=headers) # generic persistent session
 
+    # Allow for callers to handle errors better
+    content = None if html.status_code != 200 else BeautifulSoup(html.text, "lxml")
+
     # Return the BeautifulSoup object
-    return BeautifulSoup(html.text, "lxml")
+    return (content, 200)
 
 # search highlights
 def highlight_query_words(string, query):

@@ -6,7 +6,7 @@ import time
 import json
 import re
 from math import isclose # For float comparisons
-
+from src.text_engines import google
 
 def textResults(query) -> Response:
     # get user language settings
@@ -18,9 +18,8 @@ def textResults(query) -> Response:
         args = request.args
     else:
         args = request.form
-
-    json_path = f'static/lang/{settings.ux_lang}.json'
-    with open(json_path, 'r') as file:
+ 
+    with open(f'static/lang/{settings.ux_lang}.json', 'r') as file:
         lang_data = json.load(file)
 
     # remember time we started
@@ -30,183 +29,14 @@ def textResults(query) -> Response:
     search_type = args.get("t", "text")
     p = args.get("p", 0)
 
-    try:
-        # search query
-        if search_type == "reddit":
-            site_restriction = "site:reddit.com"
-            query_for_request = f"{query} {site_restriction}"
-            soup = helpers.makeHTMLRequest(f"https://www.google.com{settings.domain}&q={quote(query_for_request)}&start={p}&lr={settings.lang}", is_google=True)
-        elif search_type == "text":
-            soup = helpers.makeHTMLRequest(f"https://www.google.com{settings.domain}&q={quote(query)}&start={p}&lr={settings.lang}&safe={settings.safe}", is_google=True)
-        else:
-            return "Invalid search type"
-    except Exception as e:
-        error_message = str(e)
-        return jsonify({"error": error_message}), 500
-
-    # retrieve links
-    result_divs = soup.findAll("div", {"class": "yuRUbf"})
-    links = [div.find("a") for div in result_divs]
-    hrefs = [link.get("href") for link in links]
-
-    # retrieve title
-    h3 = [div.find("h3") for div in result_divs]
-    titles = [titles.text.strip() for titles in h3]
-
-    # retrieve description
-    result_desc = soup.findAll("div", {"class": "VwiC3b"})
-    descriptions = [descs.text.strip() for descs in result_desc]
-
-    # retrieve sublinks
-    try:
-        result_sublinks = soup.findAll("tr", {"class": lambda x: x and x.startswith("mslg")})
-        sublinks_divs = [sublink.find("div", {"class": "zz3gNc"}) for sublink in result_sublinks]
-        sublinks = [sublink.text.strip() for sublink in sublinks_divs]
-        sublinks_links = [sublink.find("a") for sublink in result_sublinks]
-        sublinks_hrefs = [link.get("href") for link in sublinks_links]
-        sublinks_titles = [title.text.strip() for title in sublinks_links]
-    except:
-        sublinks = ""
-        sublinks_hrefs = ""
-        sublinks_titles = ""
-
-    # retrieve kno-rdesc
-    try:
-        rdesc = soup.find("div", {"class": "kno-rdesc"})
-        span_element = rdesc.find("span")
-        kno = span_element.text
-        desc_link = rdesc.find("a")
-        kno_link = desc_link.get("href")
-    except:
-        kno = ""
-        kno_link = ""
-
-    # retrieve kno-title
-    try:  # look for the title inside of a span in div.SPZz6b
-        rtitle = soup.find("div", {"class": "SPZz6b"})
-        rt_span = rtitle.find("span")
-        rkno_title = rt_span.text.strip()
-        # if we didn't find anyhing useful, move to next tests
-        if rkno_title in ["", "See results about"]:
-            raise
-    except:
-        for ellement, class_name in zip(["div", "span", "div"], ["DoxwDb", "yKMVIe", "DoxwDb"]):
-            try:
-                rtitle = soup.find(ellement, {"class": class_name})
-                rkno_title = rtitle.text.strip()
-            except:
-                continue  # couldn't scrape anything. continue if we can.
-            else:
-                if rkno_title not in ["", "See results about"]:
-                    break  # we got one
-        else:
-            rkno_title = ""
-
-    for div in soup.find_all("div", {'class': 'nnFGuf'}): 
-        div.decompose()
-
-    # retrieve featured snippet
-    try:
-        featured_snip = soup.find("span", {"class": "hgKElc"})
-        snip = featured_snip.text.strip()
-    except:
-        snip = ""
-
-    # retrieve spell check
-    try:
-        spell = soup.find("a", {"class": "gL9Hy"})
-        check = spell.text.strip()
-    except:
-        check = ""
+    # search query
     if search_type == "reddit":
-        check = check.replace("site:reddit.com", "").strip()
+        query += "site:reddit.com"
 
-    # get image for kno try javascript version first
-    if settings.javascript == "enabled":
-        if kno_link == "":
-            kno_image = ""
-            kno_title = ""
-        else:
-            kno_title = kno_link.split("/")[-1]
-            kno_title = f"/wikipedia?q={kno_title}"
-            kno_image = ""
-    else:
-        if kno_link == "":
-            kno_image = ""
-            kno_title = ""
-        else:
-            try:
-                kno_title = kno_link.split("/")[-1]
-                soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500", is_wiki=True)
-                data = json.loads(soup.text)
-                img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
-                kno_image = [f"/img_proxy?url={img_src}"]
-                kno_image = ''.join(kno_image)
-            except:
-                kno_image = ""
-
-    # gets users ip or user agent
-    info = ""
-    calc = ""
-    if any(query.lower().find(valid_ip_prompt) != -1 for valid_ip_prompt in VALID_IP_PROMPTS):
-        xff = request.headers.get("X-Forwarded-For")
-        if xff:
-            ip = xff.split(",")[-1].strip()
-        else:
-            ip = request.remote_addr or "unknown"
-        info = ip
-    elif any(query.lower().find(valid_ua_prompt) != -1 for valid_ua_prompt in VALID_UA_PROMPTS):
-        user_agent = request.headers.get("User-Agent") or "unknown"
-        info = user_agent
-    # calculator
-    else:
-        math_expression = re.search(r'(\d+(\.\d+)?)\s*([\+\-\*/x])\s*(\d+(\.\d+)?)', query)
-        if math_expression:
-            exported_math_expression = math_expression.group(0)
-            num1 = float(math_expression.group(1))
-            operator = math_expression.group(3)
-            num2 = float(math_expression.group(4))
-
-            if operator == '+':
-                result = num1 + num2
-            elif operator == '-':
-                result = num1 - num2
-            elif operator == '*':
-                result = num1 * num2
-            elif operator == 'x':
-                result = num1 * num2
-            elif operator == '/':
-                result = num1 / num2 if not isclose(num2, 0) else "Err; cannot divide by 0."
-
-            try:
-                result = float(result)
-                if result.is_integer():
-                    result = int(result)
-            except:
-                pass
-
-            calc = result
-        elif "calculator" in query.lower():
-            calc = "0"
-        else:
-            calc = ""
-
-    # list
-    results = []
-    for href, title, desc in zip(hrefs, titles, descriptions):
-        results.append([unquote(href), title, desc])
-    sublink = []
-    for sublink_href, sublink_title, sublink_desc in zip(sublinks_hrefs, sublinks_titles, sublinks):
-        sublink.append([sublink_href, sublink_title, sublink_desc])
-
-    # calc. time spent
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-
-    current_url = request.url
-
-    if "exported_math_expression" not in locals():
-        exported_math_expression = ""
+    try:
+        # TODO; perform searches
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
     if api == "true" and API_ENABLED == True:
         # return the results list as a JSON response
