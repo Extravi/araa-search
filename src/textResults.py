@@ -48,7 +48,6 @@ def textResults(query) -> Response:
     result_divs = soup.findAll("div", {"class": "MjjYud"})
     
     # initialize lists to store data
-    links = []
     titles = []
     descriptions = []
     hrefs = []
@@ -58,7 +57,6 @@ def textResults(query) -> Response:
         # retrieve links
         link = div.find("a")
         if link is not None:
-            links.append(link.get("href"))
             hrefs.append(link.get("href"))
         
         # retrieve title
