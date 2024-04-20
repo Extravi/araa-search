@@ -55,21 +55,22 @@ def textResults(query) -> Response:
     # loop through each div
     for div in result_divs:
         # retrieve links
-        link = div.find("a")
-        if link is not None:
-            hrefs.append(link.get("href"))
-        
-        # retrieve title
-        title = div.find("h3")
-        if title is not None:
-            titles.append(title.text.strip())
-        
-        # retrieve description
-        desc = div.find("div", {"class": "VwiC3b"})
-        if desc is not None:
-            descriptions.append(desc.text.strip())
-        else:
-            descriptions.append("No description available.")
+        if not div.find("div", class_="cUnQKe"):
+            link = div.find("a")
+            if link is not None:
+                hrefs.append(link.get("href"))
+            
+            # retrieve title
+            title = div.find("h3")
+            if title is not None:
+                titles.append(title.text.strip())
+            
+            # retrieve description
+            desc = div.find("div", {"class": "VwiC3b"})
+            if desc is not None:
+                descriptions.append(desc.text.strip())
+            else:
+                descriptions.append("No description available.")
 
     # retrieve sublinks
     try:
