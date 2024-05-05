@@ -183,6 +183,7 @@ def img_proxy():
                            "https://tse3.explicit.bing.net/",
                            "https://tse4.explicit.bing.net/",
                            "https://upload.wikimedia.org/wikipedia/commons/",
+                           "https://upload.wikimedia.org/wikipedia/en/thumb",
                            f"https://{PIPED_INSTANCE_PROXY}")
                           ):
         return Response("Error: invalid URL", status=400)
@@ -256,7 +257,7 @@ def search():
             # strip bang from query
             query = query[:bang_index] + query[bang_index + len(BANG + bangkey) + 1:]
             query = quote(query.strip())  # ensure query is quoted to redirect properly.
-            return app.redirect(bang_url.format(query))
+            return app.redirect(bang_url.format(q=query))
 
     # type of search (text, image, etc.)
     type = args.get("t", "text")

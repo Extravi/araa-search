@@ -29,7 +29,6 @@ def textResults(query) -> Response:
     search_type = args.get("t", "text")
     p = args.get("p", 0)
 
-    # search query
     if search_type == "reddit":
         query += "site:reddit.com"
 
