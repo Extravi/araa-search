@@ -64,7 +64,7 @@ def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     content = None if html.status_code != 200 else BeautifulSoup(html.text, "lxml")
 
     # Return the BeautifulSoup object
-    return (content, 200)
+    return (content, html.status_code)
 
 # search highlights
 def highlight_query_words(string, query):

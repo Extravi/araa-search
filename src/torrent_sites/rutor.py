@@ -35,7 +35,7 @@ def search(query, catagory="all"):
 
 
     url = f"https://{RUTOR_DOMAIN}/search/{quote(query)}{catagory}"
-    html = helpers.makeHTMLRequest(url)
+    html, response_code = helpers.makeHTMLRequest(url)
     results = []
 
     for torrent in html.select(".gai, .tum"):
