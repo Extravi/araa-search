@@ -1,30 +1,16 @@
 from src import helpers
 from urllib.parse import quote, unquote
-import time
 from _config import *
+from src.text_engines.textEngineResults import TextEngineResults
 
-engine_last_limited = 0
+def search(query: str, page: int, search_type: str, user_settings: helpers.Settings) -> TextEngineResults:
+    if search_type == "reddit":
+        query += "site:reddit.com"
 
-def available():
-    return engine_last_limited + ENGINE_RATELIMIT_COOLDOWN_MINUTES * 60 <= time.time()
+    soup, response_code = helpers.makeHTMLRequest(f"https://www.google.com{user_settings.domain}&q={quote(query)}&start={page}&lr={user_settings.lang}", is_google=True)
 
-def search(query: str, page: int):
-    settings = helpers.Settings()
-
-    query = quote(query)
-
-    soup, response_code = helpers.makeHTMLRequest(f"https://www.google.com{settings.domain}&q={quote(query)}&start={page}&lr={settings.lang}", is_google=True)
-
-    if response_code == 429 and available():
-        engine_last_limited = time.time()
-        return {
-            "engine": "google",
-            "ok": False,
-            "results": None,
-            "wiki": None,
-            "snip": None,
-            "snipp": None,
-        }
+    if response_code != 200:
+        return TextEngineResults(engine="google", search_type=search_type, ok=False, code=response_code)
 
     # retrieve links
     result_divs = soup.findAll("div", {"class": "yuRUbf"})
@@ -104,7 +90,7 @@ def search(query: str, page: int):
         check = check.replace("site:reddit.com", "").strip()
 
     # get image for kno try javascript version first
-    if settings.javascript == "enabled":
+    if user_settings.javascript == "enabled":
         if kno_link == "":
             kno_image = ""
             kno_title = ""
@@ -127,52 +113,6 @@ def search(query: str, page: int):
             except:
                 kno_image = ""
 
-    # gets users ip or user agent
-    info = ""
-    calc = ""
-    if any(query.lower().find(valid_ip_prompt) != -1 for valid_ip_prompt in VALID_IP_PROMPTS):
-        xff = request.headers.get("X-Forwarded-For")
-        if xff:
-            ip = xff.split(",")[-1].strip()
-        else:
-            ip = request.remote_addr or "unknown"
-        info = ip
-    elif any(query.lower().find(valid_ua_prompt) != -1 for valid_ua_prompt in VALID_UA_PROMPTS):
-        user_agent = request.headers.get("User-Agent") or "unknown"
-        info = user_agent
-    # calculator
-    else:
-        math_expression = re.search(r'(\d+(\.\d+)?)\s*([\+\-\*/x])\s*(\d+(\.\d+)?)', query)
-        if math_expression:
-            exported_math_expression = math_expression.group(0)
-            num1 = float(math_expression.group(1))
-            operator = math_expression.group(3)
-            num2 = float(math_expression.group(4))
-
-            if operator == '+':
-                result = num1 + num2
-            elif operator == '-':
-                result = num1 - num2
-            elif operator == '*':
-                result = num1 * num2
-            elif operator == 'x':
-                result = num1 * num2
-            elif operator == '/':
-                result = num1 / num2 if not isclose(num2, 0) else "Err; cannot divide by 0."
-
-            try:
-                result = float(result)
-                if result.is_integer():
-                    result = int(result)
-            except:
-                pass
-
-            calc = result
-        elif "calculator" in query.lower():
-            calc = "0"
-        else:
-            calc = ""
-
     # list
     results = []
     for href, title, desc in zip(hrefs, titles, descriptions):
@@ -184,54 +124,27 @@ def search(query: str, page: int):
     sublink = []
     for sublink_href, sublink_title, sublink_desc in zip(sublinks_hrefs, sublinks_titles, sublinks):
         sublink.append({
-            "sublink_url":   unquote(sublink_href),
-            "sublink_title": sublink_title,
-            "sublink_desc":  sublink_desc,
+            "url":   unquote(sublink_href),
+            "title": sublink_title,
+            "desc":  sublink_desc,
         })
 
-    # calc. time spent
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-
-    current_url = request.url
-
-    if "exported_math_expression" not in locals():
-        exported_math_expression = ""
-
-    if api == "true" and API_ENABLED == True:
-        # return the results list as a JSON response
-        return jsonify(results)
-    else:
-        if search_type == "reddit":
-            type = "reddit"
-        else:
-            type = "text"
-        return render_template("results.html",
-                               results=results, sublink=sublink, p=p, title=f"{query} - Araa",
-                               q=f"{query}", fetched=f"{elapsed_time:.2f}",
-                               snip=f"{snip}", kno_rdesc=f"{kno}", rdesc_link=f"{unquote(kno_link)}",
-                               kno_wiki=f"{kno_image}", rkno_title=f"{rkno_title}", kno_title=f"{kno_title}",
-                               user_info=f"{info}", calc=f"{calc}", check=check, current_url=current_url,
-                               type=type, search_type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
-                               exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
-                               TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-                               settings=settings,
-                               )
-
-    wiki = None if kno_rdesc == "" else {
+    wiki = None if kno == "" else {
         "title": rkno_title,
-        "image": kno_image,
-        "desc": kno_rdesc,
+        "image": kno_image,  # TODO; This seems to always be blank? I'm putting it here because it was scraped before rewriting/testing. I don't know what I could've done to make this suddenly always blank.
+        "desc": kno,
         "link": unquote(kno_link),
+        "wiki_thumb_proxy_link": kno_title,
     }
 
-    return {
-        "engine": "google",
-        "type": type,
-        "ok": True,
-        "results": results,
-        "wiki": wiki,
-        "correction": None if check == "" else check,
-        "snip": ,
-        "snipp": ,
-    }
+    return TextEngineResults(
+        engine = "google",
+        search_type = search_type,
+        ok = True,
+        code = 200,
+        results = results,
+        wiki = wiki,
+        featured = None if snip == "" else snip,
+        correction = None if check == "" else check,
+        top_result_sublinks = sublink,
+    )

@@ -158,7 +158,7 @@ def api():
         args = request.form
     query = args.get("q", "").strip()
     t = args.get("t", "text").strip()
-    p = args.get('p', 1)
+    p = args.get("p", 0)
     try:
         response = requests.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
         return json.loads(response.text)

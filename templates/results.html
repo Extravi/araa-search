@@ -122,23 +122,22 @@
         {{ kno_rdesc }}<a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a>
     </div>
     {% endif %}
-    {% if snip == "" %}
-    {% else %}
-        <p class="snipp">{{ snip|highlight_query_words(q) }} <a target="_blank" href="{{ results[0][0] }}">{{ results[0][0] }}</a></p>
+    {% if snip != "" %}
+        <p class="snipp">{{ snip|highlight_query_words(q) }} <a target="_blank" href="{{ results[0]['url'] }}">{{ results[0]['url'] }}</a></p>
     {% endif %}
     {% if results %}
     <div class="result_sublink">
-      <a id="link" {% if settings.new_tab == "active" %} target="_blank" {% endif %} href="{{ results[0][0] }}">{{ results[0][0] }}</a>
-        <a {% if settings.new_tab == "active"  %} target="_blank" {% endif %} href="{{ results[0][0] }}"><h3>{{ results[0][1] }}</h3></a>
-        <p>{{ results[0][2]|highlight_query_words(q) }}</p>
+      <a id="link" {% if settings.new_tab == "active" %} target="_blank" {% endif %} href="{{ results[0]['url'] }}">{{ results[0]['url'] }}</a>
+        <a {% if settings.new_tab == "active"  %} target="_blank" {% endif %} href="{{ results[0]['url'] }}"><h3>{{ results[0]['title'] }}</h3></a>
+        <p>{{ results[0]['desc']|highlight_query_words(q) }}</p>
     </div>
     {% endif %}
     {% if sublink %}
     <div class="results">
       {% for result in sublink %}
       <div class="sublinks">
-          <a href="{{ result[0] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result[1] }}</h3></a>
-          <p>{{ result[2] }}</p>
+          <a href="{{ result['url'] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result['title'] }}</h3></a>
+          <p>{{ result['desc'] }}</p>
       </div>
       {% endfor %}
     </div>
@@ -147,16 +146,16 @@
     <div class="clean">
         {% for result in results[1:] %}
         <div class="results">
-            <a id="link" href="{{ result[0] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}>{{ result[0] }}</a>
-            <a href="{{ result[0] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result[1] }}</h3></a>
-            <p>{{ result[2]|highlight_query_words(q) }}</p>
+            <a id="link" href="{{ result['url'] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}>{{ result['url'] }}</a>
+            <a href="{{ result['url'] }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result['title'] }}</h3></a>
+            <p>{{ result['desc']|highlight_query_words(q) }}</p>
         </div>
         {% endfor %}
     </div>
     <div class="prev-next">
         <form method="{{ settings.method }}">
           <input type="hidden" name="q" value="{{ q }}">
-          <input type="hidden" name="t" value="{{ type }}">
+          <input type="hidden" name="t" value="{{ search_type }}">
           {% set p = request.args.get('p', 0)|int %}
           {% if p >= 10 %}
               <button name="p" value="{{ p - 10 }}">{{ lang_data.buttons.previous }}</button>
