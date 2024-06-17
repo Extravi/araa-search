@@ -7,7 +7,7 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
     if search_type == "reddit":
         query += "site:reddit.com"
 
-    soup, response_code = helpers.makeHTMLRequest(f"https://www.google.com{user_settings.domain}&q={quote(query)}&start={page}&lr={user_settings.lang}", is_google=True)
+    soup, response_code = helpers.makeHTMLRequest(f"https://www.google.com{user_settings.domain}&q={quote(query)}&start={page}&lr={user_settings.lang}&num=20", is_google=True)
 
     if response_code != 200:
         return TextEngineResults(engine="google", search_type=search_type, ok=False, code=response_code)
@@ -131,7 +131,7 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
 
     wiki = None if kno == "" else {
         "title": rkno_title,
-        "image": kno_image,  # TODO; This seems to always be blank? I'm putting it here because it was scraped before rewriting/testing. I don't know what I could've done to make this suddenly always blank.
+        "image": kno_image,
         "desc": kno,
         "link": unquote(kno_link),
         "wiki_thumb_proxy_link": kno_title,
