@@ -5,7 +5,7 @@ from src.text_engines.textEngineResults import TextEngineResults
 
 def search(query: str, page: int, search_type: str, user_settings: helpers.Settings) -> TextEngineResults:
     if search_type == "reddit":
-        query += "site:reddit.com"
+        query += " site:reddit.com"
 
     soup, response_code = helpers.makeHTMLRequest(f"https://www.google.com{user_settings.domain}&q={quote(query)}&start={page}&lr={user_settings.lang}&num=20", is_google=True)
 

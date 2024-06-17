@@ -30,7 +30,6 @@ sublinks     = {self.top_result_sublinks}
     def __repr__(self):
         return self.__str__()
 
-    # Technically a dict, but it works, so.
     def asDICT(self):
         return {
             "engine": self.engine,
