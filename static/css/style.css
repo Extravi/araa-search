@@ -1303,7 +1303,7 @@ p {
   font-weight: bold;
   vertical-align: text-top;
   text-align: left;
-  margin-right: 6px;
+  padding-right: 14px;
 }
 
 .fact a {
