@@ -671,7 +671,8 @@ hr {
 }
 
 .kno_wiki_show {
-    display: initial !important;
+  display: initial !important;
+  border-radius: 6px;
 }
 
 .open-in-new-tab * {
@@ -1266,11 +1267,7 @@ p {
 .wiki_known_for {
   margin: 0px;
   font-weight: normal;
-}
-
-.snip hr {
-  margin: 5px 0px;
-  border-bottom: 1px solid var(--fg);
+  margin-bottom: 10px;
 }
 
 .snip img {
@@ -1304,6 +1301,9 @@ p {
 .factpoint {
   color: var(--fg);
   font-weight: bold;
+  vertical-align: text-top;
+  text-align: left;
+  margin-right: 6px;
 }
 
 .fact a {
