@@ -108,18 +108,33 @@
         <p id="info_font" class="snip">{{ calc }}</p>
         {% endif %}
     {% endif %}
-    {% if kno_rdesc == "" %}
-    {% else %}
+    {% if kno_rdesc != "" %}
     <div class="snip">
         <h1 class="snip_title">{{ rkno_title }}</h1>
-        {% if kno_wiki == "" %}
-        {% else %}
+        {% if wiki_known_for != "" %}
+        <h4 class="wiki_known_for">{{ wiki_known_for }}</h4>
+        {% endif %}
+        <hr>
+        {% if kno_wiki != "" %}
         <img src="{{ kno_wiki }}"/>
         {% endif %}
         {% if settings.javascript == "enabled" %}
         <img class="kno_wiki" src=""/>
         {% endif %}
-        {{ kno_rdesc }}<a target="_blank" href="{{ rdesc_link }}">{{ rdesc_link }}</a>
+        {{ kno_rdesc }}
+        <a target="_blank" class="wiki_link" href="{{ rdesc_link }}">Wikipedia</a>
+
+        {% if wiki_info|length > 0 %}
+          <h4 class="about">About</h4>
+          <div class="wiki_info">
+            {% for info_point in wiki_info %}
+              <div class="info">
+                <span class="factpoint">{{ info_point }}</span>
+                <span class="fact">{{ wiki_info[info_point]|safe }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
     </div>
     {% endif %}
     {% if snip == "" %}

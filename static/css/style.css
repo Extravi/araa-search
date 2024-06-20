@@ -1263,6 +1263,16 @@ p {
     font-size: 22px;
 }
 
+.wiki_known_for {
+  margin: 0px;
+  font-weight: normal;
+}
+
+.snip hr {
+  margin: 5px 0px;
+  border-bottom: 1px solid var(--fg);
+}
+
 .snip img {
     float: right;
     max-width: 30%;
@@ -1271,8 +1281,7 @@ p {
     margin-left: 10px;
 }
 
-.snip a {
-    display: block;
+.snip .wiki_link {
     margin-top: 10px;
     text-decoration: none;
     color: var(--link);
@@ -1284,6 +1293,25 @@ p {
 
 .snip a:hover {
     text-decoration: underline;
+}
+
+.snip .about {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.factpoint {
+  color: var(--fg);
+  font-weight: bold;
+}
+
+.fact a {
+  color: var(--link);
+  text-decoration: none;
+}
+.fact a:visited {
+  color: var(--link-visited);
 }
 
 .snipp {
