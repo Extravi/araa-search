@@ -128,7 +128,6 @@ def textResults(query) -> Response:
                 a['href'] = local_href(a.get("href", ""))
 
         wiki_info[spans[0].get_text()] = spans[1]
-        print(wiki_info[spans[0].get_text()])
 
     # retrieve featured snippet
     try:
