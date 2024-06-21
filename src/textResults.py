@@ -8,7 +8,6 @@ import re
 from math import isclose  # For float comparisons
 
 
-
 def local_href(url):
     url_parsed = parse_qs(urlparse(url).query)
     if "q" not in url_parsed:
@@ -123,8 +122,8 @@ def textResults(query) -> Response:
         spans = info.findChildren("span" , recursive=False)
         for a in spans[1].find_all("a"):
             # Delete all non-href attributes
-            a.attrs = {"href": a['href']}
-            if "sca_esv=" in a.get("href", ""):
+            a.attrs = {"href": a.get("href", "")}
+            if "sca_esv=" in a['href']:
                 # Remove any trackers for google domains
                 a['href'] = local_href(a.get("href", ""))
 
