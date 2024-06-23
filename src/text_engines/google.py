@@ -3,6 +3,12 @@ from urllib.parse import quote, unquote
 from _config import *
 from src.text_engines.textEngineResults import TextEngineResults
 
+def __local_href__(url):
+    url_parsed = parse_qs(urlparse(url).query)
+    if "q" not in url_parsed:
+        return ""
+    return f"/search?q={url_parsed['q'][0]}&p=0&t=text"
+
 def search(query: str, page: int, search_type: str, user_settings: helpers.Settings) -> TextEngineResults:
     if search_type == "reddit":
         query += " site:reddit.com"
@@ -112,6 +118,23 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
                 kno_image = ''.join(kno_image)
             except:
                 kno_image = ""
+
+    wiki_known_for = soup.find("div", {'class': 'loJjTe'})
+    if wiki_known_for is not None:
+        wiki_known_for = wiki_known_for.get_text()
+
+    wiki_info = {}
+    wiki_info_divs = soup.find_all("div", {"class": "rVusze"})
+    for info in wiki_info_divs:
+        spans = info.findChildren("span" , recursive=False)
+        for a in spans[1].find_all("a"):
+            # Delete all non-href attributes
+            a.attrs = {"href": a.get("href", "")}
+            if "sca_esv=" in a['href']:
+                # Remove any trackers for google domains
+                a['href'] = __local_href__(a.get("href", ""))
+
+        wiki_info[spans[0].get_text()] = spans[1]
 
     # list
     results = []
