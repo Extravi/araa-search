@@ -671,7 +671,8 @@ hr {
 }
 
 .kno_wiki_show {
-    display: initial !important;
+  display: initial !important;
+  border-radius: 6px;
 }
 
 .open-in-new-tab * {
@@ -1263,6 +1264,12 @@ p {
     font-size: 22px;
 }
 
+.wiki_known_for {
+  margin: 0px;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
 .snip img {
     float: right;
     max-width: 30%;
@@ -1271,8 +1278,7 @@ p {
     margin-left: 10px;
 }
 
-.snip a {
-    display: block;
+.snip .wiki_link {
     margin-top: 10px;
     text-decoration: none;
     color: var(--link);
@@ -1284,6 +1290,28 @@ p {
 
 .snip a:hover {
     text-decoration: underline;
+}
+
+.snip .about {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.factpoint {
+  color: var(--fg);
+  font-weight: bold;
+  vertical-align: text-top;
+  text-align: left;
+  padding-right: 14px;
+}
+
+.fact a {
+  color: var(--link);
+  text-decoration: none;
+}
+.fact a:visited {
+  color: var(--link-visited);
 }
 
 .snipp {

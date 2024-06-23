@@ -1,11 +1,18 @@
 from src import helpers
-from urllib.parse import unquote, quote
+from urllib.parse import unquote, quote, urlparse, parse_qs
 from _config import *
 from flask import request, render_template, jsonify, Response
 import time
 import json
 import re
 from math import isclose  # For float comparisons
+
+
+def local_href(url):
+    url_parsed = parse_qs(urlparse(url).query)
+    if "q" not in url_parsed:
+        return ""
+    return f"/search?q={url_parsed['q'][0]}&p=0&t=text"
 
 
 def textResults(query) -> Response:
@@ -104,6 +111,23 @@ def textResults(query) -> Response:
 
     for div in soup.find_all("div", {'class': 'nnFGuf'}): 
         div.decompose()
+
+    wiki_known_for = soup.find("div", {'class': 'loJjTe'})
+    if wiki_known_for is not None:
+        wiki_known_for = wiki_known_for.get_text()
+
+    wiki_info = {}
+    wiki_info_divs = soup.find_all("div", {"class": "rVusze"})
+    for info in wiki_info_divs:
+        spans = info.findChildren("span" , recursive=False)
+        for a in spans[1].find_all("a"):
+            # Delete all non-href attributes
+            a.attrs = {"href": a.get("href", "")}
+            if "sca_esv=" in a['href']:
+                # Remove any trackers for google domains
+                a['href'] = local_href(a.get("href", ""))
+
+        wiki_info[spans[0].get_text()] = spans[1]
 
     # retrieve featured snippet
     try:
@@ -225,5 +249,5 @@ def textResults(query) -> Response:
                                type=type, search_type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-                               settings=settings,
+                               settings=settings, wiki_known_for=wiki_known_for, wiki_info=wiki_info
                                )
