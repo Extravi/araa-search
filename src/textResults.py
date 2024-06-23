@@ -1,5 +1,5 @@
 from src import helpers
-from urllib.parse import unquote, quote
+from urllib.parse import unquote, quote, urlparse, parse_qs
 from _config import *
 from flask import request, render_template, jsonify, Response
 import time
@@ -146,5 +146,5 @@ def textResults(query: str) -> Response:
                                search_type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-                               settings=settings,
+                               settings=settings, wiki_known_for=wiki_known_for, wiki_info=wiki_info
                                )

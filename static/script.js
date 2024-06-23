@@ -227,6 +227,8 @@ if (document.querySelectorAll(".search-active")[1].getAttribute("value") === "im
   });
 
   document.addEventListener('keydown', function (event) {
+    if (searchInput == document.activeElement)
+      return;
     if (event.key === 'ArrowLeft') {
       currentImageIndex = (currentImageIndex - 1 + openImageViewer.length) % openImageViewer.length;
       showImage();
