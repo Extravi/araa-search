@@ -1,5 +1,5 @@
 from src import helpers
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, urlparse, parse_qs
 from _config import *
 from src.text_engines.textEngineResults import TextEngineResults
 
@@ -158,6 +158,8 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
         "desc": kno,
         "link": unquote(kno_link),
         "wiki_thumb_proxy_link": kno_title,
+        "known_for": wiki_known_for,
+        "info": wiki_info,
     }
 
     return TextEngineResults(

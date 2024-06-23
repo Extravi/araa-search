@@ -1,5 +1,5 @@
 from src import helpers
-from urllib.parse import unquote, quote, urlparse, parse_qs
+from urllib.parse import unquote, quote
 from _config import *
 from flask import request, render_template, jsonify, Response
 import time
@@ -127,12 +127,16 @@ def textResults(query: str) -> Response:
             kno_title = ""
             kno_wiki = ""
             rdesc_link = ""
+            wiki_known_for = ""
+            wiki_info = ""
         else:
             kno_rdesc = results.wiki['desc']
             rkno_title = results.wiki['title']
             kno_title = results.wiki['wiki_thumb_proxy_link']
             kno_wiki = results.wiki['image']
             rdesc_link = results.wiki['link']
+            wiki_known_for = results.wiki['known_for']
+            wiki_info = results.wiki['info']
 
         check = "" if results.correction is None else results.correction
         snip = "" if results.featured is None else results.featured
