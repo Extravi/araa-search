@@ -108,28 +108,28 @@
         <p id="info_font" class="snip">{{ calc }}</p>
         {% endif %}
     {% endif %}
-    {% if kno_rdesc != "" %}
+    {% if wiki != None %}
     <div class="snip">
-        <h1 class="snip_title">{{ rkno_title }}</h1>
+        <h1 class="snip_title">{{ wiki['title'] }}</h1>
         {% if settings.javascript == "enabled" %}
         <img class="kno_wiki" src=""/>
         {% endif %}
-        {% if wiki_known_for %}
-        <h4 class="wiki_known_for">{{ wiki_known_for }}</h4>
+        {% if wiki['known_for'] %}
+        <h4 class="wiki_known_for">{{ wiki['known_for'] }}</h4>
         {% endif %}
-        {% if kno_wiki != "" %}
-        <img src="{{ kno_wiki }}"/>
+        {% if wiki['image'] != "" %}
+        <img src="{{ wiki['image'] }}"/>
         {% endif %}
-        {{ kno_rdesc }}
-        <a target="_blank" class="wiki_link" href="{{ rdesc_link }}">Wikipedia</a>
+        {{ wiki['desc'] }}
+        <a target="_blank" class="wiki_link" href="{{ wiki['link'] }}">Wikipedia</a>
 
-        {% if wiki_info|length > 0 %}
+        {% if wiki['info']|length > 0 %}
           <h4 class="about">About</h4>
           <table class="wiki_info">
-            {% for info_point in wiki_info %}
+            {% for info_point in wiki['info'] %}
               <tr class="info">
                 <th class="factpoint">{{ info_point }}</th>
-                <td class="fact">{{ wiki_info[info_point]|safe }}</td>
+                <td class="fact">{{ wiki['info'][info_point]|safe }}</td>
               </tr>
             {% endfor %}
           </table>

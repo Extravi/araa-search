@@ -118,37 +118,20 @@ def textResults(query: str) -> Response:
             calc = ""
 
     if api == "true" and API_ENABLED == True:
-        # return the results list as a JSON response
+        # return the results as a JSON response
         return jsonify(results.asDICT())
     else:
-        if results.wiki is None:
-            kno_rdesc = ""
-            rkno_title = ""
-            kno_title = ""
-            kno_wiki = ""
-            rdesc_link = ""
-            wiki_known_for = ""
-            wiki_info = ""
-        else:
-            kno_rdesc = results.wiki['desc']
-            rkno_title = results.wiki['title']
-            kno_title = results.wiki['wiki_thumb_proxy_link']
-            kno_wiki = results.wiki['image']
-            rdesc_link = results.wiki['link']
-            wiki_known_for = results.wiki['known_for']
-            wiki_info = results.wiki['info']
-
         check = "" if results.correction is None else results.correction
         snip = "" if results.featured is None else results.featured
 
         return render_template("results.html",
                                results=results.results, sublink=results.top_result_sublinks, p=p, title=f"{query} - Araa",
                                q=f"{query}", fetched=f"{elapsed_time:.2f}",
-                               snip=f"{snip}", kno_rdesc=f"{kno_rdesc}", rdesc_link=f"{rdesc_link}",
-                               kno_wiki=f"{kno_wiki}", rkno_title=f"{rkno_title}", kno_title=f"{kno_title}",
+                               snip=f"{snip}",
                                user_info=f"{info}", calc=f"{calc}", check=check, current_url=request.url,
                                search_type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-                               settings=settings, wiki_known_for=wiki_known_for, wiki_info=wiki_info
+                               settings=settings,
+                               wiki=results.wiki
                                )
