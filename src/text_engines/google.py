@@ -1,7 +1,9 @@
 from src import helpers
 from urllib.parse import quote, unquote, urlparse, parse_qs
 from _config import *
-from src.text_engines.textEngineResults import TextEngineResults
+from src.text_engines.objects.fullEngineResults import FullEngineResults
+from src.text_engines.objects.wikiSnippet import WikiSnippet
+from src.text_engines.objects.textResult import TextResult
 
 def __local_href__(url):
     url_parsed = parse_qs(urlparse(url).query)
@@ -9,14 +11,14 @@ def __local_href__(url):
         return ""
     return f"/search?q={url_parsed['q'][0]}&p=0&t=text"
 
-def search(query: str, page: int, search_type: str, user_settings: helpers.Settings) -> TextEngineResults:
+def search(query: str, page: int, search_type: str, user_settings: helpers.Settings) -> FullEngineResults:
     if search_type == "reddit":
         query += " site:reddit.com"
 
     soup, response_code = helpers.makeHTMLRequest(f"https://www.google.com{user_settings.domain}&q={quote(query)}&start={page}&lr={user_settings.lang}&num=20", is_google=True)
 
     if response_code != 200:
-        return TextEngineResults(engine="google", search_type=search_type, ok=False, code=response_code)
+        return FullEngineResults(engine="google", search_type=search_type, ok=False, code=response_code)
 
     # retrieve links
     result_divs = soup.findAll("div", {"class": "yuRUbf"})
@@ -136,33 +138,32 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
 
         wiki_info[spans[0].get_text()] = spans[1]
 
-    # list
     results = []
     for href, title, desc in zip(hrefs, titles, descriptions):
-        results.append({
-            "url":   unquote(href),
-            "title": title,
-            "desc":  desc,
-        })
+        results.append(TextResult(
+            url = unquote(href),
+            title = title,
+            desc = desc,
+        ))
     sublink = []
     for sublink_href, sublink_title, sublink_desc in zip(sublinks_hrefs, sublinks_titles, sublinks):
-        sublink.append({
-            "url":   unquote(sublink_href),
-            "title": sublink_title,
-            "desc":  sublink_desc,
-        })
+        sublink.append(TextResult(
+            url = unquote(sublink_href),
+            title = sublink_title,
+            desc = sublink_desc,
+        ))
 
-    wiki = None if kno == "" else {
-        "title": rkno_title,
-        "image": kno_image,
-        "desc": kno,
-        "link": unquote(kno_link),
-        "wiki_thumb_proxy_link": kno_title,
-        "known_for": wiki_known_for,
-        "info": wiki_info,
-    }
+    wiki = None if kno == "" else WikiSnippet(
+        title = rkno_title,
+        image = kno_image,
+        desc = kno,
+        link = unquote(kno_link),
+        wiki_thumb_proxy_link = kno_title,
+        known_for = wiki_known_for.strip(),
+        info = wiki_info,
+    )
 
-    return TextEngineResults(
+    return FullEngineResults(
         engine = "google",
         search_type = search_type,
         ok = True,
