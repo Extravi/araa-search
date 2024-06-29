@@ -253,7 +253,15 @@ if (document.querySelectorAll(".search-active")[1].getAttribute("value") === "im
     for (const image of document.querySelectorAll(".image_selected")) {
       image.classList = ['image'];
     }
-    document.querySelectorAll(".image")[currentImageIndex].classList.add("image_selected");
+    const current_image = document.querySelectorAll(".image")[currentImageIndex]; 
+    current_image.classList.add("image_selected");
+    var rect = current_image.getBoundingClientRect();
+    if (!(rect.top >= 0 && rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth))) {
+      current_image.scrollIntoView(false);
+    }
+
     const src = openImageViewer[currentImageIndex].getAttribute('src');
     const alt = openImageViewer[currentImageIndex].getAttribute('alt');
     const data = openImageViewer[currentImageIndex].getAttribute('data');
