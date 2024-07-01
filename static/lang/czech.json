@@ -1,0 +1,48 @@
+{
+    "buttons": {
+        "text": "Web",
+        "image": "Obrázky",
+        "video": "Videa",
+        "reddit": "Reddit",
+        "torrent": "Torrenty",
+        "next": "Další",
+        "previous": "Předchozí"
+    },
+    "results": {
+        "results": "Získané výsledky v",
+        "seconds": "sekundách"
+    },
+    "footer": {
+        "settings": "Nastavení",
+        "source_code": "Zdrojový kód",
+        "commit": "Commit",
+        "donate": "Přispějte"
+    },
+    "search_buttons": {
+        "search_text": "Hledat s Araa",
+        "search_images": "Hledat obrázky s Araa"
+    },
+    "settings": {
+        "theme": "Motiv",
+        "user_theme": "Uživatelský motiv",
+        "all_settings": "Všechna nastavení",
+        "settings_header": "Nastavení",
+        "discover_themes": "Procházejte motivy vytvořené komunitou",
+        "discover_themes_button": "Procházejte motivy",
+        "preferred_language": "Preferovaný jazyk pro vyhledávání",
+        "google_domain": "Google doména",
+        "safe_search": "Bezpečné vyhledávání",
+        "open_links_new_tab": "Otevírání odkazů na nové kartě",
+        "disable_javascript": "Vypnutí JavaScriptu (nedoporučuje se) ovlivňuje funkce webové stránky, vypíná automatické dokončování a zpomaluje některé funkce. Povolení JavaScriptu neohrozí vaše soukromí, protože požadavky jsou zpracovávány prostřednictvím koncových bodů na straně serveru.",
+        "save_settings": "Ulož své nastavení",
+        "return_to_settings": "Zpět do nastavení",
+        "preferredux_language": "Preferovaný jazyk pro nadpisy, tlačítka a další texty od Araa",
+        "on": "zapnuto",
+        "off": "vypnuto",
+        "any_language": "Jakýkoliv jazyk"
+    },
+    "api_links": {
+        "api_link": "API",
+        "suggestions_api_link": "Návrhy API"
+    }
+}
