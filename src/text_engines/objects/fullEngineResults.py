@@ -1,4 +1,5 @@
 from src.text_engines.objects.textResult import TextResult
+from src.text_engines.objects.wikiSnippet import WikiSnippet
 from dataclasses import dataclass
 
 @dataclass
@@ -7,11 +8,11 @@ class FullEngineResults:
     search_type: str
     ok: bool
     code: int
-    results: list[TextResult] | None = None,
-    wiki: dict | None = None
+    results: list[TextResult] | None = None
+    wiki: WikiSnippet | None = None
     featured: str | None = None
     correction: str | None = None
-    top_result_sublinks: str | None = None
+    top_result_sublinks: list[TextResult] | None = None
 
     def asDICT(self):
         results_asdict = []

@@ -1,14 +1,14 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 @dataclass
 class WikiSnippet:
     title: str
-    image: str
     desc: str
     link: str
-    wiki_thumb_proxy_link: str
-    known_for: str | None
-    info: dict
+    image: str | None = None
+    wiki_thumb_proxy_link: str | None = None
+    known_for: str | None = None
+    info: dict = field(default_factory = dict)
 
     def asDICT(self):
         # self.info is a dict[str, Tag] => `Tag`s are used because of links.
