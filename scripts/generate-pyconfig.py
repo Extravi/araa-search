@@ -106,6 +106,11 @@ ENV_VARS = {
         'pyname': 'DEFAULT_UX_LANG',
         'type': str,
     },
+    'ENGINE_RATELIMIT_COOLDOWN': {
+        'default_val': 10,
+        'pyname': 'ENGINE_RATELIMIT_COOLDOWN_MINUTES',
+        'type': int,
+    },
 }
 
 import os
