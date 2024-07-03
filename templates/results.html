@@ -117,7 +117,7 @@
         {% if wiki.known_for %}
         <h4 class="wiki_known_for">{{ wiki.known_for }}</h4>
         {% endif %}
-        {% if wiki.image != "" %}
+        {% if wiki.image != None %}
         <img src="{{ wiki.image }}"/>
         {% endif %}
         {{ wiki.desc }}
