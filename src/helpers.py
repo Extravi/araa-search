@@ -99,10 +99,10 @@ def makeJSONRequest(url: str):
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
     # Grab json content
-    response = s.get(url)
+    response = s.get(url, headers=headers)
 
     # Return the JSON object
-    return json.loads(response.text)
+    return (json.loads(response.text), response.status_code)
 
 def get_magnet_hash(magnet):
     return magnet.split("btih:")[1].split("&")[0]
