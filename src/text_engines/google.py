@@ -121,7 +121,7 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
 
     wiki_known_for = soup.find("div", {'class': 'loJjTe'})
     if wiki_known_for is not None:
-        wiki_known_for = wiki_known_for.get_text()
+        wiki_known_for = wiki_known_for.get_text().strip()
 
     wiki_info = {}
     wiki_info_divs = soup.find_all("div", {"class": "rVusze"})
@@ -157,7 +157,7 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
         desc = kno,
         link = unquote(kno_link),
         wiki_thumb_proxy_link = kno_title,
-        known_for = wiki_known_for.strip(),
+        known_for = wiki_known_for,
         info = wiki_info,
     )
 
