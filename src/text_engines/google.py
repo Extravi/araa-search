@@ -97,29 +97,27 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
     if search_type == "reddit":
         check = check.replace("site:reddit.com", "").strip()
 
+    kno_image = None
+    kno_title = None
+
     # get image for kno try javascript version first
-    if user_settings.javascript == "enabled":
-        if kno_link == "":
-            kno_image = ""
-            kno_title = ""
-        else:
+    if kno_link != "":
+        if user_settings.javascript == "enabled":
             kno_title = kno_link.split("/")[-1]
             kno_title = f"/wikipedia?q={kno_title}"
-            kno_image = ""
-    else:
-        if kno_link == "":
-            kno_image = ""
-            kno_title = ""
         else:
             try:
-                kno_title = kno_link.split("/")[-1]
-                soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={kno_title}&pithumbsize=500", is_wiki=True)
+                _kno_title = kno_link.split("/")[-1]
+                soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={_kno_title}&pithumbsize=500", is_wiki=True)
                 data = json.loads(soup.text)
                 img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
-                kno_image = [f"/img_proxy?url={img_src}"]
-                kno_image = ''.join(kno_image)
+                _kno_image = [f"/img_proxy?url={img_src}"]
+                _kno_image = ''.join(_kno_image)
             except:
-                kno_image = ""
+                pass
+            finally:
+                kno_title = _kno_title
+                kno_image = _kno_image
 
     wiki_known_for = soup.find("div", {'class': 'loJjTe'})
     if wiki_known_for is not None:
