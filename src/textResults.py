@@ -6,10 +6,11 @@ import time
 import json
 import re
 from math import isclose # For float comparisons
-from src.text_engines import google
+from src.text_engines import google, qwant
 
 ENGINES = [
-    google
+    google,
+    qwant,
 ]
 ratelimited_timestamps = {}
 
@@ -63,8 +64,11 @@ def textResults(query: str) -> Response:
                 ratelimited = False
             if results.ok:
                 break
-            print(f"WARN: Text engine {results.engine} failed with code {results.code}." \
-                  "\nNOTE: this engine just got ratelimited." if results.code == 429 else "")
+            print(f"WARN: Text engine {results.engine} failed with code {results.code}.")
+            if results.code == 429:
+                print("NOTE: this engine just got ratelimited.")
+            else:
+                print(f"Response: {results}")
             results = None
     except Exception as e:
         return jsonify({"error": str(e)}), 500
