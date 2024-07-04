@@ -20,16 +20,21 @@ class FullEngineResults:
         for result in self.results:
             results_asdict.append(result.asDICT())
 
-        return {
+        ret = {
             "engine": self.engine,
             "type": self.search_type,
             "ok": self.ok,
             "code": self.code,
             "results": results_asdict,
-            "results.len": len(results_asdict),
             "wiki": self.wiki.asDICT() if self.wiki != None else None,
             "featured": self.featured,
             "correction": self.correction,
             "sublinks": self.top_result_sublinks,
-            "sublinks.len": len(self.top_result_sublinks),
         }
+
+        if ret["results"] is not None:
+            ret["results.len"] = len(results_asdict),
+        if ret["sublinks"] is not None:
+            ret["sublinks.len"] = len(self.top_result_sublinks)
+
+        return ret
