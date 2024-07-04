@@ -62,10 +62,14 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
 
         # wikipedia snippet scraper
         if wiki is None and 'wikipedia.org' in urlparse(result['source']).netloc:
+            wiki_proxy_link, wiki_image = helpers.grab_wiki_image_from_url(result['source'], user_settings)
+
             wiki = WikiSnippet(
                 title = result['title'],
                 desc = result['desc'],
                 link = result['source'],
+                image = wiki_image,
+                wiki_thumb_proxy_link = wiki_proxy_link,
             )
 
     spell = json_data['data']['query']['queryContext'].get('alteredQuery', '')

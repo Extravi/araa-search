@@ -100,24 +100,9 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
     kno_image = None
     kno_title = None
 
-    # get image for kno try javascript version first
+    # get wiki image
     if kno_link != "":
-        if user_settings.javascript == "enabled":
-            kno_title = kno_link.split("/")[-1]
-            kno_title = f"/wikipedia?q={kno_title}"
-        else:
-            try:
-                _kno_title = kno_link.split("/")[-1]
-                soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={_kno_title}&pithumbsize=500", is_wiki=True)
-                data = json.loads(soup.text)
-                img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
-                _kno_image = [f"/img_proxy?url={img_src}"]
-                _kno_image = ''.join(_kno_image)
-            except:
-                pass
-            finally:
-                kno_title = _kno_title
-                kno_image = _kno_image
+        kno_title, kno_image = helpers.grab_wiki_image_from_url(kno_link, user_settings)
 
     wiki_known_for = soup.find("div", {'class': 'loJjTe'})
     if wiki_known_for is not None:

@@ -153,3 +153,32 @@ class Settings():
         self.theme = request.cookies.get("theme", DEFAULT_THEME)
         self.method = request.cookies.get("method", DEFAULT_METHOD)
         self.ac = request.cookies.get("ac", DEFAULT_AUTOCOMPLETE)
+
+# Returns a tuple of two ellements.
+# The first is the wikipedia proxy's URL (used to load an wiki page's image after page load),
+# and the second is an image proxy link for the very image of the page itself.
+# 
+# Either the first or second ellement will be a string, but not both (at least one ellement
+# will be None).
+# 
+# NOTE: This function may return (None, None) in cases of failure.
+def grab_wiki_image_from_url(wikipedia_url: str, user_settings: Settings) -> tuple[str | None]:
+    kno_title = None
+    kno_image = None
+
+    if user_settings.javascript == "enabled":
+        kno_title = wikipedia_url.split("/")[-1]
+        kno_title = f"/wikipedia?q={kno_title}"
+    else:
+        try:
+            _kno_title = wikipedia_url.split("/")[-1]
+            soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={_kno_title}&pithumbsize=500", is_wiki=True)
+            data = json.loads(soup.text)
+            img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
+            _kno_image = [f"/img_proxy?url={img_src}"]
+            _kno_image = ''.join(_kno_image)
+        finally:
+            kno_image = _kno_image
+
+    return kno_title, kno_image
+
