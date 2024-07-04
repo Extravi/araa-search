@@ -61,7 +61,7 @@
     <p class="fetched">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
     {% if check == "" %}
     {% else %}
-        <div class="check"><p>Did you mean: <a href="/search?q={{ check }}&t={{ search_type }}"><h3>{{ check }}</h3></a></p></div>
+        <div class="check"><p>Did you mean: <a href="/search?q={{ check }}&t={{ type }}"><h3>{{ check }}</h3></a></p></div>
     {% endif %}
     {% if user_info == "" %}
     {% else %}
@@ -169,7 +169,7 @@
     <div class="prev-next">
         <form method="{{ settings.method }}">
           <input type="hidden" name="q" value="{{ q }}">
-          <input type="hidden" name="t" value="{{ search_type }}">
+          <input type="hidden" name="t" value="{{ type }}">
           {% set p = request.args.get('p', 0)|int %}
           {% if p >= 10 %}
               <button name="p" value="{{ p - 10 }}">{{ lang_data.buttons.previous }}</button>

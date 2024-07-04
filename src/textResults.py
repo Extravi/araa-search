@@ -133,7 +133,7 @@ def textResults(query: str) -> Response:
                                q=f"{query}", fetched=f"{elapsed_time:.2f}",
                                snip=f"{snip}",
                                user_info=f"{info}", calc=f"{calc}", check=check, current_url=request.url,
-                               search_type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
+                               type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
                                settings=settings,
