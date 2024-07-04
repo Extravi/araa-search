@@ -173,7 +173,7 @@
         </div>
         </div>
         {% if settings.javascript == "enabled" %}
-        {% if wiki.wiki_thumb_proxy_link != None %}
+        {% if wiki is defined and wiki.wiki_thumb_proxy_link != None %}
         <div id="kno_title" data-kno-title="{{ wiki.wiki_thumb_proxy_link }}"></div>
         {% endif %}
         <script defer src="/script.js"></script>
