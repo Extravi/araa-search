@@ -17,11 +17,21 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
         "locale": "en_us",
         "offset": page,
         "device": "desktop",
-        "safesearch": 1 if user_settings.safe == "active" else 0,
-        "tgp": 3,
+        "safesearch": 2 if user_settings.safe == "active" else 0,
+        "tgp": 1,
     }
 
     json_data, code = helpers.makeJSONRequest("https://api.qwant.com/v3/search/web?{}".format(urlencode(url_args)))
+
+    if code == 403 and user_settings.safe == "active":
+        # Qwant returns 403 when safesearch restricted all content.
+        # This is just to prevent an 'engine failure' error.
+        return FullEngineResults(
+            engine = "qwant",
+            search_type = search_type,
+            ok = True,
+            code = code,
+        )
 
     if json_data['status'] != "success":
         # Add error handling later
