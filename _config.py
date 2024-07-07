@@ -30,9 +30,9 @@ API_BAY_DOMAIN = "apibay.org"
 RUTOR_DOMAIN = "rutor.info"
 
 # Domain of the Piped instance to use
-PIPED_INSTANCE_API = "ytapi.extravi.dev"
-PIPED_INSTANCE = "yt.extravi.dev"
-PIPED_INSTANCE_PROXY = "ytproxy.extravi.dev"
+PIPED_INSTANCE_API = "ytapi.ttj.dev"
+PIPED_INSTANCE = "yt.ttj.dev"
+PIPED_INSTANCE_PROXY = "ytproxy.ttj.dev"
 
 # Useragents to use in the request.
 user_agents = [
