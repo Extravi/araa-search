@@ -12,9 +12,9 @@ WORKDIR /app
 
 COPY requirements.txt /app/
 
-RUN python3 -m venv venv
-RUN . venv/bin/activate
-RUN pip install -r requirements.txt
+# We will only be running our own python app in a container,
+# so this shouldn't be terrible.
+RUN pip install --break-system-packages -r requirements.txt
 
 COPY . .
 

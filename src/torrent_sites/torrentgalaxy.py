@@ -36,7 +36,7 @@ def search(query, catagory="all"):
     catagory = get_catagory_code(catagory)
     if catagory == "ignore":
         return []
-    soup = helpers.makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={quote(query)}{catagory}#results")
+    soup, response_code = helpers.makeHTMLRequest(f"https://{TORRENTGALAXY_DOMAIN}/torrents.php?search={quote(query)}{catagory}#results")
 
     result_divs = soup.findAll("div", {"class": "tgxtablerow"})
     title = [div.find("div", {"id": "click"}) for div in result_divs]

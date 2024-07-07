@@ -44,8 +44,8 @@ bing = requests.Session() # bing
 piped = requests.Session() # piped
 
 # Set a custom request header for the autocomplete session
-ac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
-googleac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
+ac.headers.update({'User-Agent': random.choice(user_agents)})
+googleac.headers.update({'User-Agent': random.choice(user_agents)})
 
 
 @app.route('/settings')
@@ -123,19 +123,19 @@ def suggestions():
     if settings.ac == "ddg":
         response = ac.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list")
         return json.loads(response.text)
-    else:
-        response = googleac.get(f"https://suggestqueries.google.com/complete/search?client=firefox&q={quote(query)}")
-        suggestions_list = json.loads(response.text)
 
-        # remove items at index 2 and 3
-        if len(suggestions_list) > 2:
-            suggestions_list.pop(3)
-        if len(suggestions_list) > 2:
-            suggestions_list.pop(2)
+    response = googleac.get(f"https://suggestqueries.google.com/complete/search?client=firefox&q={quote(query)}")
+    suggestions_list = json.loads(response.text)
 
-        # limit results
-        suggestions_list[1] = suggestions_list[1][:8]
-        return jsonify(suggestions_list)
+    # remove items at index 2 and 3
+    if len(suggestions_list) > 2:
+        suggestions_list.pop(3)
+    if len(suggestions_list) > 2:
+        suggestions_list.pop(2)
+
+    # limit results
+    suggestions_list[1] = suggestions_list[1][:8]
+    return jsonify(suggestions_list)
 
 
 @app.route("/wikipedia")
@@ -144,28 +144,27 @@ def wikipedia():
         query = request.args.get("q", "").strip()
     else:
         query = request.form.get("q", "").strip()
-    response = helpers.makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={quote(query)}&pithumbsize=500", is_wiki=True)
+    response, _ = helpers.makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={quote(query)}&pithumbsize=500", is_wiki=True)
     return json.loads(response.text)
 
 
 @app.route("/api")
 def api():
-    if API_ENABLED:
-        if request.method == "GET":
-            args = request.args
-        else:
-            args = request.form
-        query = args.get("q", "").strip()
-        t = args.get("t", "text").strip()
-        p = args.get('p', 1)
-        try:
-            response = requests.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
-            return json.loads(response.text)
-        except Exception as e:
-            app.logger.error(e)
-            return jsonify({"error": "An error occurred while processing the request"}), 500
-    else:
+    if not API_ENABLED:
         return jsonify({"error": "API disabled by instance operator"}), 503
+    if request.method == "GET":
+        args = request.args
+    else:
+        args = request.form
+    query = args.get("q", "").strip()
+    t = args.get("t", "text").strip()
+    p = args.get("p", 0)
+    try:
+        response = requests.get(f"http://localhost:{PORT}/search?q={quote(query)}&t={t}&api=true&p={p}")
+        return json.loads(response.text)
+    except Exception as e:
+        app.logger.error(e)
+        return jsonify({"error": "An error occurred while processing the request"}), 500
 
 
 @app.route("/img_proxy")
@@ -213,9 +212,8 @@ def img_proxy():
     if response.status_code == 200:
         # Create a Flask response with the image data and the appropriate Content-Type header
         return Response(response.content, mimetype=response.headers["Content-Type"])
-    else:
-        # Return an error response if the request failed
-        return Response("Error fetching image", status=500)
+    # Return an error response if the request failed
+    return Response("Error fetching image", status=500)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -247,26 +245,25 @@ def search():
             repo_url=REPO, donate_url=DONATE, commit=COMMIT, API_ENABLED=API_ENABLED,
             lang_data=lang_data, settings=settings)
 
-    # Check if the query has a bang.
-    if BANG in query:
+    # Search bangs.
+    bang_index = -1
+    while (bang_index := query.find(BANG, bang_index + 1, len(query))) != -1:
+        if bang_index > 0 and query[bang_index - 1].strip() != "":
+            continue
         query += " " # Simple fix to avoid a possible error 500
                      # when parsing the query for the bangkey.
-        bang_index = query.index(BANG)
         bangkey = query[bang_index + len(BANG):query.index(" ", bang_index)].lower()
-        if SEARCH_BANGS.get(bangkey) is not None:
-            query = query.lower().replace(BANG + bangkey, "").lstrip()
-            query = quote(query)  # Quote the query to redirect properly.
-            return app.redirect(SEARCH_BANGS[bangkey].format(q=query))
-        # Remove the space at the end of the query.
-        # The space was added to fix a possible error 500 when
-        # parsing the query for the bangkey.
         query = query[:len(query) - 1]
+        if (bang_url := SEARCH_BANGS.get(bangkey)) is not None:
+            # strip bang from query
+            query = query[:bang_index] + query[bang_index + len(BANG + bangkey) + 1:]
+            query = quote(query.strip())  # ensure query is quoted to redirect properly.
+            return app.redirect(bang_url.format(q=query))
 
     # type of search (text, image, etc.)
     type = args.get("t", "text")
 
     # render page based off of type
-    # NOTE: Python 3.10 needed for a match statement!
     match type:
         case "torrent":
             return torrents.torrentResults(query)

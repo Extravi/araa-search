@@ -13,11 +13,11 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 RUN apt update && apt upgrade -y
-RUN apt install python3 python3-venv python3-pip -y
+RUN apt install python3 python3-venv python3-pip --no-install-recommends -y
 
-RUN python3 -m venv venv
-RUN . venv/bin/activate
-RUN pip install -r requirements.txt
+# We will only be running our own python app in a container,
+# so this shouldn't be terrible.
+RUN pip install --break-system-packages -r requirements.txt
 
 COPY . .
 

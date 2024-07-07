@@ -60,8 +60,11 @@ def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     else:
         html = s.get(url, headers=headers) # generic persistent session
 
+    # Allow for callers to handle errors better
+    content = None if html.status_code != 200 else BeautifulSoup(html.text, "lxml")
+
     # Return the BeautifulSoup object
-    return BeautifulSoup(html.text, "lxml")
+    return (content, html.status_code)
 
 # search highlights
 def highlight_query_words(string, query):
@@ -96,10 +99,10 @@ def makeJSONRequest(url: str):
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
     # Grab json content
-    response = s.get(url)
+    response = s.get(url, headers=headers)
 
     # Return the JSON object
-    return json.loads(response.text)
+    return (json.loads(response.text), response.status_code)
 
 def get_magnet_hash(magnet):
     return magnet.split("btih:")[1].split("&")[0]
@@ -150,3 +153,32 @@ class Settings():
         self.theme = request.cookies.get("theme", DEFAULT_THEME)
         self.method = request.cookies.get("method", DEFAULT_METHOD)
         self.ac = request.cookies.get("ac", DEFAULT_AUTOCOMPLETE)
+
+# Returns a tuple of two ellements.
+# The first is the wikipedia proxy's URL (used to load an wiki page's image after page load),
+# and the second is an image proxy link for the very image of the page itself.
+# 
+# Either the first or second ellement will be a string, but not both (at least one ellement
+# will be None).
+# 
+# NOTE: This function may return (None, None) in cases of failure.
+def grab_wiki_image_from_url(wikipedia_url: str, user_settings: Settings) -> tuple[str | None]:
+    kno_title = None
+    kno_image = None
+
+    if user_settings.javascript == "enabled":
+        kno_title = wikipedia_url.split("/")[-1]
+        kno_title = f"/wikipedia?q={kno_title}"
+    else:
+        try:
+            _kno_title = wikipedia_url.split("/")[-1]
+            soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={_kno_title}&pithumbsize=500", is_wiki=True)
+            data = json.loads(soup.text)
+            img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
+            _kno_image = [f"/img_proxy?url={img_src}"]
+            _kno_image = ''.join(_kno_image)
+        finally:
+            kno_image = _kno_image
+
+    return kno_title, kno_image
+

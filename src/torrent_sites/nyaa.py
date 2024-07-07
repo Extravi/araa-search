@@ -26,7 +26,7 @@ def search(query, catagory="all"):
     if catagory == "ignore":
         return []
 
-    soup = helpers.makeHTMLRequest(f"https://{NYAA_DOMAIN}/?f=0&q={quote(query)}{catagory}")
+    soup, response_code = helpers.makeHTMLRequest(f"https://{NYAA_DOMAIN}/?f=0&q={quote(query)}{catagory}")
     results = []
     for torrent in soup.select(".default, .success, .danger"):
         list_of_tds = torrent.find_all("td")

@@ -1,0 +1,6 @@
+*.dockerfile
+.*
+!.git
+compose.yaml
+*.md
+LICENSE
