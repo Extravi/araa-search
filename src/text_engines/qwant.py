@@ -67,7 +67,7 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
         results.append(TextResult(
             title = result['title'],
             desc = short_desc,
-            url = result['source'],
+            url = result['url'],
         ))
 
         # wikipedia snippet scraper
