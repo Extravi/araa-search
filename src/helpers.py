@@ -30,6 +30,7 @@ s = requests.Session() # generic
 google = httpx.Client(http2=True, follow_redirects=True, transport=transport, limits=limits)  # google
 wiki = httpx.Client(http2=True, follow_redirects=True, transport=transport, limits=limits)  # wikipedia
 piped = httpx.Client(http2=True, follow_redirects=True, transport=transport, limits=limits)  # piped
+qwant = httpx.Client(http2=True, follow_redirects=True, transport=transport, limits=limits)  # qwant
 
 def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     # block unwanted request from an edited cookie
@@ -89,7 +90,7 @@ def latest_commit():
             return f.readline()
     return "Not in main branch"
 
-def makeJSONRequest(url: str):
+def makeJSONRequest(url: str, is_qwant=False):
     # block unwanted request from an edited cookie
     domain = unquote(url).split('/')[2]
     if domain not in WHITELISTED_DOMAINS:
@@ -99,7 +100,10 @@ def makeJSONRequest(url: str):
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
     # Grab json content
-    response = s.get(url, headers=headers)
+    if is_qwant:
+        response = qwant.get(url, headers=headers) # persistent session for qwant
+    else:
+        response = s.get(url, headers=headers) # generic persistent session
 
     # Return the JSON object
     return (json.loads(response.text), response.status_code)
@@ -181,4 +185,3 @@ def grab_wiki_image_from_url(wikipedia_url: str, user_settings: Settings) -> tup
             kno_image = _kno_image
 
     return kno_title, kno_image
-
