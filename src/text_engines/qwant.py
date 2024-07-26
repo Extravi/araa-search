@@ -1,8 +1,15 @@
+import re
 from src.text_engines.objects.fullEngineResults import FullEngineResults
 from src.text_engines.objects.textResult import TextResult
 from src.text_engines.objects.wikiSnippet import WikiSnippet
-from urllib.parse import urlparse, urlencode, quote
+from urllib.parse import urlparse, urlencode
 from src import helpers
+
+
+def sanitize_wiki(desc):
+    desc = re.sub(r"\[\d{1,}\]", "", desc)
+    return desc
+
 
 # NOTE: Qwant engine made by amongusussy. Taken from https://github.com/Extravi/araa-search/pull/106
 # Slightly modified to adapt different text results engine.
@@ -76,7 +83,7 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
 
             wiki = WikiSnippet(
                 title = result['title'],
-                desc = result['desc'],
+                desc = sanitize_wiki(result['desc']),
                 link = result['source'],
                 image = wiki_image,
                 wiki_thumb_proxy_link = wiki_proxy_link,
