@@ -127,6 +127,7 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
             url = unquote(href),
             title = title,
             desc = desc,
+            sublinks=[]
         ))
     sublink = []
     for sublink_href, sublink_title, sublink_desc in zip(sublinks_hrefs, sublinks_titles, sublinks):
@@ -134,6 +135,7 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
             url = unquote(sublink_href),
             title = sublink_title,
             desc = sublink_desc,
+            sublinks=[]
         ))
 
     wiki = None if kno == "" else WikiSnippet(

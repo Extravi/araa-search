@@ -1,11 +1,10 @@
 from src import helpers
-from urllib.parse import unquote, quote
 from _config import *
 from flask import request, render_template, jsonify, Response
 import time
 import json
 import re
-from math import isclose # For float comparisons
+from math import isclose  # For float comparisons
 from src.text_engines import google, qwant
 
 ENGINES = [
@@ -13,6 +12,7 @@ ENGINES = [
     qwant,
 ]
 ratelimited_timestamps = {}
+
 
 def handleUserInfoQueries(query: str) -> str | None:
     if any(query.lower().find(valid_ip_prompt) != -1 for valid_ip_prompt in VALID_IP_PROMPTS):
@@ -23,6 +23,7 @@ def handleUserInfoQueries(query: str) -> str | None:
     elif any(query.lower().find(valid_ua_prompt) != -1 for valid_ua_prompt in VALID_UA_PROMPTS):
         return request.headers.get("User-Agent") or "unknown"
     return None
+
 
 def textResults(query: str) -> Response:
     global ratelimited_engines
@@ -35,7 +36,7 @@ def textResults(query: str) -> Response:
         args = request.args
     else:
         args = request.form
- 
+
     with open(f'static/lang/{settings.ux_lang}.json', 'r') as file:
         lang_data = json.load(file)
 
@@ -129,6 +130,7 @@ def textResults(query: str) -> Response:
         snip = "" if results.featured is None else results.featured
 
         return render_template("results.html",
+                               engine=results.engine,
                                results=results.results, sublink=results.top_result_sublinks, p=p, title=f"{query} - Araa",
                                q=f"{query}", fetched=f"{elapsed_time:.2f}",
                                snip=f"{snip}",
