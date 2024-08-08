@@ -137,6 +137,21 @@ resultsWrapper.addEventListener('click', (event) => {
   }
 });
 
+
+document.addEventListener("keypress", (event) => {
+  if (document.activeElement == searchInput) {
+    // Allow the '/' character to be pressed when searchInput is active
+  } else if (document.querySelector(".calc") != null) {
+    // Do nothing if the calculator is available, so the division keybinding
+    // will still work
+  }
+  else if (event.key == "/") {
+    event.preventDefault();
+    searchInput.focus();
+    searchInput.selectionStart = searchInput.selectionEnd = searchInput.value.length;
+  }
+})
+
 // Add event listener to hide autocomplete suggestions when clicking outside of search-input or wrapper
 document.addEventListener('click', (event) => {
   // Check if the target of the event is the search-input or any of its ancestors
