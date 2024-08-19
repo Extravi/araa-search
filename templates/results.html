@@ -58,9 +58,9 @@
       </select>
       <button class="results-save" type="submit">Apply settings</button>
     </form>
+    <p class="engine">Engine: {{ engine }}</p>
     <p class="fetched">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
-    {% if check == "" %}
-    {% else %}
+    {% if check %}
         <div class="check"><p>Did you mean: <a href="/search?q={{ check }}&t={{ type }}"><h3>{{ check }}</h3></a></p></div>
     {% endif %}
     {% if user_info == "" %}
@@ -144,6 +144,16 @@
       <a id="link" {% if settings.new_tab == "active" %} target="_blank" {% endif %} href="{{ results[0].url }}">{{ results[0].url }}</a>
         <a {% if settings.new_tab == "active"  %} target="_blank" {% endif %} href="{{ results[0].url }}"><h3>{{ results[0].title }}</h3></a>
         <p>{{ results[0].desc|highlight_query_words(q) }}</p>
+        {% if engine == "qwant" %}
+          {% if results[0].sublinks|length != 0 %}
+            {% for sublink in results[0].sublinks %}
+              <div class="sublinks">
+                <a href="{{ sublink.url }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ sublink.title }}</h3></a>
+                <p class="qwant_sublink">{{ sublink.desc }}</p>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endif %}
     </div>
     {% endif %}
     {% if sublink %}
@@ -163,6 +173,16 @@
             <a id="link" href="{{ result.url }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}>{{ result.url }}</a>
             <a href="{{ result.url }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ result.title }}</h3></a>
             <p>{{ result.desc|highlight_query_words(q) }}</p>
+            {% if engine == "qwant" %}
+              {% if result.sublinks|length != 0 %}
+                {% for sublink in result.sublinks %}
+                  <div class="sublinks">
+                    <a href="{{ sublink.url }}" {% if settings.new_tab == "active"  %} target="_blank" {% endif %}><h3>{{ sublink.title }}</h3></a>
+                    <p class="qwant_sublink">{{ sublink.desc }}</p>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endif %}
         </div>
         {% endfor %}
     </div>
