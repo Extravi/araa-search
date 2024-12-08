@@ -48,11 +48,11 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
 
     # retrieve kno-rdesc
     try:
-        rdesc = soup.find("div", {"class": "kno-rdesc"})
-        span_element = rdesc.find("span")
-        kno = span_element.text
-        desc_link = rdesc.find("a")
+        rdesc = soup.find("div", {"class": "CYJS5e"})
+        span_element = rdesc.find("span", {"class": "QoPDcf"})
+        desc_link = rdesc.find("a", {"class": "y171A"})
         kno_link = desc_link.get("href")
+        kno = span_element.find("span").get_text()
     except:
         kno = ""
         kno_link = ""
