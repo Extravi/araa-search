@@ -19,8 +19,8 @@
         "donate": "Donați"
     },
     "search_buttons": {
-        "search_text": "Căutare cu Araa",
-        "search_images": "Caută imagini cu Araa"
+        "search_text": "Căutare cu {araa_name}",
+        "search_images": "Caută imagini cu {araa_name}"
     },
     "settings": {
         "theme": "Temă",
@@ -36,7 +36,7 @@
         "disable_javascript": "Dezactivarea JavaScript (nerecomandată) afectează caracteristicile paginilor web, dezactivează completarea automată și încetinește anumite funcții. Menținerea activării JavaScript nu vă va compromite confidențialitatea, deoarece solicitările sunt procesate prin intermediul unor puncte finale de pe server.",
         "save_settings": "Salvați setările",
         "return_to_settings": "Reveniți la setări",
-        "preferredux_language": "Limba preferată pentru titlurile, butoanele și alte texte din Araa",
+        "preferredux_language": "Limba preferată pentru titlurile, butoanele și alte texte din {araa_name}",
         "on": "activat",
         "off": "dezactivat",
         "any_language": "Orice limbă"

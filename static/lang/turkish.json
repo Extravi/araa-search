@@ -19,8 +19,8 @@
         "donate": "Bağış Yap"
     },
     "search_buttons": {
-        "search_text": "Araa ile ara",
-        "search_images": "Araa ile resim ara"
+        "search_text": "{araa_name} ile ara",
+        "search_images": "{araa_name} ile resim ara"
     },
     "settings": {
         "theme": "Tema",
@@ -36,7 +36,7 @@
         "disable_javascript": "JavaScript'i devre dışı bırakma (tavsiye edilmez) web sitesi işlevselliğini etkiler, otomatik tamamlamayı devre dışı bırakır ve bazı işlevleri yavaşlatır. JavaScript'i etkin tutmak gizliliğinizi tehlikeye atmaz, çünkü istekler sunucu tarafındaki uç noktalardan işlenir.",
         "save_settings": "Ayarları Kaydet",
         "return_to_settings": "Ayarlar'a Dön",
-        "preferredux_language": "Araa'dan Başlık, Düğmeler ve Diğer Metinler için Tercih Edilen Dil",
+        "preferredux_language": "{araa_name}'dan Başlık, Düğmeler ve Diğer Metinler için Tercih Edilen Dil",
         "on": "açık",
         "off": "kapalı",
         "any_language": "Herhangi bir dil"

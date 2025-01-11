@@ -185,3 +185,15 @@ def grab_wiki_image_from_url(wikipedia_url: str, user_settings: Settings) -> tup
             kno_image = _kno_image
 
     return kno_title, kno_image
+
+
+def format_araa_name(json_obj):
+    # Recursively format araa_name=ARAA_NAME
+    if isinstance(json_obj, dict):
+        return {key: format_araa_name(value) for key, value in json_obj.items()}
+    elif isinstance(json_obj, list):
+        return [format_araa_name(item) for item in json_obj]
+    elif isinstance(json_obj, str):
+        return json_obj.format(araa_name=ARAA_NAME)
+    else:
+        return json_obj

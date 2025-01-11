@@ -1,3 +1,5 @@
+ARAA_NAME = "Araa"
+
 # The char used to denote bangs (see below).
 # EG BANG='!': "!ddg cats" will search "cats" on DuckDuckGo.
 BANG = '!'

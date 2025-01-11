@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="./css/{{ settings.theme }}.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/menu.css') }}">
-    <link rel="search" type="application/opensearchdescription+xml" href="{{ url_for('static', filename='opensearch.xml') }}" title="Araa">
+    <link rel="search" type="application/opensearchdescription+xml" href="{{ url_for('static', filename='opensearch.xml') }}" title={{ araa_name }}>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self';">
     <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains">
 </head>
@@ -100,7 +100,7 @@
     </div>
     </div>
     <form action="/search" id="prev-next-form" class="results-search-container" method="{{ settings.method }}" autocomplete="off">
-        <h1 class="logomobile"><a class="no-decoration" href="./">Araa</a></h1>
+        <h1 class="logomobile"><a class="no-decoration" href="./">{{ araa_name }}</a></h1>
         <div class="wrapper-results">
         <input type="text" name="q" value="{{ q }}" id="search-input" />
         <button id="search-wrapper-ico" class="material-icons-round" name="t" value="{{ type }}">search</button>
@@ -187,7 +187,7 @@
     </form>
     {% block body %}{% endblock %}
     <div class="footer">
-        <a href="/">Araa</a>
+        <a href="/">{{ araa_name }}</a>
         <a href="/settings">{{ lang_data.footer.settings }}</a>
         <a target="_blank" href="{{ repo_url }}">{{ lang_data.footer.source_code }} <span class="emoji-code">❤️</span></a>
         <a target="_blank" href="{{ donate_url }}">{{ lang_data.footer.donate }}</a>
