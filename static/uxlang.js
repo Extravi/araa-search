@@ -61,7 +61,10 @@ function setLanguageCookie() {
     const userLanguage = navigator.language.toLowerCase();
     const mappedLanguage = mapToValidLanguage(userLanguage);
     setCookie("ux_lang", mappedLanguage);
-    window.location.reload();
+    if (mappedLanguage != "english") {
+        // Default language is english, so only refresh if lang != english
+        window.location.reload();
+    }
 }
 
 if (!document.cookie.includes("ux_lang")) {
