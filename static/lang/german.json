@@ -19,8 +19,8 @@
         "donate": "Spenden"
     },
     "search_buttons": {
-        "search_text": "Suchen mit Araa",
-        "search_images": "Suche Bilder mit Araa"
+        "search_text": "Suchen mit {araa_name}",
+        "search_images": "Suche Bilder mit {araa_name}"
     },
     "settings": {
         "theme": "Thema",
@@ -36,7 +36,7 @@
         "disable_javascript": "Das Deaktivieren von JavaScript (nicht empfohlen) beeinträchtigt Webseitenfunktionen, deaktiviert die Autovervollständigung und verlangsamt bestimmte Funktionen. Das Aktivieren von JavaScript beeinträchtigt nicht Ihre Privatsphäre, da Anfragen über serverseitige Endpunkte verarbeitet werden.",
         "save_settings": "Einstellungen speichern",
         "return_to_settings": "Zurück zu den Einstellungen",
-        "preferredux_language": "Bevorzugte Sprache für Überschriften, Schaltflächen und anderen Text von Araa",
+        "preferredux_language": "Bevorzugte Sprache für Überschriften, Schaltflächen und anderen Text von {araa_name}",
         "on": "Ein",
         "off": "Aus",
         "any_language": "Jede Sprache"

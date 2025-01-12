@@ -19,8 +19,8 @@
         "donate": "捐赠"
     },
     "search_buttons": {
-        "search_text": "使用Araa搜索",
-        "search_images": "使用Araa搜索图片"
+        "search_text": "使用{araa_name}搜索",
+        "search_images": "使用{araa_name}搜索图片"
     },
     "settings": {
         "theme": "主题",
@@ -36,7 +36,7 @@
         "disable_javascript": "禁用JavaScript（不建议）会影响网站功能，禁用自动完成并减慢某些功能。 启用JavaScript不会泄露隐私，因为请求通过服务器端点处理。",
         "save_settings": "保存设置",
         "return_to_settings": "返回设置",
-        "preferredux_language": "Araa的标题、按钮和其他文本的首选语言",
+        "preferredux_language": "{araa_name}的标题、按钮和其他文本的首选语言",
         "on": "开",
         "off": "关",
         "any_language": "任何语言"

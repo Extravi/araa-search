@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Araa</title>
+    <title>{{ araa_name }}</title>
     <meta name="description" content="A privacy-respecting, ad-free, self-hosted metasearch engine.">
-    <meta content="Araa" property="og:title">
+    <meta content="{{ araa_name }}" property="og:title">
     <meta content="A privacy-respecting, ad-free, self-hosted metasearch engine." property="og:description">
     <meta content="/" property="og:url">
     <meta content="#5885F4" data-react-helmet="true" name="theme-color">
@@ -17,13 +17,13 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/settings-style.css') }}">
     {% endif %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Araa">
+    <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="{{ araa_name }}">
 </head>
 
 <body>
 {% block body %}{% endblock %}
 <div id="search_footer" class="footer">
-    <a href="/">Araa</a>
+    <a href="/">{{ araa_name }}</a>
     <a href="/settings">{{ lang_data.footer.settings }}</a>
     <a target="_blank" href="{{ repo_url }}">{{ lang_data.footer.source_code }} <span class="emoji-code">❤️</span></a>
     <a target="_blank" href="{{ donate_url }}">{{ lang_data.footer.donate }}</a>

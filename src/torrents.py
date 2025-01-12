@@ -21,7 +21,7 @@ def torrentResults(query) -> Response:
     # get user language settings
     json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
-        lang_data = json.load(file)
+        lang_data = helpers.format_araa_name(json.load(file))
 
     # remember time we started
     start_time = time.time()
@@ -72,9 +72,10 @@ def torrentResults(query) -> Response:
         return jsonify(results)
 
     return render_template("torrents.html",
-                        results=results, title=f"{query} - Araa",
+                        results=results, title=f"{query} - {ARAA_NAME}",
                         q=f"{query}", fetched=f"{elapsed_time:.2f}",
                         cat=catagory, type="torrent", repo_url=REPO, donate_url=DONATE,
                         API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
-                        lang_data=lang_data, commit=helpers.latest_commit(), sort=sort, settings=settings
+                        lang_data=lang_data, commit=helpers.latest_commit(), sort=sort, settings=settings,
+                        araa_name=ARAA_NAME
                         )

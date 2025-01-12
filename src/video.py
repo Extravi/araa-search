@@ -30,7 +30,7 @@ def videoResults(query) -> Response:
 
     json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
-        lang_data = json.load(file)
+        lang_data = helpers.format_araa_name(json.load(file))
 
     # remember time we started
     start_time = time.time()
@@ -82,8 +82,8 @@ def videoResults(query) -> Response:
         return jsonify(results)
     else:
         return render_template("videos.html",
-                               results=results, title=f"{query} - Araa",
+                               results=results, title=f"{query} - {ARAA_NAME}",
                                q=f"{query}", fetched=f"{elapsed_time:.2f}",
                                type="video", repo_url=REPO, donate_url=DONATE, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
-                               lang_data=lang_data, commit=latest_commit(), settings=settings
+                               lang_data=lang_data, commit=latest_commit(), settings=settings, araa_name=ARAA_NAME
                                )

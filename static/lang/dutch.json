@@ -19,8 +19,8 @@
         "donate": "Doneren"
     },
     "search_buttons": {
-        "search_text": "Zoeken met Araa",
-        "search_images": "Zoek afbeeldingen met Araa"
+        "search_text": "Zoeken met {araa_name}",
+        "search_images": "Zoek afbeeldingen met {araa_name}"
     },
     "settings": {
         "theme": "Thema",
@@ -36,7 +36,7 @@
         "disable_javascript": "Het uitschakelen van JavaScript (niet aanbevolen) heeft invloed op websitefunctionaliteiten, schakelt automatisch aanvullen uit en vertraagt bepaalde functies. Het ingeschakeld houden van JavaScript compromitteert uw privacy niet, aangezien verzoeken worden verwerkt via serverzijde endpoints.",
         "save_settings": "Instellingen opslaan",
         "return_to_settings": "Terug naar instellingen",
-        "preferredux_language": "Voorkeurstaal voor Koppen, Knoppen en Andere Tekst van Araa",
+        "preferredux_language": "Voorkeurstaal voor Koppen, Knoppen en Andere Tekst van {araa_name}",
         "on": "aan",
         "off": "uit",
         "any_language": "Elke taal"

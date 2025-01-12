@@ -19,8 +19,8 @@
         "donate": "Donate"
     },
     "search_buttons": {
-        "search_text": "Search with Araa",
-        "search_images": "Search images with Araa"
+        "search_text": "Search with {araa_name}",
+        "search_images": "Search images with {araa_name}"
     },
     "settings": {
         "theme": "Theme",
@@ -36,7 +36,7 @@
         "disable_javascript": "Disabling JavaScript (not recommended) affects webpage features, disables autocomplete, and slows certain functions. Keeping JavaScript enabled won't compromise your privacy, as requests are processed through server-side endpoints.",
         "save_settings": "Save your settings",
         "return_to_settings": "Return to settings",
-        "preferredux_language": "Preferred language for headlines, buttons, and other text from Araa",
+        "preferredux_language": "Preferred language for headlines, buttons, and other text from {araa_name}",
         "on": "on",
         "off": "off",
         "any_language": "Any Language"

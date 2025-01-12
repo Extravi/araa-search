@@ -38,7 +38,7 @@ def textResults(query: str) -> Response:
         args = request.form
 
     with open(f'static/lang/{settings.ux_lang}.json', 'r') as file:
-        lang_data = json.load(file)
+        lang_data = helpers.format_araa_name(json.load(file))
 
     # used to measure time spent
     start_time = time.time()
@@ -131,13 +131,12 @@ def textResults(query: str) -> Response:
 
         return render_template("results.html",
                                engine=results.engine,
-                               results=results.results, sublink=results.top_result_sublinks, p=p, title=f"{query} - Araa",
+                               results=results.results, sublink=results.top_result_sublinks, p=p, title=f"{query} - {ARAA_NAME}",
                                q=f"{query}", fetched=f"{elapsed_time:.2f}",
                                snip=f"{snip}",
                                user_info=f"{info}", calc=f"{calc}", check=check, current_url=request.url,
                                type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-                               settings=settings,
-                               wiki=results.wiki
+                               settings=settings, wiki=results.wiki, araa_name=ARAA_NAME
                                )

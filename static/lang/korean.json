@@ -19,8 +19,8 @@
         "donate": "기부"
     },
     "search_buttons": {
-        "search_text": "Araa로 검색",
-        "search_images": "Araa로 이미지 검색"
+        "search_text": "{araa_name}로 검색",
+        "search_images": "{araa_name}로 이미지 검색"
     },
     "settings": {
         "theme": "테마",
@@ -36,7 +36,7 @@
         "disable_javascript": "JavaScript 비활성화(권장하지 않음)는 웹 사이트 기능에 영향을 미치며 자동 완성을 비활성화하고 일부 기능을 늦춥니다. JavaScript를 사용 중지해도 개인 정보 유출이 발생하지 않으며 요청은 서버 측 엔드포인트를 통해 처리됩니다.",
         "save_settings": "설정 저장",
         "return_to_settings": "설정으로 돌아가기",
-        "preferredux_language": "Araa의 제목, 버튼 및 기타 텍스트에 대한 기본 언어",
+        "preferredux_language": "{araa_name}의 제목, 버튼 및 기타 텍스트에 대한 기본 언어",
         "on": "켜짐",
         "off": "꺼짐",
         "any_language": "아무 언어"

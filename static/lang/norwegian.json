@@ -19,8 +19,8 @@
         "donate": "Doner"
     },
     "search_buttons": {
-        "search_text": "Søk med Araa",
-        "search_images": "Søk bilder med Araa"
+        "search_text": "Søk med {araa_name}",
+        "search_images": "Søk bilder med {araa_name}"
     },
     "settings": {
         "theme": "Tema",
@@ -36,7 +36,7 @@
         "disable_javascript": "Deaktivering av JavaScript (ikke anbefalt) påvirker websidefunksjoner, deaktiverer automatisk utfylling og bremser visse funksjoner. Å holde JavaScript aktivert vil ikke kompromittere personvernet ditt, da forespørsler behandles via serverbaserte endepunkter.",
         "save_settings": "Lagre innstillingene dine",
         "return_to_settings": "Tilbake til innstillinger",
-        "preferredux_language": "Foretrukket språk for overskrifter, knapper og annen tekst fra Araa",
+        "preferredux_language": "Foretrukket språk for overskrifter, knapper og annen tekst fra {araa_name}",
         "on": "på",
         "off": "av",
         "any_language": "Alle språk"

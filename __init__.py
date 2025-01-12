@@ -55,7 +55,7 @@ def settings():
     # get user language settings
     json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
-        lang_data = json.load(file)
+        lang_data = helpers.format_araa_name(json.load(file))
 
     # Upgrade the request URL to https as to prevent a redirection error with /save-settings.
     if not request.is_secure:
@@ -69,7 +69,8 @@ def settings():
                            API_ENABLED=API_ENABLED,
                            settings=settings,
                            lang_data=lang_data,
-                           UX_LANGUAGES=UX_LANGUAGES
+                           UX_LANGUAGES=UX_LANGUAGES,
+                           araa_name=ARAA_NAME
                            )
 
 
@@ -80,7 +81,7 @@ def discover():
     # get user language settings
     json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
-        lang_data = json.load(file)
+        lang_data = helpers.format_araa_name(json.load(file))
 
     return render_template('discover.html',
                            lang_data=lang_data,
@@ -89,7 +90,8 @@ def discover():
                            donate_url=DONATE,
                            current_url=request.url,
                            API_ENABLED=API_ENABLED,
-                           settings=settings
+                           settings=settings,
+                           araa_name=ARAA_NAME
                            )
 
 
@@ -236,14 +238,14 @@ def search():
     # get user language settings
     json_path = f'static/lang/{settings.ux_lang}.json'
     with open(json_path, 'r') as file:
-        lang_data = json.load(file)
+        lang_data = helpers.format_araa_name(json.load(file))
 
     # get the `q` query parameter from the URL
     query = args.get("q", "").strip()
     if query == "":
         return render_template("search.html",
             repo_url=REPO, donate_url=DONATE, commit=COMMIT, API_ENABLED=API_ENABLED,
-            lang_data=lang_data, settings=settings)
+            lang_data=lang_data, settings=settings, araa_name=ARAA_NAME)
 
     # Search bangs.
     bang_index = -1
