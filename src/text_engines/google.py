@@ -1,9 +1,10 @@
 from src import helpers
-from urllib.parse import quote, unquote, urlparse, parse_qs
+from urllib.parse import unquote, urlparse, parse_qs, urlencode
 from _config import *
 from src.text_engines.objects.fullEngineResults import FullEngineResults
 from src.text_engines.objects.wikiSnippet import WikiSnippet
 from src.text_engines.objects.textResult import TextResult
+
 
 def __local_href__(url):
     url_parsed = parse_qs(urlparse(url).query)
@@ -11,11 +12,32 @@ def __local_href__(url):
         return ""
     return f"/search?q={url_parsed['q'][0]}&p=0&t=text"
 
+
 def search(query: str, page: int, search_type: str, user_settings: helpers.Settings) -> FullEngineResults:
     if search_type == "reddit":
         query += " site:reddit.com"
 
-    soup, response_code = helpers.makeHTMLRequest(f"https://www.google.com{user_settings.domain}&q={quote(query)}&start={page}&lr={user_settings.lang}&num=20&safe={user_settings.safe}", is_google=True)
+    # Random characters are to trick google into thinking it's a mobile phone
+    # loading more results
+    # -> https://github.com/searxng/searxng/issues/159
+    link_args = {
+        "q": query,
+        "start": page,
+        "lr": user_settings.lang,
+        "num": 20,
+        "safe": user_settings.safe,
+        "vet": "12ahUKEwjE4O6xoajxAhWL_KQKHVCLBKoQxK8CegQIAhAG..i",
+        "ved": "2ahUKEwjE4O6xoajxAhWL_KQKHVCLBKoQqq4CegQIAhAI",
+        "yv": 3,
+        "prmd": "vmin",
+        "ei": "c0fQYITbBIv5kwXQlpLQCg",
+        "sa": "N",
+        "asearch": "arc",
+        "async": "arc_id:srp_510,ffilt:all,ve_name:MoreResultsContainer,next_id:srp_5,use_ac:true,_id:arc-srp_510,_pms:qs,_fmt:pc"
+    }
+    link = f"https://www.google.com{user_settings.domain}&" + urlencode(link_args)
+
+    soup, response_code = helpers.makeHTMLRequest(link, is_google=True)
 
     if response_code != 200:
         return FullEngineResults(engine="google", search_type=search_type, ok=False, code=response_code)
