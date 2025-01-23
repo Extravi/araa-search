@@ -29,7 +29,7 @@
 // Removes the 'Apply Settings' button for Javascript users, 
 // since changing any of the elements causes the settings to apply
 // automatically.
-let resultsSave = document.querySelector(".results-save");
+const resultsSave = document.querySelector(".results-save");
 if (resultsSave != null) {
   resultsSave.style.display = "none";
 }

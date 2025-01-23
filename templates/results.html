@@ -3,6 +3,10 @@
 {% block body %}
     <form class="results_settings" action="/save-settings" method="post">
       <input type="hidden" name="past" value="{{ current_url }}"></input>
+      <select class="results-settings" name="engine" id="engine_select">
+          <option value="google" {% if settings.engine == 'google' %}selected{% endif %}>Google</option>
+          <option value="qwant" {% if settings.engine == 'qwant' %}selected{% endif %}>Qwant</option>
+      </select>
       <select class="results-settings" name="safe" id="safeSearchSelect">
           <option value="active" {% if settings.safe == 'active' %}selected{% endif %}>{{ lang_data.settings.safe_search }} {{ lang_data.settings.on }}</option>
           <option value="" {% if settings.safe == '' %}selected{% endif %}>{{ lang_data.settings.safe_search }} {{ lang_data.settings.off }}</option>
@@ -58,7 +62,19 @@
       </select>
       <button class="results-save" type="submit">Apply settings</button>
     </form>
-    <p class="engine">Engine: {{ engine }}</p>
+
+    {% if engine != "qwant" %}
+      <form action="/search" id="date_range_form">
+        <input type="hidden" name="q" value="{{ q }}">
+        <input type="hidden" name="t" value="{{ type }}">
+        <div class="date_range">
+          <p>Date range</p>
+          <input class="date-select" type="date" name="after" value="{{ after }}">
+          <input class="date-select" type="date" name="before" value="{{ before }}">
+        </div>
+        <input type="submit" class="results-settings" value="Submit">
+      </form>
+    {% endif %}
     <p class="fetched">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
     {% if check %}
         <div class="check"><p>Did you mean: <a href="/search?q={{ check }}&t={{ type }}"><h3>{{ check }}</h3></a></p></div>

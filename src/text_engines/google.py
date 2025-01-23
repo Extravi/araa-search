@@ -4,6 +4,10 @@ from _config import *
 from src.text_engines.objects.fullEngineResults import FullEngineResults
 from src.text_engines.objects.wikiSnippet import WikiSnippet
 from src.text_engines.objects.textResult import TextResult
+from flask import request
+
+
+NAME = "google"
 
 
 def __local_href__(url):
@@ -16,6 +20,13 @@ def __local_href__(url):
 def search(query: str, page: int, search_type: str, user_settings: helpers.Settings) -> FullEngineResults:
     if search_type == "reddit":
         query += " site:reddit.com"
+
+    after_date = request.args.get("after", "")
+    before_date = request.args.get("before", "")
+    if after_date != "":
+        query += f" after:{after_date}"
+    if before_date != "":
+        query += f" before:{before_date}"
 
     # Random characters are to trick google into thinking it's a mobile phone
     # loading more results

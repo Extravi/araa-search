@@ -12,6 +12,9 @@ BANG = '!'
 REPO = 'https://github.com/Extravi/araa-search'
 DONATE = 'https://github.com/sponsors/Extravi'
 
+DEFAULT_ENGINE = "google"
+
+
 # Default theme
 DEFAULT_THEME = 'dark_default'
 
