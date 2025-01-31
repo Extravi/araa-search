@@ -70,7 +70,8 @@ def settings():
                            settings=settings,
                            lang_data=lang_data,
                            UX_LANGUAGES=UX_LANGUAGES,
-                           araa_name=ARAA_NAME
+                           araa_name=ARAA_NAME,
+                           torrent_enabled=TORRENTSEARCH_ENABLED
                            )
 
 
@@ -97,7 +98,10 @@ def discover():
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
-    cookies = ['safe', 'javascript', 'domain', 'theme', 'lang', 'ux_lang', 'new_tab', 'method', 'ac', "engine"]
+    cookies = [
+        'safe', 'javascript', 'domain', 'theme', 'lang',
+        'ux_lang', 'new_tab', 'method', 'ac', 'engine', 'torrent'
+    ]
 
     response = make_response(redirect(request.referrer))
     for cookie in cookies:
@@ -268,18 +272,19 @@ def search():
             return app.redirect(bang_url.format(q=query))
 
     # type of search (text, image, etc.)
-    type = args.get("t", "text")
+    search_type = args.get("t", "text")
 
-    # render page based off of type
-    match type:
-        case "torrent":
+    # render page based off of search_type
+    if search_type == "torrent":
+        if TORRENTSEARCH_ENABLED:
             return torrents.torrentResults(query)
-        case "video":
-            return video.videoResults(query)
-        case "image":
-            return images.imageResults(query)
-        case _:
-            return textResults.textResults(query)
+        return redirect("/")
+    elif search_type == "video":
+        return video.videoResults(query)
+    elif search_type == "image":
+        return images.imageResults(query)
+    else:
+        return textResults.textResults(query)
 
 
 if __name__ == "__main__":

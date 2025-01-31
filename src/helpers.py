@@ -159,6 +159,7 @@ class Settings():
         self.method = request.cookies.get("method", DEFAULT_METHOD)
         self.ac = request.cookies.get("ac", DEFAULT_AUTOCOMPLETE)
         self.engine = request.cookies.get("engine", DEFAULT_ENGINE)
+        self.torrent = request.cookies.get("torrent", "enabled" if TORRENTSEARCH_ENABLED else "disabled")
 
 
 # Returns a tuple of two ellements.

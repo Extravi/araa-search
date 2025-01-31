@@ -138,6 +138,15 @@
             <option value="" {% if settings.javascript == '' %}selected{% endif %}>JavaScript Disabled</option>
         </select>
     </div>
+    {% if torrent_enabled %}
+      <div class="settings-row">
+          <p>Enable Torrents</p>
+          <select id="torrent-setting" name="torrent">
+              <option value="enabled" {% if settings.torrent == 'enabled' %}selected{% endif %}>Enabled</option>
+              <option value="disabled" {% if settings.torrent == 'disabled' %}selected{% endif %}>Disabled</option>
+          </select>
+      </div>
+    {% endif %}
     <div class="settings-row settings-row2">
         <p class="font-hide">|</p>
         <button class="save save-settings-page" type="submit">{{ lang_data.settings.save_settings }}</button>
