@@ -146,6 +146,7 @@ def bytes_to_string(size):
         index += 1
     return f"{size:.2f} {units[index]}"
 
+
 class Settings():
     def __init__(self):
         self.domain = request.cookies.get("domain", DEFAULT_GOOGLE_DOMAIN)
@@ -157,6 +158,8 @@ class Settings():
         self.theme = request.cookies.get("theme", DEFAULT_THEME)
         self.method = request.cookies.get("method", DEFAULT_METHOD)
         self.ac = request.cookies.get("ac", DEFAULT_AUTOCOMPLETE)
+        self.engine = request.cookies.get("engine", DEFAULT_ENGINE)
+
 
 # Returns a tuple of two ellements.
 # The first is the wikipedia proxy's URL (used to load an wiki page's image after page load),

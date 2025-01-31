@@ -61,6 +61,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    const engineSelect = document.querySelector("#engine_select")
+    if (engineSelect) {
+        engineSelect.addEventListener("change", function () {
+            const selectedOption = engineSelect.options[engineSelect.selectedIndex];
+            const selectedValue = selectedOption.value;
+            setCookie("engine", selectedValue);
+            window.location.reload();
+        });
+    }
+
     const themeDivs = document.querySelectorAll(".themes-settings-menu div");
 
     themeDivs.forEach(function (div) {

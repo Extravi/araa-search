@@ -571,6 +571,7 @@ hr {
 #lang,
 #safe,
 #open-new-tab,
+#engine,
 #domain,
 #javascript-setting,
 #ux_lang {
@@ -680,18 +681,23 @@ hr {
 }
 
 .results_settings {
+  margin-top: 110px;
+}
+
+.results_settings,
+#date_range_form {
     color: var(--fg);
     left: 175px;
     position: relative;
     font-size: 15px;
-    margin-bottom: 10px;
     max-width: 580px;
-    margin-top: 110px;
     display: flex;
 }
 
+
 .results-settings,
 .results-save,
+.date-select,
 .torrent-settings,
 .torrent-sort-save,
 .torrent-cat {
@@ -706,6 +712,25 @@ hr {
     cursor: pointer;
     transition: all .3s ease;
 }
+
+#date_range_form .results-settings {
+  text-align: left;
+}
+
+.date_range {
+  display: inherit;
+}
+
+.date_range p {
+  width: 80px;
+  margin: 4px;
+}
+
+.date-select {
+  height: 20px;
+  display: inline;
+}
+
 
 .torrent-cat:hover,
 .torrent-settings:hover,
@@ -1656,6 +1681,17 @@ p {
         font-size: 13px;
         margin-top: 140px;
         max-width: 355px;
+    }
+    
+    #date_range_form {
+      left: 20px;
+      max-width: 335px;
+    }
+    .date_range p {
+      display: none;
+    }
+    .date-select {
+      margin-right: 0px;
     }
 
     .video_title {

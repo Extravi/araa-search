@@ -97,7 +97,7 @@ def discover():
 
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
-    cookies = ['safe', 'javascript', 'domain', 'theme', 'lang', 'ux_lang', 'new_tab', 'method', 'ac']
+    cookies = ['safe', 'javascript', 'domain', 'theme', 'lang', 'ux_lang', 'new_tab', 'method', 'ac', "engine"]
 
     response = make_response(redirect(request.referrer))
     for cookie in cookies:
@@ -107,7 +107,12 @@ def save_settings():
                                 max_age=COOKIE_AGE, httponly=False,
                                 secure=app.config.get("HTTPS")
                                 )
+
     response.headers["Location"] = request.form.get('past')
+
+    # Disable https when running in a debug mode to avoid ssl errors
+    if __name__ == "__main__":
+        response.headers["Location"] = response.headers["Location"].replace("https", "http")
 
     return response
 

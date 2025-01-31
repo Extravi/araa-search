@@ -51,9 +51,18 @@ def textResults(query: str) -> Response:
     ratelimited = True # Used to determine if complete engine failure is due to a bug or due to
                        # the server getting completely ratelimited from every supported engine.
 
+    engine_list = []
+    for engine in ENGINES:
+        if engine.NAME == settings.engine:
+            # Put prefered engine at the top of the list
+            engine_list = [engine] + engine_list
+        else:
+            engine_list.append(engine)
+
+
     try:
-        for ENGINE in ENGINES:
-            if (t := ratelimited_timestamps.get(ENGINE.__name__)) != None and t + ENGINE_RATELIMIT_COOLDOWN_MINUTES * 60 >= time.time():
+        for ENGINE in engine_list:
+            if (t := ratelimited_timestamps.get(ENGINE.__name__)) is not None and t + ENGINE_RATELIMIT_COOLDOWN_MINUTES * 60 >= time.time():
                 # Current engine is ratelimited. Skip it.
                 continue
             results = ENGINE.search(query, p, search_type, settings)
@@ -138,5 +147,6 @@ def textResults(query: str) -> Response:
                                type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-                               settings=settings, wiki=results.wiki, araa_name=ARAA_NAME
+                               settings=settings, wiki=results.wiki, araa_name=ARAA_NAME,
+                               before=args.get("before", ""), after=args.get("after", "")
                                )

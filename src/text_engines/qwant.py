@@ -5,6 +5,8 @@ from src.text_engines.objects.wikiSnippet import WikiSnippet
 from urllib.parse import urlparse, urlencode, unquote
 from src import helpers
 
+NAME = "qwant"
+
 
 def sanitize_wiki(desc):
     desc = re.sub(r"\[\d{1,}\]", "", desc)
