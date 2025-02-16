@@ -156,7 +156,7 @@
                 <button name="t" value="reddit" class="clickable">{{ lang_data.buttons.reddit }}</button>
             </div>
             {% endif %}
-            {% if TORRENTSEARCH_ENABLED == True %}
+            {% if TORRENTSEARCH_ENABLED and settings.torrent == "enabled" %}
             {% if type == "torrent" %}
             <div class="search-container-results-btn">
                 <button id="sub-search-wrapper-ico" class="material-icons-round clickable search-active" name="t" value="torrent">share</button>
