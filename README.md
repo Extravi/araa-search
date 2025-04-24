@@ -21,7 +21,7 @@ If you're looking to [install](https://extravi.dev/araa) Araa, here is a how-to 
 |-|-|-|-|-|
 | [araa.extravi.dev](https://araa.extravi.dev/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=araa.extravi.dev)✅| United States 🇺🇸 | Official instance |
 | [tailsx.com](https://tailsx.com/) | [Link](http://inbbfryz7elofjk23pi7txnibttnuyz3rg2vwqmfengteeyhrmvex4id.onion/) | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=tailsx.com)✅| Canada 🇨🇦 | Unofficial instance |
-| [as.sudovanilla.org](https://as.sudovanilla.org/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=as.sudovanilla.org)✅| United States 🇺🇸 | Unofficial instance |
+| [araa.sudovanilla.org](https://araa.sudovanilla.org/) | N/A | [www.ssllabs.com](https://www.ssllabs.com/ssltest/analyze.html?d=as.sudovanilla.org)✅| United States 🇺🇸 | Unofficial instance |
 
 ### Contributors
 ![Contributors](https://contrib.rocks/image?repo=Extravi/araa-search)
