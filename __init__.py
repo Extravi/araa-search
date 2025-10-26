@@ -10,6 +10,7 @@ from src import textResults, torrents, helpers, images, video
 
 with open("./bangs.json", "r", encoding="utf-8") as bfp:
     bjson = json.load(bfp)
+    bfp.close()
 
 SEARCH_BANGS = {}
 for bang, url in bjson.items():
