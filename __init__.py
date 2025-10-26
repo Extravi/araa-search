@@ -8,9 +8,8 @@ from urllib.parse import quote
 from _config import *
 from src import textResults, torrents, helpers, images, video
 
-bfp = open("./bangs.json", "r")
-bjson = json.load(bfp)
-bfp.close()
+with open("./bangs.json", "r", encoding="utf-8") as bfp:
+    bjson = json.load(bfp)
 
 SEARCH_BANGS = {}
 for bang, url in bjson.items():
