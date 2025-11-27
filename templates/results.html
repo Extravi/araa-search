@@ -4,8 +4,9 @@
     <form class="results_settings" action="/save-settings" method="post">
       <input type="hidden" name="past" value="{{ current_url }}"></input>
       <select class="results-settings" name="engine" id="engine_select">
-          <option value="google" {% if settings.engine == 'google' %}selected{% endif %}>Google</option>
-          <option value="qwant" {% if settings.engine == 'qwant' %}selected{% endif %}>Qwant</option>
+          {% for eng in available_engines %}
+            <option value="{{ eng.name }}" {% if settings.engine == eng.name %}selected{% endif %}>{{ eng.display }}</option>
+          {% endfor %}
       </select>
       <select class="results-settings" name="safe" id="safeSearchSelect">
           <option value="active" {% if settings.safe == 'active' %}selected{% endif %}>{{ lang_data.settings.safe_search }} {{ lang_data.settings.on }}</option>

@@ -112,10 +112,11 @@
     </div>
     <div class="settings-row">
         <p>Prefered search engine</p>
-        <select id="engine" name="engine">
-            <option value="google" {% if settings.engine == 'google' %}selected{% endif %}>Google</option>
-            <option value="qwant" {% if settings.engine == 'qwant' %}selected{% endif %}>Qwant</option>
-        </select>
+                <select id="engine" name="engine">
+                        {% for eng in available_engines %}
+                            <option value="{{ eng.name }}" {% if settings.engine == eng.name %}selected{% endif %}>{{ eng.display }}</option>
+                        {% endfor %}
+                </select>
     </div>
     <div class="settings-row">
         <p>Method</p>

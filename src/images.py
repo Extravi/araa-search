@@ -54,12 +54,36 @@ def imageResults(query) -> Response:
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
     response = qwant.get(f"https://api.qwant.com/v3/search/images?t=images&q={quote(query)}&count=50&locale=en_CA&offset={p}&device=desktop&tgp=2&safesearch={safe_search}", headers=headers)
-    json_data = response.json()
 
-    # Get all the images from the response, while avoiding any errors.
-    images = json_data.get("data", {}).get("result", {}).get("items", None)
+    # If the image engine returned a non-200 response or invalid JSON,
+    # handle it gracefully by rendering the images template with no
+    # results (the template will show the "no results" message).
+    if response.status_code != 200:
+        print(f"WARN: Image engine returned status {response.status_code} for query={query}")
+        images = None
+    else:
+        try:
+            json_data = response.json()
+        except Exception as e:
+            # Could not parse JSON (empty body or invalid); treat as no results
+            print(f"WARN: Failed to parse image engine response JSON: {e}")
+            images = None
+        else:
+            # Get all the images from the response, while avoiding any errors.
+            images = json_data.get("data", {}).get("result", {}).get("items", None)
+
     if images is None:
-        return redirect('/search')
+        # Render the images page with no results instead of redirecting
+        # to /search. This provides a friendlier error path for users
+        # when no image engine is available.
+        elapsed_time = time.time() - start_time
+        if api == "true" and API_ENABLED:
+            return jsonify([])
+        return render_template("images.html", results=None, title=f"{query} - {ARAA_NAME}",
+            q=f"{query}", fetched=f"{elapsed_time:.2f}", type="image",
+            repo_url=REPO, donate_url=DONATE, API_ENABLED=API_ENABLED,
+            TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
+            commit=helpers.latest_commit(), settings=settings, araa_name=ARAA_NAME)
 
     results = []
     for image in images:

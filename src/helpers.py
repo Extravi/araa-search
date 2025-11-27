@@ -105,8 +105,21 @@ def makeJSONRequest(url: str, is_qwant=False):
     else:
         response = s.get(url, headers=headers) # generic persistent session
 
-    # Return the JSON object
-    return (json.loads(response.text), response.status_code)
+    # Try to parse JSON; if the response isn't valid JSON, return None and
+    # log the response text for debugging instead of raising an exception.
+    try:
+        parsed = json.loads(response.text)
+        return (parsed, response.status_code)
+    except Exception as e:
+        # Log useful debug information to the console so debugging is easier.
+        try:
+            print(f"[helpers.makeJSONRequest] Failed to parse JSON from {url} (status={response.status_code}):")
+            # Truncate long responses to avoid huge logs
+            preview = response.text[:2000]
+            print(preview)
+        except Exception:
+            pass
+        return (None, response.status_code)
 
 def get_magnet_hash(magnet):
     return magnet.split("btih:")[1].split("&")[0]

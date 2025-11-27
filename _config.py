@@ -12,8 +12,15 @@ BANG = '!'
 REPO = 'https://github.com/Extravi/araa-search'
 DONATE = 'https://github.com/sponsors/Extravi'
 
-DEFAULT_ENGINE = "google"
+DEFAULT_ENGINE = "mullvad"
 
+# Engines that are currently in maintenance mode and will not be used
+# For example, if google makes a change to their engine that breaks searching,
+# add "google" to this list to temporarily disable it until a fix is made.
+MAINTENANCE_MODE = [
+    "google",
+    "qwant",
+]
 
 # Default theme
 DEFAULT_THEME = 'dark_default'
@@ -77,6 +84,7 @@ WHITELISTED_DOMAINS = [
     NYAA_DOMAIN,
     API_BAY_DOMAIN,
     RUTOR_DOMAIN,
+    "leta.mullvad.net",
 ]
 
 ENABLED_TORRENT_SITES = [

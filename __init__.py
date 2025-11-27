@@ -61,6 +61,8 @@ def settings():
     if not request.is_secure:
         request.url = f"https://{request.host}/settings{f'?{request.query_string.decode()}' if request.query_string.decode() else ''}"
 
+    available_engines = [{'name': e.NAME, 'display': e.NAME.capitalize()} for e in textResults.ACTIVE_ENGINES]
+
     return render_template('settings.html',
                            commit=COMMIT,
                            repo_url=REPO,
@@ -71,7 +73,8 @@ def settings():
                            lang_data=lang_data,
                            UX_LANGUAGES=UX_LANGUAGES,
                            araa_name=ARAA_NAME,
-                           torrent_enabled=TORRENTSEARCH_ENABLED
+                           torrent_enabled=TORRENTSEARCH_ENABLED,
+                           available_engines=available_engines
                            )
 
 

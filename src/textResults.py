@@ -5,12 +5,21 @@ import time
 import json
 import re
 from math import isclose  # For float comparisons
-from src.text_engines import google, qwant
+from src.text_engines import google, qwant, mullvad
 
+# All known engine modules. This list may be filtered by the
+# `MAINTENANCE_MODE` config below so engines under maintenance
+# are not used by the instance.
 ENGINES = [
     google,
     qwant,
+    mullvad,
 ]
+
+# filter out any engines flagged in the config's MAINTENANCE_MODE so they
+# won't be used by the search logic. Comparison is case-insensitive.
+_maintenance_lower = [m.lower() for m in MAINTENANCE_MODE]
+ACTIVE_ENGINES = [e for e in ENGINES if getattr(e, 'NAME', '').lower() not in _maintenance_lower]
 ratelimited_timestamps = {}
 
 
@@ -29,6 +38,18 @@ def textResults(query: str) -> Response:
     global ratelimited_engines
     # get user language settings
     settings = helpers.Settings()
+
+    # If the user's chosen engine is currently in maintenance mode, fall
+    # back to a safe default. This prevents the UI from selecting an engine
+    # that won't be used by the backend.
+    maintenance_lower = [m.lower() for m in MAINTENANCE_MODE]
+    if settings.engine and settings.engine.lower() in maintenance_lower:
+        # Prefer DEFAULT_ENGINE if it's not in maintenance, otherwise pick
+        # the first available active engine, else keep 'mullvad'.
+        if DEFAULT_ENGINE and DEFAULT_ENGINE.lower() not in maintenance_lower:
+            settings.engine = DEFAULT_ENGINE
+        else:
+            settings.engine = next((e.NAME for e in ACTIVE_ENGINES), 'mullvad')
 
     # Define where to get request args from. If the request is using GET,
     # use request.args. Otherwise (POST), use request.form
@@ -51,8 +72,11 @@ def textResults(query: str) -> Response:
     ratelimited = True # Used to determine if complete engine failure is due to a bug or due to
                        # the server getting completely ratelimited from every supported engine.
 
+    # Build the runtime engine list using only active (non-maintenance)
+    # engines. The user's preferred engine (from cookies) is placed first
+    # when available.
     engine_list = []
-    for engine in ENGINES:
+    for engine in ACTIVE_ENGINES:
         if engine.NAME == settings.engine:
             # Put prefered engine at the top of the list
             engine_list = [engine] + engine_list
@@ -62,14 +86,20 @@ def textResults(query: str) -> Response:
 
     try:
         for ENGINE in engine_list:
-            if (t := ratelimited_timestamps.get(ENGINE.__name__)) is not None and t + ENGINE_RATELIMIT_COOLDOWN_MINUTES * 60 >= time.time():
-                # Current engine is ratelimited. Skip it.
-                continue
+            # Don't apply the global cooldown/ratelimit timer to Mullvad.
+            # Mullvad will never be skipped because of the shared `ratelimited_timestamps`.
+            if getattr(ENGINE, 'NAME', '').lower() != 'mullvad':
+                if (t := ratelimited_timestamps.get(ENGINE.__name__)) is not None and t + ENGINE_RATELIMIT_COOLDOWN_MINUTES * 60 >= time.time():
+                    # Current engine is ratelimited. Skip it.
+                    continue
+
             results = ENGINE.search(query, p, search_type, settings)
             if results.code == 429:
                 t = time.time()
                 print(f"Text engine {results.engine} was just ratelimited (time={t})")
-                ratelimited_timestamps[ENGINE.__name__] = t
+                # Do not record a ratelimit timestamp for Mullvad so it won't be skipped later.
+                if getattr(ENGINE, 'NAME', '').lower() != 'mullvad':
+                    ratelimited_timestamps[ENGINE.__name__] = t
             else: # Server *likely* isn't ratelimited.
                 ratelimited = False
             if results.ok:
@@ -138,6 +168,9 @@ def textResults(query: str) -> Response:
         check = "" if results.correction is None else results.correction
         snip = "" if results.featured is None else results.featured
 
+        # prepare engine options for the template (name/display)
+        available_engines = [{'name': e.NAME, 'display': e.NAME.capitalize()} for e in ACTIVE_ENGINES]
+
         return render_template("results.html",
                                engine=results.engine,
                                results=results.results, sublink=results.top_result_sublinks, p=p, title=f"{query} - {ARAA_NAME}",
@@ -147,6 +180,6 @@ def textResults(query: str) -> Response:
                                type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-                               settings=settings, wiki=results.wiki, araa_name=ARAA_NAME,
+                       settings=settings, wiki=results.wiki, araa_name=ARAA_NAME,
                                before=args.get("before", ""), after=args.get("after", "")
-                               )
+                       , available_engines=available_engines)
