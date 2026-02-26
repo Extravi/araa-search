@@ -12,14 +12,12 @@ BANG = '!'
 REPO = 'https://github.com/Extravi/araa-search'
 DONATE = 'https://github.com/sponsors/Extravi'
 
-DEFAULT_ENGINE = "mullvad"
+DEFAULT_ENGINE = "google"
 
 # Engines that are currently in maintenance mode and will not be used
 # For example, if google makes a change to their engine that breaks searching,
 # add "google" to this list to temporarily disable it until a fix is made.
 MAINTENANCE_MODE = [
-    "google",
-    "qwant",
 ]
 
 # Default theme
@@ -33,6 +31,36 @@ DEFAULT_AUTOCOMPLETE = "google"
 
 # The port for this server to listen on
 PORT = 8000
+
+# Local SearXNG bootstrap config.
+# This container is bound to loopback only and kept separate from Araa's port.
+LOCAL_SEARXNG_ENABLED = True
+LOCAL_SEARXNG_IMAGE = "docker.io/searxng/searxng:latest"
+LOCAL_SEARXNG_CONTAINER_NAME = "araa-local-searxng"
+LOCAL_SEARXNG_HOST = "127.0.0.1"
+LOCAL_SEARXNG_PORT = 8081
+LOCAL_SEARXNG_STATE_DIR = ".searxng_local"
+LOCAL_SEARXNG_KEEP_ONLY_ENGINES = [
+    "google",
+    "google images",
+    "qwant",
+    "qwant images",
+    "wikipedia",
+]
+LOCAL_SEARXNG_AUTO_UPDATE = True
+LOCAL_SEARXNG_AUTO_UPDATE_COOLDOWN_SECONDS = 300
+LOCAL_SEARXNG_STARTUP_TIMEOUT_SECONDS = 45
+
+# Local SearXNG Google engine behavior.
+# Set to True if you want Araa to display "Did you mean" from local searxng.
+LOCAL_SEARXNG_GOOGLE_ENABLE_CORRECTIONS = False
+# If corrections is empty, optionally fallback to suggestions.
+LOCAL_SEARXNG_GOOGLE_USE_SUGGESTIONS_FALLBACK = False
+
+# Local SearXNG knowledge panel behavior.
+# This only enables wikipedia panel lookups for entity-like text queries.
+LOCAL_SEARXNG_KNOWLEDGE_PANELS_ENABLED = True
+LOCAL_SEARXNG_KNOWLEDGE_PANELS_MAX_QUERY_WORDS = 4
 
 # Torrent domains
 TORRENTGALAXY_DOMAIN = "torrentgalaxy.to"
@@ -48,12 +76,12 @@ PIPED_INSTANCE_PROXY = "ytproxy.ttj.dev"
 
 # Useragents to use in the request.
 user_agents = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.3",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.2210.89",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/121.0",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.31 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.31 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 15.0; rv:148.0) Gecko/20100101 Firefox/148.0",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.3800.70",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 15_0) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.3 Safari/605.1.15",
 ]
 
 # prompts for user agent & ip queries
@@ -74,17 +102,15 @@ VALID_UA_PROMPTS = [
 
 
 WHITELISTED_DOMAINS = [
-    "www.google.com",
-    "wikipedia.org",
+    # Used by current request wrappers in helpers.py (video + torrent fetchers).
+    # Keep this list minimal: only domains that helpers.makeHTMLRequest /
+    # helpers.makeJSONRequest can access.
     PIPED_INSTANCE,
     PIPED_INSTANCE_API,
-    PIPED_INSTANCE_PROXY,
-    "api.qwant.com",
     TORRENTGALAXY_DOMAIN,
     NYAA_DOMAIN,
     API_BAY_DOMAIN,
     RUTOR_DOMAIN,
-    "leta.mullvad.net",
 ]
 
 ENABLED_TORRENT_SITES = [
@@ -135,7 +161,5 @@ UX_LANGUAGES = [
 
 # See all the 'lang_lower' values in UX_LANGUAGES
 DEFAULT_UX_LANG = "english"
-
-DEFAULT_GOOGLE_DOMAIN = "/search?gl=us"
 
 ENGINE_RATELIMIT_COOLDOWN_MINUTES = 28

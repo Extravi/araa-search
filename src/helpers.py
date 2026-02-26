@@ -5,10 +5,11 @@ import trio
 import re
 import json
 from bs4 import BeautifulSoup
-from urllib.parse import unquote, urlparse
+from urllib.parse import unquote, urlparse, quote
 from _config import *
 from markupsafe import escape, Markup
 from os.path import exists
+from pathlib import Path
 from thefuzz import fuzz
 from flask import request
 
@@ -34,7 +35,9 @@ qwant = httpx.Client(http2=True, follow_redirects=True, transport=transport, lim
 
 def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     # block unwanted request from an edited cookie
-    domain = unquote(url).split('/')[2]
+    domain = urlparse(unquote(url)).netloc
+    if domain == "":
+        raise Exception("Invalid URL.")
     if domain not in WHITELISTED_DOMAINS:
         raise Exception(f"The domain '{domain}' is not whitelisted.")
 
@@ -53,13 +56,13 @@ def makeHTMLRequest(url: str, is_google=False, is_wiki=False, is_piped=False):
     
     # Grab HTML content with the specific cookie
     if is_google:
-        html = google.get(url, headers=headers) # persistent session for google
+        html = google.get(url, headers=headers, timeout=20) # persistent session for google
     elif is_wiki:
-        html = wiki.get(url, headers=headers) # persistent session for wikipedia
+        html = wiki.get(url, headers=headers, timeout=20) # persistent session for wikipedia
     elif is_piped:
-        html = piped.get(url, headers=headers) # persistent session for piped
+        html = piped.get(url, headers=headers, timeout=20) # persistent session for piped
     else:
-        html = s.get(url, headers=headers) # generic persistent session
+        html = s.get(url, headers=headers, timeout=20) # generic persistent session
 
     # Allow for callers to handle errors better
     content = None if html.status_code != 200 else BeautifulSoup(html.text, "lxml")
@@ -90,9 +93,32 @@ def latest_commit():
             return f.readline()
     return "Not in main branch"
 
+
+def load_lang_data(ux_lang: str):
+    # Language files are UTF-8 encoded. Always decode with UTF-8 so
+    # non-English locales work on Windows systems using cp1252 defaults.
+    selected_lang = (ux_lang or DEFAULT_UX_LANG).strip()
+    if selected_lang == "":
+        selected_lang = DEFAULT_UX_LANG
+
+    lang_dir = Path("static") / "lang"
+    selected_path = lang_dir / f"{selected_lang}.json"
+
+    try:
+        with open(selected_path, "r", encoding="utf-8") as file:
+            return format_araa_name(json.load(file))
+    except Exception as err:
+        fallback_path = lang_dir / f"{DEFAULT_UX_LANG}.json"
+        print(f"WARN: Failed to load UX language '{selected_lang}'. Falling back to '{DEFAULT_UX_LANG}'. ({err})")
+        with open(fallback_path, "r", encoding="utf-8") as file:
+            return format_araa_name(json.load(file))
+
+
 def makeJSONRequest(url: str, is_qwant=False):
     # block unwanted request from an edited cookie
-    domain = unquote(url).split('/')[2]
+    domain = urlparse(unquote(url)).netloc
+    if domain == "":
+        raise Exception("Invalid URL.")
     if domain not in WHITELISTED_DOMAINS:
         raise Exception(f"The domain '{domain}' is not whitelisted.")
 
@@ -101,9 +127,9 @@ def makeJSONRequest(url: str, is_qwant=False):
     headers = {"User-Agent": user_agent}
     # Grab json content
     if is_qwant:
-        response = qwant.get(url, headers=headers) # persistent session for qwant
+        response = qwant.get(url, headers=headers, timeout=20) # persistent session for qwant
     else:
-        response = s.get(url, headers=headers) # generic persistent session
+        response = s.get(url, headers=headers, timeout=20) # generic persistent session
 
     # Try to parse JSON; if the response isn't valid JSON, return None and
     # log the response text for debugging instead of raising an exception.
@@ -160,9 +186,66 @@ def bytes_to_string(size):
     return f"{size:.2f} {units[index]}"
 
 
+def settings_lang_to_searx(settings_lang: str | None) -> str:
+    # Convert Araa language cookie values to searxng language values.
+    if settings_lang is None:
+        return ""
+
+    settings_lang = settings_lang.strip()
+    if settings_lang == "":
+        return ""
+
+    # Keep compatibility with existing UI values.
+    if settings_lang == "lang_zh-CN":
+        return "zh_Hans"
+    if settings_lang == "lang_zh-TW":
+        return "zh_Hant"
+    if settings_lang == "lang_iw":
+        return "he"
+
+    if settings_lang.startswith("lang_"):
+        settings_lang = settings_lang[5:]
+
+    if settings_lang.lower() == "iw":
+        return "he"
+
+    return settings_lang.lower()
+
+
+def should_request_knowledge_panel(query: str, search_type: str, page_num: int = 1) -> bool:
+    if not globals().get("LOCAL_SEARXNG_KNOWLEDGE_PANELS_ENABLED", True):
+        return False
+
+    if search_type != "text" or page_num != 1:
+        return False
+
+    query = (query or "").strip()
+    if query == "":
+        return False
+
+    try:
+        max_words = int(globals().get("LOCAL_SEARXNG_KNOWLEDGE_PANELS_MAX_QUERY_WORDS", 4))
+    except Exception:
+        max_words = 4
+
+    if max_words < 1:
+        max_words = 1
+
+    if len(query.split()) > max_words:
+        return False
+
+    # Avoid operator-heavy / advanced query syntax where a panel is unlikely.
+    lower_query = query.lower()
+    if lower_query.startswith(("http://", "https://")):
+        return False
+    if re.search(r'(^|\s)(site|filetype|inurl|intitle|related|cache|after|before)\s*:', lower_query):
+        return False
+
+    return True
+
+
 class Settings():
     def __init__(self):
-        self.domain = request.cookies.get("domain", DEFAULT_GOOGLE_DOMAIN)
         self.javascript = request.cookies.get("javascript", "enabled")
         self.lang = request.cookies.get("lang", "")
         self.new_tab = request.cookies.get("new_tab", "")
@@ -172,6 +255,8 @@ class Settings():
         self.method = request.cookies.get("method", DEFAULT_METHOD)
         self.ac = request.cookies.get("ac", DEFAULT_AUTOCOMPLETE)
         self.engine = request.cookies.get("engine", DEFAULT_ENGINE)
+        self.image_engine = request.cookies.get("image_engine", "google")
+        self.date_filter = request.cookies.get("date_filter", "collapsed")
         self.torrent = request.cookies.get("torrent", "enabled" if TORRENTSEARCH_ENABLED else "disabled")
 
 
@@ -187,19 +272,41 @@ def grab_wiki_image_from_url(wikipedia_url: str, user_settings: Settings) -> tup
     kno_title = None
     kno_image = None
 
+    raw_url = str(wikipedia_url or "").strip()
+    if raw_url == "" or raw_url.lower() in ["none", "null"]:
+        return kno_title, kno_image
+
+    # Extract title from urls like https://en.wikipedia.org/wiki/Telegram_(software)
+    # and keep compatibility with old behavior where plain titles are passed.
+    parsed = urlparse(raw_url)
+    if parsed.path.startswith("/wiki/"):
+        wiki_title = parsed.path.split("/wiki/", 1)[1]
+    else:
+        wiki_title = raw_url.split("/")[-1]
+
+    wiki_title = unquote(wiki_title).strip()
+    if wiki_title == "" or wiki_title.lower() in ["none", "null"]:
+        return kno_title, kno_image
+
     if user_settings.javascript == "enabled":
-        kno_title = wikipedia_url.split("/")[-1]
-        kno_title = f"/wikipedia?q={kno_title}"
+        kno_title = f"/wikipedia?q={quote(wiki_title)}"
     else:
         try:
-            _kno_title = wikipedia_url.split("/")[-1]
-            soup = makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={_kno_title}&pithumbsize=500", is_wiki=True)
-            data = json.loads(soup.text)
-            img_src = data['query']['pages'][list(data['query']['pages'].keys())[0]]['thumbnail']['source']
-            _kno_image = [f"/img_proxy?url={img_src}"]
-            _kno_image = ''.join(_kno_image)
-        finally:
-            kno_image = _kno_image
+            user_agent = random.choice(user_agents)
+            response = s.get(
+                f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={quote(wiki_title)}&pithumbsize=500",
+                headers={"User-Agent": user_agent},
+                timeout=15,
+            )
+            data = json.loads(response.text)
+            page_ids = list(data.get("query", {}).get("pages", {}).keys())
+            if len(page_ids) > 0:
+                page = data["query"]["pages"][page_ids[0]]
+                thumb_src = page.get("thumbnail", {}).get("source")
+                if thumb_src:
+                    kno_image = f"/img_proxy?url={thumb_src}"
+        except Exception:
+            kno_image = None
 
     return kno_title, kno_image
 

@@ -1,7 +1,7 @@
 {% extends "results_layout.html" %}
 
 {% block body %}
-    <form class="results_settings" action="/save-settings" method="post">
+    <form class="results_settings" action="/save-settings" method="post" autocomplete="off">
       <input type="hidden" name="past" value="{{ current_url }}"></input>
       <select class="results-settings" name="engine" id="engine_select">
           {% for eng in available_engines %}
@@ -61,21 +61,24 @@
           <option value="lang_uk" {% if settings.lang == 'lang_uk' %}selected{% endif %}>українська (Ukrainian)</option>
           <option value="lang_vi" {% if settings.lang == 'lang_vi' %}selected{% endif %}>Tiếng Việt (Vietnamese)</option>
       </select>
+      {% if settings.date_filter != "hidden" %}
+      <details class="date_range_inline" {% if settings.date_filter == "expanded" %}open{% endif %}>
+        <summary class="results-settings date_range_summary">Date range</summary>
+      </details>
+      <div class="date_range_panel_row">
+        <div class="date_range">
+          <input class="date-select" type="date" name="after" value="{{ after }}" form="date_range_form">
+          <input class="date-select" type="date" name="before" value="{{ before }}" form="date_range_form">
+          <button type="submit" class="results-settings" form="date_range_form">Submit</button>
+        </div>
+      </div>
+      {% endif %}
       <button class="results-save" type="submit">Apply settings</button>
     </form>
-
-    {% if engine != "qwant" %}
-      <form action="/search" id="date_range_form">
-        <input type="hidden" name="q" value="{{ q }}">
-        <input type="hidden" name="t" value="{{ type }}">
-        <div class="date_range">
-          <p>Date range</p>
-          <input class="date-select" type="date" name="after" value="{{ after }}">
-          <input class="date-select" type="date" name="before" value="{{ before }}">
-        </div>
-        <input type="submit" class="results-settings" value="Submit">
-      </form>
-    {% endif %}
+    <form action="/search" id="date_range_form">
+      <input type="hidden" name="q" value="{{ q }}">
+      <input type="hidden" name="t" value="{{ type }}">
+    </form>
     <p class="fetched">{{ lang_data.results.results }} {{ fetched }} {{ lang_data.results.seconds }}</p>
     {% if check %}
         <div class="check"><p>Did you mean: <a href="/search?q={{ check }}&t={{ type }}"><h3>{{ check }}</h3></a></p></div>
@@ -138,7 +141,9 @@
         <img src="{{ wiki.image }}"/>
         {% endif %}
         {{ wiki.desc }}
+        {% if wiki.link %}
         <a target="_blank" class="wiki_link" href="{{ wiki.link }}">Wikipedia</a>
+        {% endif %}
 
         {% if wiki.info|length > 0 %}
           <h4 class="about">About</h4>
@@ -207,6 +212,8 @@
         <form method="{{ settings.method }}">
           <input type="hidden" name="q" value="{{ q }}">
           <input type="hidden" name="t" value="{{ type }}">
+          <input type="hidden" name="after" value="{{ after }}">
+          <input type="hidden" name="before" value="{{ before }}">
           {% set p = request.args.get('p', 0)|int %}
           {% if p >= 10 %}
               <button name="p" value="{{ p - 10 }}">{{ lang_data.buttons.previous }}</button>

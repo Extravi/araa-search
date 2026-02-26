@@ -16,6 +16,76 @@ ENV_VARS = {
         'pyname': 'PORT', # The name of the variable in Python (_config.py)
         'type': int, # Type of the variable
     },
+    'LOCAL_SEARXNG_ENABLED': {
+        'default_val': True,
+        'pyname': 'LOCAL_SEARXNG_ENABLED',
+        'type': bool,
+    },
+    'LOCAL_SEARXNG_IMAGE': {
+        'default_val': 'docker.io/searxng/searxng:latest',
+        'pyname': 'LOCAL_SEARXNG_IMAGE',
+        'type': str,
+    },
+    'LOCAL_SEARXNG_CONTAINER_NAME': {
+        'default_val': 'araa-local-searxng',
+        'pyname': 'LOCAL_SEARXNG_CONTAINER_NAME',
+        'type': str,
+    },
+    'LOCAL_SEARXNG_HOST': {
+        'default_val': '127.0.0.1',
+        'pyname': 'LOCAL_SEARXNG_HOST',
+        'type': str,
+    },
+    'LOCAL_SEARXNG_PORT': {
+        'default_val': 8081,
+        'pyname': 'LOCAL_SEARXNG_PORT',
+        'type': int,
+    },
+    'LOCAL_SEARXNG_STATE_DIR': {
+        'default_val': '.searxng_local',
+        'pyname': 'LOCAL_SEARXNG_STATE_DIR',
+        'type': str,
+    },
+    'LOCAL_SEARXNG_KEEP_ONLY_ENGINES': {
+        'default_val': ['google', 'google images', 'qwant', 'qwant images', 'wikipedia'],
+        'pyname': 'LOCAL_SEARXNG_KEEP_ONLY_ENGINES',
+        'type': list,
+    },
+    'LOCAL_SEARXNG_AUTO_UPDATE': {
+        'default_val': True,
+        'pyname': 'LOCAL_SEARXNG_AUTO_UPDATE',
+        'type': bool,
+    },
+    'LOCAL_SEARXNG_AUTO_UPDATE_COOLDOWN_SECONDS': {
+        'default_val': 300,
+        'pyname': 'LOCAL_SEARXNG_AUTO_UPDATE_COOLDOWN_SECONDS',
+        'type': int,
+    },
+    'LOCAL_SEARXNG_STARTUP_TIMEOUT_SECONDS': {
+        'default_val': 45,
+        'pyname': 'LOCAL_SEARXNG_STARTUP_TIMEOUT_SECONDS',
+        'type': int,
+    },
+    'LOCAL_SEARXNG_GOOGLE_ENABLE_CORRECTIONS': {
+        'default_val': False,
+        'pyname': 'LOCAL_SEARXNG_GOOGLE_ENABLE_CORRECTIONS',
+        'type': bool,
+    },
+    'LOCAL_SEARXNG_GOOGLE_USE_SUGGESTIONS_FALLBACK': {
+        'default_val': False,
+        'pyname': 'LOCAL_SEARXNG_GOOGLE_USE_SUGGESTIONS_FALLBACK',
+        'type': bool,
+    },
+    'LOCAL_SEARXNG_KNOWLEDGE_PANELS_ENABLED': {
+        'default_val': True,
+        'pyname': 'LOCAL_SEARXNG_KNOWLEDGE_PANELS_ENABLED',
+        'type': bool,
+    },
+    'LOCAL_SEARXNG_KNOWLEDGE_PANELS_MAX_QUERY_WORDS': {
+        'default_val': 4,
+        'pyname': 'LOCAL_SEARXNG_KNOWLEDGE_PANELS_MAX_QUERY_WORDS',
+        'type': int,
+    },
     'SHEBANG': {
         'default_val': '!',
         'pyname': 'BANG',

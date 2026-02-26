@@ -183,16 +183,30 @@ font.load().then(() => {
 // load image after server side processing
 window.addEventListener('DOMContentLoaded', function () {
   var knoTitleElement = document.getElementById('kno_title');
+  if (!knoTitleElement || !knoTitleElement.dataset.knoTitle) {
+    return;
+  }
+
   var kno_title = knoTitleElement.dataset.knoTitle;
   fetch(kno_title)
     .then(response => response.json())
     .then(data => {
+      if (!data.query || !data.query.pages) {
+        return;
+      }
+
       const pageId = Object.keys(data.query.pages)[0];
+      if (!pageId || !data.query.pages[pageId].thumbnail || !data.query.pages[pageId].thumbnail.source) {
+        return;
+      }
       const thumbnailSource = data.query.pages[pageId].thumbnail.source;
       const url = "/img_proxy?url=" + thumbnailSource;
 
       // update the img tag with url and add kno_wiki_show
       var imgElement = document.querySelector('.kno_wiki');
+      if (!imgElement) {
+        return;
+      }
       imgElement.src = url;
       imgElement.classList.add('kno_wiki_show');
 

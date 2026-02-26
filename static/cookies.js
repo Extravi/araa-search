@@ -30,6 +30,34 @@ function setCookie(name, value) {
     document.cookie = `${name}=${value}; HostOnly=true; SameSite=None; Secure; Max-Age=2147483647`;
 }
 
+function getCookie(name) {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.split("=");
+        if (cookieName === name) {
+            return cookieValue;
+        }
+    }
+    return null;
+}
+
+function syncSelectFromCookie(selector, cookieName) {
+    const element = document.querySelector(selector);
+    if (!element) {
+        return;
+    }
+
+    const cookieValue = getCookie(cookieName);
+    if (cookieValue === null) {
+        return;
+    }
+
+    const hasOption = Array.from(element.options).some((option) => option.value === cookieValue);
+    if (hasOption) {
+        element.value = cookieValue;
+    }
+}
+
 function reloadPageForTheme() {
     const themeCookie = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("theme="));
 
@@ -39,6 +67,13 @@ function reloadPageForTheme() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    // Keep settings selectors synced with cookies to avoid stale browser form state.
+    syncSelectFromCookie(".lang", "lang");
+    syncSelectFromCookie("#engine_select", "engine");
+    syncSelectFromCookie("#imageEngineSelect", "image_engine");
+    syncSelectFromCookie("#safeSearchSelect", "safe");
+    syncSelectFromCookie("#languageSelect", "lang");
+
     const langSelect = document.querySelector(".lang");
 
     if (langSelect) {
@@ -50,23 +85,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    const domainSelect = document.querySelector(".domain");
-
-    if (domainSelect) {
-        domainSelect.addEventListener("change", function () {
-            const selectedOption = domainSelect.options[domainSelect.selectedIndex];
-            const selectedValue = selectedOption.value;
-            setCookie("domain", selectedValue);
-            window.location.reload();
-        });
-    }
-
     const engineSelect = document.querySelector("#engine_select")
     if (engineSelect) {
         engineSelect.addEventListener("change", function () {
             const selectedOption = engineSelect.options[engineSelect.selectedIndex];
             const selectedValue = selectedOption.value;
             setCookie("engine", selectedValue);
+            window.location.reload();
+        });
+    }
+
+    const imageEngineSelect = document.querySelector("#imageEngineSelect")
+    if (imageEngineSelect) {
+        imageEngineSelect.addEventListener("change", function () {
+            const selectedOption = imageEngineSelect.options[imageEngineSelect.selectedIndex];
+            const selectedValue = selectedOption.value;
+            setCookie("image_engine", selectedValue);
             window.location.reload();
         });
     }

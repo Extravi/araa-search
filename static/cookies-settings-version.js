@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   saveButton.addEventListener("click", function () {
-    let setting_list = ["lang", "domain", "theme", "safe", "open-new-tab", "ux_lang", "ac"];
+    let setting_list = ["lang", "theme", "safe", "open-new-tab", "ux_lang", "ac", "date-filter"];
     for (let i = 0; i < setting_list.length; i++) {
       setting = setting_list[i];
       settingSelect = document.getElementById(setting);

@@ -1,11 +1,11 @@
 # Additional variables that cannot be configured with the generator.
 user_agents=[
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.31 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.31 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 15.0; rv:148.0) Gecko/20100101 Firefox/148.0",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.3800.70",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 15_0) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.3 Safari/605.1.15",
 ]
 VALID_IP_PROMPTS=[
     "what is my ip",
@@ -22,12 +22,8 @@ VALID_UA_PROMPTS=[
     "what's my user agent",
 ]
 WHITELISTED_DOMAINS=[
-    "www.google.com",
-    "wikipedia.org",
     PIPED_INSTANCE,
     PIPED_INSTANCE_API,
-    PIPED_INSTANCE_PROXY,
-    "api.qwant.com",
     TORRENTGALAXY_DOMAIN,
     NYAA_DOMAIN,
     API_BAY_DOMAIN,
@@ -63,4 +59,3 @@ UX_LANGUAGES=[
     {'lang_lower': 'ukrainian', 'lang_fancy': 'Ukrainian (Українська)'},
     {'lang_lower': 'romanian', 'lang_fancy': 'Romanian (Română)'},
 ]
-DEFAULT_GOOGLE_DOMAIN='/search?gl=us'

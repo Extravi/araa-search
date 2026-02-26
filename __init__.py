@@ -4,9 +4,10 @@ import httpx
 import trio
 import random
 import json
+import os
 from urllib.parse import quote
 from _config import *
-from src import textResults, torrents, helpers, images, video
+from src import textResults, torrents, helpers, images, video, local_searxng
 
 with open("./bangs.json", "r", encoding="utf-8") as bfp:
     bjson = json.load(bfp)
@@ -44,8 +45,15 @@ bing = requests.Session() # bing
 piped = requests.Session() # piped
 
 # Set a custom request header for the autocomplete session
-ac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
-googleac.headers.update({'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14.1; rv:109.0) Gecko/20100101 Firefox/121.0"'})
+default_user_agent = user_agents[0] if len(user_agents) > 0 else "Mozilla/5.0"
+ac.headers.update({'User-Agent': default_user_agent})
+googleac.headers.update({'User-Agent': default_user_agent})
+
+# Initialize local searxng once per web-server startup path.
+# The helper is idempotent, so multiple workers can call this safely.
+LOCAL_SEARXNG = None
+if os.environ.get("WERKZEUG_RUN_MAIN") == "true" or os.environ.get("FLASK_RUN_FROM_CLI") != "true":
+    LOCAL_SEARXNG = local_searxng.ensure_local_searxng()
 
 
 @app.route('/settings')
@@ -53,9 +61,7 @@ def settings():
     settings = helpers.Settings()
 
     # get user language settings
-    json_path = f'static/lang/{settings.ux_lang}.json'
-    with open(json_path, 'r') as file:
-        lang_data = helpers.format_araa_name(json.load(file))
+    lang_data = helpers.load_lang_data(settings.ux_lang)
 
     # Upgrade the request URL to https as to prevent a redirection error with /save-settings.
     if not request.is_secure:
@@ -83,9 +89,7 @@ def discover():
     settings = helpers.Settings()
 
     # get user language settings
-    json_path = f'static/lang/{settings.ux_lang}.json'
-    with open(json_path, 'r') as file:
-        lang_data = helpers.format_araa_name(json.load(file))
+    lang_data = helpers.load_lang_data(settings.ux_lang)
 
     return render_template('discover.html',
                            lang_data=lang_data,
@@ -102,8 +106,8 @@ def discover():
 @app.route('/save-settings', methods=['POST'])
 def save_settings():
     cookies = [
-        'safe', 'javascript', 'domain', 'theme', 'lang',
-        'ux_lang', 'new_tab', 'method', 'ac', 'engine', 'torrent'
+        'safe', 'javascript', 'theme', 'lang',
+        'ux_lang', 'new_tab', 'method', 'ac', 'engine', 'image_engine', 'date_filter', 'torrent'
     ]
 
     response = make_response(redirect(request.referrer))
@@ -146,13 +150,27 @@ def suggestions():
     else:
         query = request.form.get("q", "").strip()
 
+    if query == "":
+        return jsonify(["", []])
+
     location = language_dict.get(settings.lang, "us-en")
     if settings.ac == "ddg":
-        response = ac.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list&kl={location}")
-        return json.loads(response.text)
+        try:
+            response = ac.get(f"https://ac.duckduckgo.com/ac?q={quote(query)}&type=list&kl={location}", timeout=10)
+            return jsonify(json.loads(response.text))
+        except Exception as e:
+            app.logger.warning(f"Suggestions request failed (ddg): {e}")
+            return jsonify([query, []])
 
-    response = googleac.get(f"https://suggestqueries.google.com/complete/search?client=firefox&q={quote(query)}&hl={location}")
-    suggestions_list = json.loads(response.text)
+    try:
+        response = googleac.get(f"https://suggestqueries.google.com/complete/search?client=firefox&q={quote(query)}&hl={location}", timeout=10)
+        suggestions_list = json.loads(response.text)
+    except Exception as e:
+        app.logger.warning(f"Suggestions request failed (google): {e}")
+        return jsonify([query, []])
+
+    if not isinstance(suggestions_list, list) or len(suggestions_list) < 2 or not isinstance(suggestions_list[1], list):
+        return jsonify([query, []])
 
     # remove items at index 2 and 3
     if len(suggestions_list) > 2:
@@ -171,8 +189,37 @@ def wikipedia():
         query = request.args.get("q", "").strip()
     else:
         query = request.form.get("q", "").strip()
-    response, _ = helpers.makeHTMLRequest(f"https://wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles={quote(query)}&pithumbsize=500", is_wiki=True)
-    return json.loads(response.text)
+
+    if query == "":
+        return jsonify({"error": "Missing wikipedia query"}), 400
+
+    try:
+        user_agent = random.choice(user_agents)
+        response = requests.get(
+            "https://wikipedia.org/w/api.php",
+            params={
+                "action": "query",
+                "format": "json",
+                "prop": "pageimages",
+                "titles": query,
+                "pithumbsize": 500,
+            },
+            headers={"User-Agent": user_agent},
+            timeout=15,
+        )
+    except Exception as e:
+        app.logger.error(e)
+        return jsonify({"error": "Wikipedia request failed"}), 502
+
+    if response.status_code != 200:
+        return jsonify({"error": "Wikipedia request failed"}), 502
+
+    try:
+        payload = response.json()
+    except Exception:
+        return jsonify({"error": "Wikipedia returned invalid data"}), 502
+
+    return jsonify(payload)
 
 
 @app.route("/api")
@@ -203,13 +250,21 @@ def img_proxy():
     else:
         url = request.form.get("url", "").strip()
 
-    # Only allow proxying image from qwant.com,
-    # upload.wikimedia.org, and the default piped instance
+    # Only allow proxying image from known providers.
     if not url.startswith(("https://tse.mm.bing.net/",
                            "https://tse1.explicit.bing.net/",
                            "https://tse2.explicit.bing.net/",
                            "https://tse3.explicit.bing.net/",
                            "https://tse4.explicit.bing.net/",
+                           "https://s1.qwant.com/",
+                           "https://s2.qwant.com/",
+                           "https://s3.qwant.com/",
+                           "https://s4.qwant.com/",
+                           "https://encrypted-tbn0.gstatic.com/",
+                           "https://encrypted-tbn1.gstatic.com/",
+                           "https://encrypted-tbn2.gstatic.com/",
+                           "https://encrypted-tbn3.gstatic.com/",
+                           "https://encrypted-tbn4.gstatic.com/",
                            "https://upload.wikimedia.org/wikipedia/commons/",
                            "https://upload.wikimedia.org/wikipedia/en/thumb",
                            f"https://{PIPED_INSTANCE_PROXY}")
@@ -221,26 +276,30 @@ def img_proxy():
     headers = {"User-Agent": user_agent}
 
     # Fetch the image data from the specified URL
-    if url.startswith(("https://tse.mm.bing.net/",
-                        "https://tse1.explicit.bing.net/",
-                        "https://tse2.explicit.bing.net/",
-                        "https://tse3.explicit.bing.net/",
-                        "https://tse4.explicit.bing.net/")
-                        ):
-        response = bing.get(url, headers=headers)
-    elif url.startswith("https://upload.wikimedia.org/wikipedia/commons/"):
-        response = wikimedia.get(url, headers=headers)
-    elif url.startswith(f"https://{PIPED_INSTANCE_PROXY}"):
-        response = piped.get(url, headers=headers)
-    else:
-        response = s.get(url, headers=headers)
+    try:
+        if url.startswith(("https://tse.mm.bing.net/",
+                            "https://tse1.explicit.bing.net/",
+                            "https://tse2.explicit.bing.net/",
+                            "https://tse3.explicit.bing.net/",
+                            "https://tse4.explicit.bing.net/")
+                            ):
+            response = bing.get(url, headers=headers, timeout=20)
+        elif url.startswith("https://upload.wikimedia.org/wikipedia/commons/"):
+            response = wikimedia.get(url, headers=headers, timeout=20)
+        elif url.startswith(f"https://{PIPED_INSTANCE_PROXY}"):
+            response = piped.get(url, headers=headers, timeout=20)
+        else:
+            response = s.get(url, headers=headers, timeout=20)
+    except Exception as e:
+        app.logger.warning(f"Image proxy request failed: {e}")
+        return Response("Error fetching image", status=502)
 
     # Check that the request was successful
     if response.status_code == 200:
         # Create a Flask response with the image data and the appropriate Content-Type header
-        return Response(response.content, mimetype=response.headers["Content-Type"])
+        return Response(response.content, mimetype=response.headers.get("Content-Type", "application/octet-stream"))
     # Return an error response if the request failed
-    return Response("Error fetching image", status=500)
+    return Response("Error fetching image", status=502)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -261,9 +320,7 @@ def search():
     settings = helpers.Settings()
 
     # get user language settings
-    json_path = f'static/lang/{settings.ux_lang}.json'
-    with open(json_path, 'r') as file:
-        lang_data = helpers.format_araa_name(json.load(file))
+    lang_data = helpers.load_lang_data(settings.ux_lang)
 
     # get the `q` query parameter from the URL
     query = args.get("q", "").strip()
@@ -291,16 +348,25 @@ def search():
     search_type = args.get("t", "text")
 
     # render page based off of search_type
-    if search_type == "torrent":
-        if TORRENTSEARCH_ENABLED:
-            return torrents.torrentResults(query)
-        return redirect("/")
-    elif search_type == "video":
-        return video.videoResults(query)
-    elif search_type == "image":
-        return images.imageResults(query)
-    else:
-        return textResults.textResults(query)
+    try:
+        if search_type == "torrent":
+            if TORRENTSEARCH_ENABLED:
+                return torrents.torrentResults(query)
+            return redirect("/")
+        elif search_type == "video":
+            return video.videoResults(query)
+        elif search_type == "image":
+            return images.imageResults(query)
+        else:
+            return textResults.textResults(query)
+    except Exception as e:
+        app.logger.error(f"Search request failed (type={search_type}, query={query}): {e}", exc_info=True)
+        if args.get("api", "false").strip().lower() == "true":
+            return jsonify({"error": "An error occurred while processing the request"}), 500
+
+        return render_template("search.html",
+            repo_url=REPO, donate_url=DONATE, commit=COMMIT, API_ENABLED=API_ENABLED,
+            lang_data=lang_data, settings=settings, araa_name=ARAA_NAME), 500
 
 
 if __name__ == "__main__":

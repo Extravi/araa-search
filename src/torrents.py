@@ -1,5 +1,4 @@
 import time
-import json
 from src import helpers
 from _config import *
 from flask import request, render_template, jsonify, Response
@@ -19,9 +18,7 @@ def torrentResults(query) -> Response:
         args = request.form
 
     # get user language settings
-    json_path = f'static/lang/{settings.ux_lang}.json'
-    with open(json_path, 'r') as file:
-        lang_data = helpers.format_araa_name(json.load(file))
+    lang_data = helpers.load_lang_data(settings.ux_lang)
 
     # remember time we started
     start_time = time.time()

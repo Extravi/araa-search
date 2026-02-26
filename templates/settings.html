@@ -82,21 +82,6 @@
         </select>
         </div>
     <div class="settings-row">
-        <p>{{ lang_data.settings.google_domain }}</p>
-        <select id="domain" name="domain">
-            <option value="/search?gl=us" {% if settings.domain == '/search?gl=us' %}selected{% endif %}>google.com</option>
-            <option value="/search?gl=fr" {% if settings.domain == '/search?gl=fr' %}selected{% endif %}>google.fr</option>
-            <option value="/search?gl=ca" {% if settings.domain == '/search?gl=ca' %}selected{% endif %}>google.ca</option>
-            <option value="/search?gl=uk" {% if settings.domain == '/search?gl=uk' %}selected{% endif %}>google.co.uk</option>
-            <option value="/search?gl=de" {% if settings.domain == '/search?gl=de' %}selected{% endif %}>google.de</option>
-            <option value="/search?gl=au" {% if settings.domain == '/search?gl=au' %}selected{% endif %}>google.com.au</option>
-            <option value="/search?gl=in" {% if settings.domain == '/search?gl=in' %}selected{% endif %}>google.co.in</option>
-            <option value="/search?gl=jp" {% if settings.domain == '/search?gl=jp' %}selected{% endif %}>google.co.jp</option>
-            <option value="/search?gl=kr" {% if settings.domain == '/search?gl=kr' %}selected{% endif %}>google.co.kr</option>
-            <option value="/search?gl=br" {% if settings.domain == '/search?gl=br' %}selected{% endif %}>google.com.br</option>
-        </select>
-    </div>        
-    <div class="settings-row">
         <p>{{ lang_data.settings.safe_search }}</p>
         <select id="safe" name="safe">
             <option value="active" {% if settings.safe == 'active' %}selected{% endif %}>{{ lang_data.settings.safe_search }} {{ lang_data.settings.on }}</option>
@@ -130,6 +115,14 @@
         <select id="open-new-tab" name="ac">
             <option value="google" {% if settings.ac == "google" %}selected{% endif %}>Google</option>
             <option value="ddg" {% if settings.ac == "ddg" %}selected{% endif %}>DuckDuckGo</option>
+        </select>
+    </div>
+    <div class="settings-row">
+        <p>Date range UI</p>
+        <select id="date-filter" name="date_filter">
+            <option value="collapsed" {% if settings.date_filter == "collapsed" %}selected{% endif %}>Dropdown (Collapsed)</option>
+            <option value="expanded" {% if settings.date_filter == "expanded" %}selected{% endif %}>Dropdown (Expanded)</option>
+            <option value="hidden" {% if settings.date_filter == "hidden" %}selected{% endif %}>Hidden</option>
         </select>
     </div>
     <div class="settings-row">

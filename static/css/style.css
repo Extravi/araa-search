@@ -145,6 +145,16 @@ body {
     margin: 0;
 }
 
+body.results-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.results-main {
+    flex: 1 0 auto;
+}
+
 html {
     background-color: var(--html-bg);
     font-family: 'Inter', Arial, Helvetica, sans-serif;
@@ -572,7 +582,7 @@ hr {
 #safe,
 #open-new-tab,
 #engine,
-#domain,
+#date-filter,
 #javascript-setting,
 #torrent-setting,
 #ux_lang {
@@ -591,14 +601,13 @@ hr {
 #lang:hover,
 #safe:hover,
 #open-new-tab:hover,
-#domain:hover,
+#date-filter:hover,
 #javascript-setting:hover,
 #ux_lang:hover {
     border: 1px solid #5f6368;
     cursor: pointer;
 }
 
-.domain,
 .lang {
     margin-top: 10px;
     border: 1px solid var(--button);
@@ -685,14 +694,49 @@ hr {
   margin-top: 110px;
 }
 
-.results_settings,
-#date_range_form {
+.results_settings {
     color: var(--fg);
     left: 175px;
     position: relative;
     font-size: 15px;
     max-width: 580px;
     display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.date_range_inline {
+    margin-right: 10px;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+}
+
+.date_range_summary {
+    cursor: pointer;
+    list-style-position: inside;
+    padding-left: 8px !important;
+    margin-bottom: 0px;
+    width: 127px;
+}
+
+.date_range_panel_row {
+    display: none;
+    flex-basis: 100%;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.date_range_inline[open] ~ .date_range_panel_row {
+    display: block;
+}
+
+.date_range_summary:hover {
+    color: var(--font-fg);
+}
+
+#date_range_form {
+    display: none;
 }
 
 
@@ -714,22 +758,15 @@ hr {
     transition: all .3s ease;
 }
 
-#date_range_form .results-settings {
-  text-align: left;
-}
-
 .date_range {
-  display: inherit;
-}
-
-.date_range p {
-  width: 80px;
-  margin: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .date-select {
-  height: 20px;
-  display: inline;
+    height: 20px;
+    display: inline;
 }
 
 
@@ -794,17 +831,20 @@ form.torrent-sort {
 
 .search-menu {
     position: fixed;
-    height: 420px;
+    height: 360px;
+    max-height: calc(100vh - 100px);
     width: 330px;
-    right: 0;
-    margin-top: 60px;
+    top: 60px;
+    right: 20px;
+    margin-top: 0;
     z-index: 9999;
-    margin-right: 20px;
+    margin-right: 0;
     background-color: var(--html-bg);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     border: 1px solid var(--border);
     border-radius: 10px;
+    overflow-y: auto;
 }
 
 .search-menu h2 {
@@ -848,7 +888,7 @@ form.torrent-sort {
     background: var(--snip-background);
     color: var(--fg);
     border-radius: 4px;
-    height: 100%;
+    height: auto;
     margin: 5px;
     display: flex;
     flex-wrap: wrap;
@@ -879,7 +919,7 @@ form.torrent-sort {
     background: var(--snip-background);
     color: var(--fg);
     border-radius: 4px;
-    height: 100%;
+    height: auto;
 }
 
 .theme-settings p {
@@ -1071,6 +1111,10 @@ p {
     padding-bottom: 15px;
     padding-left: 40px;
     border-top: 1px solid var(--border);
+}
+
+body.results-layout .footer {
+    flex-shrink: 0;
 }
 
 #search_footer {
@@ -1403,6 +1447,21 @@ p {
     }
 }
 
+@media only screen and (min-width: 751px) {
+    body.text-no-sidepanel .clean,
+    body.text-no-sidepanel .result_sublink,
+    body.text-no-sidepanel .results,
+    body.text-no-sidepanel .prev-next,
+    body.text-no-sidepanel .fetched,
+    body.text-no-sidepanel .results_settings,
+    body.text-no-sidepanel .check,
+    body.text-no-sidepanel .snipp,
+    body.text-no-sidepanel .calc,
+    body.text-no-sidepanel form.torrent-sort {
+        max-width: min(900px, calc(100vw - 220px));
+    }
+}
+
 @media only screen and (max-width: 1220px) {
 
     .snip {
@@ -1668,7 +1727,6 @@ p {
     }
 
     .fetched_img {
-        margin-top: 135px !important;
         margin-left: 1.2% !important;
         left: 0px !important;
     }
@@ -1683,16 +1741,23 @@ p {
         margin-top: 140px;
         max-width: 355px;
     }
-    
-    #date_range_form {
-      left: 20px;
-      max-width: 335px;
+
+    .date_range_inline {
+        margin-right: 0px;
     }
-    .date_range p {
-      display: none;
+
+    .date_range_panel_row {
+        margin-top: 6px;
     }
+
+    .date_range {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
     .date-select {
-      margin-right: 0px;
+        margin-right: 0px;
     }
 
     .video_title {
@@ -1700,6 +1765,10 @@ p {
     }
 
     select.results-settings {
+        width: 110px;
+    }
+
+    .date_range_summary {
         width: 110px;
     }
 

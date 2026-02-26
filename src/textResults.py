@@ -2,10 +2,9 @@ from src import helpers
 from _config import *
 from flask import request, render_template, jsonify, Response
 import time
-import json
 import re
 from math import isclose  # For float comparisons
-from src.text_engines import google, qwant, mullvad
+from src.text_engines import google, qwant
 
 # All known engine modules. This list may be filtered by the
 # `MAINTENANCE_MODE` config below so engines under maintenance
@@ -13,7 +12,6 @@ from src.text_engines import google, qwant, mullvad
 ENGINES = [
     google,
     qwant,
-    mullvad,
 ]
 
 # filter out any engines flagged in the config's MAINTENANCE_MODE so they
@@ -45,11 +43,11 @@ def textResults(query: str) -> Response:
     maintenance_lower = [m.lower() for m in MAINTENANCE_MODE]
     if settings.engine and settings.engine.lower() in maintenance_lower:
         # Prefer DEFAULT_ENGINE if it's not in maintenance, otherwise pick
-        # the first available active engine, else keep 'mullvad'.
+        # the first available active engine, else keep 'google'.
         if DEFAULT_ENGINE and DEFAULT_ENGINE.lower() not in maintenance_lower:
             settings.engine = DEFAULT_ENGINE
         else:
-            settings.engine = next((e.NAME for e in ACTIVE_ENGINES), 'mullvad')
+            settings.engine = next((e.NAME for e in ACTIVE_ENGINES), 'google')
 
     # Define where to get request args from. If the request is using GET,
     # use request.args. Otherwise (POST), use request.form
@@ -58,8 +56,7 @@ def textResults(query: str) -> Response:
     else:
         args = request.form
 
-    with open(f'static/lang/{settings.ux_lang}.json', 'r') as file:
-        lang_data = helpers.format_araa_name(json.load(file))
+    lang_data = helpers.load_lang_data(settings.ux_lang)
 
     # used to measure time spent
     start_time = time.time()
@@ -86,20 +83,15 @@ def textResults(query: str) -> Response:
 
     try:
         for ENGINE in engine_list:
-            # Don't apply the global cooldown/ratelimit timer to Mullvad.
-            # Mullvad will never be skipped because of the shared `ratelimited_timestamps`.
-            if getattr(ENGINE, 'NAME', '').lower() != 'mullvad':
-                if (t := ratelimited_timestamps.get(ENGINE.__name__)) is not None and t + ENGINE_RATELIMIT_COOLDOWN_MINUTES * 60 >= time.time():
-                    # Current engine is ratelimited. Skip it.
-                    continue
+            if (t := ratelimited_timestamps.get(ENGINE.__name__)) is not None and t + ENGINE_RATELIMIT_COOLDOWN_MINUTES * 60 >= time.time():
+                # Current engine is ratelimited. Skip it.
+                continue
 
             results = ENGINE.search(query, p, search_type, settings)
             if results.code == 429:
                 t = time.time()
                 print(f"Text engine {results.engine} was just ratelimited (time={t})")
-                # Do not record a ratelimit timestamp for Mullvad so it won't be skipped later.
-                if getattr(ENGINE, 'NAME', '').lower() != 'mullvad':
-                    ratelimited_timestamps[ENGINE.__name__] = t
+                ratelimited_timestamps[ENGINE.__name__] = t
             else: # Server *likely* isn't ratelimited.
                 ratelimited = False
             if results.ok:

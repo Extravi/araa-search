@@ -1,23 +1,150 @@
 from src import helpers
-from urllib.parse import unquote, urlparse, parse_qs, urlencode
+from urllib.parse import unquote
 from _config import *
 from src.text_engines.objects.fullEngineResults import FullEngineResults
 from src.text_engines.objects.wikiSnippet import WikiSnippet
 from src.text_engines.objects.textResult import TextResult
 from flask import request
+import requests
+import os
 
 
 NAME = "google"
 
 
-def __local_href__(url):
-    url_parsed = parse_qs(urlparse(url).query)
-    if "q" not in url_parsed:
+def _safe_int(value, fallback=0):
+    try:
+        return int(value)
+    except Exception:
+        return fallback
+
+
+def _local_searxng_base_url():
+    # Prefer the URL exposed by startup bootstrap logic.
+    base_url = os.environ.get("ARAA_LOCAL_SEARXNG_URL", "").strip()
+    if base_url != "":
+        return base_url.rstrip("/")
+
+    # Fallback to static config if the bootstrap did not set env vars.
+    return f"http://{LOCAL_SEARXNG_HOST}:{LOCAL_SEARXNG_PORT}"
+
+
+def _build_wiki_snippet(payload: dict, user_settings: helpers.Settings, allow_result_fallback: bool = False):
+    def _normalize_url(raw_url):
+        url = str(raw_url or "").strip()
+        if url.lower() in ["none", "null"]:
+            return ""
+        return url
+
+    def _first_wikipedia_url():
+        for result in payload.get("results", []):
+            if not isinstance(result, dict):
+                continue
+            candidate = _normalize_url(result.get("url", ""))
+            if "wikipedia.org/wiki/" in candidate.lower():
+                return candidate
         return ""
-    return f"/search?q={url_parsed['q'][0]}&p=0&t=text"
+
+    infoboxes = payload.get("infoboxes", [])
+    infobox = None
+    if isinstance(infoboxes, list):
+        # SearXNG can return one or many infoboxes.
+        infobox = next((entry for entry in infoboxes if isinstance(entry, dict)), None)
+
+    if infobox is not None:
+        title = str(infobox.get("infobox", "") or infobox.get("title", "")).strip()
+        desc = str(infobox.get("content", "")).strip()
+        link = _normalize_url(infobox.get("url", ""))
+        if link == "" and allow_result_fallback:
+            link = _first_wikipedia_url()
+
+        if title != "" or desc != "":
+            attributes = infobox.get("attributes", {})
+            if isinstance(attributes, dict):
+                known_for = attributes.get("Known for", None)
+            else:
+                known_for = None
+            if known_for is not None:
+                known_for = str(known_for).strip()
+
+            wiki_proxy_link = None
+            wiki_image = None
+            if link != "":
+                wiki_proxy_link, wiki_image = helpers.grab_wiki_image_from_url(link, user_settings)
+
+            return WikiSnippet(
+                title=title,
+                image=wiki_image,
+                desc=desc,
+                link=unquote(link),
+                wiki_thumb_proxy_link=wiki_proxy_link,
+                known_for=known_for,
+                info={},
+            )
+
+    if not allow_result_fallback:
+        return None
+
+    # Fallback: build a panel from the first wikipedia result if infoboxes
+    # are not returned by local searxng for this query.
+    for result in payload.get("results", []):
+        if not isinstance(result, dict):
+            continue
+
+        link = _normalize_url(result.get("url", ""))
+        if "wikipedia.org/wiki/" not in link.lower():
+            continue
+
+        title = str(result.get("title", "")).strip()
+        desc = str(result.get("content", "")).strip()
+        if title == "" and desc == "":
+            continue
+
+        wiki_proxy_link = None
+        wiki_image = None
+        if link != "":
+            wiki_proxy_link, wiki_image = helpers.grab_wiki_image_from_url(link, user_settings)
+
+        return WikiSnippet(
+            title=title,
+            image=wiki_image,
+            desc=desc,
+            link=unquote(link),
+            wiki_thumb_proxy_link=wiki_proxy_link,
+            known_for=None,
+            info={},
+        )
+
+    return None
+
+
+def _extract_correction(payload: dict):
+    check = ""
+
+    if not LOCAL_SEARXNG_GOOGLE_ENABLE_CORRECTIONS:
+        return check
+
+    # prefer native correction field when available
+    try:
+        spell = payload.get("corrections", [])[0]
+        check = str(spell).strip()
+    except:
+        check = ""
+
+    # optional fallback for engines that only emit suggestions
+    if check == "" and LOCAL_SEARXNG_GOOGLE_USE_SUGGESTIONS_FALLBACK:
+        try:
+            spell = payload.get("suggestions", [])[0]
+            check = str(spell).strip()
+        except:
+            check = ""
+
+    return check
 
 
 def search(query: str, page: int, search_type: str, user_settings: helpers.Settings) -> FullEngineResults:
+    original_query = query
+
     if search_type == "reddit":
         query += " site:reddit.com"
 
@@ -28,167 +155,94 @@ def search(query: str, page: int, search_type: str, user_settings: helpers.Setti
     if before_date != "":
         query += f" before:{before_date}"
 
-    # Random characters are to trick google into thinking it's a mobile phone
-    # loading more results
-    # -> https://github.com/searxng/searxng/issues/159
+    # Query the local searxng instance configured during server startup.
+    # This keeps google scraping logic out of Araa itself.
+    page_offset = _safe_int(page, 0)
+    if page_offset < 0:
+        page_offset = 0
+
+    # Araa paging uses offsets (0, 10, 20...). SearXNG expects page numbers (1, 2, 3...).
+    page_num = (page_offset // 10) + 1
+
+    try_knowledge_panel = helpers.should_request_knowledge_panel(original_query, search_type, page_num)
+
+    engines = ["google"]
+    if try_knowledge_panel:
+        engines.append("wikipedia")
+
+    safesearch = 1 if user_settings.safe == "active" else 0
     link_args = {
         "q": query,
-        "start": page,
-        "lr": user_settings.lang,
-        "num": 20,
-        "safe": user_settings.safe,
-        "vet": "12ahUKEwjE4O6xoajxAhWL_KQKHVCLBKoQxK8CegQIAhAG..i",
-        "ved": "2ahUKEwjE4O6xoajxAhWL_KQKHVCLBKoQqq4CegQIAhAI",
-        "yv": 3,
-        "prmd": "vmin",
-        "ei": "c0fQYITbBIv5kwXQlpLQCg",
-        "sa": "N",
-        "asearch": "arc",
-        "async": "arc_id:srp_510,ffilt:all,ve_name:MoreResultsContainer,next_id:srp_5,use_ac:true,_id:arc-srp_510,_pms:qs,_fmt:pc"
+        "format": "json",
+        "engines": ",".join(engines),
+        "safesearch": safesearch,
+        "pageno": page_num,
     }
-    link = f"https://www.google.com{user_settings.domain}&" + urlencode(link_args)
 
-    soup, response_code = helpers.makeHTMLRequest(link, is_google=True)
+    searx_lang = helpers.settings_lang_to_searx(user_settings.lang)
+    if searx_lang != "":
+        link_args["language"] = searx_lang
 
+    link = f"{_local_searxng_base_url()}/search"
+
+    try:
+        response = requests.get(link, params=link_args, timeout=45)
+    except Exception:
+        return FullEngineResults(engine="google", search_type=search_type, ok=False, code=503)
+
+    response_code = response.status_code
     if response_code != 200:
         return FullEngineResults(engine="google", search_type=search_type, ok=False, code=response_code)
 
-    # retrieve links
-    result_divs = soup.findAll("div", {"class": "yuRUbf"})
-    links = [div.find("a") for div in result_divs]
-    hrefs = [link.get("href") for link in links]
-
-    # retrieve title
-    h3 = [div.find("h3") for div in result_divs]
-    titles = [titles.text.strip() for titles in h3]
-
-    # retrieve description
-    result_desc = soup.findAll("div", {"class": "VwiC3b"})
-    descriptions = [descs.text.strip() for descs in result_desc]
-
-    # retrieve sublinks
     try:
-        result_sublinks = soup.findAll("tr", {"class": lambda x: x and x.startswith("mslg")})
-        sublinks_divs = [sublink.find("div", {"class": "zz3gNc"}) for sublink in result_sublinks]
-        sublinks = [sublink.text.strip() for sublink in sublinks_divs]
-        sublinks_links = [sublink.find("a") for sublink in result_sublinks]
-        sublinks_hrefs = [link.get("href") for link in sublinks_links]
-        sublinks_titles = [title.text.strip() for title in sublinks_links]
+        payload = response.json()
     except:
-        sublinks = ""
-        sublinks_hrefs = ""
-        sublinks_titles = ""
+        return FullEngineResults(engine="google", search_type=search_type, ok=False, code=response_code)
 
-    # retrieve kno-rdesc
-    try:
-        rdesc = soup.find("div", {"class": "CYJS5e"})
-        span_element = rdesc.find("span", {"class": "QoPDcf"})
-        desc_link = rdesc.find("a", {"class": "y171A"})
-        kno_link = desc_link.get("href")
-        kno = span_element.find("span").get_text()
-    except:
-        kno = ""
-        kno_link = ""
+    if not isinstance(payload, dict):
+        return FullEngineResults(engine="google", search_type=search_type, ok=False, code=response_code)
 
-    # retrieve kno-title
-    try:  # look for the title inside of a span in div.SPZz6b
-        rtitle = soup.find("div", {"class": "SPZz6b"})
-        rt_span = rtitle.find("span")
-        rkno_title = rt_span.text.strip()
-        # if we didn't find anyhing useful, move to next tests
-        if rkno_title in ["", "See results about"]:
-            raise
-    except:
-        for ellement, class_name in zip(["div", "span", "div"], ["DoxwDb", "yKMVIe", "DoxwDb"]):
-            try:
-                rtitle = soup.find(ellement, {"class": class_name})
-                rkno_title = rtitle.text.strip()
-            except:
-                continue  # couldn't scrape anything. continue if we can.
-            else:
-                if rkno_title not in ["", "See results about"]:
-                    break  # we got one
-        else:
-            rkno_title = ""
+    # retrieve search results
+    results = []
+    for result in payload.get("results", []):
+        if not isinstance(result, dict):
+            continue
 
-    for div in soup.find_all("div", {'class': 'nnFGuf'}): 
-        div.decompose()
+        href = str(result.get("url", "")).strip()
+        title = str(result.get("title", "")).strip()
+        desc = str(result.get("content", "")).strip()
+
+        results.append(TextResult(
+            url=unquote(href),
+            title=title,
+            desc=desc,
+            sublinks=[]
+        ))
 
     # retrieve featured snippet
     try:
-        featured_snip = soup.find("span", {"class": "hgKElc"})
-        snip = featured_snip.text.strip()
+        featured_snip = payload.get("answers", [])[0]
+        snip = str(featured_snip).strip()
     except:
         snip = ""
 
-    # retrieve spell check
-    try:
-        spell = soup.find("a", {"class": "gL9Hy"})
-        check = spell.text.strip()
-    except:
-        check = ""
+    # retrieve spell check / suggestion
+    check = _extract_correction(payload)
+
     if search_type == "reddit":
         check = check.replace("site:reddit.com", "").strip()
 
-    kno_image = None
-    kno_title = None
-
-    # get wiki image
-    if kno_link != "":
-        kno_title, kno_image = helpers.grab_wiki_image_from_url(kno_link, user_settings)
-
-    wiki_known_for = soup.find("div", {'class': 'loJjTe'})
-    if wiki_known_for is not None:
-        wiki_known_for = wiki_known_for.get_text().strip()
-
-    wiki_info = {}
-    wiki_info_divs = soup.find_all("div", {"class": "rVusze"})
-    for info in wiki_info_divs:
-        spans = info.findChildren("span" , recursive=False)
-        for a in spans[1].find_all("a"):
-            # Delete all non-href attributes
-            a.attrs = {"href": a.get("href", "")}
-            if "sca_esv=" in a['href']:
-                # Remove any trackers for google domains
-                a['href'] = __local_href__(a.get("href", ""))
-
-        wiki_info[spans[0].get_text()] = spans[1]
-
-    results = []
-    for href, title, desc in zip(hrefs, titles, descriptions):
-        results.append(TextResult(
-            url = unquote(href),
-            title = title,
-            desc = desc,
-            sublinks=[]
-        ))
-    sublink = []
-    for sublink_href, sublink_title, sublink_desc in zip(sublinks_hrefs, sublinks_titles, sublinks):
-        sublink.append(TextResult(
-            url = unquote(sublink_href),
-            title = sublink_title,
-            desc = sublink_desc,
-            sublinks=[]
-        ))
-
-    wiki = None if kno == "" else WikiSnippet(
-        title = rkno_title,
-        image = kno_image,
-        desc = kno,
-        link = unquote(kno_link),
-        wiki_thumb_proxy_link = kno_title,
-        known_for = wiki_known_for,
-        info = wiki_info,
-    )
+    # retrieve wiki snippet
+    wiki = _build_wiki_snippet(payload, user_settings, allow_result_fallback=try_knowledge_panel)
 
     return FullEngineResults(
-        engine = "google",
-        search_type = search_type,
-        ok = True,
-        code = 200,
-        results = results,
-        wiki = wiki,
-        featured = None if snip == "" else snip,
-        correction = None if check == "" else check,
-        top_result_sublinks = sublink,
+        engine="google",
+        search_type=search_type,
+        ok=True,
+        code=200,
+        results=results,
+        wiki=wiki,
+        featured=None if snip == "" else snip,
+        correction=None if check == "" else check,
+        top_result_sublinks=[],
     )
