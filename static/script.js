@@ -219,7 +219,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 const urlParams = new URLSearchParams(window.location.search);
 
-if (document.querySelectorAll(".search-active")[1].getAttribute("value") === "image") {
+if (document.querySelectorAll(".search-active")[1]?.getAttribute("value") === "image") {
 
   // image viewer for image search
   const closeButton = document.querySelector('.image-close');
@@ -282,12 +282,12 @@ if (document.querySelectorAll(".search-active")[1].getAttribute("value") === "im
     for (const image of document.querySelectorAll(".image_selected")) {
       image.classList = ['image'];
     }
-    const current_image = document.querySelectorAll(".image")[currentImageIndex]; 
+    const current_image = document.querySelectorAll(".image")[currentImageIndex];
     current_image.classList.add("image_selected");
     var rect = current_image.getBoundingClientRect();
     if (!(rect.top >= 0 && rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth))) {
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth))) {
       current_image.scrollIntoView(false);
     }
 
@@ -295,7 +295,7 @@ if (document.querySelectorAll(".search-active")[1].getAttribute("value") === "im
     const alt = openImageViewer[currentImageIndex].getAttribute('alt');
     const data = openImageViewer[currentImageIndex].getAttribute('data');
     const clickableLink = openImageViewer[currentImageIndex].closest('.clickable');
-    const href = clickableLink.getAttribute('href');
+    const href = clickableLink ? clickableLink.getAttribute('href') : '';
     viewImageImg.src = src;
     imageProxy.href = src;
     imageFull.href = data;
@@ -306,7 +306,7 @@ if (document.querySelectorAll(".search-active")[1].getAttribute("value") === "im
     imageView.classList.remove('image_hide');
     imageView.classList.add('image_show');
     imageAlt.textContent = alt;
-    fullImageSize.textContent = document.querySelector(".image_selected .resolution").textContent;
+    fullImageSize.textContent = document.querySelector(".image_selected .resolution")?.textContent ?? '';
 
     getImageSize(src).then(size => {
       imageSize.textContent = size;

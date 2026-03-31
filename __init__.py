@@ -172,7 +172,7 @@ def suggestions():
         return jsonify([query, []])
 
     # remove items at index 2 and 3
-    if len(suggestions_list) > 2:
+    if len(suggestions_list) > 3:
         suggestions_list.pop(3)
     if len(suggestions_list) > 2:
         suggestions_list.pop(2)
