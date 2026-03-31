@@ -300,6 +300,7 @@ html {
 
 .image img {
     transition: .3s;
+    opacity: 0;
 }
 
 .resolution {
@@ -679,11 +680,18 @@ hr {
 
 .kno_wiki {
     display: none;
+    opacity: 0;
+    transition: opacity .3s ease;
 }
 
 .kno_wiki_show {
   display: initial !important;
   border-radius: 6px;
+}
+
+.video__img__results img {
+    opacity: 0;
+    transition: opacity .3s ease;
 }
 
 .open-in-new-tab * {
@@ -877,11 +885,15 @@ form.torrent-sort {
 }
 
 .settings-menu-hidden {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .settings-menu-visible {
-    display: initial;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .themes-settings-menu {

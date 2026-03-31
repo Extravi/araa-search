@@ -76,6 +76,18 @@ clearSearch.addEventListener("click", () => {
   searchInput.focus();
 })
 
+function fadeInOnLoad(img) {
+  if (img.complete && img.naturalWidth > 0) {
+    img.style.opacity = '1';
+  } else {
+    img.addEventListener('load', () => { img.style.opacity = '1'; });
+    img.addEventListener('error', () => { img.style.opacity = '1'; });
+  }
+}
+
+document.querySelectorAll('.image img').forEach(fadeInOnLoad);
+document.querySelectorAll('.video__img__results img').forEach(fadeInOnLoad);
+
 searchInput.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
     event.preventDefault(); // Prevent the cursor from moving in the search input
@@ -104,6 +116,9 @@ searchInput.addEventListener('keydown', (event) => {
     resultsWrapper.querySelectorAll('li')[currentIndex].classList.add('selected');
     // Update the value of the search input
     searchInput.value = resultsWrapper.querySelectorAll('li')[currentIndex].textContent;
+  } else if (event.key === 'Escape') {
+    searchWrapper.classList.remove('show');
+    currentIndex = -1;
   }
 });
 
@@ -207,10 +222,10 @@ window.addEventListener('DOMContentLoaded', function () {
       if (!imgElement) {
         return;
       }
-      imgElement.src = url;
       imgElement.classList.add('kno_wiki_show');
-
-      console.log(url);
+      imgElement.addEventListener('load', () => { imgElement.style.opacity = '1'; });
+      imgElement.addEventListener('error', () => { imgElement.style.opacity = '1'; });
+      imgElement.src = url;
     })
     .catch(error => {
       console.log('Error fetching data:', error);
