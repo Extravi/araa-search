@@ -1,3 +1,4 @@
+import os
 import random
 import requests
 import httpx
@@ -213,7 +214,7 @@ def settings_lang_to_searx(settings_lang: str | None) -> str:
 
 
 def should_request_knowledge_panel(query: str, search_type: str, page_num: int = 1) -> bool:
-    if not globals().get("LOCAL_SEARXNG_KNOWLEDGE_PANELS_ENABLED", True):
+    if not LOCAL_SEARXNG_KNOWLEDGE_PANELS_ENABLED:
         return False
 
     if search_type != "text" or page_num != 1:
@@ -224,7 +225,7 @@ def should_request_knowledge_panel(query: str, search_type: str, page_num: int =
         return False
 
     try:
-        max_words = int(globals().get("LOCAL_SEARXNG_KNOWLEDGE_PANELS_MAX_QUERY_WORDS", 4))
+        max_words = int(LOCAL_SEARXNG_KNOWLEDGE_PANELS_MAX_QUERY_WORDS)
     except Exception:
         max_words = 4
 
@@ -321,3 +322,104 @@ def format_araa_name(json_obj):
         return json_obj.format(araa_name=ARAA_NAME)
     else:
         return json_obj
+
+
+def _safe_int(value, fallback=0):
+    try:
+        return int(value)
+    except Exception:
+        return fallback
+
+
+def _local_searxng_base_url():
+    base_url = os.environ.get("ARAA_LOCAL_SEARXNG_URL", "").strip()
+    if base_url != "":
+        return base_url.rstrip("/")
+    return f"http://{LOCAL_SEARXNG_HOST}:{LOCAL_SEARXNG_PORT}"
+
+
+def build_wiki_snippet(payload: dict, user_settings: "Settings", allow_result_fallback: bool = False):
+    from src.text_engines.objects.wikiSnippet import WikiSnippet
+
+    def _normalize_url(raw_url):
+        url = str(raw_url or "").strip()
+        if url.lower() in ["none", "null"]:
+            return ""
+        return url
+
+    def _first_wikipedia_url():
+        for result in payload.get("results", []):
+            if not isinstance(result, dict):
+                continue
+            candidate = _normalize_url(result.get("url", ""))
+            if "wikipedia.org/wiki/" in candidate.lower():
+                return candidate
+        return ""
+
+    infoboxes = payload.get("infoboxes", [])
+    infobox = None
+    if isinstance(infoboxes, list):
+        infobox = next((entry for entry in infoboxes if isinstance(entry, dict)), None)
+
+    if infobox is not None:
+        title = str(infobox.get("infobox", "") or infobox.get("title", "")).strip()
+        desc = str(infobox.get("content", "")).strip()
+        link = _normalize_url(infobox.get("url", ""))
+        if link == "" and allow_result_fallback:
+            link = _first_wikipedia_url()
+
+        if title != "" or desc != "":
+            attributes = infobox.get("attributes", {})
+            known_for = None
+            if isinstance(attributes, dict):
+                known_for = attributes.get("Known for", None)
+            if known_for is not None:
+                known_for = str(known_for).strip()
+
+            wiki_proxy_link = None
+            wiki_image = None
+            if link != "":
+                wiki_proxy_link, wiki_image = grab_wiki_image_from_url(link, user_settings)
+
+            return WikiSnippet(
+                title=title,
+                image=wiki_image,
+                desc=desc,
+                link=unquote(link),
+                wiki_thumb_proxy_link=wiki_proxy_link,
+                known_for=known_for,
+                info={},
+            )
+
+    if not allow_result_fallback:
+        return None
+
+    for result in payload.get("results", []):
+        if not isinstance(result, dict):
+            continue
+
+        link = _normalize_url(result.get("url", ""))
+        if "wikipedia.org/wiki/" not in link.lower():
+            continue
+
+        title = str(result.get("title", "")).strip()
+        desc = str(result.get("content", "")).strip()
+        if title == "" and desc == "":
+            continue
+
+        wiki_proxy_link = None
+        wiki_image = None
+        if link != "":
+            wiki_proxy_link, wiki_image = grab_wiki_image_from_url(link, user_settings)
+
+        return WikiSnippet(
+            title=title,
+            image=wiki_image,
+            desc=desc,
+            link=unquote(link),
+            wiki_thumb_proxy_link=wiki_proxy_link,
+            known_for=None,
+            info={},
+        )
+
+    return None

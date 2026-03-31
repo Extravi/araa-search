@@ -4,8 +4,9 @@ from _config import *
 from flask import request, render_template, jsonify, Response
 import time
 import json
-from src.helpers import latest_commit
 from urllib.parse import quote
+
+COMMIT = helpers.latest_commit()
 
 
 def parse_time(time):
@@ -39,7 +40,7 @@ def render_results(query: str, settings, lang_data, results: list, elapsed_time:
                            results=results, title=f"{query} - {ARAA_NAME}",
                            q=f"{query}", fetched=f"{elapsed_time:.2f}",
                            type="video", repo_url=REPO, donate_url=DONATE, API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
-                           lang_data=lang_data, commit=latest_commit(), settings=settings, araa_name=ARAA_NAME
+                           lang_data=lang_data, commit=COMMIT, settings=settings, araa_name=ARAA_NAME
                            )
 
 

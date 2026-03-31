@@ -1,14 +1,41 @@
+networks:
+  araa-net:
+    driver: bridge
+
 services:
   araa-search:
     container_name: Araa
     image: docker.io/temthelem/araa-search:latest
     env_file:
       - .env # May be redundant. Who cares ¯\_(ツ)_/¯
+    environment:
+      - LOCAL_SEARXNG_ENABLED=false
+      - ARAA_LOCAL_SEARXNG_URL=http://araa-local-searxng:8080
     ports:
       - "${PORT}:${PORT}"
+    networks:
+      - araa-net
+    depends_on:
+      - araa-local-searxng
+
+  araa-local-searxng:
+    container_name: araa-local-searxng
+    image: docker.io/searxng/searxng:latest
+    restart: unless-stopped
+    environment:
+      - SEARXNG_SECRET_KEY=${SEARXNG_SECRET_KEY}
+    volumes:
+      - ./resources/searxng-settings.yml:/etc/searxng/settings.yml:ro
+      - searxng-data:/var/cache/searxng
+    networks:
+      - araa-net
+
   watchtower: # Not required. Keeps containers up-to-date.
     container_name: watchtower
     image: docker.io/containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 60
+
+volumes:
+  searxng-data:

@@ -18,6 +18,8 @@ ENGINES = [
 # won't be used by the search logic. Comparison is case-insensitive.
 _maintenance_lower = [m.lower() for m in MAINTENANCE_MODE]
 ACTIVE_ENGINES = [e for e in ENGINES if getattr(e, 'NAME', '').lower() not in _maintenance_lower]
+
+COMMIT = helpers.latest_commit()
 ratelimited_timestamps = {}
 
 
@@ -169,7 +171,7 @@ def textResults(query: str) -> Response:
                                q=f"{query}", fetched=f"{elapsed_time:.2f}",
                                snip=f"{snip}",
                                user_info=f"{info}", calc=f"{calc}", check=check, current_url=request.url,
-                               type=search_type, repo_url=REPO, donate_url=DONATE, commit=helpers.latest_commit(),
+                               type=search_type, repo_url=REPO, donate_url=DONATE, commit=COMMIT,
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
                        settings=settings, wiki=results.wiki, araa_name=ARAA_NAME,

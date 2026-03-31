@@ -51,9 +51,8 @@ googleac.headers.update({'User-Agent': default_user_agent})
 
 # Initialize local searxng once per web-server startup path.
 # The helper is idempotent, so multiple workers can call this safely.
-LOCAL_SEARXNG = None
 if os.environ.get("WERKZEUG_RUN_MAIN") == "true" or os.environ.get("FLASK_RUN_FROM_CLI") != "true":
-    LOCAL_SEARXNG = local_searxng.ensure_local_searxng()
+    local_searxng.ensure_local_searxng()
 
 
 @app.route('/settings')
@@ -271,11 +270,9 @@ def img_proxy():
                           ):
         return Response("Error: invalid URL", status=400)
 
-    # Choose one user agent at random
     user_agent = random.choice(user_agents)
     headers = {"User-Agent": user_agent}
 
-    # Fetch the image data from the specified URL
     try:
         if url.startswith(("https://tse.mm.bing.net/",
                             "https://tse1.explicit.bing.net/",
@@ -294,11 +291,8 @@ def img_proxy():
         app.logger.warning(f"Image proxy request failed: {e}")
         return Response("Error fetching image", status=502)
 
-    # Check that the request was successful
     if response.status_code == 200:
-        # Create a Flask response with the image data and the appropriate Content-Type header
         return Response(response.content, mimetype=response.headers.get("Content-Type", "application/octet-stream"))
-    # Return an error response if the request failed
     return Response("Error fetching image", status=502)
 
 

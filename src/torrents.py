@@ -4,6 +4,8 @@ from _config import *
 from flask import request, render_template, jsonify, Response
 from src.torrent_sites import torrentgalaxy, nyaa, thepiratebay, rutor
 
+COMMIT = helpers.latest_commit()
+
 def torrentResults(query) -> Response:
     settings = helpers.Settings()
 
@@ -73,6 +75,6 @@ def torrentResults(query) -> Response:
                         q=f"{query}", fetched=f"{elapsed_time:.2f}",
                         cat=catagory, type="torrent", repo_url=REPO, donate_url=DONATE,
                         API_ENABLED=API_ENABLED, TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED,
-                        lang_data=lang_data, commit=helpers.latest_commit(), sort=sort, settings=settings,
+                        lang_data=lang_data, commit=COMMIT, sort=sort, settings=settings,
                         araa_name=ARAA_NAME
                         )

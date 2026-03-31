@@ -154,7 +154,14 @@ def _render_settings(secret_key):
         "search:\n"
         "  formats:\n"
         "    - html\n"
-        "    - json\n"
+        "    - json\n\n"
+        "outgoing:\n"
+        "  request_timeout: 6.0\n"
+        "  max_request_timeout: 15.0\n"
+        "  useragent_suffix: \"\"\n"
+        "  pool_connections: 100\n"
+        "  pool_maxsize: 20\n"
+        "  enable_http2: true\n"
     )
 
 
@@ -278,7 +285,7 @@ def _http_ok(url, timeout_s=2.0):
     try:
         req = urllib.request.Request(url, method="GET")
         with urllib.request.urlopen(req, timeout=timeout_s) as resp:
-            return 200 <= resp.status < 500
+            return 200 <= resp.status < 300
     except Exception:
         return False
 
@@ -308,6 +315,15 @@ def _should_pull(pull_marker):
     except Exception:
         return True
     return age >= cooldown
+
+
+def _start_container_with_retry(name, image, host_port, config_dir, data_dir):
+    """Try to start the container; retry with a free port on port-collision. Returns (success, port)."""
+    create_result = _start_container(name, image, host_port, config_dir, data_dir)
+    if create_result is False:
+        host_port = _pick_host_port()
+        create_result = _start_container(name, image, host_port, config_dir, data_dir)
+    return (create_result is True, host_port)
 
 
 def ensure_local_searxng():
@@ -383,28 +399,12 @@ def ensure_local_searxng():
                 host_port = desired_port
 
             if container is None:
-                create_result = _start_container(
-                    LOCAL_SEARXNG_CONTAINER_NAME,
-                    LOCAL_SEARXNG_IMAGE,
-                    host_port,
-                    config_dir,
-                    data_dir,
+                ok, host_port = _start_container_with_retry(
+                    LOCAL_SEARXNG_CONTAINER_NAME, LOCAL_SEARXNG_IMAGE, host_port, config_dir, data_dir,
                 )
-
-                if create_result is False:
-                    host_port = _pick_host_port()
-                    create_result = _start_container(
-                        LOCAL_SEARXNG_CONTAINER_NAME,
-                        LOCAL_SEARXNG_IMAGE,
-                        host_port,
-                        config_dir,
-                        data_dir,
-                    )
-
-                if create_result is None or create_result is False:
+                if not ok:
                     print("[local_searxng] ERROR: Could not start local searxng container.")
                     return None
-
                 running = True
 
             elif not running:
@@ -412,23 +412,10 @@ def ensure_local_searxng():
                 if start_result.returncode != 0:
                     print("[local_searxng] WARN: Existing local searxng container failed to start. Recreating it.")
                     _remove_container(LOCAL_SEARXNG_CONTAINER_NAME)
-                    create_result = _start_container(
-                        LOCAL_SEARXNG_CONTAINER_NAME,
-                        LOCAL_SEARXNG_IMAGE,
-                        host_port,
-                        config_dir,
-                        data_dir,
+                    ok, host_port = _start_container_with_retry(
+                        LOCAL_SEARXNG_CONTAINER_NAME, LOCAL_SEARXNG_IMAGE, host_port, config_dir, data_dir,
                     )
-                    if create_result is False:
-                        host_port = _pick_host_port()
-                        create_result = _start_container(
-                            LOCAL_SEARXNG_CONTAINER_NAME,
-                            LOCAL_SEARXNG_IMAGE,
-                            host_port,
-                            config_dir,
-                            data_dir,
-                        )
-                    if create_result is None or create_result is False:
+                    if not ok:
                         print("[local_searxng] ERROR: Could not recreate local searxng container.")
                         return None
                 running = True

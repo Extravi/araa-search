@@ -1,0 +1,26 @@
+use_default_settings:
+  engines:
+    keep_only:
+      - google
+      - google images
+      - qwant
+      - qwant images
+      - wikipedia
+
+server:
+  secret_key: "araa-local-searxng-default-key"
+  limiter: false
+  public_instance: false
+
+search:
+  formats:
+    - html
+    - json
+
+outgoing:
+  request_timeout: 6.0
+  max_request_timeout: 15.0
+  useragent_suffix: ""
+  pool_connections: 100
+  pool_maxsize: 20
+  enable_http2: true

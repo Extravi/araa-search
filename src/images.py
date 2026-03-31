@@ -4,8 +4,9 @@ from _config import *
 from flask import request, render_template, jsonify, Response, redirect
 import time
 import requests
-import os
 import re
+
+COMMIT = helpers.latest_commit()
 
 IMAGE_ENGINES = [
     {"name": "google", "display": "Google"},
@@ -18,28 +19,11 @@ IMAGE_ENGINE_NAME_MAP = {
 }
 
 
-def _safe_int(value, fallback=1):
-    try:
-        return int(value)
-    except Exception:
-        return fallback
-
-
-def _local_searxng_base_url():
-    # Prefer the URL exposed by startup bootstrap logic.
-    base_url = os.environ.get("ARAA_LOCAL_SEARXNG_URL", "").strip()
-    if base_url != "":
-        return base_url.rstrip("/")
-
-    # Fallback to static config if the bootstrap did not set env vars.
-    return f"http://{LOCAL_SEARXNG_HOST}:{LOCAL_SEARXNG_PORT}"
-
-
 def _parse_resolution(raw_resolution):
     match = re.search(r'(\d+)\s*[xX]\s*(\d+)', raw_resolution)
     if match is None:
         return (0, 0)
-    return (_safe_int(match.group(1), 0), _safe_int(match.group(2), 0))
+    return (helpers._safe_int(match.group(1), 0), helpers._safe_int(match.group(2), 0))
 
 
 def _normalize_image_engine(name: str) -> str:
@@ -70,7 +54,7 @@ def imageResults(query) -> Response:
     p_raw = args.get('p', '1')
     if not p_raw.isdigit():
         return redirect('/search')
-    p = _safe_int(p_raw, 1)
+    p = helpers._safe_int(p_raw, 1)
     if p < 1:
         p = 1
 
@@ -101,7 +85,7 @@ def imageResults(query) -> Response:
     if searx_lang != "":
         link_args["language"] = searx_lang
 
-    link = f"{_local_searxng_base_url()}/search"
+    link = f"{helpers._local_searxng_base_url()}/search"
 
     try:
         response = requests.get(link, params=link_args, timeout=45)
@@ -169,7 +153,7 @@ def imageResults(query) -> Response:
             q=f"{query}", fetched=f"{elapsed_time:.2f}", type="image",
             repo_url=REPO, donate_url=DONATE, API_ENABLED=API_ENABLED,
             TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-            commit=helpers.latest_commit(), settings=settings, araa_name=ARAA_NAME,
+            commit=COMMIT, settings=settings, araa_name=ARAA_NAME,
             image_engine_display=IMAGE_ENGINE_NAME_MAP[image_engine],
             available_image_engines=IMAGE_ENGINES,
             before=before_date, after=after_date,
@@ -189,7 +173,7 @@ def imageResults(query) -> Response:
             type="image",
             repo_url=REPO, donate_url=DONATE, API_ENABLED=API_ENABLED,
             TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
-            commit=helpers.latest_commit(), settings=settings, araa_name=ARAA_NAME,
+            commit=COMMIT, settings=settings, araa_name=ARAA_NAME,
             image_engine_display=IMAGE_ENGINE_NAME_MAP[image_engine],
             available_image_engines=IMAGE_ENGINES,
             before=before_date, after=after_date,
