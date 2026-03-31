@@ -5,7 +5,7 @@ import trio
 import random
 import json
 import os
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 from _config import *
 from src import textResults, torrents, helpers, images, video, local_searxng
 
@@ -22,6 +22,16 @@ app.jinja_env.filters['highlight_query_words'] = helpers.highlight_query_words
 app.jinja_env.globals.update(int=int)
 
 COMMIT = helpers.latest_commit()
+
+
+def _safe_redirect(url, fallback='/settings'):
+    """Accept only same-origin relative paths. Reject absolute and protocol-relative URLs."""
+    if not url:
+        return fallback
+    parsed = urlparse(url)
+    if parsed.scheme != '' or parsed.netloc != '' or not url.startswith('/') or url.startswith('//'):
+        return fallback
+    return url
 
 # Debug code uncomment when needed
 #import logging, timeit
@@ -62,17 +72,13 @@ def settings():
     # get user language settings
     lang_data = helpers.load_lang_data(settings.ux_lang)
 
-    # Upgrade the request URL to https as to prevent a redirection error with /save-settings.
-    if not request.is_secure:
-        request.url = f"https://{request.host}/settings{f'?{request.query_string.decode()}' if request.query_string.decode() else ''}"
-
     available_engines = [{'name': e.NAME, 'display': e.NAME.capitalize()} for e in textResults.ACTIVE_ENGINES]
 
     return render_template('settings.html',
                            commit=COMMIT,
                            repo_url=REPO,
                            donate_url=DONATE,
-                           current_url=request.url,
+                           current_url="/settings",
                            API_ENABLED=API_ENABLED,
                            settings=settings,
                            lang_data=lang_data,
@@ -95,7 +101,7 @@ def discover():
                            commit=COMMIT,
                            repo_url=REPO,
                            donate_url=DONATE,
-                           current_url=request.url,
+                           current_url="/discover",
                            API_ENABLED=API_ENABLED,
                            settings=settings,
                            araa_name=ARAA_NAME
@@ -118,11 +124,7 @@ def save_settings():
                                 secure=app.config.get("HTTPS")
                                 )
 
-    response.headers["Location"] = request.form.get('past')
-
-    # Disable https when running in a debug mode to avoid ssl errors
-    if __name__ == "__main__":
-        response.headers["Location"] = response.headers["Location"].replace("https", "http")
+    response.headers["Location"] = _safe_redirect(request.form.get('past', ''))
 
     return response
 

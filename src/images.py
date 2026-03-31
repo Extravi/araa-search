@@ -157,7 +157,7 @@ def imageResults(query) -> Response:
             image_engine_display=IMAGE_ENGINE_NAME_MAP[image_engine],
             available_image_engines=IMAGE_ENGINES,
             before=before_date, after=after_date,
-            current_url=request.url)
+            current_url=request.path + ("?" + request.query_string.decode() if request.query_string else ""))
 
     # calc. time spent
     end_time = time.time()
@@ -177,4 +177,4 @@ def imageResults(query) -> Response:
             image_engine_display=IMAGE_ENGINE_NAME_MAP[image_engine],
             available_image_engines=IMAGE_ENGINES,
             before=before_date, after=after_date,
-            current_url=request.url)
+            current_url=request.path + ("?" + request.query_string.decode() if request.query_string else ""))

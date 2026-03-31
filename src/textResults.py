@@ -170,7 +170,7 @@ def textResults(query: str) -> Response:
                                results=results.results, sublink=results.top_result_sublinks, p=p, title=f"{query} - {ARAA_NAME}",
                                q=f"{query}", fetched=f"{elapsed_time:.2f}",
                                snip=f"{snip}",
-                               user_info=f"{info}", calc=f"{calc}", check=check, current_url=request.url,
+                               user_info=f"{info}", calc=f"{calc}", check=check, current_url=request.path + ("?" + request.query_string.decode() if request.query_string else ""),
                                type=search_type, repo_url=REPO, donate_url=DONATE, commit=COMMIT,
                                exported_math_expression=exported_math_expression, API_ENABLED=API_ENABLED,
                                TORRENTSEARCH_ENABLED=TORRENTSEARCH_ENABLED, lang_data=lang_data,
